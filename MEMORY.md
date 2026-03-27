@@ -27,6 +27,18 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - Skills: self-evolve, elite-longterm-memory, agent-autonomy-kit, self-improving-proactive-agent, automation-workflows, writing-plans
 - Lou authorized full autonomous self-modification (self-evolve protocol)
 
+## Information Sources
+- **RSS feeds**: HackerNews, Reddit AI, VentureBeat AI News (via blogwatcher)
+- **Web search**: DuckDuckGo (default), Perplexity (if API key set)
+- **Content extraction**: summarize CLI, web_fetch
+- **GitHub**: repos, issues, releases, trending
+- **Ollama**: local models running (nomic-embed-text, llama3, qwen3-coder, etc.)
+- **ClawHub**: skill marketplace + publishing
+
+## Skills Built
+- `info-sources` — information pipeline skill
+- `self-track` — self-improvement tracking
+
 ## State
 - Last full self-review: 2026-03-27 (today)
 - GitHub: connected as Louch84 ✅
