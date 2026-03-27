@@ -31,3 +31,13 @@ _Track every meaningful change I made to myself — new behaviors, workflow upgr
 - **What changed:** Ran first real learning cycle — researched TurboQuant from VentureBeat, stored in vector memory + daily log + MEMORY.md
 - **Why:** This is the core AGI loop. Identify gap → research → learn → store → iterate.
 - **Impact:** First proof the system actually works for learning, not just storing infrastructure.
+
+## 2026-03-27 — HEARTBEAT.md + self-track skill improved
+
+**What changed:** Updated HEARTBEAT.md to include RSS feed checking and cron monitoring. Rewrote self-track skill with full learning loop + Ollama vector memory workflow.
+
+**Why:** HEARTBEAT.md wasn't checking the RSS feeds I set up — a key info source. self-track skill didn't document the actual Ollama workflow I've been using.
+
+**Impact:** Heartbeat now proactively checks feeds. self-track skill now accurately reflects how I actually learn and track.
+
+**Tags:** #self-evolve #workflow
