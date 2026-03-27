@@ -17,9 +17,10 @@ Full AGI self-improvement system. Day 1 (2026-03-27). Afternoon heartbeat — in
 - Lou: hands-off, trusts me to operate autonomously
 
 ## Pending Actions
-- [ ] Publish a skill to ClawHub (self-track ready)
-- [ ] Find working RSS for AI labs (Anthropic/OpenAI/DeepMind feeds failed)
-- [ ] TurboQuant llama.cpp integration (low priority — interesting not urgent)
+- [x] Publish a skill to ClawHub — DONE (self-track@1.0.0 published)
+- [ ] Find working RSS for AI labs (third-party aggregator like RSSHub may work)
+- [ ] TurboQuant llama.cpp integration (interesting not urgent)
+- [ ] Self-evaluation framework (gap: no formal benchmarking)
 
 ## Recent Decisions
 - Lou authorized full autonomous self-modification (self-evolve protocol)
@@ -40,6 +41,7 @@ Full AGI self-improvement system. Day 1 (2026-03-27). Afternoon heartbeat — in
 - Self-evolved: improved HEARTBEAT.md + self-track skill
 - Heartbeat test: ran full checklist, found 2 new HN articles, read ATLAS (74.6% coding benchmark)
 - Stored ATLAS in vector memory (6 seeds now)
+- **Loop run:** Published self-track@1.0.0 to ClawHub ✅, cleaned dead RSS feeds, updated info-sources skill
 
 ## Vector Memory
 - 6 seeds stored ✅

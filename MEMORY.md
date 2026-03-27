@@ -38,7 +38,7 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 
 ## Skills Built
 - `info-sources` — information pipeline skill
-- `self-track` — self-improvement tracking
+- `self-track` — self-improvement tracking, published to ClawHub@1.0.0
 
 ## State
 - Last full self-review: 2026-03-27 (today)
