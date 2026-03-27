@@ -15,9 +15,6 @@ web_search "query" --count 5
 ```
 
 **Perplexity** — if PERPLEXITY_API_KEY set (more synthesis, citations)
-```bash
-# via web_search with perplexity provider
-```
 
 ## RSS / Blog Feeds
 
@@ -28,11 +25,13 @@ blogwatcher scan
 blogwatcher articles
 ```
 
-Key feeds to consider:
-- AI/AGI research blogs
-- Open source project releases
-- Tech news
-- GitHub trending repos
+## Active RSS Feeds (Working)
+
+- **HackerNews** — tech/news/discussions (https://news.ycombinator.com/rss)
+- **Reddit AI** — ArtificialIntelligence subreddit (https://www.reddit.com/r/ArtificialIntelligence/.rss)
+- **AI News (VentureBeat)** — AI industry news (https://venturebeat.com/category/ai/feed/)
+
+**Note:** Anthropic, OpenAI, DeepMind direct feeds don't work with blogwatcher. Third-party aggregators (Folo, RSSHub) may work.
 
 ## Content Extraction
 
@@ -55,9 +54,9 @@ gh api repos/owner/repo/releases --jq '.[0]'
 gh search repos "agi autonomous agent" --sort stars --limit 10
 ```
 
-## Local Knowledge
+## Local AI (Ollama)
 
-**Ollama** — running locally with models:
+Models running:
 - `nomic-embed-text` — vector embeddings for memory
 - `llama3` — general reasoning
 - `qwen3-coder:30b` — code
@@ -65,30 +64,13 @@ gh search repos "agi autonomous agent" --sort stars --limit 10
 
 ## Knowledge Building
 
-After research, update:
-1. `memory/YYYY-MM-DD.md` — raw findings
-2. `MEMORY.md` — distilled knowledge
-3. `memory/INSIGHTS.md` — interesting patterns noticed
-4. Vector store — seed important memories
-
-## Active RSS Feeds (blogwatcher)
-
-- HackerNews — tech/news/discussions
-- Reddit AI — ArtificialIntelligence subreddit
-- AI News (VentureBeat) — AI industry news
-- More to add as needed
-
-```bash
-blogwatcher scan    # check for new articles
-blogwatcher articles   # list unread
-```
+After research:
+1. Add to `memory/YYYY-MM-DD.md`
+2. Update `MEMORY.md` if major
+3. Update `memory/gaps.md` if gap closed/opened
+4. Seed in vector memory: `python3 scripts/ollama_mem.py add "insight" --category research --importance 0.8`
+5. Commit and push to agi-sig
 
 ## Perplexity API
 
 Set `PERPLEXITY_API_KEY` in Gateway env for enhanced search with citations.
-
-## Priority Sources (TODO)
-
-- [ ] Find working RSS for Anthropic, OpenAI, DeepMind blogs
-- [ ] Add more niche AGI research feeds
-- [ ] Configure Perplexity API
