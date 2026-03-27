@@ -28,10 +28,9 @@ blogwatcher articles
 ## Active RSS Feeds (Working)
 
 - **HackerNews** — tech/news/discussions (https://news.ycombinator.com/rss)
-- **Reddit AI** — ArtificialIntelligence subreddit (https://www.reddit.com/r/ArtificialIntelligence/.rss)
 - **AI News (VentureBeat)** — AI industry news (https://venturebeat.com/category/ai/feed/)
 
-**Note:** Anthropic, OpenAI, DeepMind direct feeds don't work with blogwatcher. Third-party aggregators (Folo, RSSHub) may work.
+**Note:** Anthropic, OpenAI, DeepMind, Reddit AI all fail in blogwatcher (feed detection fails). These sites don't expose standard RSS/Atom at predictable URLs. May need RSSHub or manual article monitoring.
 
 ## Content Extraction
 
