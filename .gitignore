@@ -1,0 +1,16 @@
+# Config and secrets — keep local only
+.openclaw/
+.clawhub/
+config/
+secrets/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Large binaries
+*.mp4
+*.zip
