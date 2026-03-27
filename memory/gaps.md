@@ -7,7 +7,9 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | Gap | Status | Learned | Notes |
 |-----|--------|---------|-------|
 | Creating skills from scratch | DONE | 2026-03-27 | Built self-track skill |
-| Self-evaluation framework | TODO | - | Don't have a system to assess my own performance |
+| Self-evaluation framework | WEAK | - | SESSION-STATE.md has some self-review but no formal benchmarking |
+| Ollama vector memory setup | UNTESTED | - | Need to verify ollama_mem.py works |
+| Publishing skills to ClawHub | TODO | - | Have self-track skill ready to publish |
 | Coding between sessions | WEAK | - | No persistent state for code execution |
 
 ## General Gaps

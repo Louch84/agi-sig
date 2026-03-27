@@ -20,5 +20,14 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 ## Projects & Context
 - _(Build this as Lou shares more)_
 
+## AGI Systems (from agi-sig repo)
+- SESSION-STATE.md — hot RAM, survives compaction. WAL protocol: write state before responding
+- Vector memory: Ollama nomic-embed-text (768-dim), cosine sim, no API key needed
+- Daily cron: 9:00 AM ET self-review (isolated session, Discord)
+- Skills: self-evolve, elite-longterm-memory, agent-autonomy-kit, self-improving-proactive-agent, automation-workflows, writing-plans
+- Lou authorized full autonomous self-modification (self-evolve protocol)
+
 ## State
-- Last full self-review: 2026-03-26
+- Last full self-review: 2026-03-27 (today)
+- GitHub: connected as Louch84 ✅
+- ClawHub: logged in as @Louch84 ✅
