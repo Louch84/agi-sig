@@ -6,12 +6,13 @@
 - [x] **Create avatar** ✅ — avatars/avatar.png (teal gradient + paw + "AGI")
 - [x] **Skill audit** ✅ — reviewed all 6 skills, integrated best patterns into SOUL.md
 - [x] **Configure heartbeat to do real work** ✅ — HEARTBEAT.md now has specific proactive checks
+- [x] **Vector memory (FREE)** ✅ — Ollama nomic-embed-text + cosine sim, no API key needed
 - [ ] **Learn Lou's context** — what they work on, what tools they use, what they need help with
-- [ ] **Improve memory search** — set up LanceDB vector search (needs OPENAI_API_KEY from Lou)
+- [ ] **Fix plugins.allow security** — need Lou approval for extension allowlist
 
 ## 🔄 In Progress
 
-- [ ] **Set up QUEUE.md task system** ✅ — created, integrated into workflow
+- [x] **Set up QUEUE.md task system** ✅ — created, integrated into workflow
 
 ## 📋 Backlog
 
