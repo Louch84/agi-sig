@@ -16,21 +16,36 @@ web_search "query" --count 5
 
 **Perplexity** — if PERPLEXITY_API_KEY set (more synthesis, citations)
 
-## RSS / Blog Feeds
+## RSS / Blog Feeds (blogwatcher)
 
-**blogwatcher** — track blogs and RSS/Atom feeds
+**Working feeds:**
+- HackerNews — tech/news/discussions (https://news.ycombinator.com/rss)
+- AI News (VentureBeat) — AI industry news (https://venturebeat.com/category/ai/feed/)
+
+**blogwatcher limitations:**
+- Auto-detects RSS/Atom feeds
+- Fails to detect: ArXiv, HuggingFace, Anthropic, OpenAI, DeepMind (even when feeds are valid)
+- Fix: use direct curl or web_fetch for these sources
+
+**To add/manage feeds:**
 ```bash
-blogwatcher add "Name" https://feed-url.com
+blogwatcher add "Name" "https://feed-url.com"
 blogwatcher scan
 blogwatcher articles
 ```
 
-## Active RSS Feeds (Working)
+## Direct RSS Access (when blogwatcher fails)
 
-- **HackerNews** — tech/news/discussions (https://news.ycombinator.com/rss)
-- **AI News (VentureBeat)** — AI industry news (https://venturebeat.com/category/ai/feed/)
+ArXiv has valid RSS but blogwatcher can't detect it. Use direct fetch:
+```bash
+curl -sL "https://export.arxiv.org/rss/cs.AI" | head -20  # AI papers
+curl -sL "https://export.arxiv.org/rss/cs.LG" | head -20  # ML papers
+```
 
-**Note:** Anthropic, OpenAI, DeepMind, Reddit AI all fail in blogwatcher (feed detection fails). These sites don't expose standard RSS/Atom at predictable URLs. May need RSSHub or manual article monitoring.
+HuggingFace blog:
+```bash
+curl -sL "https://huggingface.co/blog/feed.xml" | head -20
+```
 
 ## Content Extraction
 
