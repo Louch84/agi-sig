@@ -35,9 +35,11 @@ Full AGI self-improvement system. Session 2 (2026-03-27). Just set up daily cron
 - Merged agi-sig repo advanced state
 - Set up daily self-review cron (9AM ET)
 - Tested Ollama vector memory — working
+- Ran first real learning cycle: researched TurboQuant (Google KV cache compression)
+- Stored TurboQuant learning in vector memory + daily log + MEMORY.md
 
 ## Vector Memory
-- 4 seeds stored, search tested ✅
+- 5 seeds stored ✅
 
 ---
 *Last updated: 2026-03-27T18:26:00.000Z*

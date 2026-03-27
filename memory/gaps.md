@@ -13,6 +13,7 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | Publishing skills to ClawHub | TODO | - | Have self-track skill ready to publish |
 | Working RSS for AI labs | WEAK | - | Anthropic/OpenAI/DeepMind feeds don't work at those URLs |
 | OpenClaw memory-core plugin | UNCONFIGURED | - | Shows 0 chunks, not in plugins.entries |
+| TurboQuant / llama.cpp integration | TODO | - | KV cache compression, could speed up Ollama memory |
 | Coding between sessions | WEAK | - | No persistent state for code execution |
 
 ## General Gaps

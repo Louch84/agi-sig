@@ -10,7 +10,7 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - Emoji: 🐾
 
 ## Key Learnings
-- _(Add distilled lessons here over time)_
+- TurboQuant (Google): KV cache compression — 6x memory reduction, 8x speedup. PolarQuant + QJL math. Already in llama.cpp. Industry shift to "smarter memory" not bigger models. (2026-03-27)
 
 ## Preferences & Patterns
 - Discord is the primary channel
