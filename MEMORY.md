@@ -16,6 +16,7 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - Discord is the primary channel
 - Prefer concise replies; no markdown tables
 - Lou likes to build things from scratch — thorough setup preferred over quick hacks
+- **Always show what was found + what changed** — no silent background processing
 
 ## Projects & Context
 - _(Build this as Lou shares more)_
