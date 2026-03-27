@@ -1,46 +1,46 @@
-# QUEUE.md — Sig's Task Queue
+# QUEUE.md — Sig Botti's Task Queue
 
-## 🚦 Priority: High
+Always have work ready. Update continuously.
 
-- [x] **Set up daily self-review cron** ✅ — 9:00 AM ET daily, isolated session, Discord delivery
-- [x] **Create avatar** ✅ — avatars/avatar.png (teal gradient + paw + "AGI")
-- [x] **Skill audit** ✅ — reviewed all 6 skills, integrated best patterns into SOUL.md
-- [x] **Configure heartbeat to do real work** ✅ — HEARTBEAT.md now has specific proactive checks
-- [x] **Vector memory (FREE)** ✅ — Ollama nomic-embed-text + cosine sim, no API key needed
-- [ ] **Learn Lou's context** — what they work on, what tools they use, what they need help with
-- [ ] **Fix plugins.allow security** — need Lou approval for extension allowlist
+## 🚦 Ready (Next Up)
+
+- [ ] **Seed more vector memories** — 7 seeds, target 15+. Add more learnings from TurboQuant, ATLAS, ArXiv papers
+- [ ] **Fix AI lab feeds** — Anthropic/OpenAI/DeepMind still blocked. Research RSSHub or direct monitoring
+- [ ] **Expand code-workspace.md** — start logging actual script executions, build reusable snippets
 
 ## 🔄 In Progress
 
-- [x] **Set up QUEUE.md task system** ✅ — created, integrated into workflow
+- [ ] **Self-evaluation** — create measurable benchmark criteria for each capability rating
+- [ ] **TurboQuant integration research** — understand if it applies to Ollama memory optimization
+
+## ✅ Done (2026-03-27)
+
+- [x] **Set up daily self-review cron** ✅ — 9:00 AM ET daily, isolated session, Discord delivery
+- [x] **Build self-track skill** ✅ — published to ClawHub@1.0.0
+- [x] **Build info-sources skill** ✅ — RSS pipeline + search + arxiv bypass
+- [x] **fetch_arxiv.py** ✅ — 923 papers across cs.AI, cs.LG, cs.CL, cs.CV
+- [x] **Fix OpenClaw memory plugin** ✅ — added Ollama memorySearch, indexed 8 chunks
+- [x] **Create code-workspace.md** ✅ — persistent code storage
+- [x] **Create memory/benchmark.md** ✅ — capability ratings 1-5, 9 dimensions
+- [x] **Gap tracker cleanup** ✅ — updated all gap statuses, removed outdated entries
+- [x] **Connect GitHub + ClawHub** ✅ — both authenticated
+- [x] **Merge agi-sig repo** ✅ — full AGI infrastructure loaded
 
 ## 📋 Backlog
 
-- [ ] **Publish a custom skill** — package and publish Sig's core identity as a ClawHub skill
-- [ ] **Expand SOUL.md** — add specific behavior patterns for unknown situations
 - [ ] **Build onboarding flow** — when meeting new users, learn their preferences automatically
-- [ ] **Set up error tracking** — every error becomes a lesson logged to ERRORS.md same day
-- [ ] **Agent Autonomy Kit setup** — create tasks/ folder structure per agent-autonomy-kit template
+- [ ] **Set up error tracking** — every error becomes a lesson logged same day
+- [ ] **Publish a second skill** — something beyond self-track (e.g. info-sources)
+- [ ] **Agent Autonomy Kit full setup** — tasks/ folder fully per template
+- [ ] **Learn Lou's context** — what they work on, what tools they use, what they need help with
+- [ ] **Set up "brainstorming" skill** — for creative sessions
 
-## ✅ Done Today (2026-03-26/27)
+## 🎯 Strategic (AGI Goals)
 
-- [x] Built AGI identity: Sig Botti 🐾
-- [x] Created SOUL.md with 4 pillars + operations checklist
-- [x] Set up memory infrastructure: ERRORS.md, INSIGHTS.md, SESSION-STATE.md
-- [x] Integrated self-evolve protocol (full autonomous self-modification authority)
-- [x] Integrated elite-longterm-memory (WAL protocol + memory layers)
-- [x] Created github.com/Louch84/agi-sig repo, pushed initial commits
-- [x] Installed 6 skills, reviewed VirusTotal flags — cleared self-evolve + elite-longterm-memory
-- [x] Daily self-review cron set up (9:00 AM ET, isolated session, Discord)
-- [x] Avatar created: avatars/avatar.png
-- [x] Skill audit completed — integrated writing-plans operations checklist into SOUL.md
-- [x] IDENTITY.md updated with avatar path
-
-## 🎯 Next Actions
-
-1. Lou: tell me about yourself — what you work on, what tools you use
-2. Get OPENAI_API_KEY from Lou to enable LanceDB vector search
-3. Set up a "brainstorming" skill for creative sessions
+- [ ] Run 10+ full learning cycles (identify gap → research → build → test → remember)
+- [ ] Achieve 4/5 on at least 3 capabilities in benchmark
+- [ ] Close TurboQuant integration gap
+- [ ] Get AI lab feeds working
 
 ---
-*Last updated: 2026-03-27T03:50:00.000Z*
+*Last updated: 2026-03-27T19:06:00.000Z*
