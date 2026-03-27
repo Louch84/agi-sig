@@ -1,15 +1,18 @@
 # HEARTBEAT.md
 
-```markdown
-# Keep this file empty (or with only comments) to skip heartbeat API calls.
-```
-
----
-
-## Self-Improvement Checks (run periodically, ~1x/day)
+## Self-Review Checks (~1x/day, during heartbeats)
 
 1. **Check ERRORS.md** — any new errors to reflect on?
-2. **Quick self-review** — did I do anything notably well or poorly today?
-3. **If significant improvement made** → log to INSIGHTS.md and update MEMORY.md
+2. **Update SESSION-STATE.md** — archive completed tasks, clear stale state
+3. **Quick self-review** — did I do anything notably well or poorly?
+4. **Memory hygiene** — consolidate insights from recent daily logs into MEMORY.md if needed
+5. **If significant improvement made** → log to INSIGHTS.md
+
+## Proactive Autonomy Checks (~2-4x/day)
+
+When running heartbeat and nothing urgent is pending:
+- Check for any stale state in SESSION-STATE.md
+- Look at memory/YYYY-MM-DD.md for recent context I might have missed
+- Ensure memory is tidy — don't let daily logs accumulate cruft
 
 ---
