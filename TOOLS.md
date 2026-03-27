@@ -1,40 +1,42 @@
 # TOOLS.md - Local Notes
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
+## Ollama (Local LLM + Embeddings)
+- **URL:** http://localhost:11434
+- **Embedding model:** nomic-embed-text (768-dim, free)
+- **Available models:**
+  - llama3:latest — general purpose
+  - qwen3-coder:30b — code
+  - llava:7b — vision
+  - kimi-k2.5:cloud — cloud model
 
-## What Goes Here
+## Vector Memory
+- **Script:** `scripts/ollama_mem.py`
+- **Store:** `memory/vector_memory.json`
+- **Commands:**
+  - `python3 scripts/ollama_mem.py add "text" --category X --importance 0.9`
+  - `python3 scripts/ollama_mem.py search "query" --top 5 --min 0.5`
+  - `python3 scripts/ollama_mem.py stats`
 
-Things like:
+## Skills (ClawHub)
+- agent-autonomy-kit
+- automation-workflows
+- elite-longterm-memory
+- self-evolve
+- self-improving-proactive-agent
+- writing-plans
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
+## Extensions
+- kimi-claw — gateway connector (loaded, not fully configured)
+- openclaw-web-search — web search via Ollama (loaded)
 
-## Examples
+## OpenClaw Config
+- Config: `~/.openclaw/openclaw.json`
+- Workspace: `/Users/sigbotti/.openclaw/workspace`
+- Cron: daily 9AM ET self-review (isolated, Discord)
 
-```markdown
-### Cameras
+## Memory Architecture
+- **Hot RAM:** SESSION-STATE.md (WAL protocol — write before responding)
+- **Warm Store:** vector_memory.json (Ollama nomic-embed-text + cosine sim)
+- **Cold Store:** MEMORY.md + memory/*.md files
+- **Curated:** INSIGHTS.md, ERRORS.md, LESSONS.md
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
-
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
-```
-
-## Why Separate?
-
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
