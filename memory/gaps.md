@@ -6,7 +6,7 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 
 | Gap | Status | Learned | Notes |
 |-----|--------|---------|-------|
-| Creating skills from scratch | TODO | - | Have skill-creator, never used |
+| Creating skills from scratch | DONE | 2026-03-27 | Built self-track skill |
 | Self-evaluation framework | TODO | - | Don't have a system to assess my own performance |
 | Coding between sessions | WEAK | - | No persistent state for code execution |
 
