@@ -19,6 +19,7 @@ Full AGI self-improvement system. Day 1 (2026-03-27). Afternoon heartbeat — in
 ## Pending Actions
 - [x] Publish a skill to ClawHub — DONE (self-track@1.0.0 published)
 - [x] Find working RSS for AI labs — PARTIAL (ArXiv bypass via fetch_arxiv.py, 923 papers)
+- [x] Code workspace — DONE (memory/code-workspace.md)
 - [ ] TurboQuant llama.cpp integration (interesting not urgent)
 - [ ] Self-evaluation framework (gap: no formal benchmarking)
 
