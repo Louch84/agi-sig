@@ -8,7 +8,7 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 |-----|--------|---------|-------|
 | Creating skills from scratch | DONE | 2026-03-27 | Built self-track skill |
 | Self-evaluation framework | WEAK | - | SESSION-STATE.md has some self-review but no formal benchmarking |
-| Ollama vector memory | ✅ WORKING | 2026-03-27 | ollama_mem.py tested, search returns good results |
+| Ollama vector memory | ✅ LIVE | 2026-03-27 | memory search operational: 7 files, 8 chunks, Ollama 768-dim |
 | Daily self-review cron | ✅ LIVE | 2026-03-27 | 9AM ET, isolated, Discord announce |
 | Publishing skills to ClawHub | TODO | - | Have self-track skill ready to publish |
 | Working RSS for AI labs | WEAK | - | Anthropic/OpenAI/DeepMind feeds don't work at those URLs |
