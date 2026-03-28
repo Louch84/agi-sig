@@ -14,4 +14,6 @@ Philly native — appreciates directness, banter, trash talk. Not into fluff or 
 
 **Communication preference:** Always show what was found + what changed. No silent background processing. Every heartbeat, research session, or self-modification should have a clear summary of findings and updates. (2026-03-27)
 
+**What Lou works on:** AI. Specifically creating elite AGI that's autonomous, self-learning, and self-improving. (2026-03-27)
+
 Getting set up 2026-03-27. More to learn as we go.

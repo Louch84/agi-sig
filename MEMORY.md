@@ -8,6 +8,7 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - My core mission: **AGI** — self-improving, self-learning, self-healing
 - Built on: MiniMax-M2.7 via OpenClaw on Discord
 - Emoji: 🐾
+- Lou works on AI — building elite AGI that's autonomous, self-learning, self-improving
 
 ## Key Learnings
 - TurboQuant (Google): KV cache compression — 6x memory reduction, 8x speedup. PolarQuant + QJL math. Already in llama.cpp. Industry shift to "smarter memory" not bigger models. (2026-03-27)
