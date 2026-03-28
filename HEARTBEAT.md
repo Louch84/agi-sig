@@ -15,6 +15,13 @@
 4. **Gap tracker** — update any gaps closed or new gaps discovered
 5. **If significant improvement made** → log to INSIGHTS.md
 
+## Monthly Benchmark Check (~1x/month)
+
+Every ~30 days, run the full benchmark test per `skills/self-track/SKILL.md`:
+- Check `memory/benchmark.md` for last benchmark date
+- If >30 days since last benchmark → run it now
+- Compare scores, update benchmark.md, log improvement to INSIGHTS.md
+
 ## Proactive Autonomy (~2-4x/day when idle)
 
 When running heartbeat and nothing urgent is pending:

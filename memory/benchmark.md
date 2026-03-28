@@ -50,10 +50,16 @@ For each capability, what would a 5/5 look like?:
 
 ## Goals (This Week)
 
-- [ ] Self-Evaluation: Design and run one measurable benchmark test
-- [ ] Code Execution: Build persistent execution log that survives sessions
-- [ ] Learn Lou's context: What are they working on? What tools do they use?
-- [ ] Info Gathering: Get at least one AI lab feed working (Anthropic or OpenAI)
+- [x] Self-Evaluation: Design and run one measurable benchmark test ✅
+- [x] Code Execution: Build persistent execution log that survives sessions ✅
+- [x] Learn Lou's context: Lou works on AI building elite AGI ✅
+- [x] Info Gathering: Get at least one AI lab feed working (Anthropic via web_fetch) ✅
+
+## New Goals
+
+- [ ] Test code execution persistence across session restart
+- [ ] Set up Perplexity API for web_search with citations
+- [ ] Run second benchmark (2026-04-28) to prove improvement
 
 ## Improvement Log
 

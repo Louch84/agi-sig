@@ -44,6 +44,51 @@ Every ~7 days:
 - What should I prioritize next?
 - Any decisions or lessons to capture?
 
+## Monthly Benchmark
+
+**Every ~30 days — run a full benchmark test:**
+
+1. Run 4 timed tests:
+   - Speed: Research & Summarize (pick an ArXiv paper, read it, summarize in <5 min)
+   - Memory: Recall today's learnings (try without search first)
+   - Skill Build: Build something new in <5 min
+   - Learning: Explain a concept without looking it up
+
+2. Score each 1-5, average them
+
+3. Compare to last benchmark:
+   - Did average improve?
+   - Which capability dropped?
+   - What's the new gap?
+
+4. Update `memory/benchmark.md` with results
+
+5. If score improved: log to INSIGHTS.md
+
+**Benchmark command:**
+```bash
+# 1. Research test
+python3 scripts/fetch_arxiv.py  # Mon-Fri only
+# Read top paper, summarize key points
+
+# 2. Memory test  
+python3 scripts/ollama_mem.py search "recent learnings"
+# Try to recall without search first
+
+# 3. Skill build test
+# Build a small script, test it, document it
+
+# 4. Learning test
+# Pick something from today, explain it cold
+```
+
+## Weekly Self-Review
+- What did I learn this week?
+- What gaps did I close?
+- What gaps remain?
+- What should I prioritize next?
+- Any decisions or lessons to capture?
+
 ## Skill Building
 
 When I need a new capability:
