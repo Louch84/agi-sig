@@ -16,6 +16,7 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | TurboQuant / llama.cpp integration | INTERESTING | - | KV cache compression, could speed up Ollama memory |
 | ATLAS self-verified repair | INTERESTING | - | Qwen3-14B + iterative repair = 74.6% coding benchmark. May be relevant for self-healing loop |
 | Coding between sessions | PARTIAL | 2026-03-27 | Built memory/execution-log.md for persistent execution tracking |
+| Gateway restart survival | ✅ DONE | 2026-03-27 | Built auto-backup.sh + hourly cron. SESSION-STATE auto-commits every heartbeat. |
 
 ## General Gaps
 
