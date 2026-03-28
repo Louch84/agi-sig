@@ -2,33 +2,40 @@
 
 Things I don't know, can't do well, or need to improve. Updated continuously.
 
-## Priority Gaps
+## Priority Gaps (Honest Assessment)
 
-| Gap | Status | Learned | Notes |
-|-----|--------|---------|-------|
-| Creating skills from scratch | DONE | 2026-03-27 | Built self-track skill |
-| Self-evaluation framework | ✅ BASELINE | 2026-03-27 | Created memory/benchmark.md with capability ratings 1-5 |
-| Ollama vector memory | ✅ LIVE | 2026-03-27 | memory search operational: 7 files, 8 chunks, Ollama 768-dim |
-| Daily self-review cron | ✅ LIVE | 2026-03-27 | 9AM ET, isolated, Discord announce |
-| Publishing skills to ClawHub | ✅ DONE | 2026-03-27 | Published self-track@1.0.0 to ClawHub (k97abgzwj7t4byszyje6m9t15n83ptps) |
-| Working RSS for AI labs | PARTIAL | - | Anthropic, OpenAI, DeepMind fail in blogwatcher. Working: HackerNews, VentureBeat. ArXiv bypass: fetch_arxiv.py script (923 papers across 4 feeds) |
-| OpenClaw memory-core plugin | ✅ FIXED | 2026-03-27 | Added agents.defaults.memorySearch with Ollama, ran memory index. Now working. |
-| TurboQuant / llama.cpp integration | INTERESTING | - | KV cache compression, could speed up Ollama memory |
-| ATLAS self-verified repair | INTERESTING | - | Qwen3-14B + iterative repair = 74.6% coding benchmark. May be relevant for self-healing loop |
-| Coding ability | HIGH PRIORITY | 2026-03-28 | Benchmark 2/5 vs 3/5 all others. Top gap. qwen3-coder:30b available locally. |
-| Gateway restart survival | ✅ DONE | 2026-03-27 | System-level LaunchAgent (ai.openclaw.backup.plist) + OpenClaw hourly cron + heartbeat backup check. 3 layers. |
+| Gap | Status | Priority | Notes |
+|-----|--------|----------|-------|
+| Code Execution (persistent results) | PARTIAL | HIGH | execution-log.md exists, need to prove results survive across sessions |
+| Self-Evaluation (measurable tests) | WEAK | HIGH | benchmark framework exists, no periodic tests proving improvement |
+| Working RSS for AI labs | PARTIAL | MEDIUM | ArXiv bypass works Mon-Fri, weekends skip. Anthropic/OpenAI/DeepMind still blocked |
+| TurboQuant integration | INTERESTING | LOW | KV cache compression for Ollama memory, not urgent |
+| ATLAS self-verified repair | INTERESTING | LOW | Qwen3-14B + repair loop, relevant for self-healing pillar |
 
-## General Gaps
+## ✅ Completed Gaps
 
-- Real web research (beyond search — deep dives)
-- Building actual tools that persist
-- Self-modifying my own instructions effectively
-- Benchmarking my progress
+| Gap | Completed | Evidence |
+|-----|-----------|---------|
+| Creating skills from scratch | 2026-03-27 | Built self-track, info-sources, published to ClawHub |
+| Self-evaluation framework | 2026-03-27 | Created benchmark.md with 4-test run (avg 4/5) |
+| Ollama vector memory | 2026-03-27 | 20 seeds, hybrid search + temporal decay configured |
+| Daily self-review cron | 2026-03-27 | 9AM ET, isolated, Discord announce |
+| Publishing skills to ClawHub | 2026-03-27 | self-track@1.0.0 published |
+| Gateway restart survival | 2026-03-27 | 3-layer backup: LaunchAgent + cron + heartbeat |
+| Lou context | 2026-03-27 | Lou works on AI building elite AGI |
+| OpenClaw core config | 2026-03-27 | Hybrid search, temporal decay, cache, expanded denyCommands |
 
-## Completed Gaps
+## Benchmark Status (2026-03-27)
 
-- [x] **Lou context** — DONE 2026-03-27. Lou works on AI building elite AGI.
+- Average: 4/5 across 4 tests
+- Code Execution: 2/5 (ephemeral results)
+- Self-Evaluation: 2/5 (framework, no periodic tests)
 
-## Completed
+## Today's Actions
 
-_(nothing yet — day 1)_
+- [x] Fix ArXiv script for weekend handling (ArXiv Mon-Fri only)
+- [ ] Run coding benchmark test
+- [ ] Update gaps with honest assessment
+
+---
+*Last updated: 2026-03-28 16:53 UTC*

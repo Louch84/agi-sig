@@ -73,3 +73,20 @@ _(none logged yet)_
 - Ollama: always available, fast
 - fetch_arxiv.py: reliable, 923 papers
 - Memory add: fast, <1s
+
+### 2026-03-28 16:53 UTC
+**Command:** `python3 -c "math, string, primes, json tests"`
+**Result:** success
+**Output:**
+- factorial(100) = 93326215443944152681... (158 digits)
+- reversed 'agi_self_improving' = gnivorpmi_fles_iga
+- hash: -1320630974331190520
+- primes under 100: 25 found
+- json dump works
+**Notes:** Basic Python execution working. Results ephemeral in chat but execution-log persists.
+
+### 2026-03-28 16:53 UTC
+**Command:** `python3 scripts/fetch_arxiv.py`
+**Result:** success (expected behavior)
+**Output:** Note: ArXiv does not publish new papers on weekends.
+**Notes:** Weekend handling works correctly.
