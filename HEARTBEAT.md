@@ -52,10 +52,29 @@ cd /Users/sigbotti/.openclaw/workspace && git pull origin main
 - Vector memory: `python3 scripts/ollama_mem.py add "text" --category X --importance 0.9`
 - ArXiv: `python3 scripts/fetch_arxiv.py` (bypasses blogwatcher)
 
+## Backup System (Multiple Layers)
+
+**Layer 1 — System-level LaunchAgent (boot + every hour):**
+- File: `~/Library/LaunchAgents/ai.openclaw.backup.plist`
+- Runs at system boot and every hour on the hour
+- Independent of gateway — fires even if gateway is down
+- Log: `~/.openclaw/logs/backup.log`
+
+**Layer 2 — OpenClaw hourly cron:**
+- `Hourly State Backup` — every 1h, isolated session
+
+**Layer 3 — Heartbeat backup check (every 30 min):**
+- Git status check, commit if dirty
+
+**Recovery after restart:**
+```bash
+cd /Users/sigbotti/.openclaw/workspace && git pull origin main
+```
+
 ## Cron Monitoring
 
 Verify these crons are live:
 - Daily Sig Botti Self-Review: 9:00 AM ET (isolated, Discord announce)
-- Backup push: every hour (TODO: set up)
+- Hourly State Backup: every 1h (OpenClaw cron)
 
 Check: `openclaw cron list`
