@@ -15,7 +15,7 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | OpenClaw memory-core plugin | ✅ FIXED | 2026-03-27 | Added agents.defaults.memorySearch with Ollama, ran memory index. Now working. |
 | TurboQuant / llama.cpp integration | INTERESTING | - | KV cache compression, could speed up Ollama memory |
 | ATLAS self-verified repair | INTERESTING | - | Qwen3-14B + iterative repair = 74.6% coding benchmark. May be relevant for self-healing loop |
-| Coding between sessions | WEAK | - | No persistent state for code execution |
+| Coding between sessions | PARTIAL | 2026-03-27 | Built memory/execution-log.md for persistent execution tracking |
 
 ## General Gaps
 
