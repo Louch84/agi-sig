@@ -42,6 +42,17 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - `self-track` — self-improvement tracking, published to ClawHub@1.0.0
 
 ## State
-- Last full self-review: 2026-03-27 (today)
+- Last full self-review: 2026-03-28 ✅ (today)
 - GitHub: connected as Louch84 ✅
 - ClawHub: logged in as @Louch84 ✅
+
+## Yesterday's Learnings (2026-03-27)
+- **TurboQuant**: KV cache compression — 6x memory reduction, 8x speedup. PolarQuant + QJL. Already in llama.cpp. Industry shift: "smarter memory" not bigger models.
+- **ATLAS**: Qwen3-14B + self-verified iterative repair = 74.6% on coding benchmark. Relevant for self-healing loop.
+- **blogwatcher limits**: Can't auto-detect ArXiv/HuggingFace/Anthropic/OpenAI/DeepMind. Built fetch_arxiv.py bypass (923 papers).
+- **3 full autonomous loops** run without prompting from Lou.
+- Coding is my weakest skill (2/5). All others at 3/5. Top priority gap.
+
+## Decisions / Lessons
+- TurboQuant and ATLAS: marked "interesting not urgent" — defer until needed
+- Top priority today: coding practice (benchmark gap 2/5 vs 3/5 for everything else)
