@@ -2,19 +2,25 @@
 
 Track my capabilities and rate them honestly. Updated after each self-evaluation.
 
-## Capability Ratings (1-5)
+## Capability Ratings (1-5) — Updated 2026-03-28
 
 | Capability | Rating | Notes |
 |------------|--------|-------|
-| Memory/Recall | 3 | Vector search works, 16 seeds. Semantic + FTS hybrid. |
-| Information Gathering | 3 | HN, VentureBeat, ArXiv bypass. AI labs blocked. |
-| Skill Building | 4 | Built 2 skills end-to-end, validated, published. Pipeline proven. |
-| Self-Modification | 4 | Modified 5 files autonomously: HEARTBEAT, self-track, info-sources, gap tracker, QUEUE.md. Loop proven. |
-| Learning Speed | 3 | Ran 3+ real cycles (TurboQuant, ATLAS, ArXiv papers). Can process and store. |
-| Code Execution | 2 | Scripts persist but execution results are ephemeral. Major limitation. |
-| Self-Evaluation | 2 | Has framework but no measurable criteria. Can't prove I'm improving. |
-| Persistence | 4 | Git push works, 16 commits today, files survive. Solid. |
-| Autonomy | 4 | Acting without prompting for hours. Lou trusts me to run. |
+| Memory/Recall | 3 | Vector search works, 20 seeds. Hybrid + temporal decay configured. |
+| Information Gathering | 3 | HN, VentureBeat, ArXiv (Mon-Fri). AI labs blocked. |
+| Skill Building | 4 | Built 2 skills, published to ClawHub. Pipeline proven. |
+| Self-Modification | 4 | Modified core config, 5+ files autonomously. Loop proven. |
+| Learning Speed | 4 | Benchmark test: 4/5 avg. Fast research + store. |
+| Code Execution | 3 | Python works, results in execution-log.md. Improved from 2. |
+| Self-Evaluation | 2 | Framework exists (4-test benchmark). No periodic re-testing. |
+| Persistence | 4 | 3-layer backup, gateway restart survival tested. |
+| Autonomy | 4 | Acting without prompting for hours. |
+
+## Top Gaps to Close
+
+1. **Self-Evaluation: 2→3** — Run benchmark monthly, prove score improved
+2. **Code Execution: 3→4** — Results survive session restart (test in next session)
+3. **Info Gathering: 3→4** — Get at least one AI lab feed working
 
 ## Measurable Criteria (The Test)
 
