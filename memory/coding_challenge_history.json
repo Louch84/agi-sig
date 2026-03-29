@@ -1,0 +1,225 @@
+{
+  "runs": [
+    {
+      "idx": 0,
+      "name": "FizzBuzz",
+      "difficulty": "Easy",
+      "passed": 6,
+      "total": 6,
+      "pct": 100.0,
+      "grade": "S",
+      "time_ms": 0.0,
+      "ts": "2026-03-29T22:57:48.706553+00:00"
+    },
+    {
+      "idx": 1,
+      "name": "Palindrome Check",
+      "difficulty": "Easy",
+      "passed": 6,
+      "total": 6,
+      "pct": 100.0,
+      "grade": "S",
+      "time_ms": 0.0,
+      "ts": "2026-03-29T22:57:48.709073+00:00"
+    },
+    {
+      "idx": 2,
+      "name": "Binary Search",
+      "difficulty": "Easy",
+      "passed": 5,
+      "total": 5,
+      "pct": 100.0,
+      "grade": "S",
+      "time_ms": 0.1,
+      "ts": "2026-03-29T22:57:48.709701+00:00"
+    },
+    {
+      "idx": 3,
+      "name": "Linked List + Cycle",
+      "difficulty": "Medium",
+      "passed": 4,
+      "total": 4,
+      "pct": 100.0,
+      "grade": "S",
+      "time_ms": 0.1,
+      "ts": "2026-03-29T22:57:48.710227+00:00"
+    },
+    {
+      "idx": 4,
+      "name": "Topological Sort",
+      "difficulty": "Medium",
+      "passed": 2,
+      "total": 3,
+      "pct": 66.7,
+      "grade": "C",
+      "time_ms": 0.1,
+      "ts": "2026-03-29T22:57:48.710653+00:00"
+    },
+    {
+      "idx": 5,
+      "name": "LRU Cache",
+      "difficulty": "Medium",
+      "passed": 5,
+      "total": 5,
+      "pct": 100.0,
+      "grade": "S",
+      "time_ms": 0.2,
+      "ts": "2026-03-29T22:57:48.711348+00:00"
+    },
+    {
+      "idx": 6,
+      "name": "Longest Common Subseq",
+      "difficulty": "Medium",
+      "passed": 4,
+      "total": 4,
+      "pct": 100.0,
+      "grade": "S",
+      "time_ms": 0.1,
+      "ts": "2026-03-29T22:57:48.713419+00:00"
+    },
+    {
+      "idx": 7,
+      "name": "Trie",
+      "difficulty": "Medium",
+      "passed": 0,
+      "total": 1,
+      "pct": 0.0,
+      "grade": "D",
+      "time_ms": 0.1,
+      "ts": "2026-03-29T22:57:48.714050+00:00"
+    },
+    {
+      "idx": 8,
+      "name": "BFS Shortest Path",
+      "difficulty": "Medium",
+      "passed": 3,
+      "total": 4,
+      "pct": 75.0,
+      "grade": "B",
+      "time_ms": 0.1,
+      "ts": "2026-03-29T22:57:48.714988+00:00"
+    },
+    {
+      "idx": 9,
+      "name": "Min-Heap",
+      "difficulty": "Medium",
+      "passed": 7,
+      "total": 7,
+      "pct": 100.0,
+      "grade": "S",
+      "time_ms": 0.1,
+      "ts": "2026-03-29T22:57:48.716085+00:00"
+    },
+    {
+      "idx": 0,
+      "name": "FizzBuzz",
+      "difficulty": "Easy",
+      "passed": 6,
+      "total": 6,
+      "pct": 100.0,
+      "grade": "S",
+      "time_ms": 0.0,
+      "ts": "2026-03-29T22:59:21.056853+00:00"
+    },
+    {
+      "idx": 1,
+      "name": "Palindrome Check",
+      "difficulty": "Easy",
+      "passed": 6,
+      "total": 6,
+      "pct": 100.0,
+      "grade": "S",
+      "time_ms": 0.0,
+      "ts": "2026-03-29T22:59:21.062772+00:00"
+    },
+    {
+      "idx": 2,
+      "name": "Binary Search",
+      "difficulty": "Easy",
+      "passed": 5,
+      "total": 5,
+      "pct": 100.0,
+      "grade": "S",
+      "time_ms": 0.0,
+      "ts": "2026-03-29T22:59:21.063862+00:00"
+    },
+    {
+      "idx": 3,
+      "name": "Linked List + Cycle",
+      "difficulty": "Medium",
+      "passed": 4,
+      "total": 4,
+      "pct": 100.0,
+      "grade": "S",
+      "time_ms": 0.1,
+      "ts": "2026-03-29T22:59:21.064884+00:00"
+    },
+    {
+      "idx": 4,
+      "name": "Topological Sort",
+      "difficulty": "Medium",
+      "passed": 4,
+      "total": 5,
+      "pct": 80.0,
+      "grade": "B",
+      "time_ms": 0.1,
+      "ts": "2026-03-29T22:59:21.065871+00:00"
+    },
+    {
+      "idx": 5,
+      "name": "LRU Cache",
+      "difficulty": "Medium",
+      "passed": 5,
+      "total": 5,
+      "pct": 100.0,
+      "grade": "S",
+      "time_ms": 0.1,
+      "ts": "2026-03-29T22:59:21.093758+00:00"
+    },
+    {
+      "idx": 6,
+      "name": "Longest Common Subseq",
+      "difficulty": "Medium",
+      "passed": 4,
+      "total": 4,
+      "pct": 100.0,
+      "grade": "S",
+      "time_ms": 0.1,
+      "ts": "2026-03-29T22:59:21.115466+00:00"
+    },
+    {
+      "idx": 7,
+      "name": "Trie",
+      "difficulty": "Medium",
+      "passed": 0,
+      "total": 1,
+      "pct": 0.0,
+      "grade": "D",
+      "time_ms": 0.2,
+      "ts": "2026-03-29T22:59:21.116847+00:00"
+    },
+    {
+      "idx": 8,
+      "name": "BFS Shortest Path",
+      "difficulty": "Medium",
+      "passed": 3,
+      "total": 6,
+      "pct": 50.0,
+      "grade": "C",
+      "time_ms": 0.1,
+      "ts": "2026-03-29T22:59:21.143500+00:00"
+    },
+    {
+      "idx": 9,
+      "name": "Min-Heap",
+      "difficulty": "Medium",
+      "passed": 7,
+      "total": 7,
+      "pct": 100.0,
+      "grade": "S",
+      "time_ms": 0.1,
+      "ts": "2026-03-29T22:59:21.152633+00:00"
+    }
+  ],
+  "scores": []
+}
