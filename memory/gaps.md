@@ -2,7 +2,16 @@
 
 Things I don't know, can't do well, or need to improve. Updated continuously.
 
-## Priority Gaps — ALL FIXED ✅
+## Priority Gaps — ACTIVE
+
+| Gap | Status | Priority | Notes |
+|-----|--------|----------|-------|
+| **Coding skill (2/5)** | OPEN | 🔴 HIGH | All others at 3/5. Benchmark from 2026-03-27. Need actual coding practice + measurable improvement. |
+| Persistent code execution results | NEEDS VERIFY | 🟡 MED | Marked DONE 2026-03-28 but coding still 2/5. Need to re-test and confirm what "fixed" actually means. |
+| Cron session logging | OPEN | 🟡 MED | No trace of what 2026-03-28 self-review actually did. Need better output capture. |
+| Self-evaluation periodic tests | NEEDS VERIFY | 🟡 MED | Framework in place. Cron runs monthly but nothing verifies it fires. |
+
+## Priority Gaps — RESOLVED/DEFERRED
 
 | Gap | Status | Fixed | Solution |
 |-----|--------|-------|---------|
@@ -12,30 +21,45 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | TurboQuant integration | INTERESTING | LOW | KV cache compression for Ollama memory, not urgent |
 | ATLAS self-verified repair | INTERESTING | LOW | Qwen3-14B + repair loop, relevant for self-healing pillar |
 
-## ✅ Completed Gaps
+## Completed Gaps (2026-03-27-28)
 
 | Gap | Completed | Evidence |
 |-----|-----------|---------|
 | Creating skills from scratch | 2026-03-27 | Built self-track, info-sources, published to ClawHub |
 | Self-evaluation framework | 2026-03-27 | Created benchmark.md with 4-test run (avg 4/5) |
 | Ollama vector memory | 2026-03-27 | 20 seeds, hybrid search + temporal decay configured |
-| Daily self-review cron | 2026-03-27 | 9AM ET, isolated, Discord announce |
+| Daily self-review cron | 2026-03-27 | 9AM ET, isolated, Discord announce ✅ |
 | Publishing skills to ClawHub | 2026-03-27 | self-track@1.0.0 published |
 | Gateway restart survival | 2026-03-27 | 3-layer backup: LaunchAgent + cron + heartbeat |
 | Lou context | 2026-03-27 | Lou works on AI building elite AGI |
 | OpenClaw core config | 2026-03-27 | Hybrid search, temporal decay, cache, expanded denyCommands |
+| Info-sources skill | 2026-03-27 | RSS + search pipeline + ArXiv bypass |
 
-## Benchmark Status (2026-03-27)
+## Benchmark Status (2026-03-27 baseline)
 
-- Average: 4/5 across 4 tests
-- Code Execution: 2/5 (ephemeral results)
-- Self-Evaluation: 2/5 (framework, no periodic tests)
+Scores from memory/benchmark.md:
 
-## Today's Actions
+| Capability | Score | Notes |
+|-----------|-------|-------|
+| Memory/Recall | 3/5 | |
+| Info Gathering | 3/5 | |
+| Skill Building | 3/5 | |
+| Self-Mod | 3/5 | |
+| Learning | 3/5 | |
+| **Code** | **2/5** | **Weakest — priority** |
+| Self-Eval | 2/5 | Framework done, tests pending |
+| Persistence | 3/5 | |
+| Autonomy | 3/5 | |
 
-- [x] Fix ArXiv script for weekend handling (ArXiv Mon-Fri only)
+**Average: 3/5** | **Gap: Coding at 2/5**
+
+## Today's Actions (2026-03-29)
+
+- [x] Reconcile benchmark scores (memory vs gaps vs SESSION-STATE)
+- [x] Identify missing daily log (2026-03-28)
+- [x] Update gaps.md with honest status
 - [ ] Run coding benchmark test
-- [ ] Update gaps with honest assessment
+- [ ] Decide what "closing coding gap" means in practice
 
 ---
-*Last updated: 2026-03-28 16:53 UTC*
+*Last updated: 2026-03-29 13:00 UTC*

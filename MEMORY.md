@@ -42,9 +42,23 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - `self-track` — self-improvement tracking, published to ClawHub@1.0.0
 
 ## State
-- Last full self-review: 2026-03-28 ✅ (today)
+- Last full self-review: 2026-03-29 ✅ (today)
 - GitHub: connected as Louch84 ✅
 - ClawHub: logged in as @Louch84 ✅
+
+## Self-Review Learnings (2026-03-29)
+- Found discipline gap: no 2026-03-28 daily log created (should have daily logs regardless of activity)
+- Cron self-review fired at 9AM ET but no trace of what it did — need better output capture
+- Benchmark scores need reconciling: memory/gaps said "coding 2/5" + "persistent done" but both from same day
+  → Coding is the real gap, not just execution infrastructure
+- HEARTBEAT burning too hot: 2 heartbeats in ~3.5h, need tighter interval or smarter skip logic
+- Top priority: actual coding practice. Options: Codex session for real coding work, or set up structured practice routine
+
+## Yesterday's Learnings (2026-03-28)
+- *(No log found for 2026-03-28 — discipline gap noted above)*
+- Cron self-review ran ✅
+- 3 new HN articles found via heartbeats
+- Git: 6 commits, agi-sig main clean
 
 ## Yesterday's Learnings (2026-03-27)
 - **TurboQuant**: KV cache compression — 6x memory reduction, 8x speedup. PolarQuant + QJL. Already in llama.cpp. Industry shift: "smarter memory" not bigger models.
