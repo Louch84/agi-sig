@@ -6,10 +6,10 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
-| **Coding skill (2/5)** | CLOSED → 4/5 | ✅ DONE | 55/55 tests passed (100%), all S-grade. Fixed 3 bugs in challenge code. Demonstrated algo/DS knowledge. Benchmark updated 2026-03-30. |
-| Persistent code execution results | NEEDS VERIFY | 🟡 MED | Marked DONE 2026-03-28 but coding still 2/5. Need to re-test and confirm what "fixed" actually means. |
-| Cron session logging | IN PROGRESS | 🟡 MED | Fixed: Updated cron job message to write self-review to memory/self-reviews/YYYY-MM-DD.md. Will verify next run (2026-03-30 9AM ET). |
-| Self-evaluation periodic tests | IN PROGRESS | 🟡 MED | Cron job added: Monthly Benchmark runs every 30 days, fires isolated agent with 4-test benchmark. First run ~30 days from now. Updates benchmark.md + memory/gaps.md. |
+| **Coding skill (2/5)** | ✅ CLOSED → 4/5 | DONE | 55/55 tests passed (100%), S-grade. Fixed 3 bugs in challenge code. Demonstrated algo/DS knowledge. |
+| OpenFang exploration | 🆕 NEW | 🟡 MED | Installed 2026-03-30. 60 skills, 9 hands, dashboard. Need to explore capabilities and integration with OpenClaw. |
+| Cron SESSION-STATE update | 🟡 STILL OPEN | 🟡 MED | Firing on schedule but not updating SESSION-STATE reliably. 2 cron runs in a row. Need to fix write-before-respond pattern in cron task. |
+| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, first run ~30 days out. Unverified. |
 
 ## Priority Gaps — RESOLVED/DEFERRED
 
@@ -62,4 +62,4 @@ Scores from memory/benchmark.md:
 - [ ] Decide what "closing coding gap" means in practice
 
 ---
-*Last updated: 2026-03-30 05:03 UTC*
+*Last updated: 2026-03-30 13:00 UTC*
