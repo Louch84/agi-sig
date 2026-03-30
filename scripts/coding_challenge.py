@@ -309,6 +309,9 @@ def challenge_8_trie():
         t.insert("app"),
         t.search("app") == True,
     ]
+    # DEBUG
+    import sys as _sys
+    print(f"DEBUG checks={checks} types={[type(c) for c in checks]}", file=_sys.stderr)
     return f"Trie: {sum(checks)}/{len(checks)} passed", sum(checks), len(checks)
 
 
