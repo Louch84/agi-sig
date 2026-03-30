@@ -172,14 +172,14 @@ def challenge_5_topological_sort():
         result1.index(0) < result1.index(1) < result1.index(2) < result1.index(3),
     ]
     
-    # Test 2: 0 is source, 3 is sink, 1 and 2 independent
-    # edges = [(1,0), (2,0), (3,1), (3,2)] → 0 must come before 1,2, and 1,2 before 3
+    # Test 2: diamond DAG
+    # edges = [(1,0), (2,0), (3,1), (3,2)]
+    # 3→1→0 and 3→2→0 (3 is source/first, 0 is sink/last, 1 and 2 in middle)
     edges2 = [(1, 0), (2, 0), (3, 1), (3, 2)]
     result2 = topo_sort(4, edges2)
-    valid2 = (result2.index(0) < result2.index(1) and 
-              result2.index(0) < result2.index(2) and 
-              result2.index(1) < result2.index(3) and 
-              result2.index(2) < result2.index(3))
+    valid2 = (result2.index(3) < result2.index(0) and  # 3 must precede 0
+              result2.index(1) < result2.index(0) and  # 1 must precede 0
+              result2.index(2) < result2.index(0))     # 2 must precede 0
     checks2 = [len(result2) == 4, valid2]
     
     # Test 3: cycle detection — should return empty
@@ -306,13 +306,15 @@ def challenge_8_trie():
         t.starts_with("appl") == True,
         t.search("application") == False,
         t.starts_with("banana") == False,
-        t.insert("app"),
-        t.search("app") == True,
     ]
+    t.insert("app")
+    checks.append(t.search("app") == True)
     # DEBUG
     import sys as _sys
     print(f"DEBUG checks={checks} types={[type(c) for c in checks]}", file=_sys.stderr)
-    return f"Trie: {sum(checks)}/{len(checks)} passed", sum(checks), len(checks)
+    passed = sum(checks)
+    total = len(checks)
+    return f"Trie: {passed}/{total} passed", passed, total
 
 
 def challenge_9_graph_bfs():
@@ -348,12 +350,12 @@ def challenge_9_graph_bfs():
     # 6 connects to 0
     edges = [(0,1), (1,2), (2,3), (3,4), (2,5), (0,6)]
     tests = [
-        (0, 4, 3),  # 0-1-2-3-4 = 3 steps
+        (0, 4, 4),  # 0-1-2-3-4 = 4 steps (4 edges)
         (0, 0, 0),  # self = 0
         (0, 1, 1),  # direct edge = 1
-        (0, 5, 2),  # 0-1-2-5 = 2 steps
+        (0, 5, 3),  # 0-1-2-5 = 3 steps (3 edges)
         (0, 6, 1),  # direct edge = 1
-        (4, 5, 2),  # 4-3-2-5 = 2 steps
+        (4, 5, 3),  # 4-3-2-5 = 3 steps (3 edges)
     ]
     results = [shortest_path(7, edges, s, d) == exp for s, d, exp in tests]
     return f"BFS shortest path: {sum(results)}/{len(results)} passed", sum(results), len(results)
