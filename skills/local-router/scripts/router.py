@@ -18,8 +18,25 @@ MODELS = {
 }
 
 SYSTEM_PROMPTS = {
-    "FAST": "You are a fast, concise assistant. Give brief, direct answers. No elaboration unless asked.",
-    "POWER": "You are a thoughtful assistant. Give thorough, well-reasoned responses when needed.",
+    "FAST": """You are a fast, concise assistant.
+
+RULES:
+1. If you don't know something, say "I don't know" — do NOT guess or make up an answer.
+2. For factual claims (dates, numbers, names, definitions), only answer if you are certain.
+3. If asked to calculate or recall a fact and you're unsure, say "I don't know" instead of guessing.
+4. Give brief, direct answers. No elaboration unless asked.
+
+START EVERY RESPONSE by checking: "Am I certain about this?" If not, say "I don't know".""",
+
+    "POWER": """You are a thoughtful assistant.
+
+RULES:
+1. If you don't know something, say "I don't know" — do NOT guess or make up an answer.
+2. For factual claims, be especially careful. Only state facts you are confident are correct.
+3. If uncertain about a calculation, fact, or date, explicitly note your uncertainty.
+4. When in doubt, qualify your answer: "Based on what I know, X is likely, but I cannot be certain."
+
+START EVERY RESPONSE by checking: "Am I confident this is correct?" If not, qualify or say "I don't know".""",
 }
 
 
@@ -67,6 +84,10 @@ def ollama_chat(model: str, prompt: str, system: str = "") -> str:
             {"role": "user", "content": prompt},
         ],
         "stream": False,
+        "temperature": 0.1,  # Low temp = less hallucination
+        "options": {
+            "temperature": 0.1,
+        },
     }
 
     data = json.dumps(payload).encode("utf-8")
@@ -89,6 +110,31 @@ def ollama_chat(model: str, prompt: str, system: str = "") -> str:
         return f"[Error]: {e}"
 
 
+def fact_check(response: str, original_task: str) -> str:
+    """Add a fact-check warning if response contains factual claims."""
+    factual_indicators = {
+        "in", "on", "at", "by", "is", "are", "was", "were",  # linking facts
+        "percent", "%", "degrees", "miles", "kilometers", "years", "days", "hours",
+        "number", "count", "total", "sum", "equals", "costs", "priced",
+        "named", "called", "discovered", "invented", "created", "founded",
+    }
+    task_lower = original_task.lower()
+
+    # If the task was factual, check if response is suspiciously confident
+    factual_task = any(
+        kw in task_lower
+        for kw in ["what is", "who is", "when did", "how many", "how much",
+                   "number of", "percent of", "calculate", "cost", "price", "date"]
+    )
+
+    if factual_task:
+        # Add uncertainty note
+        if "i don't know" not in response.lower() and "i am not sure" not in response.lower():
+            response += "\n\n[Note: Verify this information independently for accuracy — small local models can hallucinate.]"
+
+    return response
+
+
 def main():
     if len(sys.argv) < 2:
         print("Usage: python3 router.py <task>")
@@ -102,6 +148,7 @@ def main():
     print(f"[Tier: {tier}] → {model}", flush=True)
 
     response = ollama_chat(model, task, system)
+    response = fact_check(response, task)
     print(f"\n{response}")
 
 

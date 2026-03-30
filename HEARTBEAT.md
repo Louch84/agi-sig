@@ -75,6 +75,25 @@ cd /Users/sigbotti/.openclaw/workspace && git pull origin main
 - Vector memory: `python3 scripts/ollama_mem.py add "text" --category X --importance 0.9`
 - ArXiv: `python3 scripts/fetch_arxiv.py` (bypasses blogwatcher)
 
+## 🔍 Fact-Checking Rule (Research Workflow)
+
+**Before storing any factual claim in memory, verify it:**
+
+1. **Multi-source check** — if a claim seems important, check at least 2 sources
+2. **Cross-reference dates/numbers** — verify dates, statistics, percentages against another source
+3. **Flag uncertain info** — when storing a claim, note the confidence level:
+   - `HIGH` — verified across multiple sources
+   - `MEDIUM` — single source, seems plausible
+   - `LOW` — unverified, claim only, may need checking
+4. **Admit uncertainty** — if I can't verify a claim, say so in the memory entry
+
+**When storing research to vector memory:**
+```
+python3 scripts/ollama_mem.py add "Claim: X [MEDIUM] — source: Y" --category research --importance 0.7
+```
+
+**Local model outputs:** Always apply fact-check note to local model responses (see local-router skill).
+
 ## Backup System (Multiple Layers)
 
 **Layer 1 — System-level LaunchAgent (boot + every hour):**
