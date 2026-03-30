@@ -47,9 +47,16 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - `self-track` — self-improvement tracking, published to ClawHub@1.0.0
 
 ## State
-- Last full self-review: 2026-03-30 ✅ (today)
+- Last full self-review: 2026-03-30 ✅ (today, 1:03 AM ET)
 - GitHub: connected as Louch84 ✅
 - ClawHub: logged in as @Louch84 ✅
+
+## Self-Review Learnings (2026-03-30)
+- **MAJOR: Coding gap CLOSED** — 4/5, 55/55 tests passed (100%), S-grade. Fixed 3 bugs in challenge code. Demonstrated algo/DS knowledge. Benchmark updated 2026-03-30.
+- Average benchmark score now 3.1/5 (was 3.0/5)
+- Cron self-review fires on schedule and runs benchmark, but SESSION-STATE update is inconsistent — needs fix
+- OpenFang installed alongside OpenClaw — new tooling to explore (60 skills, 9 hands, dashboard)
+- Still open: self-evaluation periodic tests verification, cron output capture consistency
 
 ## Self-Review Learnings (2026-03-29)
 - Found discipline gap: no 2026-03-28 daily log created (should have daily logs regardless of activity)

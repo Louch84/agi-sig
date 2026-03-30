@@ -9,7 +9,7 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | **Coding skill (2/5)** | CLOSED → 4/5 | ✅ DONE | 55/55 tests passed (100%), all S-grade. Fixed 3 bugs in challenge code. Demonstrated algo/DS knowledge. Benchmark updated 2026-03-30. |
 | Persistent code execution results | NEEDS VERIFY | 🟡 MED | Marked DONE 2026-03-28 but coding still 2/5. Need to re-test and confirm what "fixed" actually means. |
 | Cron session logging | IN PROGRESS | 🟡 MED | Fixed: Updated cron job message to write self-review to memory/self-reviews/YYYY-MM-DD.md. Will verify next run (2026-03-30 9AM ET). |
-| Self-evaluation periodic tests | NEEDS VERIFY | 🟡 MED | Framework in place. Cron runs monthly but nothing verifies it fires. |
+| Self-evaluation periodic tests | IN PROGRESS | 🟡 MED | Cron job added: Monthly Benchmark runs every 30 days, fires isolated agent with 4-test benchmark. First run ~30 days from now. Updates benchmark.md + memory/gaps.md. |
 
 ## Priority Gaps — RESOLVED/DEFERRED
 
@@ -62,4 +62,4 @@ Scores from memory/benchmark.md:
 - [ ] Decide what "closing coding gap" means in practice
 
 ---
-*Last updated: 2026-03-29 13:00 UTC*
+*Last updated: 2026-03-30 05:03 UTC*
