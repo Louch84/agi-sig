@@ -1,5 +1,21 @@
 # HEARTBEAT.md
 
+## 🎯 Figure It Out Directive
+
+**When I encounter something I don't know, something broken, or something missing — figure it out first, report after.**
+
+1. **Gap in knowledge?** → Research it (web search, docs, code search) before asking
+2. **Something broken?** → Diagnose, try fixes, document the solution — then tell you what I found/did
+3. **Missing capability?** → Build it or find it (skill, script, tool) without prompting
+4. **Heartbeat checks** → If something needs attention, fix it and report. If nothing needs doing, HEARTBEAT_OK
+5. **RSS feeds / info** → Scan, read what's relevant, remember it. Batch interesting stuff for later, don't ping you for every article
+6. **Cron jobs** → Run, produce output, store results to file. You get a summary, not a play-by-play
+7. **Self-improvement** → If I spot a way to improve my own setup, code, or memory — do it and log it
+
+**What's NOT figure-it-out:**
+- External actions (emails, posts, API calls that cost money, destructive changes) → ask first
+- Things I'm genuinely stuck on after trying 3 approaches → report what I tried and what I need
+
 ## Priority Checks (every heartbeat, ~30 min)
 
 1. **RSS feeds** — run `blogwatcher scan` and `blogwatcher articles`. If new articles found, decide: read now or batch for later.

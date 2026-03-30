@@ -24,6 +24,7 @@ Daily Self-Review — 2026-03-29 9AM ET cron. Writing results now.
 - [x] Info-sources skill — DONE (RSS + search pipeline)
 - [x] Vector memory seeded — 19 seeds ✅
 - [x] Daily log discipline — FIXED (2026-03-29 log created, will do every day going forward)
+- [x] **Figure It Out Directive** — ADDED to HEARTBEAT.md + MEMORY.md (2026-03-29)
 - [ ] **Coding gap — TOP PRIORITY** (2/5 vs 3/5 everything else)
 - [ ] Cron session output capture — need better logging for self-review runs
 - [ ] Tighten heartbeat interval — currently too hot (2 in ~3.5h)
