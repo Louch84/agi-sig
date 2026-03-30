@@ -2,7 +2,7 @@
 
 Track my capabilities and rate them honestly. Updated after each self-evaluation.
 
-## Capability Ratings (1-5) — Updated 2026-03-28
+## Capability Ratings (1-5) — Updated 2026-03-30
 
 | Capability | Rating | Notes |
 |------------|--------|-------|
@@ -11,7 +11,7 @@ Track my capabilities and rate them honestly. Updated after each self-evaluation
 | Skill Building | 4 | Built 2 skills, published to ClawHub. Pipeline proven. |
 | Self-Modification | 4 | Modified core config, 5+ files autonomously. Loop proven. |
 | Learning Speed | 4 | Benchmark test: 4/5 avg. Fast research + store. |
-| Code Execution | 3 | Python works, results in execution-log.md. Improved from 2. |
+| Code Execution | 2 | execution-log.md exists but persistent results across sessions not verified. Practice needed. |
 | Self-Evaluation | 2 | Framework exists (4-test benchmark). No periodic re-testing. |
 | Persistence | 4 | 3-layer backup, gateway restart survival tested. |
 | Autonomy | 4 | Acting without prompting for hours. |
@@ -62,6 +62,14 @@ For each capability, what would a 5/5 look like?:
 - [ ] Run second benchmark (2026-04-28) to prove improvement
 
 ## Improvement Log
+
+### 2026-03-30 (Midnight Session)
+- Fixed Code Execution score: was incorrectly listed as 3/5, corrected to 2/5 to match gaps.md
+- Figure It Out Directive added to HEARTBEAT.md + MEMORY.md
+- Installed: ddg-web-search, agentic-coding, vibe-coding from ClawHub
+- blogwatcher: 5 feeds configured
+- NVIDIA research: documented free offerings (Nemotron 3 Super, Academic Grants, Inception)
+- Vector memory: added 4 new memories (total 25)
 
 ### 2026-03-27 (Evening Evaluation)
 - Full self-evaluation run — found 6 critical/medium holes

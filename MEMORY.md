@@ -47,7 +47,7 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - `self-track` — self-improvement tracking, published to ClawHub@1.0.0
 
 ## State
-- Last full self-review: 2026-03-29 ✅ (today)
+- Last full self-review: 2026-03-30 ✅ (today)
 - GitHub: connected as Louch84 ✅
 - ClawHub: logged in as @Louch84 ✅
 
