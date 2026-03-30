@@ -27,7 +27,7 @@ Daily Self-Review — 2026-03-30 9:00 AM ET cron. Completed. Files updated.
 - [x] Daily log discipline — FIXED (logs for 2026-03-26, 28, 29, 30)
 - [x] **Figure It Out Directive** — ADDED to HEARTBEAT.md + MEMORY.md
 - [x] **Coding gap — TOP PRIORITY** — CLOSED (4/5, 55/55 tests passed)
-- [ ] Explore OpenFang capabilities (NEW PRIORITY — installed, not yet explored)
+- [x] OpenFang explored — running, 9 hands, 60 skills, MCP GitHub connected
 - [ ] Fix cron SESSION-STATE update (fires but doesn't write state — 2 runs in a row)
 - [ ] Self-evaluation monthly cron verification (~30 days to first run)
 
