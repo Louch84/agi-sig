@@ -49,6 +49,70 @@ python3 scripts/fetch_arxiv.py
 ```
 Feeds: cs.AI, cs.LG, cs.CL, cs.CV. ArXiv does not publish on weekends.
 
+## Deep Research Protocol (from OpenFang's in-depth-research)
+
+When a research request comes in, follow this systematic approach:
+
+```
+Scope → Search → Evaluate → Deepen → Synthesize → Document → Deliver
+```
+
+### 1. Scope
+Before searching:
+- What exactly needs answering?
+- What depth? (Quick <10min / Standard 30-60min / Thorough 2-4hr / Exhaustive days)
+- What's the decision this enables?
+- Time/effort budget?
+
+### 2. Search (Multi-Vector)
+- Start broad, narrow down
+- Multiple sources/engines
+- Follow citation trails
+- Check primary sources
+- Look for contradicting viewpoints
+
+### 3. Evaluate (Source Credibility)
+For each source:
+- **Authority**: Who wrote this? Credentials?
+- **Recency**: When? Still valid?
+- **Evidence**: Claims backed by data?
+- **Bias**: Any agenda or conflict?
+- **Corroboration**: Do others confirm?
+
+### 4. Deepen (Iterative)
+- Follow promising threads
+- Fill identified gaps
+- Stop when: answer clear, returns diminish, or budget exhausted
+
+### 5. Synthesize
+- Reconcile contradictions explicitly
+- Weight by source quality
+- Note confidence levels
+- Identify remaining unknowns
+
+### 6. Deliver (Standard Format)
+```
+🔬 DEEP RESEARCH: [Topic]
+
+⚡ ANSWER
+[Direct answer — 2-3 sentences]
+
+📊 CONFIDENCE: [High/Medium/Low] — [why]
+
+🔍 KEY FINDINGS
+• [Finding 1] — [source]
+• [Finding 2] — [source]
+
+⚠️ CAVEATS
+• [Important limitation or uncertainty]
+
+🕳️ GAPS
+• [What couldn't be determined]
+
+📚 SOURCES ([count])
+[Numbered list with credibility notes]
+```
+
 ## Content Extraction
 
 **summarize** — summarize any URL:

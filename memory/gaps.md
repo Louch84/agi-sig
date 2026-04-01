@@ -7,7 +7,7 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
 | **Coding skill (2/5)** | ✅ CLOSED → 4/5 | DONE | 55/55 tests passed (100%), S-grade. Fixed 3 bugs in challenge code. |
-| OpenFang exploration | 🔴 DAY 3 STILL OPEN | 🔴 HIGH | Installed 2026-03-30. 60 skills, 9 hands, MCP GitHub. **3 DAYS deferred.** Dashboard at port 50051. Must explore today. |
+| OpenFang exploration | ✅ EXPLORED (2026-04-01) | 🟡 MED | v0.5.1 on port 50051. 5 agents running. 9 hands (browser, collector, researcher, predictor, etc). 22 skills. Hands need target config. Incorporated better research methodology into info-sources. OpenFang is separate runtime. |
 | Cron SESSION-STATE update | 🟡 DIAGNOSED (day 3) | 🟡 MED | Isolated cron fires but doesn't write state. **NEW: Interactive heartbeats work fine** — issue is isolated session I/O sandboxing, not general file permission. Try temp file + move pattern. |
 | Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~27 days to first run. Unverified. |
 
