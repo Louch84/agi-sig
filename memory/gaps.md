@@ -63,3 +63,5 @@ Scores from memory/benchmark.md:
 
 ---
 *Last updated: 2026-03-30 13:00 UTC*
+
+| OpenFang reporting to Discord | ✅ DONE (2026-04-01) | 🟡 MED | Hands configured with targets. Cron added: OpenFang Daily Report fires 8AM ET, runs openfang_report.py, announces to Discord channel. |
