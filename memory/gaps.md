@@ -7,9 +7,9 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
 | **Coding skill (2/5)** | ✅ CLOSED → 4/5 | DONE | 55/55 tests passed (100%), S-grade. Fixed 3 bugs in challenge code. |
-| OpenFang exploration | 🔴 DAY 2 STILL OPEN | 🟡 MED | Installed 2026-03-30. 60 skills, 9 hands, MCP GitHub. NOT YET EXPLORED. Try dashboard at port 50051. |
-| Cron SESSION-STATE update | 🔴 STILL OPEN (day 2) | 🟡 MED | Isolated cron fires but doesn't write state. Write-before-respond pattern failing. Need different I/O approach. |
-| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~28 days to first run. Unverified. |
+| OpenFang exploration | 🔴 DAY 3 STILL OPEN | 🔴 HIGH | Installed 2026-03-30. 60 skills, 9 hands, MCP GitHub. **3 DAYS deferred.** Dashboard at port 50051. Must explore today. |
+| Cron SESSION-STATE update | 🟡 DIAGNOSED (day 3) | 🟡 MED | Isolated cron fires but doesn't write state. **NEW: Interactive heartbeats work fine** — issue is isolated session I/O sandboxing, not general file permission. Try temp file + move pattern. |
+| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~27 days to first run. Unverified. |
 
 ## Priority Gaps — RESOLVED/DEFERRED
 
