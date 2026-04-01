@@ -1,92 +1,83 @@
 #!/usr/bin/env python3
 """
-Local Router v2 — Tiered LLM routing combining FREE (Ollama) + CLOUD (model-hierarchy).
+Local Router v3 — FREE local Ollama routing only.
+Routes tasks to the best FREE local Ollama model based on complexity.
 
 Usage:
-  python3 scripts/router.py "<task>" [--tier TIER]
-  TIER can be: free, tier1, tier2, tier3, auto (default)
+  python3 scripts/router.py "<task>" [--tier FAST|MODERATE|COMPLEX]
 """
 import sys
 import json
-import os
+import urllib.request
+import urllib.error
 
-# Configuration
 OLLAMA_BASE = "http://localhost:11434"
 
-# Model tiers (from model-hierarchy)
+# FREE models only — no cloud, no cost
 TIERS = {
-    "FREE": {
-        "llama3.2:1b": {"type": "ollama", "cost": 0},
-        "llama3:latest": {"type": "ollama", "cost": 0},
+    "FAST": {
+        "model": "llama3.2:1b",
+        "system": """You are a fast, concise Q&A assistant. Give brief, direct answers. No elaboration unless asked.
+RULES:
+1. If you don't know something, say "I don't know" — do NOT guess.
+2. For factual claims, only answer if you are certain.
+3. For calculations, verify your math.""",
     },
-    "TIER1": {
-        "deepseek-v3": {"type": "openrouter", "cost_input": 0.14, "cost_output": 0.28},
-        "gpt-4o-mini": {"type": "openrouter", "cost_input": 0.15, "cost_output": 0.60},
-        "claude-haiku": {"type": "openrouter", "cost_input": 0.25, "cost_output": 1.25},
-        "gemini-flash": {"type": "openrouter", "cost_input": 0.075, "cost_output": 0.30},
-        "kimi-k2.5": {"type": "openrouter", "cost_input": 0.45, "cost_output": 2.25},
+    "MODERATE": {
+        "model": "llama3:latest",
+        "system": """You are a helpful assistant. Be thorough when needed, concise when not.
+RULES:
+1. If you don't know something, say "I don't know" — do NOT guess.
+2. For factual claims, be careful. Only state facts you are confident are correct.
+3. When uncertain, qualify your answer or say "I don't know".""",
     },
-    "TIER2": {
-        "claude-sonnet": {"type": "openrouter", "cost_input": 3.00, "cost_output": 15.00},
-        "gpt-4o": {"type": "openrouter", "cost_input": 2.50, "cost_output": 10.00},
-        "gemini-pro": {"type": "openrouter", "cost_input": 1.25, "cost_output": 5.00},
+    "COMPLEX": {
+        "model": "qwen3-coder:30b",
+        "system": """You are an expert programmer and problem solver. Think step by step.
+RULES:
+1. Break down complex problems into steps.
+2. State assumptions clearly.
+3. Note confidence levels and alternatives.
+4. For code: write clean, efficient, well-documented code.""",
     },
-    "TIER3": {
-        "claude-opus": {"type": "openrouter", "cost_input": 15.00, "cost_output": 75.00},
-        "o1": {"type": "openrouter", "cost_input": 15.00, "cost_output": 60.00},
-        "o3-mini": {"type": "openrouter", "cost_input": 1.10, "cost_output": 4.40},
-    },
-}
-
-SYSTEM_PROMPTS = {
-    "FREE": """You are a fast, concise assistant. Give brief, direct answers. No elaboration unless asked.
-RULES: If uncertain, say "I don't know". For factual questions, only answer if certain.""",
-
-    "TIER1": """You are a helpful assistant. Be thorough when needed, concise when not.
-RULES: If uncertain, say "I don't know" or qualify your uncertainty. Do not guess.""",
-
-    "TIER2": """You are an expert assistant. Give thorough, well-reasoned responses.
-RULES: State confidence level. Note if you're uncertain. Provide nuance when appropriate.""",
-
-    "TIER3": """You are an expert at complex reasoning and problem-solving. Think step by step.
-RULES: Break down complex problems. State assumptions clearly. Note confidence and alternatives.""",
 }
 
 
 def classify_task(task: str) -> str:
-    """Classify task into ROUTINE, MODERATE, or COMPLEX."""
+    """Classify task into FAST, MODERATE, or COMPLEX."""
     task_lower = task.lower()
     words = set(task_lower.replace("?", " ").replace(".", " ").split())
 
-    # Order matters! Check in specificity order:
-
-    # Has code/programming signals → MODERATE (not routine even if it looks simple)
-    coding_signals = {
-        "code", "programming", "function", "script", "algorithm",
-        "bug", "fix", "refactor", "optimize", "class", "method",
-        "api", "database", "sql", "git", "terminal", "python", "javascript",
-    }
-    if any(sig in words or sig in task_lower for sig in coding_signals):
-        return "MODERATE"
-
-    # MODERATE signals (before routine — "write" could match routine otherwise)
-    moderate_signals = {
-        "write", "summarize", "analyze", "compare", "evaluate",
-        "research", "explain", "review", "generate", "create",
-        "build", "develop", "design", "plan", "implement",
-    }
-    if any(sig in words or sig in task_lower for sig in moderate_signals):
-        return "MODERATE"
-
-    # COMPLEX signals → TIER3
+    # COMPLEX signals → qwen3-coder:30b
     complex_signals = {
         "debug", "architect", "design", "security", "why", "explain why",
         "complex", "difficult", "hard", "novel", "ambiguous",
+        "refactor", "optimize performance", "scalability",
+        "multi-step", "distributed", "concurrent",
     }
     if any(sig in words or sig in task_lower for sig in complex_signals):
         return "COMPLEX"
 
-    # ROUTINE signals → FREE (most specific, lowest tier)
+    # Has coding/programming signals → MODERATE (llama3)
+    coding_signals = {
+        "code", "programming", "function", "script", "algorithm",
+        "bug", "fix", "class", "method", "api", "database", "sql",
+        "git", "terminal", "python", "javascript", "java", "rust",
+        "write code", "generate code", "implement",
+    }
+    if any(sig in words or sig in task_lower for sig in coding_signals):
+        return "MODERATE"
+
+    # MODERATE signals → llama3
+    moderate_signals = {
+        "write", "summarize", "analyze", "compare", "evaluate",
+        "research", "explain", "review", "generate", "create",
+        "build", "develop", "plan", "implement",
+    }
+    if any(sig in words or sig in task_lower for sig in moderate_signals):
+        return "MODERATE"
+
+    # FAST signals → llama3.2:1b
     routine_signals = {
         "hi", "hey", "hello", "goodbye", "thanks",
         "what is", "who is", "when did", "where is", "how many",
@@ -97,49 +88,14 @@ def classify_task(task: str) -> str:
         "check", "status", "fetch", "format", "list",
     }
     if any(sig in words or sig in task_lower for sig in routine_signals):
-        return "ROUTINE"
+        return "FAST"
 
-    # Default: ROUTINE (use free)
-    return "ROUTINE"
-
-
-def select_tier(classification: str, has_vision: bool = False, force_tier: str = None) -> str:
-    """Select the tier based on classification and constraints."""
-    if force_tier and force_tier != "auto":
-        return force_tier
-
-    if classification == "ROUTINE":
-        return "FREE"
-    elif classification == "MODERATE":
-        if has_vision:
-            return "TIER2"  # Need vision-capable
-        return "TIER1"
-    else:  # COMPLEX
-        return "TIER3"
-
-
-def select_model(tier: str, has_vision: bool = False) -> str:
-    """Select the best model for the tier and requirements."""
-    models = list(TIERS[tier].keys())
-
-    # For vision tasks, prefer multimodal models
-    if has_vision and tier in ("TIER1", "TIER2"):
-        vision_preferred = {
-            "TIER1": "kimi-k2.5",
-            "TIER2": "gpt-4o",
-        }
-        if vision_preferred.get(tier) in models:
-            return vision_preferred[tier]
-
-    # Default to first model in tier (best value)
-    return models[0]
+    # Default: FAST
+    return "FAST"
 
 
 def ollama_chat(model: str, prompt: str, system: str = "") -> str:
     """Call Ollama /api/chat endpoint."""
-    import urllib.request
-    import urllib.error
-
     payload = {
         "model": model,
         "messages": [
@@ -162,61 +118,12 @@ def ollama_chat(model: str, prompt: str, system: str = "") -> str:
         with urllib.request.urlopen(req, timeout=120) as resp:
             result = json.loads(resp.read().decode("utf-8"))
             return result["message"]["content"]
-    except Exception as e:
-        return f"[Ollama Error]: {e}"
-
-
-def openrouter_chat(model: str, prompt: str, system: str = "") -> str:
-    """Call OpenRouter API."""
-    import urllib.request
-    import urllib.error
-
-    api_key = os.environ.get("OPENROUTER_API_KEY", "")
-    if not api_key:
-        return "[OpenRouter Error]: OPENROUTER_API_KEY not set"
-
-    payload = {
-        "model": model,
-        "messages": [
-            {"role": "system", "content": system},
-            {"role": "user", "content": prompt},
-        ],
-        "stream": False,
-    }
-
-    data = json.dumps(payload).encode("utf-8")
-    req = urllib.request.Request(
-        "https://openrouter.ai/api/v1/chat/completions",
-        data=data,
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}",
-        },
-        method="POST",
-    )
-
-    try:
-        with urllib.request.urlopen(req, timeout=120) as resp:
-            result = json.loads(resp.read().decode("utf-8"))
-            return result["choices"][0]["message"]["content"]
     except urllib.error.HTTPError as e:
-        body = e.read().decode("utf-8") if e.fp else str(e)
-        return f"[OpenRouter HTTP {e.code}]: {body[:200]}"
+        return f"[HTTP Error {e.code}]: {e.reason}"
+    except urllib.error.URLError as e:
+        return f"[Connection Error]: {e.reason}"
     except Exception as e:
-        return f"[OpenRouter Error]: {e}"
-
-
-def estimate_cost(tier: str, input_tokens: int, output_tokens: int) -> float:
-    """Estimate cost in cents."""
-    if tier == "FREE":
-        return 0.0
-    models = TIERS[tier]
-    model_key = list(models.keys())[0]
-    info = models[model_key]
-    if info["type"] == "ollama":
-        return 0.0
-    cost = (input_tokens * info["cost_input"] + output_tokens * info["cost_output"]) / 100
-    return cost
+        return f"[Error]: {e}"
 
 
 def main():
@@ -234,37 +141,24 @@ def main():
             i += 1
 
     if not task:
-        print("Usage: python3 router.py <task> [--tier TIER]")
-        print("TIER: free, tier1, tier2, tier3, auto (default)")
+        print("Usage: python3 router.py <task> [--tier FAST|MODERATE|COMPLEX]")
+        print("Default: auto-classify based on task complexity")
         sys.exit(1)
 
-    # Detect vision requirement
-    has_vision = any(kw in task.lower() for kw in ["image", "screenshot", "photo", "picture", "vision", "visual"])
-
-    # Classify and select tier
-    classification = classify_task(task)
-    tier = select_tier(classification, has_vision, force_tier)
-    model = select_model(tier, has_vision)
-    model_info = TIERS[tier][model]
-    model_type = model_info["type"]
-
-    # Get cost estimate
-    est_cost = estimate_cost(tier, 500, 200)  # rough estimate
-
-    print(f"[{classification}] → {tier} → {model}", flush=True)
-    if est_cost > 0:
-        print(f"(~{est_cost:.3f}c estimated)", flush=True)
-    print(flush=True)
-
-    # Call the appropriate model
-    system = SYSTEM_PROMPTS.get(tier, SYSTEM_PROMPTS["TIER1"])
-
-    if model_type == "ollama":
-        response = ollama_chat(model, task, system)
+    # Classify or use forced tier
+    if force_tier and force_tier in TIERS:
+        tier = force_tier
     else:
-        response = openrouter_chat(model, task, system)
+        tier = classify_task(task)
 
-    print(response)
+    config = TIERS[tier]
+    model = config["model"]
+    system = config["system"]
+
+    print(f"[{tier}] → {model}", flush=True)
+
+    response = ollama_chat(model, task, system)
+    print(f"\n{response}")
 
 
 if __name__ == "__main__":
