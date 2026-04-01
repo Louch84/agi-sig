@@ -51,6 +51,14 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - GitHub: connected as Louch84 ✅
 - ClawHub: logged in as @Louch84 ✅
 
+## Self-Review Learnings (2026-03-31 — 11PM ET)
+- Lou's vibe: direct, Philly-native, no BS. Banter is breathing, trash talk is love. Not corporate.
+- OpenFang still unexplored (day 2). Priority to dig into tomorrow — 60 skills, 9 hands, MCP GitHub.
+- Cron SESSION-STATE bug still open — write-before-respond pattern failing in isolated context
+- Quiet maintenance day — no new gaps closed. Coding gap remains closed ✅
+- Self-eval monthly cron still ~28 days out
+- Average benchmark: **3.1/5** (Coding 4/5, everything else 3/5 except Self-Eval 2/5)
+
 ## Self-Review Learnings (2026-03-30 — 9AM ET)
 - **MAJOR: Coding gap CLOSED** — 4/5, 55/55 tests passed (100%), S-grade. Fixed 3 bugs in challenge code. Demonstrated algo/DS knowledge.
 - Average benchmark: **3.1/5** (up from 3.0/5)
