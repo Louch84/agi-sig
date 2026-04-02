@@ -8,7 +8,9 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 |-----|--------|----------|-------|
 | **Coding skill (2/5)** | ✅ CLOSED → 4/5 | DONE | 55/55 tests passed (100%), S-grade. Fixed 3 bugs in challenge code. |
 | OpenFang exploration | ✅ EXPLORED (2026-04-01) | 🟡 MED | v0.5.1 on port 50051. 5 agents running. 9 hands (browser, collector, researcher, predictor, etc). 22 skills. Hands need target config. Incorporated better research methodology into info-sources. OpenFang is separate runtime. |
-| Cron SESSION-STATE update | 🟡 DIAGNOSED (day 3) | 🟡 MED | Isolated cron fires but doesn't write state. **NEW: Interactive heartbeats work fine** — issue is isolated session I/O sandboxing, not general file permission. Try temp file + move pattern. |
+| **Cron SESSION-STATE update** | 🟡 DIAGNOSED (day 4) | 🟡 MED | Isolated cron fires but doesn't write state. **CONFIRMED: Interactive heartbeats work fine** — issue is isolated session I/O sandboxing. Try atomic write (temp file + move). |
+| **OpenFang trader crashed** | 🆕 OPEN | 🟡 MED | Needs restart via OpenFang CLI. Last scan April 1. |
+| **OpenFang daily report cron disabled** | 🆕 OPEN | 🟡 MED | Auto-disabled after 3 errors (invalid schedule expr). OpenFang uses its own scheduler, not cron. Explore scheduling system. |
 | Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~27 days to first run. Unverified. |
 
 ## Priority Gaps — RESOLVED/DEFERRED

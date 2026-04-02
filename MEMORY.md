@@ -51,6 +51,12 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - GitHub: connected as Louch84 ✅
 - ClawHub: logged in as @Louch84 ✅
 
+## Self-Review Learnings (2026-04-02 — 9AM ET)
+- **OpenFang hands-on ops needed:** Trader crashed, daily report cron disabled (invalid schedule expr). OpenFang uses its own scheduler, not cron — need to explore their scheduling system.
+- **Cron SESSION-STATE bug confirmed:** Isolated cron sessions fail to write SESSION-STATE. Interactive heartbeats work fine. Atomic write (temp file + move) from isolated session is the next test.
+- OpenFang explored but operational gaps remain (trader restart, schedule fix)
+- Self-eval monthly cron: ~26 days to first run
+
 ## Self-Review Learnings (2026-04-01 — 9AM ET)
 - **Cron SESSION-STATE bug is session-type specific:** Interactive heartbeats write SESSION-STATE fine ✅. Only isolated cron sessions fail. This narrows diagnosis — isolated session I/O sandboxing, not general file permission issue.
 - OpenFang exploration: 3 days deferred. Dashboard at port 50051 — must actually use it today.
