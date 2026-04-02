@@ -4,6 +4,7 @@ This file is the agent's "RAM" — survives compaction, restarts, distractions.
 Chat history is a BUFFER. This file is STORAGE.
 
 ## Current Task
+
 Daily self-review completed (2026-04-02 9AM ET). Files updated. Awaiting next heartbeat or user input.
 
 ## Key Context
@@ -23,7 +24,7 @@ Daily self-review completed (2026-04-02 9AM ET). Files updated. Awaiting next he
 - MCP GitHub integration
 - **Collector: ACTIVE** (39 entities, 51 sources, 5 cycles — major finds: Claude Code leak, OpenAI $122B round, $297B VC record)
 - **Researcher: IDLE**
-- **Trader: CRASHED** — needs restart
+- **Trader: ACTIVE** — confirmed via API at 11:35 AM (was transient crash, self-recovered)
 - **Daily Report cron: DISABLED** — invalid schedule expr, OpenFang uses its own scheduler
 
 ## Pending Actions
@@ -68,4 +69,4 @@ Daily self-review completed (2026-04-02 9AM ET). Files updated. Awaiting next he
 3. Continue passive info gathering
 
 ---
-*Last updated: 2026-04-02T13:00:00.000Z*
+*Last updated: 2026-04-02T15:35:00.000Z*
