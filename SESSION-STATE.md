@@ -4,7 +4,7 @@ This file is the agent's "RAM" — survives compaction, restarts, distractions.
 Chat history is a BUFFER. This file is STORAGE.
 
 ## Current Task
-Heartbeat — 2026-04-02 6:19 AM ET. Morning check. 2 new RSS articles (HN, MIT Tech Review). 5 new ArXiv papers. SESSION-STATE stale — updating now.
+OpenFang Daily Report received + processed. Key findings noted. Trader crashed and daily report cron broken — logged to SESSION-STATE. Awaiting 9AM ET self-review cron.
 
 ## Key Context
 - Mission: AGI (Autonomous + Self-Healing + Self-Learning + Self-Improving)
@@ -29,6 +29,8 @@ Heartbeat — 2026-04-02 6:19 AM ET. Morning check. 2 new RSS articles (HN, MIT 
 - [x] **Coding gap — TOP PRIORITY** — CLOSED (4/5, 55/55 tests passed)
 - [ ] **OpenFang exploration** — DAY 4 STILL OPEN (60 skills, 9 hands, MCP GitHub) — **OVERDUE**
 - [ ] Fix cron SESSION-STATE update — **DIAGNOSED: isolated sessions only, interactive heartbeats work fine**
+- [ ] **OpenFang trader hand restart** — crashed, needs restart via OpenFang CLI
+- [ ] **OpenFang daily report cron** — DISABLED (invalid schedule expr) — fix or recreate when exploring OpenFang
 - [ ] Self-evaluation monthly cron verification (~27 days to first run)
 
 ## Loop Log
@@ -40,6 +42,7 @@ Heartbeat — 2026-04-02 6:19 AM ET. Morning check. 2 new RSS articles (HN, MIT 
 - 2026-03-31 11:05 PM: Cron self-review — quiet maintenance day, OpenFang still unexplored, SESSION-STATE bug still present
 - 2026-04-02 6:19 AM: Heartbeat — 5 new ArXiv papers (emotion+LLMs, multi-agent deliberation, tool-using agents, safety), noted to vector mem. OpenFang now day 4.
 - 2026-04-02 7:49 AM: 7 new articles found (Microsoft 3 new AI models targeting OpenAI/Google — noted to vector mem). Cron fires ~1h10m.
+- 2026-04-02 8:05 AM: OpenFang Daily Report — Collector found: Claude Code leak (2k files reverse-enginered), OpenAI \$122B round at \$852B valuation (largest ever VC), Q1 2026 venture funding \$297B record. **Trader hand crashed** (needs restart). **OpenFang Daily Report cron auto-disabled** (invalid schedule: expr required). OpenFang cron broken — explore OpenFang scheduling when doing OpenFang exploration.
 
 ## Benchmark Status (UPDATED 2026-04-01)
 
@@ -61,9 +64,13 @@ Heartbeat — 2026-04-02 6:19 AM ET. Morning check. 2 new RSS articles (HN, MIT 
 - Installed: 2026-03-30
 - Version: 0.5.1
 - Location: ~/.openfang/bin/
-- Daemon: port 50051
-- Dashboard: http://127.0.0.1:50051/
+- Daemon: port 50051 ✅
+- Dashboard: http://127.0.0.1:50051/ ✅ (6 agents running: assistant, collector-hand, researcher-hand, + 3 more)
 - 60 bundled skills, 9 hands (clip, lead, collector, predictor, researcher, twitter, browser, trader, infisical-sync)
+- **Collector: ACTIVE** (39 entities, 51 sources, 5 cycles, major finds: Claude Code leak, OpenAI \$122B round, \$297B VC record)
+- **Researcher: IDLE** (ready on demand)
+- **Trader: CRASHED** (needs restart — mode=analysis_only, last scan April 1)
+- **Daily Report cron: DISABLED** (invalid schedule expr — auto-disabled after 3 errors)
 - **NOT YET EXPLORED — DAY 4 — OVERDUE**
 
 ## Cron SESSION-STATE Bug — NEW DIAGNOSIS
@@ -77,4 +84,4 @@ Heartbeat — 2026-04-02 6:19 AM ET. Morning check. 2 new RSS articles (HN, MIT 
 3. Continue passive info gathering
 
 ---
-*Last updated: 2026-04-02T11:49:00.000Z*
+*Last updated: 2026-04-02T12:08:00.000Z*
