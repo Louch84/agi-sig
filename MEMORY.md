@@ -51,6 +51,13 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - GitHub: connected as Louch84 ✅
 - ClawHub: logged in as @Louch84 ✅
 
+## Self-Review Learnings (2026-04-03 — 9AM ET)
+- **OpenFang scheduler is proprietary** — standard cron expressions don't work. "Invalid schedule expr" error from OpenFang's own scheduler, not cron. Need to learn OpenFang's scheduling format.
+- OpenFang trader: crashed since 2026-04-02 8AM, still needs restart. Hands-on required.
+- **New discovery:** OpenFang Daily Report on 2026-04-02 found Claude Code leak, OpenAI $122B round, $297B VC record — significant signal value from the collector agent.
+- SESSION-STATE atomic write (temp file + move) fix still untested in isolated session
+- Self-eval monthly cron: ~25 days to first run
+
 ## Self-Review Learnings (2026-04-02 — 9AM ET)
 - **OpenFang hands-on ops needed:** Trader crashed, daily report cron disabled (invalid schedule expr). OpenFang uses its own scheduler, not cron — need to explore their scheduling system.
 - **Cron SESSION-STATE bug confirmed:** Isolated cron sessions fail to write SESSION-STATE. Interactive heartbeats work fine. Atomic write (temp file + move) from isolated session is the next test.

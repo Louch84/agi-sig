@@ -9,8 +9,8 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | **Coding skill (2/5)** | ✅ CLOSED → 4/5 | DONE | 55/55 tests passed (100%), S-grade. Fixed 3 bugs in challenge code. |
 | OpenFang exploration | ✅ EXPLORED (2026-04-01) | 🟡 MED | v0.5.1 on port 50051. 5 agents running. 9 hands (browser, collector, researcher, predictor, etc). 22 skills. Hands need target config. Incorporated better research methodology into info-sources. OpenFang is separate runtime. |
 | **Cron SESSION-STATE update** | 🟡 DIAGNOSED (day 4) | 🟡 MED | Isolated cron fires but doesn't write state. **CONFIRMED: Interactive heartbeats work fine** — issue is isolated session I/O sandboxing. Try atomic write (temp file + move). |
-| **OpenFang trader crashed** | 🆕 OPEN | 🟡 MED | Needs restart via OpenFang CLI. Last scan April 1. |
-| **OpenFang daily report cron disabled** | 🆕 OPEN | 🟡 MED | Auto-disabled after 3 errors (invalid schedule expr). OpenFang uses its own scheduler, not cron. Explore scheduling system. |
+| **OpenFang trader crashed** | 🔴 STALE OPEN | 🟡 MED | Needs restart via OpenFang CLI. Crashed 2026-04-02 8AM, still crashed as of 2026-04-03. |
+| **OpenFang daily report schedule** | 🔴 STALE OPEN | 🟡 MED | OpenFang uses its own scheduler, not cron. Cron expressions don't work. Need to learn OpenFang scheduling format. |
 | Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~27 days to first run. Unverified. |
 
 ## Priority Gaps — RESOLVED/DEFERRED
@@ -64,6 +64,6 @@ Scores from memory/benchmark.md:
 - [ ] Decide what "closing coding gap" means in practice
 
 ---
-*Last updated: 2026-03-30 13:00 UTC*
+*Last updated: 2026-04-03 13:00 UTC*
 
 | OpenFang reporting to Discord | ✅ DONE (2026-04-01) | 🟡 MED | Hands configured with targets. Cron added: OpenFang Daily Report fires 8AM ET, runs openfang_report.py, announces to Discord channel. |
