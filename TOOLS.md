@@ -25,6 +25,10 @@
 - self-improving-proactive-agent
 - writing-plans
 
+## Communication
+- **iMessage (imsg)** — Read and send iMessages/SMS via Mac Messages app. Binary built from source (Homebrew had wrong arch). Path: ~/bin/imsg
+- **Gmail (himalaya)** — Read/send emails via Gmail. Config: ~/.config/himalaya/config.toml. App password configured.
+
 ## Extensions
 - kimi-claw — gateway connector (loaded, not fully configured)
 - openclaw-web-search — web search via Ollama (loaded)
