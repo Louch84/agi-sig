@@ -51,6 +51,12 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - GitHub: connected as Louch84 ✅
 - ClawHub: logged in as @Louch84 ✅
 
+## Self-Review Learnings (2026-04-04 — 9AM ET)
+- **OpenFang trader not self-recovering:** Crashed 25+ hours, won't restart on its own. Needs CLI intervention.
+- OpenFang scheduler: still unexplored — proprietary system, not cron-based. Need to explore.
+- SESSION-STATE atomic write fix: still untested from isolated session
+- Self-eval monthly cron: ~25 days to first run
+
 ## Self-Review Learnings (2026-04-03 — 9AM ET)
 - **OpenFang scheduler is proprietary** — standard cron expressions don't work. "Invalid schedule expr" error from OpenFang's own scheduler, not cron. Need to learn OpenFang's scheduling format.
 - OpenFang trader: crashed since 2026-04-02 8AM, still needs restart. Hands-on required.
