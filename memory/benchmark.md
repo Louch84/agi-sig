@@ -2,7 +2,7 @@
 
 Track my capabilities and rate them honestly. Updated after each self-evaluation.
 
-## Capability Ratings (1-5) — Updated 2026-03-30 (midnight)
+## Capability Ratings (1-5) — Updated 2026-04-04
 
 | Capability | Rating | Notes |
 |------------|--------|-------|

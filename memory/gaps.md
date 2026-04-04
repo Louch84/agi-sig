@@ -7,9 +7,11 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
 | **Coding skill (2/5)** | ✅ CLOSED → 4/5 | DONE | 55/55 tests passed (100%), S-grade. Fixed 3 bugs in challenge code. |
+| **OpenFang scheduler** | 🟡 UNEXPLORED | 🟡 MED | Native OpenFang scheduler system not yet explored. Cron expressions not supported. |
+
 | OpenFang exploration | ✅ EXPLORED (2026-04-01) | 🟡 MED | v0.5.1 on port 50051. 5 agents running. 9 hands (browser, collector, researcher, predictor, etc). 22 skills. Hands need target config. Incorporated better research methodology into info-sources. OpenFang is separate runtime. |
-| **Cron SESSION-STATE update** | 🟡 DIAGNOSED (day 4) | 🟡 MED | Isolated cron fires but doesn't write state. **CONFIRMED: Interactive heartbeats work fine** — issue is isolated session I/O sandboxing. Try atomic write (temp file + move). |
-| **OpenFang trader crashed** | 🔴 STALE OPEN | 🟡 MED | Crashed 2026-04-02 8AM, 25+ hours down. **NOT self-recovering** — needs CLI intervention. |
+| **Cron SESSION-STATE update** | ✅ CONFIRMED WORKING | 🟢 DONE | Self-reviews written daily 2026-03-30 through 2026-04-04. File output requirement working. |
+| **OpenFang trader** | ✅ RECOVERED | 🟢 DONE | Self-recovered by 2026-04-04. Hands running normally. |
 | **OpenFang scheduler** | 🟡 UNEXPLORED | 🟡 MED | OpenFang uses proprietary scheduler. Cron expressions invalid. Need to explore their native system. |
 | Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~27 days to first run. Unverified. |
 
