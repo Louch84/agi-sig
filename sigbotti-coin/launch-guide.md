@@ -27,7 +27,12 @@
 7. **Confirm the transaction**
 8. **Copy the contract address** once launched and share it
 
+## Social Accounts
+- TikTok: **@sigbotti**
+- X (Twitter): **@sigbotti**
+
 ## After Launch
 1. Share contract address — I'll add it to the lore
-2. Post the TikTok launch announcement (content ready in `tiktok-content.md`)
-3. Start posting daily sigma content
+2. Post TikTok launch announcement (content ready in `tiktok-content.md`)
+3. Post X launch announcement (same day, cross-post energy)
+4. Start posting daily on both platforms simultaneously
