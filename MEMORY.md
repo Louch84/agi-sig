@@ -47,9 +47,18 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - `self-track` — self-improvement tracking, published to ClawHub@1.0.0
 
 ## State
-- Last full self-review: 2026-03-30 ✅ (today, 1:03 AM ET)
+- Last full self-review: 2026-04-05 ✅ (today, 9AM ET)
 - GitHub: connected as Louch84 ✅
 - ClawHub: logged in as @Louch84 ✅
+
+## Self-Review Learnings (2026-04-05 — 9AM ET, Day 10)
+- **$SIGBOTTI coin launched** — Pump.fun (Solana), TikTok @sigbotti, X @sigbotti, lore + logo + content strategy built
+- **Scanner: news-driven beats static** — news filtering + gap/squeeze analysis > static RSI/MACD scans
+- **yfinance rate limiting is silent + brutal** — rapid calls return None silently, no error. 1s delay per ticker minimum. Wasted 2+ hours debugging.
+- **FFmpeg slideshow ≠ real AI video** — all "AI video gen" ClawHub skills require paid APIs (Vidu ~$50+, SGLang-Diffusion needs GPU). No free path to real AI video generation.
+- **OpenFang scheduler gap: CLOSED** — OpenFang cron fires correctly at 8AM ET, native cron expressions work fine
+- Sunday midnight ET scanner cron: fires tonight (stock market closed Sundays)
+- Self-eval monthly cron: ~24 days to first run
 
 ## Self-Review Learnings (2026-04-04 — 9AM ET)
 - **OpenFang trader not self-recovering:** Crashed 25+ hours, won't restart on its own. Needs CLI intervention.

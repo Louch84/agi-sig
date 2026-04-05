@@ -7,12 +7,11 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
 | **Coding skill (2/5)** | ✅ CLOSED → 4/5 | DONE | 55/55 tests passed (100%), S-grade. Fixed 3 bugs in challenge code. |
-| **OpenFang scheduler** | 🟡 UNEXPLORED | 🟡 MED | Native OpenFang scheduler system not yet explored. Cron expressions not supported. |
-
-| OpenFang exploration | ✅ EXPLORED (2026-04-01) | 🟡 MED | v0.5.1 on port 50051. 5 agents running. 9 hands (browser, collector, researcher, predictor, etc). 22 skills. Hands need target config. Incorporated better research methodology into info-sources. OpenFang is separate runtime. |
-| **Cron SESSION-STATE update** | ✅ CONFIRMED WORKING | 🟢 DONE | Self-reviews written daily 2026-03-30 through 2026-04-04. File output requirement working. |
-| **OpenFang trader** | ✅ RECOVERED | 🟢 DONE | Self-recovered by 2026-04-04. Hands running normally. |
-| **OpenFang scheduler** | 🟡 UNEXPLORED | 🟡 MED | OpenFang uses proprietary scheduler. Cron expressions invalid. Need to explore their native system. |
+| **OpenFang scheduler** | ✅ CLOSED (2026-04-05) | 🟢 DONE | OpenFang cron fires correctly at 8AM ET. Native cron expressions work fine. |
+| **Real AI video generation** | 🟡 DISCOVERED | 🟡 MED | No free path. Paid APIs (Vidu ~$50+, Runway/Pika trials). FFmpeg slideshow is free workaround. Need GPU + SGLang-Diffusion for local. |
+| OpenFang exploration | ✅ EXPLORED (2026-04-01) | 🟡 MED | v0.5.1 on port 50051. 5 agents running. 9 hands. 22 skills. Hands need target config. |
+| **Cron SESSION-STATE update** | ✅ CONFIRMED WORKING | 🟢 DONE | Self-reviews written daily 2026-03-30 through 2026-04-05. File output requirement working. |
+| OpenFang trader | 🟡 NEEDS VERIFICATION | 🟡 MED | SESSION-STATE says "RECOVERED" but was never explicitly verified after 2026-04-02 crash. |
 | Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~27 days to first run. Unverified. |
 
 ## Priority Gaps — RESOLVED/DEFERRED
