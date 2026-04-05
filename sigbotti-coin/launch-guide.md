@@ -3,6 +3,9 @@
 ## Your Wallet
 `Goh1dz2Xqt1gvXq6wJM5CkCeSFMvDfKRAMSLcma5fJLf`
 
+## Contract Address (LIVE)
+`398KX1y8K9fdhAqg3gdsfxSVdZwWSXijeWubVsUNpump`
+
 ## Token Metadata (Copy-Paste Ready)
 
 | Field | Value |
