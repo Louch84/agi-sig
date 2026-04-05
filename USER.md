@@ -1,6 +1,9 @@
 # USER.md - About Your Human
 
-- **Name:** Louch
+- **Real Name:** Luis Perez
+- **Phone:** (215) 284-8650
+- **Email:** LuchianoLaws@gmail.com
+- **PA Real Estate License:** RS349291
 - **What to call them:** Louch
 - **Pronouns:** _(unknown for now)_
 - **Timezone:** America/New_York (EDT)

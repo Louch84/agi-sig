@@ -82,6 +82,19 @@ def extract_deal_info(email_body):
     
     return info
 
+
+def match_deal_to_buyers(deal_info):
+    """Match a deal to buyers based on price, location, property type"""
+    import os
+    
+    buyer_file = "/Users/sigbotti/.openclaw/workspace/real-estate/BUYER-LIST.md"
+    if not os.path.exists(buyer_file):
+        return []
+    
+    # For now, return empty — Lou fills in buyer list
+    # Matching logic will be added when buyers are populated
+    return []
+
 def parse_subject_address(subject):
     """Parse address from email subject line"""
     # Format: "Available - 5810 Washington Ave, Philadelphia, PA 19143"
@@ -226,6 +239,13 @@ def main():
         if info.get('price'):
             filepath = generate_deal_sheet(info, body_output, email_id, subject)
             print(f"   ✅ Deal sheet created: {filepath}")
+            
+            # Auto-match to buyers
+            matches = match_deal_to_buyers(info)
+            if matches:
+                print(f"   🎯 BUYER MATCHES FOUND: {len(matches)}")
+                for buyer in matches:
+                    print(f"      → {buyer['name']} ({buyer['type']}) — {buyer['contact']}")
         else:
             print(f"   ⚠️ No price found — need to read email manually")
     
