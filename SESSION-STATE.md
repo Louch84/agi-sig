@@ -44,6 +44,17 @@ Active session with Lou (2026-04-04 ~9PM ET). $SIGBOTTI launched. Stock/news sca
 - Sunday cron: runs news scan + gap/squeeze analysis + posts top plays
 - Top plays found tonight: U (score 9), AMC (score 9), SNAP (score 11 gap)
 
+## Real Estate (PerfectPlace/New Western Deal Flow)
+- Location: ~/.openclaw/workspace/real-estate/
+- Model: Find buyers for New Western deals, earn $3-4K spread per deal
+- Scanner: new_deal_alert.py — runs daily 8AM ET, creates deal sheets automatically
+- Cron: PerfectPlace Deal Scanner — daily at 8AM ET, posts to Discord
+- Deal tracker: deal-tracker.md (14 properties, 2 matched so far)
+- Deal sheets: auto-generated in deals/ folder
+- Buyer outreach: BUYER_OUTREACH.md (templates ready)
+- Buyer intake: buyer_intake.md (form ready)
+- Next: Build buyer list (PropStream, REIA, BiggerPockets)
+
 ## Pending Actions
 - [x] Stock scanner built ✅
 - [x] News-to-scanner pipeline ✅
