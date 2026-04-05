@@ -1,0 +1,249 @@
+[
+  {
+    "symbol": "BB",
+    "price": 3.46,
+    "signal": "CALL",
+    "confidence": 4,
+    "rsi": 56.81819351744859,
+    "macd": 0.01816649339974722,
+    "mom5d": 6.461539635291458,
+    "reasons": [
+      "MACDcross",
+      "+5D:6.5%"
+    ]
+  },
+  {
+    "symbol": "T",
+    "price": 28.33,
+    "signal": "PUT",
+    "confidence": 3,
+    "rsi": 58.44875155995566,
+    "macd": -0.03046617092537829,
+    "mom5d": -2.040111172307779,
+    "reasons": [
+      "RSI 58>55"
+    ]
+  },
+  {
+    "symbol": "SLB",
+    "price": 49.44,
+    "signal": "PUT",
+    "confidence": 3,
+    "rsi": 64.01424395260624,
+    "macd": 0.26704572718454367,
+    "mom5d": -5.4865277599618345,
+    "reasons": [
+      "RSI 64>55",
+      "-5D:-5.5%"
+    ]
+  },
+  {
+    "symbol": "NKE",
+    "price": 44.19,
+    "signal": "PUT",
+    "confidence": 3,
+    "rsi": 21.98053740280929,
+    "macd": -0.6319773686088919,
+    "mom5d": -15.13347630938917,
+    "reasons": [
+      "-5D:-15.1%"
+    ]
+  },
+  {
+    "symbol": "ENPH",
+    "price": 34.92,
+    "signal": "PUT",
+    "confidence": 3,
+    "rsi": 31.19605253337899,
+    "macd": -0.7494651839103836,
+    "mom5d": -13.091095311795964,
+    "reasons": [
+      "-5D:-13.1%"
+    ]
+  },
+  {
+    "symbol": "DKNG",
+    "price": 23.16,
+    "signal": "CALL",
+    "confidence": 3,
+    "rsi": 34.84339580575342,
+    "macd": -0.07213874403112586,
+    "mom5d": 8.885751523143837,
+    "reasons": [
+      "RSI 35<45",
+      "+5D:8.9%"
+    ]
+  },
+  {
+    "symbol": "PENN",
+    "price": 14.77,
+    "signal": "CALL",
+    "confidence": 3,
+    "rsi": 54.914533006013656,
+    "macd": 0.03328741213649797,
+    "mom5d": 1.372688861555016,
+    "reasons": [
+      "MACDcross"
+    ]
+  },
+  {
+    "symbol": "NOK",
+    "price": 8.82,
+    "signal": "PUT",
+    "confidence": 3,
+    "rsi": 60.28369118118028,
+    "macd": -0.006296685323001622,
+    "mom5d": 6.5217388800477005,
+    "reasons": [
+      "RSI 60>55"
+    ]
+  },
+  {
+    "symbol": "SNAP",
+    "price": 4.63,
+    "signal": "CALL",
+    "confidence": 2,
+    "rsi": 51.44033313461842,
+    "macd": 0.06810757870525413,
+    "mom5d": 15.46134289702934,
+    "reasons": [
+      "+5D:15.5%"
+    ]
+  },
+  {
+    "symbol": "VZ",
+    "price": 49.4,
+    "signal": "CALL",
+    "confidence": 2,
+    "rsi": 32.32146396922634,
+    "macd": -0.2879568655312341,
+    "mom5d": -2.6409146792688465,
+    "reasons": [
+      "RSI 32<45"
+    ]
+  },
+  {
+    "symbol": "BAC",
+    "price": 49.38,
+    "signal": "PUT",
+    "confidence": 2,
+    "rsi": 68.67979702785429,
+    "macd": 0.3790132327533492,
+    "mom5d": 2.3631827321376475,
+    "reasons": [
+      "RSI 69>55"
+    ]
+  },
+  {
+    "symbol": "LCID",
+    "price": 9.96,
+    "signal": "PUT",
+    "confidence": 2,
+    "rsi": 50.688078260795386,
+    "macd": -0.04084271349315652,
+    "mom5d": 0.5045428002495855,
+    "reasons": []
+  },
+  {
+    "symbol": "DOCU",
+    "price": 48.37,
+    "signal": "CALL",
+    "confidence": 2,
+    "rsi": 54.954951084839735,
+    "macd": 0.17907314229355156,
+    "mom5d": 2.52225226581535,
+    "reasons": []
+  },
+  {
+    "symbol": "JD",
+    "price": 28.46,
+    "signal": "CALL",
+    "confidence": 2,
+    "rsi": 50.9803874427061,
+    "macd": 0.08413347779420949,
+    "mom5d": -2.4674476119707744,
+    "reasons": []
+  },
+  {
+    "symbol": "AAL",
+    "price": 10.84,
+    "signal": "PUT",
+    "confidence": 2,
+    "rsi": 58.181821859902854,
+    "macd": 0.13919373458612117,
+    "mom5d": 1.2138199250969484,
+    "reasons": [
+      "RSI 58>55"
+    ]
+  },
+  {
+    "symbol": "LUV",
+    "price": 37.6,
+    "signal": "PUT",
+    "confidence": 2,
+    "rsi": 45.81208112615074,
+    "macd": -0.006987667253445018,
+    "mom5d": -4.882368744687604,
+    "reasons": []
+  },
+  {
+    "symbol": "NCLH",
+    "price": 18.93,
+    "signal": "CALL",
+    "confidence": 2,
+    "rsi": 50.310556308162056,
+    "macd": 0.010884081147129132,
+    "mom5d": -4.634761000572974,
+    "reasons": [
+      "MACDcross"
+    ]
+  },
+  {
+    "symbol": "CCL",
+    "price": 25.64,
+    "signal": "PUT",
+    "confidence": 2,
+    "rsi": 57.805105810916274,
+    "macd": 0.31751492784537394,
+    "mom5d": 1.4240454637056477,
+    "reasons": [
+      "RSI 58>55"
+    ]
+  },
+  {
+    "symbol": "VICI",
+    "price": 27.66,
+    "signal": "CALL",
+    "confidence": 2,
+    "rsi": 46.67054096445019,
+    "macd": 0.015573545390110577,
+    "mom5d": 1.8409425729346562,
+    "reasons": [
+      "MACDcross"
+    ]
+  },
+  {
+    "symbol": "CZR",
+    "price": 26.53,
+    "signal": "CALL",
+    "confidence": 2,
+    "rsi": 35.70094190963087,
+    "macd": -0.2557072456020911,
+    "mom5d": -1.338782860447052,
+    "reasons": [
+      "RSI 36<45"
+    ]
+  },
+  {
+    "symbol": "AMC",
+    "price": 1.12,
+    "signal": "CALL",
+    "confidence": 2,
+    "rsi": 53.33332891817611,
+    "macd": 0.015380031225772361,
+    "mom5d": 15.463914611740282,
+    "reasons": [
+      "+5D:15.5%"
+    ]
+  }
+]
