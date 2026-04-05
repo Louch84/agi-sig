@@ -58,6 +58,22 @@ Daily self-review complete. $SIGBOTTI coin launched. Sunday — market closed. S
 ## Pending Actions
 - [x] Stock scanner built ✅
 - [x] News-to-scanner pipeline ✅
+- [x] Video content (sigbotti_v2.mp4, sigbotti_tiktok_v.mp4) ✅
+- [x] Sunday night scanner cron ✅
+- [x] Discord webhook URL — Lou said "set that up later"
+- [x] OpenFang trader restart
+- [ ] Runway/Pika video gen — explore free trials
+- [ ] Facebook Messenger automation — agent-browser installed, Lou installing on Mac
+
+## Real Estate Pipeline
+- PerfectPlace emails monitored via himalaya ✅
+- Deal tracker: ~/.openclaw/workspace/real-estate/deal-tracker.md
+- Buyer list: ~/.openclaw/workspace/real-estate/BUYER-LIST.md
+- Scanner cron: daily 8AM ET ✅
+- 2 deals in pipeline: 2318 E Clearfield ($125K), 5810 Washington ($139K)
+- Agent browser: Facebook automation in progress (Lou installing)
+- [x] Stock scanner built ✅
+- [x] News-to-scanner pipeline ✅
 - [x] Video content (FFmpeg slideshow workaround) ✅
 - [x] Sunday night scanner cron ✅
 - [x] $SIGBOTTI coin launched ✅ (Pump.fun, Solana, TikTok @sigbotti, X @sigbotti)
@@ -66,6 +82,18 @@ Daily self-review complete. $SIGBOTTI coin launched. Sunday — market closed. S
 - [ ] Runway/Pika paid trial for real video gen
 
 ## Loop Log
+- 2026-03-27: 3 autonomous loops, skills built & published, agi-sig merged
+- 2026-03-28: Cron ran (no trace)
+- 2026-03-29: Self-review, OpenFang installed late night
+- 2026-03-30 1:03 AM: Cron self-review — coding gap closed (4/5)
+- 2026-03-30 9:00 AM: Cron self-review — files updated
+- 2026-03-31 11:05 PM: Cron self-review — quiet, OpenFang explored
+- 2026-04-02 6:19 AM: Heartbeat — 5 new ArXiv papers noted
+- 2026-04-02 8:05 AM: OpenFang Daily Report — trader crashed
+- 2026-04-03: Daily self-review
+- 2026-04-04 9:00 AM: Daily self-review
+- **2026-04-04 night: MAJOR SESSION — $SIGBOTTI launched, scanner built, video created, PerfectPlace system built, resume sent**
+- 2026-04-05: Brief check-in, agent-browser installation for Facebook automation
 - 2026-03-27: 3 autonomous loops, skills built & published, agi-sig merged
 - 2026-03-28: Cron ran (no trace)
 - 2026-03-29: Self-review, OpenFang installed late night
