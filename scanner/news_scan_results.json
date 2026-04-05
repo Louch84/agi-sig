@@ -1,174 +1,120 @@
 {
   "gap_plays": [
     {
-      "symbol": "AMC",
-      "price": 1.1200000047683716,
-      "gap_pct": 8.737867561021847,
-      "gap_type": "GAP UP",
-      "atr_14": 0.07071426936558314,
-      "atr_compression": 0.919191845119402,
-      "range_width_pct": 24.107146373360727,
-      "consolidation_score": 0,
-      "vol_ratio": 1.5236102956377162,
-      "vol_building": true,
-      "gap_fill_score": 8,
-      "dist_from_ma20": 7.074570160121587,
-      "news": {
-        "title": "",
-        "pubDate": "",
-        "count": 10
-      }
-    },
-    {
-      "symbol": "NOK",
-      "price": 8.819999694824219,
-      "gap_pct": 6.6505345419203845,
-      "gap_type": "GAP UP",
-      "atr_14": 0.3835714544568743,
-      "atr_compression": 0.9815642069181875,
-      "range_width_pct": 14.512474536246112,
-      "consolidation_score": 2.743762731876944,
-      "vol_ratio": 1.592221692867702,
-      "vol_building": true,
-      "gap_fill_score": 8,
-      "dist_from_ma20": 7.810777423214778,
-      "news": {
-        "title": "",
-        "pubDate": "",
-        "count": 10
-      }
-    },
-    {
       "symbol": "SNAP",
       "price": 4.630000114440918,
       "gap_pct": -5.510203585134164,
-      "gap_type": "GAP DOWN",
-      "atr_14": 0.2635713815689087,
-      "atr_compression": 0.9959350012686583,
-      "range_width_pct": 32.181430045930846,
-      "consolidation_score": 0,
-      "vol_ratio": 1.2078561908947427,
-      "vol_building": true,
-      "gap_fill_score": 7,
-      "dist_from_ma20": 0.9704525237911533,
-      "news": {
-        "title": "",
-        "pubDate": "",
-        "count": 10
-      }
-    },
-    {
-      "symbol": "NFLX",
-      "price": 98.66000366210938,
-      "gap_pct": 3.2548409325187864,
-      "gap_type": "GAP UP",
-      "atr_14": 2.7407128470284596,
-      "atr_compression": 0.944461696919807,
-      "range_width_pct": 9.314812964618973,
-      "consolidation_score": 5.3425935176905135,
-      "vol_ratio": 0.9615370897212832,
-      "vol_building": false,
-      "gap_fill_score": 5,
-      "dist_from_ma20": 4.221800624968262,
-      "news": {
-        "title": "",
-        "pubDate": "",
-        "count": 10
-      }
-    },
-    {
-      "symbol": "INTC",
-      "price": 50.380001068115234,
-      "gap_pct": 4.892780238485698,
-      "gap_type": "GAP UP",
-      "atr_14": 2.9035712650844028,
-      "atr_compression": 0.9693236292684612,
-      "range_width_pct": 19.571259232449307,
-      "consolidation_score": 0.21437038377534634,
-      "vol_ratio": 1.2942578634284825,
-      "vol_building": true,
-      "gap_fill_score": 5,
-      "dist_from_ma20": 11.22763539548752,
-      "news": {
-        "title": "",
-        "pubDate": "",
-        "count": 10
-      }
-    }
-  ],
-  "squeeze_plays": [
-    {
-      "symbol": "SNAP",
-      "price": 4.630000114440918,
-      "short_pct_float": 8.63,
-      "si_score": 8.63,
-      "days_to_cover": 0.1,
+      "score": 11,
       "mom5d": 15.46134289702934,
-      "mom10d": 1.5350915030649892,
-      "vol_trend": 1.54,
-      "dist_from_20d_high": 12.641510418531654,
-      "tight_range": false,
-      "squeeze_score": 6,
-      "news": {
-        "title": "",
-        "pubDate": "",
-        "count": 10
-      }
+      "vol_ratio": 1.2078561908947427
+    },
+    {
+      "symbol": "AMC",
+      "price": 1.1200000047683716,
+      "gap_pct": 8.737867561021847,
+      "score": 11,
+      "mom5d": 15.463914611740282,
+      "vol_ratio": 1.5236102956377162
     },
     {
       "symbol": "U",
       "price": 22.75,
-      "short_pct_float": 8.57,
-      "si_score": 8.57,
-      "days_to_cover": 0.1,
+      "gap_pct": 3.5974542279736834,
+      "score": 7,
       "mom5d": 32.80794579432946,
-      "mom10d": 18.79895798006297,
-      "vol_trend": 1.79,
-      "dist_from_20d_high": 0.17551958718917918,
-      "tight_range": false,
-      "squeeze_score": 6,
-      "news": {
-        "title": "",
-        "pubDate": "",
-        "count": 10
-      }
+      "vol_ratio": 1.0235877929281625
+    },
+    {
+      "symbol": "DKNG",
+      "price": 23.15999984741211,
+      "gap_pct": 4.512635410134184,
+      "score": 7,
+      "mom5d": 8.885751523143837,
+      "vol_ratio": 0.7133676810800541
+    },
+    {
+      "symbol": "SMCI",
+      "price": 23.219999313354492,
+      "gap_pct": 3.154149610188275,
+      "score": 6,
+      "mom5d": 4.547502343608567,
+      "vol_ratio": 0.6463858105553993
+    },
+    {
+      "symbol": "RIVN",
+      "price": 15.399999618530273,
+      "gap_pct": 3.0789829388681342,
+      "score": 6,
+      "mom5d": 1.2491754103009844,
+      "vol_ratio": 0.7010008836898993
+    },
+    {
+      "symbol": "LCID",
+      "price": 9.960000038146973,
+      "gap_pct": 4.184096244488566,
+      "score": 6,
+      "mom5d": 0.5045428002495855,
+      "vol_ratio": 0.7108159288635179
+    },
+    {
+      "symbol": "CCL",
+      "price": 25.639999389648438,
+      "gap_pct": -3.536495623610795,
+      "score": 6,
+      "mom5d": 1.4240454637056477,
+      "vol_ratio": 0.8483319828789567
+    }
+  ],
+  "squeeze_plays": [
+    {
+      "symbol": "U",
+      "price": 22.75,
+      "si": 8.57,
+      "score": 9,
+      "mom5d": 32.80794579432946,
+      "vol_trend": 1.7943182576923653
     },
     {
       "symbol": "AMC",
-      "price": 1.1200000047683716,
-      "short_pct_float": 22.389999,
-      "si_score": 22.389999,
-      "days_to_cover": 0.1,
+      "price": 1.12,
+      "si": 22.389999,
+      "score": 9,
       "mom5d": 15.463914611740282,
-      "mom10d": 8.73786756102184,
-      "vol_trend": 1.13,
-      "dist_from_20d_high": 6.666669978035689,
-      "tight_range": false,
-      "squeeze_score": 6,
-      "news": {
-        "title": "",
-        "pubDate": "",
-        "count": 10
-      }
+      "vol_trend": 1.1271701537104621
     },
     {
-      "symbol": "BBAI",
-      "price": 3.5799999237060547,
-      "short_pct_float": 27.279999999999998,
-      "si_score": 27.279999999999998,
-      "days_to_cover": 0.1,
-      "mom5d": 7.831325171422598,
-      "mom10d": -4.021450257383396,
-      "vol_trend": 0.87,
-      "dist_from_20d_high": 19.004528011053992,
-      "tight_range": false,
-      "squeeze_score": 6,
-      "news": {
-        "title": "",
-        "pubDate": "",
-        "count": 10
-      }
+      "symbol": "HPQ",
+      "price": 19.51,
+      "si": 13.13,
+      "score": 7,
+      "mom5d": 0.9834396328097128,
+      "vol_trend": 1.0636653488268353
+    },
+    {
+      "symbol": "PENN",
+      "price": 14.77,
+      "si": 16.59,
+      "score": 7,
+      "mom5d": 1.372688861555016,
+      "vol_trend": 1.0101057713226078
+    },
+    {
+      "symbol": "MGM",
+      "price": 36.68,
+      "si": 15.590000000000002,
+      "score": 7,
+      "mom5d": -2.36890976012184,
+      "vol_trend": 0.7839018942494066
+    },
+    {
+      "symbol": "SNAP",
+      "price": 4.63,
+      "si": 8.63,
+      "score": 6,
+      "mom5d": 15.46134289702934,
+      "vol_trend": 1.538570884158868
     }
   ],
-  "scan_time": "2026-04-04T22:17:33.034965"
+  "vix": 23.8700008392334,
+  "vix_change": -2.7302365578560805
 }

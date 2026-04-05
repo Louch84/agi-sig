@@ -35,17 +35,23 @@ def get_news_tickers():
     ]
     
     # Use yfinance news for known tickers + search for news tickers
-    # Known high-news tickers to check for news
-    watchlist = [
-        "LLY", "NVDA", "TSLA", "AAPL", "AMD", "PLTR", "COIN", 
-        "MSTR", "AMZN", "GOOGL", "META", "NFLX", "SOFI", "RIVN",
-        "SMCI", "INTC", "AMD", "JPM", "BAC", "XOM", "OXY",
-        "T", "VZ", "DIS", "SNAP", "ROKU", "DOCU", "U", "SNOW",
-        "ABNB", "MAR", "DKNG", "PENN", "MGM", "CZR", "WYNN",
-        "GME", "AMC", "BB", "KOSS", "NAKD", "SNDL", "NOK",
-        "NKE", "LULU", "UAA", "NIO", "PLTR", "AI", "CRWD",
-        "PANW", "ZS", "VEEV", "DT", "AVLR", "PATH", "BBAI"
-    ]
+    # Load curated universe filtered by news + price + volume
+    try:
+        with open('/Users/sigbotti/.openclaw/workspace/scanner/news_universe.json') as f:
+            watchlist = json.load(f)
+    except:
+        # Fallback curated list
+        watchlist = [
+            "LLY", "NVDA", "TSLA", "AAPL", "AMD", "PLTR", "COIN", 
+            "MSTR", "AMZN", "GOOGL", "META", "NFLX", "SOFI", "RIVN",
+            "SMCI", "INTC", "AMD", "JPM", "BAC", "XOM", "OXY",
+            "T", "VZ", "DIS", "SNAP", "ROKU", "DOCU", "U", "SNOW",
+            "ABNB", "MAR", "DKNG", "PENN", "MGM", "CZR", "WYNN",
+            "GME", "AMC", "BB", "KOSS", "NAKD", "SNDL", "NOK",
+            "NKE", "LULU", "UAA", "NIO", "PLTR", "AI", "CRWD",
+            "PANW", "ZS", "VEEV", "DT", "AVLR", "PATH", "BBAI",
+            "AAL", "F", "NOK", "SMCI", "HPQ", "HAL", "CCL"
+        ]
     
     for sym in watchlist:
         try:
