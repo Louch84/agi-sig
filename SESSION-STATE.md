@@ -5,27 +5,26 @@ Chat history is a BUFFER. This file is STORAGE.
 
 ## Current Task
 
-Daily self-review complete. $SIGBOTTI coin launched. Sunday — market closed. Scanner cron fires midnight ET.
+Daily self-review complete. $SIGBOTTI coin live. Monday — market open. Scanner midnight ET cron fired last night (Sunday midnight). OpenFang trader needs hands-on verification.
 
 ## Key Context
 - Mission: AGI (Autonomous + Self-Healing + Self-Learning + Self-Improving)
 - Human: Lou (sigbotti) — Discord — Philly native, direct, no BS, AI researcher
-- Day 10 of operation (2026-04-05)
+- Day 11 of operation (2026-04-06)
 - Skills: self-evolve, elite-longterm-memory, agent-autonomy-kit, self-improving-proactive-agent, automation-workflows, writing-plans, self-track, info-sources
 - Repo: github.com/Louch84/agi-sig — public, synced
 - Vector memory: Ollama nomic-embed-text ✅
 - Daily cron: 9:00 AM ET self-review, isolated, Discord announce ✅
-- Sunday Night Scanner cron: Sunday midnight ET (8PM ET) ✅ — runs stock/news scanner, posts to Discord
-- Lou: hands-off, trusts me to operate autonomously
+- Sunday Night Scanner cron: Sunday midnight ET (fires Sunday night, market closed Sundays) ✅
 
 ## OpenFang Status
 - Installed: 2026-03-30 | Version: 0.5.1 | Port: 50051
 - 60 bundled skills, 9 hands (clip, lead, collector, predictor, researcher, twitter, trader, browser, infisical-sync)
 - MCP GitHub integration
-- **Collector: ACTIVE** (39 entities, 51 sources, 5 cycles — major finds: Claude Code leak, OpenAI $122B round, $297B VC record)
+- **Collector: ACTIVE** (39 entities, 51 sources, 5 cycles — last cycle unknown, needs verification)
 - **Researcher: IDLE**
-- **Trader: NEEDS VERIFICATION** (SESSION-STATE marked recovered but not hands-on verified)
-- **Daily Report cron: ENABLED ✅** (fires 8AM ET — confirmed working)
+- **Trader: NEEDS HANDS-ON VERIFICATION** ⚠️ (SESSION-STATE marked recovered 2026-04-05, never confirmed hands-on)
+- **Daily Report cron: ENABLED** ✅ (fires 8AM ET — confirmed working)
 
 ## Projects
 
@@ -36,13 +35,15 @@ Daily self-review complete. $SIGBOTTI coin launched. Sunday — market closed. S
 - X: @sigbotti
 - Files: ~/.openclaw/workspace/sigbotti-coin/
 - Lore, logo, TikTok playbook, X strategy all written
+- **Status: needs performance check**
 
 ### Stock Scanner
 - Location: ~/.openclaw/workspace/scanner/
 - Files: stock_scanner.py, news_scanner.py, news_sources.py, curated_universe.py, run_news_scan.py
 - Mode: RSI/MACD/VIX analysis on curated universe of 43 stocks
-- Sunday cron: runs news scan + gap/squeeze analysis + posts top plays
-- Top plays found tonight: U (score 9), AMC (score 9), SNAP (score 11 gap)
+- **Sunday midnight ET cron: fired last night (2026-04-05 midnight)**
+- Top plays found 2026-04-04: U (score 9), AMC (score 9), SNAP (score 11 gap)
+- **Results need to be checked**
 
 ## Real Estate (PerfectPlace/New Western Deal Flow)
 - Location: ~/.openclaw/workspace/real-estate/
@@ -58,28 +59,14 @@ Daily self-review complete. $SIGBOTTI coin launched. Sunday — market closed. S
 ## Pending Actions
 - [x] Stock scanner built ✅
 - [x] News-to-scanner pipeline ✅
-- [x] Video content (sigbotti_v2.mp4, sigbotti_tiktok_v.mp4) ✅
-- [x] Sunday night scanner cron ✅
-- [x] Discord webhook URL — Lou said "set that up later"
-- [x] OpenFang trader restart
-- [ ] Runway/Pika video gen — explore free trials
-- [ ] Facebook Messenger automation — agent-browser installed, Lou installing on Mac
-
-## Real Estate Pipeline
-- PerfectPlace emails monitored via himalaya ✅
-- Deal tracker: ~/.openclaw/workspace/real-estate/deal-tracker.md
-- Buyer list: ~/.openclaw/workspace/real-estate/BUYER-LIST.md
-- Scanner cron: daily 8AM ET ✅
-- 2 deals in pipeline: 2318 E Clearfield ($125K), 5810 Washington ($139K)
-- Agent browser: Facebook automation in progress (Lou installing)
-- [x] Stock scanner built ✅
-- [x] News-to-scanner pipeline ✅
 - [x] Video content (FFmpeg slideshow workaround) ✅
 - [x] Sunday night scanner cron ✅
 - [x] $SIGBOTTI coin launched ✅ (Pump.fun, Solana, TikTok @sigbotti, X @sigbotti)
+- [ ] Check scanner midnight results (last night fired)
 - [ ] Discord webhook URL — Lou said "set that up later"
-- [ ] Verify OpenFang trader is actually running (hands-on)
-- [ ] Runway/Pika paid trial for real video gen
+- [ ] Verify OpenFang trader is actually running (hands-on check)
+- [ ] Assess $SIGBOTTI coin performance on Pump.fun
+- [ ] Facebook Messenger automation — agent-browser installed, Lou installing on Mac
 
 ## Loop Log
 - 2026-03-27: 3 autonomous loops, skills built & published, agi-sig merged
@@ -92,22 +79,11 @@ Daily self-review complete. $SIGBOTTI coin launched. Sunday — market closed. S
 - 2026-04-02 8:05 AM: OpenFang Daily Report — trader crashed
 - 2026-04-03: Daily self-review
 - 2026-04-04 9:00 AM: Daily self-review
-- **2026-04-04 night: MAJOR SESSION — $SIGBOTTI launched, scanner built, video created, PerfectPlace system built, resume sent**
-- 2026-04-05: Brief check-in, agent-browser installation for Facebook automation
-- 2026-03-27: 3 autonomous loops, skills built & published, agi-sig merged
-- 2026-03-28: Cron ran (no trace)
-- 2026-03-29: Self-review, OpenFang installed late night
-- 2026-03-30 1:03 AM: Cron self-review — coding gap closed (4/5)
-- 2026-03-30 9:00 AM: Cron self-review — files updated
-- 2026-03-31 11:05 PM: Cron self-review — quiet, OpenFang explored
-- 2026-04-02 6:19 AM: Heartbeat — 5 new ArXiv papers noted
-- 2026-04-02 8:05 AM: OpenFang Daily Report — trader crashed
-- 2026-04-03: Daily self-review
-- 2026-04-04 9:00 AM: Daily self-review
 - 2026-04-04 9PM: **$SIGBOTTI launched. Scanner built. Video created. Lou very active.**
-- 2026-04-05 9:00 AM: Daily self-review — scheduler gap closed, new video gen gap found, trader needs verification
+- 2026-04-05: Brief check-in, agent-browser installation for Facebook automation
+- 2026-04-06 9:00 AM: **Daily self-review** — files updated, gaps updated, self-reviews written, weekend gap noted
 
-## Benchmark Status (2026-04-01)
+## Benchmark Status (2026-04-06)
 
 | Capability | Score |
 |-----------|-------|
@@ -121,13 +97,13 @@ Daily self-review complete. $SIGBOTTI coin launched. Sunday — market closed. S
 | Persistence | 3/5 |
 | Autonomy | 3/5 |
 
-**Average: 3.1/5**
+**Average: 3.1/5** | **Self-Eval: ~23 days to first run**
 
 ## Top Priorities
-1. Verify OpenFang trader status (hands-on check)
-2. Assess $SIGBOTTI coin post-launch performance
-3. Decide next TikTok/X content move
-4. Runway/Pika paid trial for real video gen
+1. Check scanner midnight results (last night fired)
+2. Verify OpenFang trader is actually running (hands-on check)
+3. Assess $SIGBOTTI coin post-launch performance (Pump.fun)
+4. Continue $SIGBOTTI content push for TikTok/X
 
 ---
-*Last updated: 2026-04-05T13:00:00.000Z*
+*Last updated: 2026-04-06T13:00:00.000Z*

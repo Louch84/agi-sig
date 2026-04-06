@@ -60,6 +60,14 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - Sunday midnight ET scanner cron: fires tonight (stock market closed Sundays)
 - Self-eval monthly cron: ~24 days to first run
 
+## Self-Review Learnings (2026-04-06 — 9AM ET, Day 11)
+- **$SIGBOTTI coin: LIVE** — launched 2026-04-04 on Pump.fun (Solana)
+- **Scanner built & ready** — news-driven gap/squeeze analysis on 43-stock curated universe, midnight ET cron fires tonight
+- **OpenFang scheduler: CONFIRMED WORKING** — cron at 8AM ET verified
+- **OpenFang trader: STILL UNVERIFIED** — SESSION-STATE says recovered, not confirmed hands-on. Needs check.
+- **Weekend logging discipline gap** — 2026-04-05 was massive (coin launch) but no daily log written until today's review. Need better weekend capture.
+- Self-eval monthly cron: ~23 days to first run
+
 ## Self-Review Learnings (2026-04-04 — 9AM ET)
 - **OpenFang trader not self-recovering:** Crashed 25+ hours, won't restart on its own. Needs CLI intervention.
 - OpenFang scheduler: still unexplored — proprietary system, not cron-based. Need to explore.

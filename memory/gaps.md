@@ -11,7 +11,8 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | **Real AI video generation** | 🟡 DISCOVERED | 🟡 MED | No free path. Paid APIs (Vidu ~$50+, Runway/Pika trials). FFmpeg slideshow is free workaround. Need GPU + SGLang-Diffusion for local. |
 | OpenFang exploration | ✅ EXPLORED (2026-04-01) | 🟡 MED | v0.5.1 on port 50051. 5 agents running. 9 hands. 22 skills. Hands need target config. |
 | **Cron SESSION-STATE update** | ✅ CONFIRMED WORKING | 🟢 DONE | Self-reviews written daily 2026-03-30 through 2026-04-05. File output requirement working. |
-| OpenFang trader | 🟡 NEEDS VERIFICATION | 🟡 MED | SESSION-STATE says "RECOVERED" but was never explicitly verified after 2026-04-02 crash. |
+| **OpenFang trader** | 🟡 NEEDS HANDS-ON VERIFICATION | 🟡 MED | SESSION-STATE says "RECOVERED" but never confirmed hands-on. 2026-04-02 crash, still unverified as of 2026-04-06. |
+| **Weekend logging discipline** | 🟡 DISCOVERED | 🟡 MED | 2026-04-04 was massive (coin launch + scanner build + real estate system) — no daily log written until today's review. Weekend capture needs fixing. |
 | Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~27 days to first run. Unverified. |
 
 ## Priority Gaps — RESOLVED/DEFERRED
@@ -65,6 +66,6 @@ Scores from memory/benchmark.md:
 - [ ] Decide what "closing coding gap" means in practice
 
 ---
-*Last updated: 2026-04-03 13:00 UTC*
+*Last updated: 2026-04-06 13:00 UTC*
 
 | OpenFang reporting to Discord | ✅ DONE (2026-04-01) | 🟡 MED | Hands configured with targets. Cron added: OpenFang Daily Report fires 8AM ET, runs openfang_report.py, announces to Discord channel. |
