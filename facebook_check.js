@@ -5,83 +5,110 @@ const { chromium } = require('playwright');
   const context = await browser.newContext();
   const page = await context.newPage();
 
-  console.log('Navigating to Facebook...');
+  console.log('Starting fresh login to Facebook...');
+  
+  // Go to Facebook
   await page.goto('https://www.facebook.com');
-
-  // Check if logged in
   await page.waitForTimeout(2000);
-  const url = page.url();
-  console.log('Current URL:', url);
-
-  // Check for login form
+  
+  // Check if we need to log in
   const emailInput = await page.$('input[name="email"]');
   if (emailInput) {
-    console.log('Not logged in, logging in...');
+    console.log('Filling login form...');
     await page.fill('input[name="email"]', '2152848650');
     await page.fill('input[name="pass"]', 'Conquerer4891');
     await page.click('button[name="login"]');
-    await page.waitForTimeout(3000);
+    
+    // Wait for redirect after login click
+    console.log('Waiting for login to process...');
+    await page.waitForTimeout(8000);
+    
+    console.log('URL after login:', page.url());
+    await page.screenshot({ path: '/Users/sigbotti/.openclaw/workspace/fb_login_attempt.png' });
   }
 
-  console.log('URL after login attempt:', page.url());
-
-  // Navigate to Marketplace
-  console.log('Going to Marketplace...');
-  await page.goto('https://www.facebook.com/marketplace');
-  await page.waitForTimeout(3000);
-
-  console.log('URL:', page.url());
-
-  // Look for messages about condo
-  // First try to find message icon or messaging section
-  console.log('Looking for messages...');
-
-  // Try clicking messages icon
-  const messagesIcon = await page.$('a[href*="/messages"]');
-  if (messagesIcon) {
-    console.log('Found messages link');
-  }
-
-  // Check page content for any condo-related text
-  const pageContent = await page.textContent('body');
-  console.log('Page loaded, checking for condo listings...');
-
-  // Try to find Marketplace messages specifically
-  // Facebook Marketplace has a "Messages" tab
-  try {
-    const messagesTab = await page.$('a[href*="marketplace/messages"]');
-    if (messagesTab) {
-      console.log('Found marketplace messages tab');
-      await messagesTab.click();
-      await page.waitForTimeout(2000);
+  // Check what page we're on now
+  const currentUrl = page.url();
+  
+  if (currentUrl.includes('checkpoint') || currentUrl.includes('two_step') || currentUrl.includes('authentication')) {
+    console.log('\n=== ON SECURITY CHECKPOINT ===');
+    await page.screenshot({ path: '/Users/sigbotti/.openclaw/workspace/fb_checkpoint.png' });
+    
+    // Get the page content to understand what verification is needed
+    const pageContent = await page.content();
+    
+    if (pageContent.includes('recaptcha')) {
+      console.log('reCAPTCHA detected, looking for checkbox...');
+      
+      // Try to find and interact with reCAPTCHA
+      try {
+        const recaptchaFrame = page.frameLocator('iframe[src*="recaptcha"]').first();
+        if (recaptchaFrame) {
+          console.log('Found recaptcha frame');
+          const checkbox = recaptchaFrame.locator('.recaptcha-checkbox');
+          if (await checkbox.isVisible({ timeout: 3000 })) {
+            console.log('Clicking reCAPTCHA checkbox...');
+            await checkbox.click();
+            await page.waitForTimeout(3000);
+            await page.screenshot({ path: '/Users/sigbotti/.openclaw/workspace/fb_after_captcha.png' });
+          }
+        }
+      } catch(e) {
+        console.log('Could not interact with reCAPTCHA:', e.message);
+      }
+      
+      // After captcha, try to continue
+      console.log('Trying to submit after captcha...');
+      await page.click('button[type="submit"], #checkpointBottomBar button', { timeout: 5000 }).catch(e => console.log('No submit button found'));
+      await page.waitForTimeout(5000);
     }
-  } catch(e) {
-    console.log('Could not find marketplace messages tab:', e.message);
+    
+    await page.screenshot({ path: '/Users/sigbotti/.openclaw/workspace/fb_checkpoint_after.png' });
   }
 
-  // Try going directly to marketplace messages
-  console.log('Trying marketplace messages URL...');
-  await page.goto('https://www.facebook.com/marketplace/messages');
-  await page.waitForTimeout(3000);
+  console.log('\nFinal URL:', page.url());
+  await page.screenshot({ path: '/Users/sigbotti/.openclaw/workspace/fb_final_state.png' });
 
-  console.log('Messages page URL:', page.url());
-
-  // Get page content to see what we have
-  const messagesContent = await page.textContent('body');
-  console.log('Messages page content length:', messagesContent.length);
-
-  // Look for anything about "condo"
-  if (messagesContent.toLowerCase().includes('condo')) {
-    console.log('Found condo mentions on page!');
-    // Get the text around condo mentions
-    const condoIndex = messagesContent.toLowerCase().indexOf('condo');
-    console.log('Condo context:', messagesContent.substring(Math.max(0, condoIndex - 200), condoIndex + 500));
+  // Get cookies to confirm login state
+  const cookies = await context.cookies();
+  console.log('\nCookies after login attempt:', cookies.length);
+  const cUser = cookies.find(c => c.name === 'c_user');
+  if (cUser) {
+    console.log('c_user cookie found:', cUser.value);
+    console.log('LOGIN SUCCESS!');
+  } else {
+    console.log('No c_user cookie - not logged in');
   }
 
-  // Take a screenshot
-  await page.screenshot({ path: '/Users/sigbotti/.openclaw/workspace/facebook_marketplace.png' });
-  console.log('Screenshot saved');
+  // If logged in, let's navigate to marketplace and messages
+  if (cUser) {
+    console.log('\nNavigating to marketplace...');
+    await page.goto('https://www.facebook.com/marketplace');
+    await page.waitForTimeout(5000);
+    await page.screenshot({ path: '/Users/sigbotti/.openclaw/workspace/fb_marketplace_loggedin.png' });
+    
+    console.log('Navigating to marketplace messages...');
+    await page.goto('https://www.facebook.com/marketplace/messages');
+    await page.waitForTimeout(5000);
+    await page.screenshot({ path: '/Users/sigbotti/.openclaw/workspace/fb_mp_messages.png' });
+    
+    const msgContent = await page.textContent('body');
+    console.log('Message page content length:', msgContent.length);
+    
+    // Search for condo
+    const condoRegex = /condo[^<]{0,500}/gi;
+    const matches = msgContent.match(condoRegex);
+    
+    if (matches && matches.length > 0) {
+      console.log('\n=== CONDO MENTIONS FOUND ===');
+      matches.forEach((m, i) => console.log(`${i+1}. ${m.substring(0, 400)}`));
+    } else {
+      console.log('\nNo condo mentions found');
+      console.log('First 2000 chars of message page:');
+      console.log(msgContent.substring(0, 2000));
+    }
+  }
 
   await browser.close();
-  console.log('Done');
+  console.log('\n=== SCRIPT COMPLETE ===');
 })();
