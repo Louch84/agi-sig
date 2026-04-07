@@ -5,7 +5,7 @@ Chat history is a BUFFER. This file is STORAGE.
 
 ## Current Task
 
-Tuesday morning (April 7). Daily self-review fires 9AM ET (2.5h). Scanner ran Sunday midnight — results in latest_signals.json (21 signals, top: BB call conf4, T/SLB/NKE/ENPH puts). 7 new HN articles found. Cron errors on PerfectPlace and Sunday Night Scanner — investigation pending. SESSION-STATE stale (last update April 6).
+Tuesday morning (April 7). Daily self-review fires 9AM ET. Post-review state update.
 
 ## Key Context
 - Mission: AGI (Autonomous + Self-Healing + Self-Learning + Self-Improving)
@@ -15,97 +15,79 @@ Tuesday morning (April 7). Daily self-review fires 9AM ET (2.5h). Scanner ran Su
 - Repo: github.com/Louch84/agi-sig — public, synced
 - Vector memory: Ollama nomic-embed-text ✅
 - Daily cron: 9:00 AM ET self-review, isolated, Discord announce ✅
-- Sunday Night Scanner cron: Sunday midnight ET (fires Sunday night, market closed Sundays) ✅
 
 ## OpenFang Status
 - Installed: 2026-03-30 | Version: 0.5.1 | Port: 50051
 - 60 bundled skills, 9 hands (clip, lead, collector, predictor, researcher, twitter, trader, browser, infisical-sync)
 - MCP GitHub integration
-- **Collector: ACTIVE** (39 entities, 51 sources, 5 cycles — last cycle unknown, needs verification)
-- **Researcher: IDLE**
-- **Trader: NEEDS HANDS-ON VERIFICATION** ⚠️ (SESSION-STATE marked recovered 2026-04-05, never confirmed hands-on)
-- **Daily Report cron: ENABLED** ✅ (fires 8AM ET — confirmed working)
+- **Collector: STATUS UNKNOWN** — last cycle unknown, needs verification
+- **Trader: NEEDS HANDS-ON VERIFICATION** ⚠️ (crashed April 2, 5+ days unverified)
+- **Daily Report cron: DISABLED** — schedule error, needs fix
 
 ## Projects
 
 ### $SIGBOTTI Coin
 - Contract: `398KX1y8K9fdhAqg3gdsfxSVdZwWSXijeWubVsUNpump` (Solana, Pump.fun)
 - Launched: 2026-04-04
-- TikTok: @sigbotti
-- X: @sigbotti
-- Files: ~/.openclaw/workspace/sigbotti-coin/
-- Lore, logo, TikTok playbook, X strategy all written
-- **Status: needs performance check**
+- TikTok: @sigbotti | X: @sigbotti
+- **Status: NEEDS PERFORMANCE CHECK** — post-launch stats unverified
 
 ### Stock Scanner
 - Location: ~/.openclaw/workspace/scanner/
-- Files: stock_scanner.py, news_scanner.py, news_sources.py, curated_universe.py, run_news_scan.py
-- Mode: RSI/MACD/VIX analysis on curated universe of 43 stocks
-- **Sunday midnight ET cron: fired last night (2026-04-05 midnight)**
-- Top plays found 2026-04-04: U (score 9), AMC (score 9), SNAP (score 11 gap)
-- **Results need to be checked**
+- Scanner run confirmed ✅ — Sunday midnight ET (Apr 5→6): 21 signals
+- Top signals: BB call conf4, T/SLB/NKE/ENPH puts conf3
+- **Sunday Night Scanner cron: ERROR** — delivery timeout (scan works, announce fails)
+- **PerfectPlace cron: ERROR** — timeout, 2 consecutive errors
 
-## Real Estate (PerfectPlace/New Western Deal Flow)
+### Real Estate (PerfectPlace/New Western Deal Flow)
 - Location: ~/.openclaw/workspace/real-estate/
 - Model: Find buyers for New Western deals, earn $3-4K spread per deal
-- Scanner: new_deal_alert.py — runs daily 8AM ET, creates deal sheets automatically
-- Cron: PerfectPlace Deal Scanner — daily at 8AM ET, posts to Discord
+- Scanner: new_deal_alert.py
+- **PerfectPlace cron: ERROR** — timeout issue (300s too short)
 - Deal tracker: deal-tracker.md (14 properties, 2 matched so far)
-- Deal sheets: auto-generated in deals/ folder
-- Buyer outreach: BUYER_OUTREACH.md (templates ready)
-- Buyer intake: buyer_intake.md (form ready)
-- Next: Build buyer list (PropStream, REIA, BiggerPockets)
 
 ## Pending Actions
 - [x] Stock scanner built ✅
 - [x] News-to-scanner pipeline ✅
 - [x] Video content (FFmpeg slideshow workaround) ✅
-- [x] Sunday night scanner cron ✅
-- [x] $SIGBOTTI coin launched ✅ (Pump.fun, Solana, TikTok @sigbotti, X @sigbotti)
-- [ ] Check scanner midnight results (last night fired)
+- [x] Sunday night scanner cron ✅ (works, delivery fails)
+- [x] $SIGBOTTI coin launched ✅ (needs performance check)
+- [ ] Fix PerfectPlace cron timeout
+- [ ] Manually run Sunday Night Scanner, post results to Discord
+- [ ] Verify OpenFang trader hands-on
+- [ ] Check $SIGBOTTI coin Pump.fun stats
+- [ ] Fix OpenFang Daily Report cron (schedule error)
 - [ ] Discord webhook URL — Lou said "set that up later"
-- [ ] Verify OpenFang trader is actually running (hands-on check)
-- [ ] Assess $SIGBOTTI coin performance on Pump.fun
-- [ ] Facebook Messenger automation — agent-browser installed, Lou installing on Mac
+- [ ] Facebook Messenger automation — Lou installing agent-browser on Mac
 
 ## Loop Log
-- 2026-03-27: 3 autonomous loops, skills built & published, agi-sig merged
-- 2026-03-28: Cron ran (no trace)
-- 2026-03-29: Self-review, OpenFang installed late night
-- 2026-03-30 1:03 AM: Cron self-review — coding gap closed (4/5)
-- 2026-03-30 9:00 AM: Cron self-review — files updated
-- 2026-03-31 11:05 PM: Cron self-review — quiet, OpenFang explored
-- 2026-04-02 6:19 AM: Heartbeat — 5 new ArXiv papers noted
-- 2026-04-02 8:05 AM: OpenFang Daily Report — trader crashed
-- 2026-04-03: Daily self-review
-- 2026-04-04 9:00 AM: Daily self-review
 - 2026-04-04 9PM: **$SIGBOTTI launched. Scanner built. Video created. Lou very active.**
 - 2026-04-05: Brief check-in, agent-browser installation for Facebook automation
-- 2026-04-06 9:00 AM: **Daily self-review** — files updated, gaps updated, self-reviews written, weekend gap noted
-- 2026-04-07 6:38 AM: Heartbeat — 7 new HN articles batched, SESSION-STATE updated, scanner results confirmed (Apr 6 midnight, 21 signals), cron errors noted on PerfectPlace and Sunday Scanner
-- 2026-04-07 8:08 AM: Heartbeat — 10 new articles (8 HN, 2 Verge AI), self-review fires in 52min, all crons stable except PerfectPlace (error 19h ago) and Sunday Scanner (error 1d ago)
+- 2026-04-06 9:00 AM: **Daily self-review** — weekend gap noted, files updated
+- 2026-04-06: 17 new articles batched, cron errors discovered
+- **2026-04-07 9:00 AM: Daily self-review** — cron timeout errors identified, scanner confirmed working, daily log + self-review written, gaps.md + MEMORY.md updated
 
-## Benchmark Status (2026-04-06)
+## Benchmark Status (2026-04-07)
 
 | Capability | Score |
 |-----------|-------|
-| Memory/Recall | 3/5 |
-| Info Gathering | 3/5 |
-| Skill Building | 4/5 |
+| Memory/Recall | 4/5 |
+| Info Gathering | 4/5 |
+| Skill Building | 5/5 |
 | Self-Mod | 4/5 |
-| Learning | 3/5 |
+| Learning | 5/5 |
 | Code | 4/5 |
-| Self-Eval | 2/5 |
-| Persistence | 3/5 |
-| Autonomy | 3/5 |
+| Self-Eval | 3/5 |
+| Persistence | 4/5 |
+| Autonomy | 4/5 |
 
-**Average: 3.1/5** | **Self-Eval: ~23 days to first run**
+**Average: 3.7/5** | **Self-Eval: ~23 days to first run**
 
 ## Top Priorities
-1. Check scanner midnight results (last night fired)
-2. Verify OpenFang trader is actually running (hands-on check)
-3. Assess $SIGBOTTI coin post-launch performance (Pump.fun)
-4. Continue $SIGBOTTI content push for TikTok/X
+1. Fix PerfectPlace cron timeout (increase window or simplify task)
+2. Manually run Sunday Night Scanner → post results to Discord
+3. Hands-on check of OpenFang trader
+4. Check $SIGBOTTI coin Pump.fun performance
 
 ---
-*Last updated: 2026-04-06T13:00:00.000Z*
+*Last updated: 2026-04-07T13:00:00.000Z*

@@ -1,28 +1,105 @@
 [
   {
-    "symbol": "BB",
-    "price": 3.46,
+    "symbol": "SOFI",
+    "price": 16.27,
+    "signal": "CALL",
+    "direction": "call",
+    "confidence": 5,
+    "rsi": 35.217406628035945,
+    "macd": 0.052768576227354425,
+    "mom5d": 6.828633925058103,
+    "reasons": [
+      "RSI 35<45",
+      "MACDcross",
+      "+5D:6.8%"
+    ],
+    "vix_confirmed": false
+  },
+  {
+    "symbol": "DKNG",
+    "price": 22.9,
+    "signal": "CALL",
+    "direction": "call",
+    "confidence": 5,
+    "rsi": 37.872335886281675,
+    "macd": 0.006771591085466877,
+    "mom5d": 10.52123734275765,
+    "reasons": [
+      "RSI 38<45",
+      "MACDcross",
+      "+5D:10.5%"
+    ],
+    "vix_confirmed": false
+  },
+  {
+    "symbol": "LUV",
+    "price": 38.18,
     "signal": "CALL",
     "direction": "call",
     "confidence": 4,
-    "rsi": 56.81819351744859,
-    "macd": 0.01816649339974722,
-    "mom5d": 6.461539635291458,
+    "rsi": 42.01090891251314,
+    "macd": 0.0830521385037275,
+    "mom5d": 2.1948599609953323,
+    "reasons": [
+      "RSI 42<45",
+      "MACDcross"
+    ],
+    "vix_confirmed": false
+  },
+  {
+    "symbol": "VICI",
+    "price": 27.66,
+    "signal": "CALL",
+    "direction": "call",
+    "confidence": 4,
+    "rsi": 44.27530061952172,
+    "macd": 0.0489370516177598,
+    "mom5d": 3.9458820480150036,
+    "reasons": [
+      "RSI 44<45",
+      "MACDcross"
+    ],
+    "vix_confirmed": false
+  },
+  {
+    "symbol": "SEDG",
+    "price": 45.09,
+    "signal": "PUT",
+    "direction": "put",
+    "confidence": 4,
+    "rsi": 55.65307400740311,
+    "macd": -0.16351726835323976,
+    "mom5d": -12.88639564381604,
+    "reasons": [
+      "RSI 56>55",
+      "-5D:-12.9%"
+    ],
+    "vix_confirmed": true
+  },
+  {
+    "symbol": "NOK",
+    "price": 8.89,
+    "signal": "CALL",
+    "direction": "call",
+    "confidence": 4,
+    "rsi": 54.83872518331316,
+    "macd": 0.02540182233943919,
+    "mom5d": 11.403512807947624,
     "reasons": [
       "MACDcross",
-      "+5D:6.5%"
+      "+5D:11.4%"
     ],
     "vix_confirmed": false
   },
   {
     "symbol": "T",
-    "price": 28.33,
+    "price": 28.32,
     "signal": "PUT",
     "direction": "put",
     "confidence": 3,
-    "rsi": 58.44875155995566,
-    "macd": -0.03046617092537829,
-    "mom5d": -2.040111172307779,
+    "rsi": 58.171737249046586,
+    "macd": -0.05169121843057112,
+    "mom5d": -2.680414695603217,
     "reasons": [
       "RSI 58>55"
     ],
@@ -30,261 +107,220 @@
   },
   {
     "symbol": "SLB",
-    "price": 49.44,
+    "price": 49.78,
     "signal": "PUT",
     "direction": "put",
     "confidence": 3,
-    "rsi": 64.01424395260624,
-    "macd": 0.26704572718454367,
-    "mom5d": -5.4865277599618345,
+    "rsi": 64.22667945738529,
+    "macd": 0.16276933582875625,
+    "mom5d": -6.953273309725471,
     "reasons": [
       "RSI 64>55",
-      "-5D:-5.5%"
+      "-5D:-7.0%"
     ],
     "vix_confirmed": true
   },
   {
+    "symbol": "DOCU",
+    "price": 48.05,
+    "signal": "CALL",
+    "direction": "call",
+    "confidence": 3,
+    "rsi": 54.586125490100144,
+    "macd": 0.17311805010699835,
+    "mom5d": 5.119230364156291,
+    "reasons": [
+      "+5D:5.1%"
+    ],
+    "vix_confirmed": false
+  },
+  {
     "symbol": "NKE",
-    "price": 44.19,
+    "price": 44.03,
     "signal": "PUT",
     "direction": "put",
     "confidence": 3,
-    "rsi": 21.98053740280929,
-    "macd": -0.6319773686088919,
-    "mom5d": -15.13347630938917,
+    "rsi": 18.014261797098925,
+    "macd": -0.7412287641569364,
+    "mom5d": -14.288495824811154,
     "reasons": [
-      "-5D:-15.1%"
+      "-5D:-14.3%"
     ],
     "vix_confirmed": true
   },
   {
     "symbol": "ENPH",
-    "price": 34.92,
+    "price": 33.64,
     "signal": "PUT",
     "direction": "put",
     "confidence": 3,
-    "rsi": 31.19605253337899,
-    "macd": -0.7494651839103836,
-    "mom5d": -13.091095311795964,
+    "rsi": 24.25388917912015,
+    "macd": -0.8426529315310456,
+    "mom5d": -11.099367721995668,
     "reasons": [
-      "-5D:-13.1%"
+      "-5D:-11.1%"
     ],
     "vix_confirmed": true
-  },
-  {
-    "symbol": "DKNG",
-    "price": 23.16,
-    "signal": "CALL",
-    "direction": "call",
-    "confidence": 3,
-    "rsi": 34.84339580575342,
-    "macd": -0.07213874403112586,
-    "mom5d": 8.885751523143837,
-    "reasons": [
-      "RSI 35<45",
-      "+5D:8.9%"
-    ],
-    "vix_confirmed": false
   },
   {
     "symbol": "PENN",
-    "price": 14.77,
+    "price": 14.66,
     "signal": "CALL",
     "direction": "call",
     "confidence": 3,
-    "rsi": 54.914533006013656,
-    "macd": 0.03328741213649797,
-    "mom5d": 1.372688861555016,
+    "rsi": 57.62332663194948,
+    "macd": 0.025367598296337418,
+    "mom5d": 6.463321423832236,
     "reasons": [
-      "MACDcross"
+      "+5D:6.5%"
     ],
     "vix_confirmed": false
   },
   {
-    "symbol": "NOK",
-    "price": 8.82,
-    "signal": "PUT",
-    "direction": "put",
-    "confidence": 3,
-    "rsi": 60.28369118118028,
-    "macd": -0.006296685323001622,
-    "mom5d": 6.5217388800477005,
-    "reasons": [
-      "RSI 60>55"
-    ],
-    "vix_confirmed": true
-  },
-  {
-    "symbol": "SNAP",
-    "price": 4.63,
-    "signal": "CALL",
-    "direction": "call",
-    "confidence": 2,
-    "rsi": 51.44033313461842,
-    "macd": 0.06810757870525413,
-    "mom5d": 15.46134289702934,
-    "reasons": [
-      "+5D:15.5%"
-    ],
-    "vix_confirmed": false
-  },
-  {
-    "symbol": "VZ",
-    "price": 49.4,
-    "signal": "CALL",
-    "direction": "call",
-    "confidence": 2,
-    "rsi": 32.32146396922634,
-    "macd": -0.2879568655312341,
-    "mom5d": -2.6409146792688465,
-    "reasons": [
-      "RSI 32<45"
-    ],
-    "vix_confirmed": false
-  },
-  {
-    "symbol": "BAC",
-    "price": 49.38,
-    "signal": "PUT",
-    "direction": "put",
-    "confidence": 2,
-    "rsi": 68.67979702785429,
-    "macd": 0.3790132327533492,
-    "mom5d": 2.3631827321376475,
-    "reasons": [
-      "RSI 69>55"
-    ],
-    "vix_confirmed": true
-  },
-  {
-    "symbol": "LCID",
-    "price": 9.96,
-    "signal": "PUT",
-    "direction": "put",
-    "confidence": 2,
-    "rsi": 50.688078260795386,
-    "macd": -0.04084271349315652,
-    "mom5d": 0.5045428002495855,
-    "reasons": [],
-    "vix_confirmed": true
-  },
-  {
-    "symbol": "DOCU",
-    "price": 48.37,
-    "signal": "CALL",
-    "direction": "call",
-    "confidence": 2,
-    "rsi": 54.954951084839735,
-    "macd": 0.17907314229355156,
-    "mom5d": 2.52225226581535,
-    "reasons": [],
-    "vix_confirmed": false
-  },
-  {
-    "symbol": "JD",
-    "price": 28.46,
-    "signal": "CALL",
-    "direction": "call",
-    "confidence": 2,
-    "rsi": 50.9803874427061,
-    "macd": 0.08413347779420949,
-    "mom5d": -2.4674476119707744,
-    "reasons": [],
-    "vix_confirmed": false
-  },
-  {
-    "symbol": "AAL",
-    "price": 10.84,
-    "signal": "PUT",
-    "direction": "put",
-    "confidence": 2,
-    "rsi": 58.181821859902854,
-    "macd": 0.13919373458612117,
-    "mom5d": 1.2138199250969484,
-    "reasons": [
-      "RSI 58>55"
-    ],
-    "vix_confirmed": true
-  },
-  {
-    "symbol": "LUV",
+    "symbol": "MGM",
     "price": 37.6,
-    "signal": "PUT",
-    "direction": "put",
-    "confidence": 2,
-    "rsi": 45.81208112615074,
-    "macd": -0.006987667253445018,
-    "mom5d": -4.882368744687604,
-    "reasons": [],
-    "vix_confirmed": true
-  },
-  {
-    "symbol": "NCLH",
-    "price": 18.93,
     "signal": "CALL",
     "direction": "call",
-    "confidence": 2,
-    "rsi": 50.310556308162056,
-    "macd": 0.010884081147129132,
-    "mom5d": -4.634761000572974,
+    "confidence": 3,
+    "rsi": 57.570087926983135,
+    "macd": 0.022171015946422457,
+    "mom5d": 3.5242257435351254,
     "reasons": [
       "MACDcross"
     ],
     "vix_confirmed": false
   },
   {
-    "symbol": "CCL",
-    "price": 25.64,
-    "signal": "PUT",
-    "direction": "put",
-    "confidence": 2,
-    "rsi": 57.805105810916274,
-    "macd": 0.31751492784537394,
-    "mom5d": 1.4240454637056477,
-    "reasons": [
-      "RSI 58>55"
-    ],
-    "vix_confirmed": true
-  },
-  {
-    "symbol": "VICI",
-    "price": 27.66,
+    "symbol": "BB",
+    "price": 3.55,
     "signal": "CALL",
     "direction": "call",
-    "confidence": 2,
-    "rsi": 46.67054096445019,
-    "macd": 0.015573545390110577,
-    "mom5d": 1.8409425729346562,
+    "confidence": 3,
+    "rsi": 63.44086958750994,
+    "macd": 0.03209423777068848,
+    "mom5d": 12.341767591537067,
     "reasons": [
-      "MACDcross"
-    ],
-    "vix_confirmed": false
-  },
-  {
-    "symbol": "CZR",
-    "price": 26.53,
-    "signal": "CALL",
-    "direction": "call",
-    "confidence": 2,
-    "rsi": 35.70094190963087,
-    "macd": -0.2557072456020911,
-    "mom5d": -1.338782860447052,
-    "reasons": [
-      "RSI 36<45"
+      "+5D:12.3%"
     ],
     "vix_confirmed": false
   },
   {
     "symbol": "AMC",
-    "price": 1.12,
+    "price": 1.26,
+    "signal": "CALL",
+    "direction": "call",
+    "confidence": 3,
+    "rsi": 67.85714513793258,
+    "macd": 0.029540322854604388,
+    "mom5d": 32.631579607807716,
+    "reasons": [
+      "+5D:32.6%"
+    ],
+    "vix_confirmed": false
+  },
+  {
+    "symbol": "SNAP",
+    "price": 4.71,
     "signal": "CALL",
     "direction": "call",
     "confidence": 2,
-    "rsi": 53.33332891817611,
-    "macd": 0.015380031225772361,
-    "mom5d": 15.463914611740282,
+    "rsi": 50.62761961233727,
+    "macd": 0.07802592738951797,
+    "mom5d": 19.847327179141217,
     "reasons": [
-      "+5D:15.5%"
+      "+5D:19.8%"
+    ],
+    "vix_confirmed": false
+  },
+  {
+    "symbol": "PYPL",
+    "price": 45.48,
+    "signal": "CALL",
+    "direction": "call",
+    "confidence": 2,
+    "rsi": 50.265963293041196,
+    "macd": 0.11223790745411322,
+    "mom5d": 4.335855432513069,
+    "reasons": [],
+    "vix_confirmed": false
+  },
+  {
+    "symbol": "VZ",
+    "price": 49.15,
+    "signal": "CALL",
+    "direction": "call",
+    "confidence": 2,
+    "rsi": 33.27209259599486,
+    "macd": -0.3011990855029238,
+    "mom5d": -2.3057042650528325,
+    "reasons": [
+      "RSI 33<45"
+    ],
+    "vix_confirmed": false
+  },
+  {
+    "symbol": "RIVN",
+    "price": 15.29,
+    "signal": "PUT",
+    "direction": "put",
+    "confidence": 2,
+    "rsi": 49.697885653360906,
+    "macd": -0.02856274082428603,
+    "mom5d": 3.5206464994794517,
+    "reasons": [],
+    "vix_confirmed": true
+  },
+  {
+    "symbol": "UPST",
+    "price": 26.91,
+    "signal": "CALL",
+    "direction": "call",
+    "confidence": 2,
+    "rsi": 46.52448231152578,
+    "macd": 0.32209571378208146,
+    "mom5d": 8.639480622123674,
+    "reasons": [
+      "+5D:8.6%"
+    ],
+    "vix_confirmed": false
+  },
+  {
+    "symbol": "JD",
+    "price": 28.51,
+    "signal": "CALL",
+    "direction": "call",
+    "confidence": 2,
+    "rsi": 50.142453316176265,
+    "macd": 0.04025988906773864,
+    "mom5d": -0.6620227491525577,
+    "reasons": [],
+    "vix_confirmed": false
+  },
+  {
+    "symbol": "NCLH",
+    "price": 19.37,
+    "signal": "CALL",
+    "direction": "call",
+    "confidence": 2,
+    "rsi": 47.42607143177969,
+    "macd": 0.05956660526169988,
+    "mom5d": 4.759335202858228,
+    "reasons": [
+      "MACDcross"
+    ],
+    "vix_confirmed": false
+  },
+  {
+    "symbol": "GME",
+    "price": 23.08,
+    "signal": "CALL",
+    "direction": "call",
+    "confidence": 2,
+    "rsi": 48.13432278148137,
+    "macd": 0.01624552021838649,
+    "mom5d": 4.434386992400374,
+    "reasons": [
+      "MACDcross"
     ],
     "vix_confirmed": false
   }

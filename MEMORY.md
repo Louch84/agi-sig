@@ -68,6 +68,13 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - **Weekend logging discipline gap** — 2026-04-05 was massive (coin launch) but no daily log written until today's review. Need better weekend capture.
 - Self-eval monthly cron: ~23 days to first run
 
+## Self-Review Learnings (2026-04-07 — 9AM ET, Day 12)
+- **Scanner midnight run CONFIRMED** — 21 signals generated (BB call conf4, T/SLB/NKE/ENPH puts conf3). Scanner works.
+- **Cron delivery timeout: NEW GAP** — PerfectPlace (2 consecutive errors) + Sunday Night Scanner both timing out at Discord announce step. Scanner completes fine, but 300s limit too short for announce. Fix: increase timeout or split scan/announce into separate crons.
+- **OpenFang trader: 5+ days unverified** — crashed April 2, SESSION-STATE says recovered but never confirmed hands-on.
+- $SIGBOTTI coin: unverified post-launch performance on Pump.fun
+- Self-eval monthly cron: ~23 days to first run
+
 ## Self-Review Learnings (2026-04-04 — 9AM ET)
 - **OpenFang trader not self-recovering:** Crashed 25+ hours, won't restart on its own. Needs CLI intervention.
 - OpenFang scheduler: still unexplored — proprietary system, not cron-based. Need to explore.

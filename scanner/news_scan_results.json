@@ -1,120 +1,200 @@
 {
   "gap_plays": [
     {
-      "symbol": "SNAP",
-      "price": 4.630000114440918,
-      "gap_pct": -5.510203585134164,
-      "score": 11,
-      "mom5d": 15.46134289702934,
-      "vol_ratio": 1.2078561908947427
-    },
-    {
       "symbol": "AMC",
-      "price": 1.1200000047683716,
-      "gap_pct": 8.737867561021847,
-      "score": 11,
-      "mom5d": 15.463914611740282,
-      "vol_ratio": 1.5236102956377162
+      "price": 1.2599999904632568,
+      "gap_pct": 12.499998669539185,
+      "gap_type": "GAP UP",
+      "atr_14": 0.0799999747957502,
+      "atr_compression": 0.8937499507729342,
+      "range_width_pct": 30.158725278027287,
+      "consolidation_score": 0,
+      "vol_ratio": 1.772986375011586,
+      "vol_building": true,
+      "gap_fill_score": 8,
+      "dist_from_ma20": 19.942883147131145,
+      "news": null,
+      "direction": "CALL",
+      "confidence": 5,
+      "sentiment": "positive",
+      "sentiment_score": 0.24,
+      "news_headlines": [
+        "AMC Shares Jump 13% As $370M Mario Film Drives Record Weekend",
+        "AMC, Cinemark Stocks Jump After Record Easter Weekend. Thank \u2018Super Mario.\u2019",
+        "Oil Climbs, Stocks Whipsaw After Trump\u2019s Warning: Markets Wrap"
+      ]
     },
     {
-      "symbol": "U",
-      "price": 22.75,
-      "gap_pct": 3.5974542279736834,
-      "score": 7,
-      "mom5d": 32.80794579432946,
-      "vol_ratio": 1.0235877929281625
-    },
-    {
-      "symbol": "DKNG",
-      "price": 23.15999984741211,
-      "gap_pct": 4.512635410134184,
-      "score": 7,
-      "mom5d": 8.885751523143837,
-      "vol_ratio": 0.7133676810800541
-    },
-    {
-      "symbol": "SMCI",
-      "price": 23.219999313354492,
-      "gap_pct": 3.154149610188275,
-      "score": 6,
-      "mom5d": 4.547502343608567,
-      "vol_ratio": 0.6463858105553993
-    },
-    {
-      "symbol": "RIVN",
-      "price": 15.399999618530273,
-      "gap_pct": 3.0789829388681342,
-      "score": 6,
-      "mom5d": 1.2491754103009844,
-      "vol_ratio": 0.7010008836898993
-    },
-    {
-      "symbol": "LCID",
-      "price": 9.960000038146973,
-      "gap_pct": 4.184096244488566,
-      "score": 6,
-      "mom5d": 0.5045428002495855,
-      "vol_ratio": 0.7108159288635179
-    },
-    {
-      "symbol": "CCL",
-      "price": 25.639999389648438,
-      "gap_pct": -3.536495623610795,
-      "score": 6,
-      "mom5d": 1.4240454637056477,
-      "vol_ratio": 0.8483319828789567
+      "symbol": "UPST",
+      "price": 26.90999984741211,
+      "gap_pct": 5.199374228588203,
+      "gap_type": "GAP UP",
+      "atr_14": 1.5858571188790458,
+      "atr_compression": 1.0413926445859114,
+      "range_width_pct": 19.9739874785503,
+      "consolidation_score": 0.01300626072485045,
+      "vol_ratio": 0.7932714348930199,
+      "vol_building": false,
+      "gap_fill_score": 5,
+      "dist_from_ma20": 1.8758628812850502,
+      "news": null,
+      "direction": "CALL",
+      "confidence": 5,
+      "sentiment": "positive",
+      "sentiment_score": 0.4,
+      "news_headlines": [
+        "Celsius Holdings And Two Insider-Owned Growth Stocks To Watch",
+        "ImmunityBio And 2 Insider Picks For Promising Growth",
+        "Insiders Show Confidence In These 3 High Growth Companies"
+      ]
     }
   ],
   "squeeze_plays": [
     {
-      "symbol": "U",
-      "price": 22.75,
-      "si": 8.57,
-      "score": 9,
-      "mom5d": 32.80794579432946,
-      "vol_trend": 1.7943182576923653
+      "symbol": "TLRY",
+      "price": 6.659999847412109,
+      "short_pct_float": 13.33,
+      "si_score": 13.33,
+      "days_to_cover": 0.2,
+      "mom5d": 5.3797415587942155,
+      "mom10d": 7.246373695666097,
+      "vol_trend": 1.54,
+      "dist_from_20d_high": 11.200002034505209,
+      "tight_range": false,
+      "squeeze_score": 8,
+      "news": null,
+      "direction": "CALL",
+      "confidence": 4,
+      "sentiment": "neutral",
+      "sentiment_score": 0.15,
+      "news_headlines": [
+        "Why Tilray Brands Investors Shouldn't Expect the Company to Post a Profit Anytime Soon",
+        "Weekly Roundup on the Cannabis Sector & Psychedelic Sector"
+      ]
     },
     {
       "symbol": "AMC",
-      "price": 1.12,
-      "si": 22.389999,
-      "score": 9,
-      "mom5d": 15.463914611740282,
-      "vol_trend": 1.1271701537104621
-    },
-    {
-      "symbol": "HPQ",
-      "price": 19.51,
-      "si": 13.13,
-      "score": 7,
-      "mom5d": 0.9834396328097128,
-      "vol_trend": 1.0636653488268353
-    },
-    {
-      "symbol": "PENN",
-      "price": 14.77,
-      "si": 16.59,
-      "score": 7,
-      "mom5d": 1.372688861555016,
-      "vol_trend": 1.0101057713226078
-    },
-    {
-      "symbol": "MGM",
-      "price": 36.68,
-      "si": 15.590000000000002,
-      "score": 7,
-      "mom5d": -2.36890976012184,
-      "vol_trend": 0.7839018942494066
+      "price": 1.2599999904632568,
+      "short_pct_float": 22.389999,
+      "si_score": 22.389999,
+      "days_to_cover": 0.1,
+      "mom5d": 32.631579607807716,
+      "mom10d": 28.57142509593915,
+      "vol_trend": 1.32,
+      "dist_from_20d_high": 3.816790419867876,
+      "tight_range": false,
+      "squeeze_score": 7,
+      "news": null,
+      "direction": "CALL",
+      "confidence": 5,
+      "sentiment": "positive",
+      "sentiment_score": 0.24,
+      "news_headlines": [
+        "AMC Shares Jump 13% As $370M Mario Film Drives Record Weekend",
+        "AMC, Cinemark Stocks Jump After Record Easter Weekend. Thank \u2018Super Mario.\u2019",
+        "Oil Climbs, Stocks Whipsaw After Trump\u2019s Warning: Markets Wrap"
+      ]
     },
     {
       "symbol": "SNAP",
-      "price": 4.63,
-      "si": 8.63,
-      "score": 6,
-      "mom5d": 15.46134289702934,
-      "vol_trend": 1.538570884158868
+      "price": 4.710000038146973,
+      "short_pct_float": 8.63,
+      "si_score": 8.63,
+      "days_to_cover": 0.1,
+      "mom5d": 19.847327179141217,
+      "mom10d": 5.133928975318458,
+      "vol_trend": 1.51,
+      "dist_from_20d_high": 8.897486099782,
+      "tight_range": false,
+      "squeeze_score": 6,
+      "news": null,
+      "direction": "CALL",
+      "confidence": 4,
+      "sentiment": "neutral",
+      "sentiment_score": 0.3,
+      "news_headlines": [
+        "How The Snap (SNAP) Investment Story Is Shifting On Ads Competition And Activist Pressure",
+        "Reddit Benefits From Strong User Growth: A Sign for More Upside?"
+      ]
+    },
+    {
+      "symbol": "SOFI",
+      "price": 16.270000457763672,
+      "short_pct_float": 11.09,
+      "si_score": 11.09,
+      "days_to_cover": 0.1,
+      "mom5d": 6.828633925058103,
+      "mom10d": -3.7278057691541577,
+      "vol_trend": 0.8,
+      "dist_from_20d_high": 14.480942002664976,
+      "tight_range": false,
+      "squeeze_score": 6,
+      "news": null,
+      "direction": "CALL",
+      "confidence": 4,
+      "sentiment": "neutral",
+      "sentiment_score": 0.06,
+      "news_headlines": [
+        "Best high-yield savings interest rates today, April 7, 2026 (Earn up to 4% APY)",
+        "SoFi Target Cut Tests Growth Narrative Into Earnings",
+        "Why SoFi Technologies Stock Slipped Last Month"
+      ]
+    },
+    {
+      "symbol": "UPST",
+      "price": 26.90999984741211,
+      "short_pct_float": 33.44,
+      "si_score": 33.44,
+      "days_to_cover": 0.2,
+      "mom5d": 8.639480622123674,
+      "mom10d": 3.5796779120948585,
+      "vol_trend": 0.88,
+      "dist_from_20d_high": 8.282209586019537,
+      "tight_range": false,
+      "squeeze_score": 6,
+      "news": null,
+      "direction": "CALL",
+      "confidence": 5,
+      "sentiment": "positive",
+      "sentiment_score": 0.4,
+      "news_headlines": [
+        "Celsius Holdings And Two Insider-Owned Growth Stocks To Watch",
+        "ImmunityBio And 2 Insider Picks For Promising Growth",
+        "Insiders Show Confidence In These 3 High Growth Companies"
+      ]
+    },
+    {
+      "symbol": "BBAI",
+      "price": 3.509999990463257,
+      "short_pct_float": 27.279999999999998,
+      "si_score": 27.279999999999998,
+      "days_to_cover": 0.1,
+      "mom5d": 11.783435452158164,
+      "mom10d": -1.955305439513333,
+      "vol_trend": 0.9,
+      "dist_from_20d_high": 18.181817676587027,
+      "tight_range": false,
+      "squeeze_score": 6,
+      "news": null,
+      "direction": "CALL",
+      "confidence": 4,
+      "sentiment": "neutral",
+      "sentiment_score": -0.3,
+      "news_headlines": [
+        "BigBear.ai Holdings, Inc. (BBAI) Stock Falls Amid Market Uptick: What Investors Need to Know",
+        "Why Cantor Fitzgerald Stayed Neutral on BigBear.ai (BBAI) After a Messy Quarter"
+      ]
     }
   ],
-  "vix": 23.8700008392334,
-  "vix_change": -2.7302365578560805
+  "vix": {
+    "vix": 25.270000457763672,
+    "change": 4.551097964408424,
+    "mom5d": 0,
+    "env": "\ud83d\udd34 HIGH FEAR \u2014 Bearish environment (puts favored)",
+    "conf_call": false,
+    "conf_put": true
+  },
+  "tickers_scanned": 41,
+  "scan_time": "2026-04-07T09:26:58.073477",
+  "news_driven": true
 }
