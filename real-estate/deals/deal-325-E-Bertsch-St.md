@@ -1,25 +1,25 @@
-# DEAL SHEET — 2137 S Gould St
+# DEAL SHEET — 325 E Bertsch St
 
 | Field | Details |
 |-------|---------|
-| **Asking Price** | $39,000 |
+| **Asking Price** | $45,000 |
 | **Property Type** | Single Family Home |
 | **Bedrooms** | 3 |
-| **Bathrooms** | 1 |
-| **Area** | Philadelphia, PA 19142 |
-| **ARV (After Repair Value)** | $97,500.0 (estimate — verify with comps) |
+| **Bathrooms** | 1.5 |
+| **Area** | Lansford, PA 18232 |
+| **ARV (After Repair Value)** | $112,500.0 (estimate — verify with comps) |
 | **Est. Repairs** | TBD |
 | **Your Fee** | $3,000–$4,000 |
 | **Source** | New Western / Aidan Daly |
-| **Email ID** | 694 |
+| **Email ID** | 700 |
 
 ---
 
 ## The Numbers
 
 ```
-ARV (Estimate):               $97,500.0
-Your Purchase Price:           $39,000
+ARV (Estimate):               $112,500.0
+Your Purchase Price:           $45,000
 Estimated Repairs:             TBD
                              ─────────────
 Your Fee Potential:           $3,000–$4,000
@@ -29,13 +29,13 @@ Your Fee Potential:           $3,000–$4,000
 
 ## Description
 
-Come check out this shell in 19142! This house is the cheapest property you can find in this pocket. Contact your NW rep today!
+Explore our latest CHEAP off-market vacant Carbon County Investment opportunity! Property needs cosmetics throughout - can work as a quick low end flip, medium grade flip or rental! Contact your NW agent for more information & access info.
 
 ---
 
 ## Next Steps
 
-1. **Verify comps** — what are recent sales in Philadelphia?
+1. **Verify comps** — what are recent sales in Lansford?
 2. **Request full package** from New Western: (267) 401-8852 / aidan.daly@newwestern.com
 3. **Schedule showing**
 4. **Match to buyer profile** — check deal-tracker.md for buyer matches
