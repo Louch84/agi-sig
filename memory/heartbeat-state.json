@@ -3,8 +3,8 @@
     "email": null,
     "calendar": null,
     "weather": null,
-    "rss": 1743679680,
-    "cron_status": 1743682080
+    "rss": 1744046400,
+    "cron_status": 1744046400
   },
-  "notes": "2026-04-07 9:28 AM ET — News-wire scanner fix committed (a896b83). Git clean. Two cron jobs persistent error (PerfectPlace Deal Scanner, Sunday Night Scanner). Self-review ran OK 28m ago."
+  "notes": "2026-04-07 3:32 PM ET — PerfectPlace cron recovered ✅, 3 new deals with sheets generated. 3 new articles (1 HN, 2 Verge). Git clean. Sunday Scanner still error."
 }
