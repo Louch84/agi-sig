@@ -4,7 +4,7 @@
     "calendar": null,
     "weather": null,
     "rss": 1743679680,
-    "cron_status": 1743680800
+    "cron_status": 1743682080
   },
-  "notes": "2026-04-07 9:27 AM ET — Committed scanner fix. Two cron jobs persistent error (PerfectPlace Deal Scanner 20h, Sunday Night Scanner 1d). Self-review ran OK 28m ago. Git dirty → committed."
+  "notes": "2026-04-07 9:28 AM ET — News-wire scanner fix committed (a896b83). Git clean. Two cron jobs persistent error (PerfectPlace Deal Scanner, Sunday Night Scanner). Self-review ran OK 28m ago."
 }
