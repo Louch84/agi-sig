@@ -3,8 +3,8 @@
     "email": null,
     "calendar": null,
     "weather": null,
-    "rss": 1744046400,
-    "cron_status": 1744046400
+    "rss": 1744056780,
+    "cron_status": 1744056780
   },
-  "notes": "2026-04-07 3:32 PM ET — PerfectPlace cron recovered ✅, 3 new deals with sheets generated. 3 new articles (1 HN, 2 Verge). Git clean. Sunday Scanner still error."
+  "notes": "2026-04-07 5:33 PM ET — 4 new HN articles. All crons stable. Sunday Scanner error persists (2d). Market closed. No action needed."
 }
