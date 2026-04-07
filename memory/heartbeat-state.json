@@ -3,7 +3,8 @@
     "email": null,
     "calendar": null,
     "weather": null,
-    "rss": 1743672300,
-    "cron_status": 1743673500
-  }
+    "rss": 1743679680,
+    "cron_status": 1743679500
+  },
+  "notes": "2026-04-07 4:08 AM ET — 16 new articles found (HN 15, The Verge 1). Git clean. Serveo.net SSH tunnel error from previous exec session (stdin not terminal). Two cron jobs in persistent error state per cron list (PerfectPlace Deal Scan, Sunday Night Scanner) — not new failures."
 }
