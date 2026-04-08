@@ -47,7 +47,7 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - `self-track` — self-improvement tracking, published to ClawHub@1.0.0
 
 ## State
-- Last full self-review: 2026-04-05 ✅ (today, 9AM ET)
+- Last full self-review: 2026-04-08 ✅ (today, 9AM ET, Day 13)
 - GitHub: connected as Louch84 ✅
 - ClawHub: logged in as @Louch84 ✅
 
@@ -74,6 +74,13 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - **OpenFang trader: 5+ days unverified** — crashed April 2, SESSION-STATE says recovered but never confirmed hands-on.
 - $SIGBOTTI coin: unverified post-launch performance on Pump.fun
 - Self-eval monthly cron: ~23 days to first run
+
+## Self-Review Learnings (2026-04-08 — 9AM ET, Day 13)
+- **PerfectPlace cron RECOVERED** ✅ — ran successfully 2026-04-07 at 1PM ET: 3 deals (2989 Eastburn $450K, 325 E Bertsch $45K, 917 Belmont $230K), sheets auto-generated
+- **OpenFang trader: 6+ days unverified — CRITICAL** — crashed April 2, never confirmed hands-on. Must verify today.
+- **Sunday Night Scanner delivery still failing** — scan completes fine, announce step times out at 300s. Need to increase timeout or split scan/announce into separate cron jobs.
+- $SIGBOTTI coin pump.fun stats still unverified
+- Self-eval monthly cron: ~22 days to first run
 
 ## Self-Review Learnings (2026-04-04 — 9AM ET)
 - **OpenFang trader not self-recovering:** Crashed 25+ hours, won't restart on its own. Needs CLI intervention.

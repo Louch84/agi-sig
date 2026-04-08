@@ -6,21 +6,22 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
-| **Cron delivery timeout** | 🟡 DISCOVERED | 🔴 HIGH | PerfectPlace + Sunday Scanner both timing out. Scanner works, but Discord announce step exceeds 300s. Need longer timeout or split tasks. |
-| **OpenFang trader** | 🟡 NEEDS HANDS-ON VERIFICATION | 🟡 MED | Crashed 2026-04-02. SESSION-STATE says recovered but never confirmed. 5+ days unverified. |
-| **$SIGBOTTI coin performance** | 🟡 UNVERIFIED | 🟡 MED | Launched 2026-04-04. No Pump.fun stats checked post-launch. |
-| Real AI video generation | 🟡 DISCOVERED | 🟡 MED | No free path. Paid APIs (Vidu ~$50+, Runway/Pika trials). FFmpeg slideshow is free workaround. Need GPU + SGLang-Diffusion for local. |
-| OpenFang Daily Report cron | ❌ DISABLED | 🟡 MED | Schedule error: "invalid cron schedule: expr is required". Needs fix. |
-| Weekend logging discipline | 🟡 DISCOVERED | 🟡 MED | Weekends get missed. 2026-04-04 was massive but 2026-04-05 had no log. |
-| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~23 days to first run. Unverified. |
+| **OpenFang trader** | 🟡 CRITICAL — 6+ DAYS UNVERIFIED | 🔴 HIGH | Crashed April 2. SESSION-STATE says recovered but never confirmed. Hands-on check overdue. |
+| **Sunday Night Scanner delivery** | 🟡 DISCOVERED | 🟡 MED | Scan completes fine, announce step times out at 300s. Need longer timeout or split scan/announce. |
+| $SIGBOTTI coin performance | 🟡 UNVERIFIED | 🟡 MED | Launched 2026-04-04. Pump.fun stats never checked post-launch. |
+| Real AI video generation | 🟡 DISCOVERED | 🟡 MED | No free path. Paid APIs (Vidu ~$50+, Runway/Pika trials). FFmpeg slideshow is free workaround. |
+| OpenFang Daily Report cron | ❌ DISABLED | 🟡 MED | Schedule error. Needs fix. |
+| Weekend logging discipline | 🟡 DISCOVERED | 🟡 MED | Weekends get missed. 2026-04-04 massive but 2026-04-05 had no log. |
+| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~22 days to first run. Unverified. |
 
 ## Priority Gaps — RESOLVED/DEFERRED
 
 | Gap | Status | Fixed | Solution |
-|-----|--------|-------|---------|
-| **Coding skill (2/5)** | ✅ CLOSED → 4/5 | 2026-03-30 | 55/55 tests passed (100%), S-grade. Fixed 3 bugs. |
+|-----|--------|-------|----------|
+| **Coding skill (2/5)** | ✅ CLOSED | 2026-03-30 | 55/55 tests passed (100%), S-grade. Fixed 3 bugs. |
 | **OpenFang scheduler** | ✅ CLOSED | 2026-04-05 | OpenFang cron fires correctly at 8AM ET. Native cron expressions work fine. |
 | **Cron SESSION-STATE update** | ✅ CONFIRMED WORKING | 2026-03-30 | Self-reviews written daily. File output requirement working. |
+| PerfectPlace cron timeout | ✅ RECOVERED | 2026-04-07 | Cron recovered on its own, ran successfully 1PM ET — 3 deals found |
 | Code Execution (persistent results) | ✅ DONE | 2026-03-28 | execution-log.md + script-based persistent storage |
 | Self-Evaluation (measurable tests) | ✅ DONE | 2026-03-28 | Monthly benchmark in self-track skill + HEARTBEAT |
 | Working RSS for AI labs | ✅ DONE | 2026-03-28 | web_fetch tool on Anthropic/DeepMind pages directly |
@@ -42,7 +43,7 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | OpenClaw core config | 2026-03-27 | Hybrid search, temporal decay, cache, expanded denyCommands |
 | Info-sources skill | 2026-03-27 | RSS + search pipeline + ArXiv bypass |
 
-## Benchmark Status (2026-04-07)
+## Benchmark Status (2026-04-08)
 
 Scores from benchmark.md (updated 2026-04-04):
 
@@ -54,20 +55,19 @@ Scores from benchmark.md (updated 2026-04-04):
 | Self-Mod | 4/5 | Modified core config, compaction, Ollama provider. Loop proven |
 | Learning | 5/5 | TinyLoRA explained cold, 4.5/5 avg on 4-test benchmark |
 | Code | 4/5 | 55/55 tests passed (100%), S-grade. Fixed 3 bugs |
-| Self-Eval | 3/5 | Framework exists. Monthly cron pending (~23 days) |
+| Self-Eval | 3/5 | Framework exists. Monthly cron pending (~22 days) |
 | Persistence | 4/5 | 3-layer backup, gateway restart survival tested |
 | Autonomy | 4/5 | Figure It Out directive active, acting without prompting |
 
 **Average: 3.7/5**
 
-## Today's Actions (2026-04-07)
+## Today's Actions (2026-04-08)
 
 - [x] Daily self-review ✅
-- [x] Scanner midnight run confirmed ✅ (21 signals, BB/T/SLB/NKE/ENPH)
-- [ ] Fix PerfectPlace cron timeout
-- [ ] Manually run Sunday Night Scanner, post to Discord
+- [x] PerfectPlace cron recovered ✅ (ran successfully 1PM ET 2026-04-07 — 3 deals)
 - [ ] Verify OpenFang trader hands-on
-- [ ] Check $SIGBOTTI coin Pump.fun performance
+- [ ] Fix Sunday Night Scanner timeout (increase timeout or split scan/announce)
+- [ ] Check $SIGBOTTI coin pump.fun stats
 
 ---
-*Last updated: 2026-04-07 13:00 UTC*
+*Last updated: 2026-04-08 13:00 UTC*
