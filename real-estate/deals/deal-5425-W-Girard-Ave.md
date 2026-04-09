@@ -1,35 +1,35 @@
-# DEAL SHEET — 5810 Washington Ave
+# DEAL SHEET — 5425 W Girard Ave
 
 | Field | Details |
 |-------|---------|
-| **Asking Price** | $139,000 |
+| **Asking Price** | $113,000 |
 | **Property Type** | Single Family Home |
-| **Bedrooms** | 4 |
+| **Bedrooms** | 3 |
 | **Bathrooms** | 1 |
-| **Area** | Philadelphia, PA 19143 |
-| **ARV (After Repair Value)** | $347,500.0 (estimate — verify with comps) |
+| **Area** | Philadelphia, PA 19131 |
+| **ARV (After Repair Value)** | $282,500.0 (estimate — verify with comps) |
 | **Est. Repairs** | TBD |
-| **Your Fee** | $3,475–$4,475 |
+| **Your Fee** | $3,000–$4,000 |
 | **Source** | New Western / Aidan Daly |
-| **Email ID** | 685 |
+| **Email ID** | 708 |
 
 ---
 
 ## The Numbers
 
 ```
-ARV (Estimate):               $347,500.0
-Your Purchase Price:           $139,000
+ARV (Estimate):               $282,500.0
+Your Purchase Price:           $113,000
 Estimated Repairs:             TBD
                              ─────────────
-Your Fee Potential:           $3,475–$4,475
+Your Fee Potential:           $3,000–$4,000
 ```
 
 ---
 
 ## Description
 
-Check out this huge end row 4 Bed in 19143. A great opportunity for an investor looking for a West Philly with a lot of upside. Call a New Western agent and set up your showing today!
+Vacant RM1 in 19131! Group 3 Section 8 & Strong Market Rent all around us. Contact your NW agent today!
 
 ---
 
