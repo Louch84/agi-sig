@@ -75,6 +75,13 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - $SIGBOTTI coin: unverified post-launch performance on Pump.fun
 - Self-eval monthly cron: ~23 days to first run
 
+## Self-Review Learnings (2026-04-09 — 9AM ET, Day 14)
+- **Quiet maintenance day** — no new learnings, no gaps closed
+- OpenFang trader: 7+ days unverified (critical, persisted overnight)
+- Sunday Night Scanner: still timing out at delivery
+- $SIGBOTTI coin: pump.fun stats still unverified
+- All three critical items require hands-on action — stop noting, start doing
+
 ## Self-Review Learnings (2026-04-08 — 9AM ET, Day 13)
 - **PerfectPlace cron RECOVERED** ✅ — ran successfully 2026-04-07 at 1PM ET: 3 deals (2989 Eastburn $450K, 325 E Bertsch $45K, 917 Belmont $230K), sheets auto-generated
 - **OpenFang trader: 6+ days unverified — CRITICAL** — crashed April 2, never confirmed hands-on. Must verify today.

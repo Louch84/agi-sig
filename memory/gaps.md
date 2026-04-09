@@ -6,13 +6,13 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
-| **OpenFang trader** | 🟡 CRITICAL — 6+ DAYS UNVERIFIED | 🔴 HIGH | Crashed April 2. SESSION-STATE says recovered but never confirmed. Hands-on check overdue. |
+| **OpenFang trader** | 🟡 ACTIVE BUT IDLE — 0 trades, $10K paper portfolio | 🟡 MED | Crashed April 2. CONFIRMED ALIVE 2026-04-09 — running but not executing trades. Gap is performance, not crash. |
 | **Sunday Night Scanner delivery** | 🟡 DISCOVERED | 🟡 MED | Scan completes fine, announce step times out at 300s. Need longer timeout or split scan/announce. |
 | $SIGBOTTI coin performance | 🟡 UNVERIFIED | 🟡 MED | Launched 2026-04-04. Pump.fun stats never checked post-launch. |
 | Real AI video generation | 🟡 DISCOVERED | 🟡 MED | No free path. Paid APIs (Vidu ~$50+, Runway/Pika trials). FFmpeg slideshow is free workaround. |
 | OpenFang Daily Report cron | ❌ DISABLED | 🟡 MED | Schedule error. Needs fix. |
 | Weekend logging discipline | 🟡 DISCOVERED | 🟡 MED | Weekends get missed. 2026-04-04 massive but 2026-04-05 had no log. |
-| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~22 days to first run. Unverified. |
+| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~21 days to first run. Unverified. |
 
 ## Priority Gaps — RESOLVED/DEFERRED
 
