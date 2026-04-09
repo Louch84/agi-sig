@@ -3,8 +3,8 @@
     "email": 1744086324,
     "calendar": null,
     "weather": null,
-    "rss": 1744206780,
-    "cron_status": 1744174500
+    "rss": 1744212180,
+    "cron_status": 1744191540
   },
-  "notes": "2026-04-09 5:33 PM ET — 4 new articles. Notable: 'Discovering/detecting/surgically removing Google's AI watermark' (HN). Crons nominal. Scanner errored (fires Sunday). Git clean."
+  "notes": "2026-04-09 6:03 PM ET — 5 new articles (4 HN, 1 Verge). Crons nominal, all OK. Git clean."
 }
