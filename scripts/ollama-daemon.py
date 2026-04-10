@@ -2,6 +2,8 @@
 """
 Ollama Autonomous Worker — Long-running daemon that processes tasks.
 Keeps models loaded in memory for fast subsequent responses.
+JARVIS-style task planning: complex requests get decomposed before execution.
+Learning system: trace logging + feedback-driven routing.
 """
 import sys
 import json
@@ -12,10 +14,19 @@ import urllib.error
 import threading
 from datetime import datetime
 
+# Import trace logger
+sys.path.insert(0, os.path.dirname(__file__))
+try:
+    from trace_logger import log_trace, get_routing_hints, load_traces, analyze_routing
+    HAS_TRACING = True
+except ImportError:
+    HAS_TRACING = False
+
 OLLAMA_BASE = "http://localhost:11434"
 QUEUE_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "task-queue.json")
 RESULTS_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "task-results.json")
 LOG_FILE = os.path.join(os.path.dirname(__file__), "..", "logs", "dispatcher.log")
+PLANNER_SCRIPT = os.path.join(os.path.dirname(__file__), "task-planner.py")
 
 # Model pool — keep these loaded
 MODEL_POOL = {
@@ -140,18 +151,180 @@ def route_task(task: dict) -> str:
     return "general"
 
 
-def process_task(task: dict) -> dict:
+def plan_complex_task(prompt: str) -> dict:
+    """Use JARVIS-style task planning for complex requests."""
+    import subprocess
+
+    try:
+        result = subprocess.run(
+            ["python3", PLANNER_SCRIPT, prompt],
+            capture_output=True,
+            text=True,
+            timeout=90,
+        )
+        output = result.stdout.strip()
+
+        # Extract JSON from output
+        lines = output.split("\n")
+        json_start = -1
+        json_end = len(lines)
+        for i, line in enumerate(lines):
+            if line.strip().startswith("{"):
+                json_start = i
+            if line.strip() == "}" and json_start >= 0:
+                json_end = i + 1
+                break
+
+        if json_start >= 0:
+            json_text = "\n".join(lines[json_start:json_end])
+            plan = json.loads(json_text)
+            return plan
+        return None
+    except Exception as e:
+        log(f"Planner error: {e}")
+        return None
+
+
+def process_task_with_planner(task: dict) -> dict:
+    """Process a task using JARVIS-style decomposition for complex requests."""
+    task_id = task.get("id", "unknown")
+    prompt = task.get("prompt", task.get("content", ""))
+
+    # Check if task is complex enough to warrant planning
+    complexity_indicators = [" and ", " also ", " plus ", " then ", " after ",
+                              "fix", "write", "build", "create", "research",
+                              "analyze", "compare", "audit", "review"]
+    is_complex = sum(1 for i in complexity_indicators if i in prompt.lower()) >= 2
+
+    if not is_complex:
+        # Simple task — process directly
+        return process_task_simple(task)
+
+    log(f"Task {task_id} is complex — running JARVIS-style planner")
+    plan = plan_complex_task(prompt)
+
+    if not plan or "subtasks" not in plan:
+        log(f"Planner failed for {task_id}, falling back to direct execution")
+        return process_task(task)
+
+    log(f"Plan: {plan.get('summary', 'N/A')} — {len(plan['subtasks'])} subtasks")
+
+    subtask_results = []
+    completed = set()
+
+    for iteration in range(len(plan["subtasks"]) * 2):
+        for subtask in plan["subtasks"]:
+            tid = subtask["id"]
+            if tid in completed:
+                continue
+
+            deps = subtask.get("depends_on", [])
+            if not all(d in completed for d in deps):
+                continue
+
+            # Build context from completed subtask results
+            context_parts = []
+            for prev_result in subtask_results:
+                if prev_result["subtask_id"] in deps:
+                    context_parts.append(f"[Subtask {prev_result['subtask_id']}]: {prev_result.get('output', '')[:500]}")
+
+            context = "\n".join(context_parts)
+
+            # Execute subtask
+            sub_result = execute_subtask(subtask, context)
+            sub_result["subtask_id"] = tid
+            subtask_results.append(sub_result)
+
+            if sub_result.get("status") == "done":
+                completed.add(tid)
+
+        if len(completed) >= len(plan["subtasks"]):
+            break
+
+    # Synthesize results
+    synthesis = synthesize_results(plan, subtask_results)
+
+    return {
+        "id": task_id,
+        "status": "done",
+        "model": "planner:" + ",".join([s.get("model", "?") for s in subtask_results]),
+        "response": synthesis,
+        "plan": plan,
+        "subtask_results": subtask_results,
+        "completed_at": datetime.now().isoformat(),
+    }
+
+
+def execute_subtask(subtask: dict, context: str = "") -> dict:
+    """Execute a single subtask."""
+    model_info = MODEL_POOL.get(subtask.get("type", "general"), MODEL_POOL["general"])
+    model = model_info["model"]
+    task_type = subtask.get("type", "general")
+
+    prompt = subtask.get("description", "")
+    if context:
+        prompt = f"Context from previous steps:\n{context}\n\nTask: {prompt}"
+
+    if not ensure_model(model):
+        return {"status": "error", "model": model, "output": f"Failed to load {model}"}
+
+    messages = [{"role": "user", "content": prompt}]
+    start = time.time()
+    response = ollama_chat(model, messages, timeout=REQUEST_TIMEOUT)
+    duration_ms = int((time.time() - start) * 1000)
+
+    success = not response.startswith("[Error]")
+    if HAS_TRACING:
+        sub_id = f"subtask-{subtask.get('id', 0)}"
+        log_trace(sub_id, model, task_type, prompt, response, duration_ms, success)
+
+    return {"status": "done", "model": model, "output": response}
+
+
+def synthesize_results(plan: dict, subtask_results: list) -> str:
+    """Use llama3 to synthesize subtask results into a coherent response."""
+    if len(subtask_results) == 1:
+        return subtask_results[0].get("output", "")
+
+    synthesis_prompt = f"Original request: {plan.get('summary', '')}\n\n"
+    synthesis_prompt += "Subtask results:\n"
+    for r in subtask_results:
+        synthesis_prompt += f"- {r.get('output', '')}\n\n"
+    synthesis_prompt += "Synthesize all results into a single, coherent answer to the original request."
+
+    messages = [{"role": "user", "content": synthesis_prompt}]
+    result = ollama_chat(MODEL_POOL["general"]["model"], messages, timeout=REQUEST_TIMEOUT)
+    return result
+
+
+def process_task_simple(task: dict) -> dict:
+    """Direct execution for simple tasks — no planning."""
     task_id = task.get("id", "unknown")
     task_type = route_task(task)
-    model_info = MODEL_POOL.get(task_type, MODEL_POOL["general"])
-    model = model_info["model"]
+    
+    # Learning: check routing hints for best model for this task type
+    if HAS_TRACING:
+        hints = get_routing_hints()
+        if task_type in hints:
+            hinted_model = hints[task_type]
+            if hinted_model in [m["model"] for m in MODEL_POOL.values()]:
+                model = hinted_model
+                log(f"Routing {task_id} to {model} (learned hint for {task_type})")
+            else:
+                model_info = MODEL_POOL.get(task_type, MODEL_POOL["general"])
+                model = model_info["model"]
+        else:
+            model_info = MODEL_POOL.get(task_type, MODEL_POOL["general"])
+            model = model_info["model"]
+    else:
+        model_info = MODEL_POOL.get(task_type, MODEL_POOL["general"])
+        model = model_info["model"]
 
     log(f"Processing {task_id} with {model} ({task_type})")
 
     prompt = task.get("prompt", task.get("content", ""))
     context = task.get("context", "")
 
-    # Ensure model is loaded
     if not ensure_model(model):
         return {
             "id": task_id,
@@ -166,8 +339,15 @@ def process_task(task: dict) -> dict:
         messages.append({"role": "system", "content": f"Context:\n{context}"})
     messages.append({"role": "user", "content": prompt})
 
-    timeout = REQUEST_TIMEOUT
-    response = ollama_chat(model, messages, timeout=timeout)
+    start = time.time()
+    response = ollama_chat(model, messages, timeout=REQUEST_TIMEOUT)
+    duration_ms = int((time.time() - start) * 1000)
+
+    success = not response.startswith("[Error]")
+
+    # Log trace for learning
+    if HAS_TRACING:
+        log_trace(task_id, model, task_type, prompt, response, duration_ms, success)
 
     return {
         "id": task_id,
@@ -176,6 +356,22 @@ def process_task(task: dict) -> dict:
         "response": response,
         "completed_at": datetime.now().isoformat(),
     }
+
+
+def process_task(task: dict) -> dict:
+    """Entry point — uses JARVIS-style planning for complex tasks."""
+    prompt = task.get("prompt", task.get("content", ""))
+
+    # Simple tasks: 2 or fewer complexity indicators
+    complexity_indicators = [" and ", " also ", " plus ", " then ", " after ",
+                              "fix", "write", "build", "create", "research",
+                              "analyze", "compare", "audit", "review"]
+    complexity_score = sum(1 for i in complexity_indicators if i in prompt.lower())
+
+    if complexity_score >= 2:
+        return process_task_with_planner(task)
+    else:
+        return process_task_simple(task)
 
 
 def dispatch_once():
@@ -295,5 +491,46 @@ if __name__ == "__main__":
             print(r.get("response", "No response"))
         else:
             print("Not found or still pending")
+    elif cmd == "feedback":
+        # Allow rating a task outcome to improve routing
+        rid = sys.argv[2] if len(sys.argv) > 2 else ""
+        rating = sys.argv[3] if len(sys.argv) > 3 else ""
+        if not rid or not rating:
+            print("Usage: feedback <task_id> <good|bad>")
+            sys.exit(1)
+        if rating not in ("good", "bad"):
+            print("Rating must be: good | bad")
+            sys.exit(1)
+        if HAS_TRACING:
+            traces = load_traces(limit=1000)
+            # Find and update matching trace
+            updated = False
+            updated_traces = []
+            for t in traces:
+                if t.get("task_id") == rid:
+                    t["feedback"] = rating
+                    t["feedback_time"] = datetime.now().isoformat()
+                    updated = True
+                updated_traces.append(t)
+            if updated:
+                # Rewrite traces (append-only would be better with a proper DB)
+                with open(os.path.join(os.path.dirname(__file__), "..", "data", "traces", "traces.jsonl"), "w") as f:
+                    for t in updated_traces:
+                        f.write(json.dumps(t) + "\n")
+                print(f"✅ Feedback recorded: {rid} rated {rating}")
+            else:
+                print(f"Task {rid} not found in recent traces")
+        else:
+            print("Tracing not available")
+    elif cmd == "analyze":
+        if HAS_TRACING:
+            recs = analyze_routing()
+            print("=== Model Routing Analysis ===")
+            for tt, data in recs.items():
+                print(f"\n[{tt}] → {data['recommended_model']} (score: {data['score']:.2f})")
+                for m, s in data["models"].items():
+                    print(f"  {m}: {s['success_rate']}% success, {s['avg_duration_ms']}ms avg, {s['count']} runs")
+        else:
+            print("Tracing not available")
     else:
         print(f"Unknown command: {cmd}")

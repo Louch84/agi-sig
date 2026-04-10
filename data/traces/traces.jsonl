@@ -1,0 +1,1 @@
+{"task_id": "task-20260410013759-0", "timestamp": "2026-04-10T01:38:29.169545", "model": "llama3.2:1b", "task_type": "fast", "prompt": "What is machine learning in one sentence? fast", "prompt_len": 46, "response_len": 165, "duration_ms": 1709, "success": true, "error": null, "tokens_approx": 52, "subtasks": null, "plan_summary": null}
