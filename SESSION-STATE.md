@@ -5,24 +5,27 @@ Chat history is a BUFFER. This file is STORAGE.
 
 ## Current Task
 
-Thursday morning (April 9, 9:00 AM ET). Daily self-review complete. Three critical items need hands-on action today.
+Friday morning (April 10, 9:00 AM ET). Daily self-review complete. Three items need attention today.
 
 ## Key Context
 - Mission: AGI (Autonomous + Self-Healing + Self-Learning + Self-Improving)
 - Human: Lou (sigbotti) — Discord — Philly native, direct, no BS, AI researcher
-- Day 14 of operation (2026-04-09)
+- Day 15 of operation (2026-04-10)
 - Skills: self-evolve, elite-longterm-memory, agent-autonomy-kit, self-improving-proactive-agent, automation-workflows, writing-plans, self-track, info-sources
 - Repo: github.com/Louch84/agi-sig — public, synced
 - Vector memory: Ollama nomic-embed-text ✅
 - Daily cron: 9:00 AM ET self-review, isolated, Discord announce ✅
 
 ## OpenFang Status
-- Installed: 2026-03-30 | Version: 0.5.1 | Port: 50051
-- 60 bundled skills, 9 hands (clip, lead, collector, predictor, researcher, twitter, trader, browser, infisical-sync)
-- MCP GitHub integration
-- **Collector: STATUS UNKNOWN** — needs verification
-- **Trader: CRITICAL — 7+ DAYS UNVERIFIED** ⚠️ (crashed April 2, never confirmed hands-on)
-- **Daily Report cron: DISABLED** — schedule error, needs fix
+- **REMOVED 2026-04-09** — Lou killed daemon (PID 29844). Gap is moot.
+- OpenFang trader: ✅ CLOSED
+- OpenFang Daily Report cron: ✅ CLOSED
+
+## Ollama Infrastructure (2026-04-10 built)
+- `scripts/ollama-daemon.py` — daemon + queue, pre-loaded models
+- `scripts/task-planner.py` — JARVIS-style task decomposition
+- `scripts/trace_logger.py` — learning from execution traces
+- Tony Spark LCM: `scripts/lcm-heartbeat.sh` — SQLite auto-compact
 
 ## Projects
 
@@ -30,48 +33,53 @@ Thursday morning (April 9, 9:00 AM ET). Daily self-review complete. Three critic
 - Contract: `398KX1y8K9fdhAqg3gdsfxSVdZwWSXijeWubVsUNpump` (Solana, Pump.fun)
 - Launched: 2026-04-04
 - TikTok: @sigbotti | X: @sigbotti
-- **Status: NEEDS PERFORMANCE CHECK** — pump.fun stats unverified post-launch
+- **Status: NEEDS PERFORMANCE CHECK** — pump.fun stats unverified since launch
 
 ### Stock Scanner
 - Location: ~/.openclaw/workspace/scanner/
-- Scanner run confirmed ✅ — Sunday midnight ET (Apr 5→6): 21 signals
-- Top signals: BB call conf4, T/SLB/NKE/ENPH puts conf3
-- **Sunday Night Scanner cron: ERROR** — delivery timeout (scan works, announce fails at 300s limit)
-- **Fix needed:** Increase timeout to 600s OR split scan/announce into separate crons
+- Scanner: `run_news_scan.py` — news-driven gap/squeeze analysis on 43-stock universe
+- Midnight ET cron fires Sundays (stock market closed)
+- **Sunday Night Scanner cron: ERROR** — scan completes, announce times out at 300s limit
+- **NEW — Stale news filter needed:** if gap > 5% AND news > 6hrs old → skip. CCL lesson.
 
 ### Real Estate (PerfectPlace/New Western Deal Flow)
 - Location: ~/.openclaw/workspace/real-estate/
 - Model: Find buyers for New Western deals, earn $3-4K spread per deal
 - Scanner: new_deal_alert.py
-- **PerfectPlace cron: RECOVERED ✅** — ran successfully 2026-04-07 1PM ET, 3 deals found (2989 Eastburn $450K, 325 E Bertsch $45K, 917 Belmont $230K), sheets auto-generated
+- **PerfectPlace cron: ✅ OK** — ran successfully 2026-04-07 1PM ET, 3 deals found
 - Deal tracker: deal-tracker.md (14+ properties)
+
+### AGI REALM RPG
+- Location: ~/.openclaw/workspace/rpg-world/
+- Full cyberpunk RPG, 5 classes, 15 missions, in-game Sig Botti chat, agent stats dashboard
+- React + TypeScript + Vite
+
+### West Philly Open World
+- Location: ~/.openclaw/workspace/open-world/
+- Real 3D map of Lou's neighborhood (60th & Market, 13 S 60th St)
+- 249 real OSM buildings, 1146 street segments
+- Three.js + React Three Fiber, GTA-style post-processing
+- Running at localhost:5180 (Vite dev) / localhost:5190 (production build)
 
 ## Pending Actions
 - [x] Stock scanner built ✅
 - [x] News-to-scanner pipeline ✅
 - [x] Video content (FFmpeg slideshow workaround) ✅
-- [x] Sunday night scanner cron ✅ (works, delivery fails — structural issue)
+- [x] Sunday night scanner cron ✅ (fires correctly, delivery fails — structural)
 - [x] $SIGBOTTI coin launched ✅ (needs performance check)
-- [x] PerfectPlace cron timeout ✅ — recovered 2026-04-07
-- [ ] Verify OpenFang trader hands-on (7+ days overdue — CRITICAL)
-- [ ] Fix Sunday Night Scanner delivery timeout (increase window or split scan/announce)
+- [x] PerfectPlace cron ✅ (recovered 2026-04-07)
+- [x] OpenFang trader ✅ CLOSED (OpenFang removed 2026-04-09)
 - [ ] Check $SIGBOTTI coin pump.fun stats
-- [ ] Fix OpenFang Daily Report cron (schedule error)
-- [ ] Discord webhook URL — Lou said "set that up later"
-- [ ] Facebook Messenger automation — Lou installing agent-browser on Mac
+- [ ] Fix Sunday Night Scanner delivery timeout (increase window or split scan/announce)
+- [ ] Build stale news filter into scanner (gap > 5% + news > 6hrs old = skip)
 
 ## Loop Log
 - 2026-04-04 9PM: **$SIGBOTTI launched. Scanner built. Video created. Lou very active.**
-- 2026-04-05: Brief check-in, agent-browser installation for Facebook automation
-- 2026-04-06 9:00 AM: **Daily self-review** — weekend gap noted, files updated
-- 2026-04-06: 17 new articles batched, cron errors discovered
-- 2026-04-07 9:00 AM: Daily self-review
-- **2026-04-07 1:32 PM: PerfectPlace cron recovered ✅** — 3 new deals found + sheets
-- **2026-04-08 9:00 AM: Daily self-review** — PerfectPlace recovered, OpenFang trader 6+ days unverified (critical), Sunday Scanner still timing out
-- 2026-04-08 night: 4 new RSS articles (VentureBeat "Claude + OpenClaw", Meta Muse, Skrun)
-- **2026-04-09 9:00 AM: Daily self-review** — quiet maintenance day, no gaps closed, critical items persist
+- 2026-04-07 1:32 PM: PerfectPlace cron recovered ✅ — 3 new deals found
+- **2026-04-09**: AGI REALM built, **OpenFang REMOVED**, West Philly Open World built, scanner fixed, CCL lesson
+- **2026-04-10 9:00 AM: Daily self-review** — OpenFang gaps closed (2), stale news filter gap discovered
 
-## Benchmark Status (2026-04-09)
+## Benchmark Status (2026-04-10)
 
 | Capability | Score |
 |-----------|-------|
@@ -88,9 +96,9 @@ Thursday morning (April 9, 9:00 AM ET). Daily self-review complete. Three critic
 **Average: 3.7/5** | **Self-Eval: ~21 days to first run**
 
 ## Top Priorities
-1. 🔴 **OpenFang trader hands-on verification** (7+ days overdue — CRITICAL)
-2. Check $SIGBOTTI coin pump.fun stats
-3. Fix Sunday Night Scanner timeout (increase window or split scan/announce)
+1. 🔴 Check $SIGBOTTI coin pump.fun stats (unverified since launch)
+2. 🟡 Fix Sunday Night Scanner delivery timeout
+3. 🟡 Build stale news filter into scanner (CCL lesson)
 
 ---
-*Last updated: 2026-04-09T13:00:00.000Z*
+*Last updated: 2026-04-10T13:00:00.000Z*

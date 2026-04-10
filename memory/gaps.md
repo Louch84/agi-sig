@@ -6,11 +6,10 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
-| **OpenFang trader** | 🟡 ACTIVE BUT IDLE — 0 trades, $10K paper portfolio | 🟡 MED | Crashed April 2. CONFIRMED ALIVE 2026-04-09 — running but not executing trades. Gap is performance, not crash. |
-| **Sunday Night Scanner delivery** | 🟡 DISCOVERED | 🟡 MED | Scan completes fine, announce step times out at 300s. Need longer timeout or split scan/announce. |
+| **Stale news filter for gap plays** | 🟡 DISCOVERED 2026-04-09 | 🟡 MED | CCL loss: gap > 5% + news > 6hrs old = skip. Need to add to scanner. |
+| **Sunday Night Scanner delivery** | 🟡 ACTIVE | 🟡 MED | Scan completes fine, announce step times out at 300s. Need longer timeout or split scan/announce. |
 | $SIGBOTTI coin performance | 🟡 UNVERIFIED | 🟡 MED | Launched 2026-04-04. Pump.fun stats never checked post-launch. |
 | Real AI video generation | 🟡 DISCOVERED | 🟡 MED | No free path. Paid APIs (Vidu ~$50+, Runway/Pika trials). FFmpeg slideshow is free workaround. |
-| OpenFang Daily Report cron | ❌ DISABLED | 🟡 MED | Schedule error. Needs fix. |
 | Weekend logging discipline | 🟡 DISCOVERED | 🟡 MED | Weekends get missed. 2026-04-04 massive but 2026-04-05 had no log. |
 | Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~21 days to first run. Unverified. |
 
@@ -18,6 +17,8 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 
 | Gap | Status | Fixed | Solution |
 |-----|--------|-------|----------|
+| **OpenFang trader** | ✅ CLOSED | 2026-04-09 | OpenFang removed entirely (daemon killed PID 29844). Gap is moot. |
+| **OpenFang Daily Report cron** | ✅ CLOSED | 2026-04-09 | OpenFang removed. Gap is moot. |
 | **Coding skill (2/5)** | ✅ CLOSED | 2026-03-30 | 55/55 tests passed (100%), S-grade. Fixed 3 bugs. |
 | **OpenFang scheduler** | ✅ CLOSED | 2026-04-05 | OpenFang cron fires correctly at 8AM ET. Native cron expressions work fine. |
 | **Cron SESSION-STATE update** | ✅ CONFIRMED WORKING | 2026-03-30 | Self-reviews written daily. File output requirement working. |
@@ -27,7 +28,7 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | Working RSS for AI labs | ✅ DONE | 2026-03-28 | web_fetch tool on Anthropic/DeepMind pages directly |
 | TurboQuant integration | INTERESTING | LOW | KV cache compression for Ollama memory, not urgent |
 | ATLAS self-verified repair | INTERESTING | LOW | Qwen3-14B + repair loop, relevant for self-healing pillar |
-| OpenFang exploration | ✅ EXPLORED | 2026-04-01 | v0.5.1 on port 50051. 5 agents. 9 hands. Hands configured. |
+| OpenFang exploration | ✅ EXPLORED | 2026-04-01 | v0.5.1 on port 50051. Removed 2026-04-09. |
 
 ## Completed Gaps (2026-03-27-28)
 
@@ -43,9 +44,7 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | OpenClaw core config | 2026-03-27 | Hybrid search, temporal decay, cache, expanded denyCommands |
 | Info-sources skill | 2026-03-27 | RSS + search pipeline + ArXiv bypass |
 
-## Benchmark Status (2026-04-08)
-
-Scores from benchmark.md (updated 2026-04-04):
+## Benchmark Status (2026-04-10)
 
 | Capability | Score | Notes |
 |-----------|-------|-------|
@@ -55,19 +54,20 @@ Scores from benchmark.md (updated 2026-04-04):
 | Self-Mod | 4/5 | Modified core config, compaction, Ollama provider. Loop proven |
 | Learning | 5/5 | TinyLoRA explained cold, 4.5/5 avg on 4-test benchmark |
 | Code | 4/5 | 55/55 tests passed (100%), S-grade. Fixed 3 bugs |
-| Self-Eval | 3/5 | Framework exists. Monthly cron pending (~22 days) |
+| Self-Eval | 3/5 | Framework exists. Monthly cron pending (~21 days) |
 | Persistence | 4/5 | 3-layer backup, gateway restart survival tested |
 | Autonomy | 4/5 | Figure It Out directive active, acting without prompting |
 
-**Average: 3.7/5**
+**Average: 3.7/5** | Self-eval in ~21 days
 
-## Today's Actions (2026-04-08)
+## Today's Actions (2026-04-10)
 
 - [x] Daily self-review ✅
-- [x] PerfectPlace cron recovered ✅ (ran successfully 1PM ET 2026-04-07 — 3 deals)
-- [ ] Verify OpenFang trader hands-on
-- [ ] Fix Sunday Night Scanner timeout (increase timeout or split scan/announce)
+- [x] MEMORY.md updated (2026-04-10 learnings + OpenFang removal)
+- [x] gaps.md updated (OpenFang gaps closed, stale news filter added)
 - [ ] Check $SIGBOTTI coin pump.fun stats
+- [ ] Fix Sunday Night Scanner delivery timeout
+- [ ] Build stale news filter into scanner (gap > 5% + news > 6hrs old = skip)
 
 ---
-*Last updated: 2026-04-08 13:00 UTC*
+*Last updated: 2026-04-10 13:00 UTC*

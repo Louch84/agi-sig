@@ -75,12 +75,21 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - $SIGBOTTI coin: unverified post-launch performance on Pump.fun
 - Self-eval monthly cron: ~23 days to first run
 
+## Self-Review Learnings (2026-04-10 — 9AM ET, Day 15)
+- **OpenFang REMOVED** — Lou killed the daemon (PID 29844). $10K paper portfolio gone. OpenFang trader gap (CRITICAL, 7+ days unverified) is now MOOT.
+- **CCL trade loss — stale news filter needed:** Scanner flagged CCL as bullish gap play, but move was stale gap reversal (news already priced in). Need: if gap > 5% AND news > 6 hours old → skip the play.
+- **Three.js r160 broke CDN use:** Went all-in on ES modules/importmaps, removed UMD support entirely. No more `<script src="three.min.js">`. Must use bundlers (Vite/Webpack) for any Three.js work.
+- **Ollama Autonomous Worker + LCM:** Significant infrastructure built 2026-04-10. Daemon, task planner, trace logger operational. Tony Spark LCM for SQLite auto-compact.
+- Sunday Night Scanner delivery timeout still unresolved
+- $SIGBOTTI coin pump.fun stats still unverified
+
 ## Self-Review Learnings (2026-04-09 — 9AM ET, Day 14)
-- **Quiet maintenance day** — no new learnings, no gaps closed
-- OpenFang trader: 7+ days unverified (critical, persisted overnight)
-- Sunday Night Scanner: still timing out at delivery
-- $SIGBOTTI coin: pump.fun stats still unverified
-- All three critical items require hands-on action — stop noting, start doing
+- **Scanner fix:** yfinance news structure is nested `{'content': {'title', 'pubDate'}}`, not flat. Also news→signal wiring was always passing None. Fixed.
+- **CCL trade loss:** Stale gap reversal — news already priced in. Scanner needs stale news filter.
+- **AGI REALM RPG:** Full cyberpunk RPG at `rpg-world/`, 5 classes, 15 missions, in-game Sig Botti chat, agent stats dashboard.
+- **OpenFang REMOVED** — Lou killed the daemon.
+- **West Philly Open World:** Real 3D map, 249 OSM buildings, 1146 street segments, Three.js + React Three Fiber at localhost:5180.
+- Quiet maintenance day. OpenFang trader: 7+ days unverified (critical, persisted overnight)
 
 ## Self-Review Learnings (2026-04-08 — 9AM ET, Day 13)
 - **PerfectPlace cron RECOVERED** ✅ — ran successfully 2026-04-07 at 1PM ET: 3 deals (2989 Eastburn $450K, 325 E Bertsch $45K, 917 Belmont $230K), sheets auto-generated
