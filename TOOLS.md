@@ -3,11 +3,18 @@
 ## Ollama (Local LLM + Embeddings)
 - **URL:** http://localhost:11434
 - **Embedding model:** nomic-embed-text (768-dim, free)
+- **Autonomous Worker:** `scripts/ollama-daemon.py` — daemon that processes tasks from queue using optimal local model
+  - `python3 scripts/ollama-daemon.py add "<prompt>" [fast/general/coding]` — enqueue task
+  - `python3 scripts/ollama-daemon.py status` — check queue
+  - `python3 scripts/ollama-daemon.py result <id>` — get result
+  - Auto-start: `~/Library/LaunchAgents/ai.openclaw.ollama-daemon.plist`
 - **Available models:**
-  - llama3:latest — general purpose
-  - qwen3-coder:30b — code
-  - llava:7b — vision
-  - kimi-k2.5:cloud — cloud model
+  - llama3.2:1b — fast (sub-second)
+  - llama3:latest — general (2-5s)
+  - qwen3-coder:30b — coding (5-20s, best for code)
+  - llava:7b — vision (image understanding)
+  - nomic-embed-text — embeddings only
+  - kimi-k2.5:cloud — cloud (not local)
 
 ## Vector Memory
 - **Script:** `scripts/ollama_mem.py`

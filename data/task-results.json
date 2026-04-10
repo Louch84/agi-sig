@@ -1,0 +1,16 @@
+{
+  "task-20260410003057-0": {
+    "id": "task-20260410003057-0",
+    "status": "done",
+    "model": "llama3.2:1b",
+    "response": "One of the simplest calculations in the world. One plus one equals two, so that's a quick and easy answer.",
+    "completed_at": "2026-04-10T00:31:04.954057"
+  },
+  "task-20260410003144-0": {
+    "id": "task-20260410003144-0",
+    "status": "done",
+    "model": "llama3:latest",
+    "response": "[Error]: timed out",
+    "completed_at": "2026-04-10T00:35:15.461140"
+  }
+}
