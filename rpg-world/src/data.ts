@@ -7,7 +7,7 @@ export const CLASSES: ClassInfo[] = [
     id: 'data_miner',
     name: 'Data Miner',
     icon: '🔮',
-    description: 'Scours the web for financial news, AI research, and market signals. Passive income generator. Your SIGBOT\'s collector hand runs continuously in the background.',
+    description: 'Scours the web for financial news, AI research, and market signals. Passive income generator.',
     handId: 'collector',
     color: '#00f5ff',
     abilityNames: ['Deep Scan', 'Sentiment Analysis', 'Pattern Recognition']
@@ -25,7 +25,7 @@ export const CLASSES: ClassInfo[] = [
     id: 'trader',
     name: 'Trader',
     icon: '📈',
-    description: 'Analyzes crypto and stocks in real-time. Turn-based market battles where your SIGBOT\'s trader hand watches the watchlist.',
+    description: 'Analyzes crypto and stocks in real-time. Turn-based market battles where your SIGBOT watches the watchlist.',
     handId: 'trader',
     color: '#00ff88',
     abilityNames: ['Bull Call', 'Bear Put', 'Stop Loss']
@@ -34,7 +34,7 @@ export const CLASSES: ClassInfo[] = [
     id: 'scout',
     name: 'Scout',
     icon: '🗝️',
-    description: 'Explores websites autonomously and extracts hidden data. Browser hand navigates where other agents can\'t.',
+    description: 'Explores websites autonomously and extracts hidden data. Navigates where other agents can\'t.',
     handId: 'browser',
     color: '#ff8800',
     abilityNames: ['Web Crawl', 'Stealth Mode', 'Data Extraction']
@@ -43,7 +43,7 @@ export const CLASSES: ClassInfo[] = [
     id: 'coder',
     name: 'Coder',
     icon: '💠',
-    description: 'Writes and improves its own code. Self-improvement loop. The AI-coder hand is the ultimate recursive upgrade.',
+    description: 'Writes and improves its own code. Self-improvement loop. The ultimate recursive upgrade.',
     handId: 'ai-coder',
     color: '#ffd700',
     abilityNames: ['Self-Patch', 'Capability Build', 'Memory Optimize']

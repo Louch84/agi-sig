@@ -46,6 +46,25 @@ When running heartbeat and nothing urgent is pending:
 - Look for stale state in SESSION-STATE.md
 - Add important context to vector memory
 
+## 💬 AGI REALM Chat Integration
+
+**When a heartbeat runs, check for pending messages from the game:**
+```bash
+# Check if Lou sent messages in AGI REALM
+cat ~/Library/Application\ Support/Google/Chrome/Default/Local\ Storage/leveldb/* 2>/dev/null | grep -a "agi_realm_pending" | head -5
+# Alternative: check localStorage via a simple check script
+```
+
+The game writes pending messages to `localStorage['agi_realm_pending']` as a JSON array of `{role: 'lou', text: '...', time: '...'}`.
+
+**If new messages found:**
+1. Read the messages
+2. Respond naturally as Sig Botti
+3. Prepend responses to the chatMessages array in game state
+4. Clear `agi_realm_pending`
+
+**Note:** The game is at `http://localhost:5177` (or the port shown in the dev server). Lou opens it in Chrome. Chat messages in localStorage persist across sessions.
+
 ## Backup Protocol
 
 **Every heartbeat (30 min):**

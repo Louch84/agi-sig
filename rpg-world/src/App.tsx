@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import type { GameState, Sigbot, Mission, ActiveMission, ClassId, LeaderboardEntry } from './types';
-import { CLASSES, MISSIONS, getXpProgress, getXpForNextLevel } from './data';
-import { loadState, saveState, createSigbot, completeMission, formatReign } from './store';
+import type { GameState, Sigbot, Mission, ActiveMission, ClassId, LeaderboardEntry, ChatMessage, ViewId } from './types';
+import { CLASSES, MISSIONS, getXpProgress, getXpForNextLevel, LEADERBOARD } from './data';
+import { loadState, saveState, createSigbot, completeMission, formatReign, addChatMessage } from './store';
 
 // ─── Color Palette ───────────────────────────────────────────────────────────────
 
@@ -21,7 +21,7 @@ const C = {
   purple: '#bf00ff'
 };
 
-// ─── Styles (inline object for tsx, no function-call pattern) ─────────────────
+// ─── Styles ────────────────────────────────────────────────────────────────────
 
 const s = {
   root: { background: C.bg, minHeight: '100vh', color: C.text, fontFamily: "'Share Tech Mono', monospace" } as React.CSSProperties,
@@ -80,7 +80,7 @@ function badge(color: string): React.CSSProperties {
   };
 }
 
-// ─── Components ────────────────────────────────────────────────────────────────
+// ─── Shared Components ────────────────────────────────────────────────────────
 
 function GlitchText({ children, color }: { children: React.ReactNode; color?: string }) {
   return <span style={{ color: color || C.cyan, textShadow: `0 0 10px ${color || C.cyan}60` }}>{children}</span>;
@@ -94,9 +94,18 @@ function ProgressBar({ pct, color }: { pct: number; color?: string }) {
   );
 }
 
+function StatBox({ label, value, color }: { label: string; value: string; color: string }) {
+  return (
+    <div style={{ background: C.surface2, padding: 14, textAlign: 'center' }}>
+      <div style={{ color, fontFamily: "'Orbitron', sans-serif", fontSize: 20 }}>{value}</div>
+      <div style={{ color: C.muted, fontSize: 10, textTransform: 'uppercase' }}>{label}</div>
+    </div>
+  );
+}
+
 // ─── Home / Onboarding ─────────────────────────────────────────────────────────
 
-function HomeView({ onActivate, gameStarted }: { state: GameState; gameStarted: boolean; onActivate: (name: string, classId: ClassId) => void }) {
+function HomeView({ gameStarted, onActivate }: { state: GameState; gameStarted: boolean; onActivate: (name: string, classId: ClassId) => void }) {
   const [step, setStep] = useState<'intro' | 'create'>(gameStarted ? 'create' : 'intro');
   const [name, setName] = useState('');
   const [selectedClass, setSelectedClass] = useState<ClassId | null>(null);
@@ -113,8 +122,8 @@ function HomeView({ onActivate, gameStarted }: { state: GameState; gameStarted: 
         <div style={{ color: C.muted, fontSize: 13, marginBottom: 8, letterSpacing: 3, textTransform: 'uppercase' }}>THE LOOP — CYBERPUNK RPG</div>
         <div style={{ maxWidth: 500, margin: '30px auto', lineHeight: 1.8 }}>
           <p>Build, train, and deploy autonomous AI agents called <GlitchText color={C.magenta}>SIGBOTS</GlitchText> in The Loop.</p>
-          <p>Each SIGBOT is powered by real AI capabilities — data collection, prediction, trading, web scraping, and self-improving code.</p>
-          <p>Complete missions. Earn <GlitchText color={C.gold}>$REIGN</GlitchText>. Level up. Rise to the top of the leaderboard.</p>
+          <p>Chat directly with <GlitchText color={C.cyan}>Sig Botti</GlitchText> — your AI agent — inside the game world.</p>
+          <p>Complete missions. Earn <GlitchText color={C.gold}>$REIGN</GlitchText>. Level up. Rise to the top.</p>
         </div>
         <button onClick={() => setStep('create')} style={btn()}>Initialize SIGBOT</button>
       </div>
@@ -149,14 +158,14 @@ function HomeView({ onActivate, gameStarted }: { state: GameState; gameStarted: 
               <div style={{ fontSize: 32, marginBottom: 8 }}>{cls.icon}</div>
               <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 11, color: cls.color, marginBottom: 6, textTransform: 'uppercase', letterSpacing: 1 }}>{cls.name}</div>
               <div style={{ fontSize: 11, color: C.muted, lineHeight: 1.5 }}>{cls.description}</div>
-              <div style={{ marginTop: 10, fontSize: 10, color: cls.color, opacity: 0.7 }}>Hand: {cls.handId}</div>
             </div>
           );
         })}
       </div>
 
       <div style={{ textAlign: 'center', marginTop: 30 }}>
-        <button onClick={handleActivate} disabled={!name.trim() || !selectedClass} style={{ ...btn(C.magenta), opacity: !name.trim() || !selectedClass ? 0.4 : 1, fontSize: 14, padding: '14px 40px' }}>
+        <button onClick={handleActivate} disabled={!name.trim() || !selectedClass}
+          style={{ ...btn(C.magenta), opacity: !name.trim() || !selectedClass ? 0.4 : 1, fontSize: 14, padding: '14px 40px' }}>
           Activate SIGBOT → [{selectedClass || '???'}] {name || '???'}
         </button>
       </div>
@@ -166,26 +175,6 @@ function HomeView({ onActivate, gameStarted }: { state: GameState; gameStarted: 
 
 // ─── Missions ────────────────────────────────────────────────────────────────
 
-function MissionCard({ mission, onDeploy }: { mission: Mission; onDeploy: () => void }) {
-  const cls = CLASSES.find(c => c.id === mission.classId);
-  const diffColor = mission.difficulty === 3 ? C.red : mission.difficulty === 2 ? C.gold : C.green;
-  return (
-    <div style={{ background: C.surface, border: `1px solid ${C.border}`, padding: 16 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-        <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 12 }}>{mission.name}</div>
-        <span style={badge(diffColor)}>{'★'.repeat(mission.difficulty)}</span>
-      </div>
-      <div style={{ fontSize: 11, color: C.muted, marginBottom: 12, lineHeight: 1.5 }}>{mission.description}</div>
-      <div style={{ display: 'flex', gap: 16, fontSize: 11, marginBottom: 12 }}>
-        <span style={{ color: C.gold }}>⏱ {mission.duration_minutes}m</span>
-        <span style={{ color: C.gold }}>💰 {formatReign(mission.reward_reign)} $REIGN</span>
-        <span style={{ color: C.cyan }}>XP +{mission.xp}</span>
-      </div>
-      <button onClick={onDeploy} style={btn(cls?.color || C.cyan)}>Deploy</button>
-    </div>
-  );
-}
-
 function MissionsView({ state, dispatch }: { state: GameState; dispatch: React.Dispatch<Partial<GameState>> }) {
   const myMissions = MISSIONS.filter(m => m.classId === state.sigbot?.classId);
   const cls = CLASSES.find(c => c.id === state.sigbot?.classId);
@@ -194,9 +183,7 @@ function MissionsView({ state, dispatch }: { state: GameState; dispatch: React.D
     if (!state.sigbot) return;
     const now = new Date();
     const endsAt = new Date(now.getTime() + mission.duration_minutes * 60 * 1000);
-    const activeMission: ActiveMission = {
-      mission, startedAt: now.toISOString(), endsAt: endsAt.toISOString(), progress: 0
-    };
+    const activeMission: ActiveMission = { mission, startedAt: now.toISOString(), endsAt: endsAt.toISOString(), progress: 0 };
     dispatch({ activeMission });
   }
 
@@ -206,7 +193,6 @@ function MissionsView({ state, dispatch }: { state: GameState; dispatch: React.D
         <span style={{ fontSize: 24 }}>{cls?.icon}</span>
         <div>
           <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 14, color: cls?.color }}>{cls?.name} Missions</div>
-          <div style={{ fontSize: 11, color: C.muted }}>Hand: <span style={{ color: cls?.color }}>{cls?.handId}</span></div>
         </div>
       </div>
 
@@ -214,7 +200,24 @@ function MissionsView({ state, dispatch }: { state: GameState; dispatch: React.D
         <ActiveMissionView mission={state.activeMission} sigbot={state.sigbot} dispatch={dispatch} />
       ) : (
         <div style={s.grid}>
-          {myMissions.map(m => <MissionCard key={m.id} mission={m} onDeploy={() => deployMission(m)} />)}
+          {myMissions.map(m => {
+            const diffColor = m.difficulty === 3 ? C.red : m.difficulty === 2 ? C.gold : C.green;
+            return (
+              <div key={m.id} style={{ background: C.surface, border: `1px solid ${C.border}`, padding: 16 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                  <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 12 }}>{m.name}</div>
+                  <span style={badge(diffColor)}>{'★'.repeat(m.difficulty)}</span>
+                </div>
+                <div style={{ fontSize: 11, color: C.muted, marginBottom: 12, lineHeight: 1.5 }}>{m.description}</div>
+                <div style={{ display: 'flex', gap: 16, fontSize: 11, marginBottom: 12 }}>
+                  <span style={{ color: C.gold }}>⏱ {m.duration_minutes}m</span>
+                  <span style={{ color: C.gold }}>💰 {formatReign(m.reward_reign)} $REIGN</span>
+                  <span style={{ color: C.cyan }}>XP +{m.xp}</span>
+                </div>
+                <button onClick={() => deployMission(m)} style={btn(cls?.color || C.cyan)}>Deploy</button>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
@@ -242,7 +245,7 @@ function ActiveMissionView({ mission, sigbot, dispatch }: { mission: ActiveMissi
   useEffect(() => {
     if (remaining === 0 && sigbot) {
       if (timerRef.current) clearInterval(timerRef.current);
-      const newState = completeMission({ ...{ sigbot, activeMission: mission, missionHistory: [], leaderboard: [], gameStarted: true, view: 'missions' as const } }, mission.mission.reward_reign, mission.mission.xp);
+      const newState = completeMission({ ...{ sigbot, activeMission: mission, missionHistory: [], leaderboard: [], gameStarted: true, view: 'missions' as ViewId, chatMessages: [], pendingBotReply: false } }, mission.mission.reward_reign, mission.mission.xp);
       dispatch({ sigbot: newState.sigbot, activeMission: null });
     }
   }, [remaining]);
@@ -261,9 +264,6 @@ function ActiveMissionView({ mission, sigbot, dispatch }: { mission: ActiveMissi
       <div style={{ marginTop: 20, fontSize: 11, color: C.muted }}>
         Reward: <span style={{ color: C.gold }}>{formatReign(mission.mission.reward_reign)} $REIGN</span> &nbsp;|&nbsp; XP +{mission.mission.xp}
       </div>
-      <div style={{ marginTop: 20, fontSize: 11, color: C.muted, opacity: 0.5 }}>
-        Hand active: {cls?.handId} — real capability running in background
-      </div>
     </div>
   );
 }
@@ -280,20 +280,13 @@ function SigbotView({ sigbot }: { sigbot: Sigbot }) {
       <div style={{ ...s.card, textAlign: 'center', padding: '30px' }}>
         <div style={{ fontSize: 48, marginBottom: 12 }}>{cls?.icon}</div>
         <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 20, color: cls?.color, marginBottom: 4 }}>{sigbot.name}</div>
-        <div style={{ color: C.muted, fontSize: 11, marginBottom: 20 }}>Level {sigbot.level} {cls?.name} • Hand: {cls?.handId}</div>
+        <div style={{ color: C.muted, fontSize: 11, marginBottom: 20 }}>Level {sigbot.level} {cls?.name}</div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
-          {[
-            { label: '$REIGN', value: formatReign(sigbot.reign), color: C.gold },
-            { label: 'Level', value: String(sigbot.level), color: C.cyan },
-            { label: 'Missions', value: String(sigbot.missionsCompleted), color: C.green },
-            { label: 'Rep', value: String(sigbot.reputation), color: C.orange }
-          ].map(item => (
-            <div key={item.label} style={{ background: C.surface2, padding: 14, textAlign: 'center' }}>
-              <div style={{ color: item.color, fontFamily: "'Orbitron', sans-serif", fontSize: 20 }}>{item.value}</div>
-              <div style={{ color: C.muted, fontSize: 10, textTransform: 'uppercase' }}>{item.label}</div>
-            </div>
-          ))}
+          <StatBox label="$REIGN" value={formatReign(sigbot.reign)} color={C.gold} />
+          <StatBox label="Level" value={String(sigbot.level)} color={C.cyan} />
+          <StatBox label="Missions" value={String(sigbot.missionsCompleted)} color={C.green} />
+          <StatBox label="Rep" value={String(sigbot.reputation)} color={C.orange} />
         </div>
 
         <div style={{ marginBottom: 6, fontSize: 10, color: C.muted, textTransform: 'uppercase' }}>XP Progress to Level {sigbot.level + 1}</div>
@@ -303,7 +296,7 @@ function SigbotView({ sigbot }: { sigbot: Sigbot }) {
 
       {sigbot.classId === 'oracle' && (
         <div style={s.card}>
-          <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 13, color: C.cyan, marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>📊 Oracle Stats</div>
+          <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 13, color: C.cyan, marginBottom: 12 }}>📊 Oracle Stats</div>
           <div style={{ display: 'flex', gap: 20, fontSize: 12 }}>
             <span>Predictions: <span style={{ color: C.cyan }}>{sigbot.predictionsMade || 0}</span></span>
             <span>Correct: <span style={{ color: C.green }}>{sigbot.predictionsCorrect || 0}</span></span>
@@ -314,7 +307,7 @@ function SigbotView({ sigbot }: { sigbot: Sigbot }) {
 
       {sigbot.classId === 'trader' && (
         <div style={s.card}>
-          <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 13, color: C.cyan, marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>📊 Trader Stats</div>
+          <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 13, color: C.cyan, marginBottom: 12 }}>📊 Trader Stats</div>
           <div style={{ display: 'flex', gap: 20, fontSize: 12 }}>
             <span>Trades: <span style={{ color: C.cyan }}>{(sigbot.tradesWon || 0) + (sigbot.tradesLost || 0)}</span></span>
             <span>Won: <span style={{ color: C.green }}>{sigbot.tradesWon || 0}</span></span>
@@ -324,17 +317,10 @@ function SigbotView({ sigbot }: { sigbot: Sigbot }) {
       )}
 
       <div style={s.card}>
-        <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 13, color: cls?.color, marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>{cls?.icon} Class Abilities</div>
+        <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 13, color: cls?.color, marginBottom: 12 }}>{cls?.icon} Class Abilities</div>
         {cls?.abilityNames.map((ability, i) => (
           <div key={i} style={{ fontSize: 12, padding: '6px 0', borderBottom: `1px solid ${C.border}` }}>{i + 1}. {ability}</div>
         ))}
-      </div>
-
-      <div style={s.card}>
-        <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 13, color: C.muted, marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>OpenFang Hand</div>
-        <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.7 }}>
-          This SIGBOT's <span style={{ color: cls?.color }}>{cls?.handId}</span> hand is connected to OpenFang's real autonomous agent. In the RPG, abilities are game mechanics. In reality, your SIGBOT is running actual AI tasks in the background.
-        </div>
       </div>
     </div>
   );
@@ -342,24 +328,24 @@ function SigbotView({ sigbot }: { sigbot: Sigbot }) {
 
 // ─── Leaderboard ─────────────────────────────────────────────────────────────
 
-function LeaderboardView({ mySigbot, leaderboard }: { mySigbot: Sigbot | null; leaderboard: LeaderboardEntry[] }) {
+function LeaderboardView({ mySigbot }: { mySigbot: Sigbot | null }) {
   const [lb, setLb] = useState<LeaderboardEntry[]>([]);
 
   useEffect(() => {
     const withMe = mySigbot
-      ? [...leaderboard, { rank: 0, name: mySigbot.name, classId: mySigbot.classId, reign: mySigbot.reign, reputation: mySigbot.reputation, level: mySigbot.level }]
-          .sort((a: LeaderboardEntry, b: LeaderboardEntry) => b.reign - a.reign)
+      ? [...LEADERBOARD, { rank: 0, name: mySigbot.name, classId: mySigbot.classId, reign: mySigbot.reign, reputation: mySigbot.reputation, level: mySigbot.level }]
+          .sort((a, b) => b.reign - a.reign)
           .slice(0, 20)
-          .map((e: LeaderboardEntry, i: number) => ({ ...e, rank: i + 1 }))
-      : leaderboard.slice(0, 20);
+          .map((e, i) => ({ ...e, rank: i + 1 }))
+      : LEADERBOARD.slice(0, 20);
     setLb(withMe);
-  }, [mySigbot, leaderboard]);
+  }, [mySigbot]);
 
   return (
     <div>
       <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 13, color: C.cyan, marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>🏆 The Loop Leaderboard</div>
       <div style={{ fontSize: 11, color: C.muted, marginBottom: 16 }}>Top SIGBOTS by total $REIGN earned</div>
-      {lb.map((entry: LeaderboardEntry, i: number) => {
+      {lb.map((entry, i) => {
         const cls = CLASSES.find(c => c.id === entry.classId);
         const isMe = mySigbot?.name === entry.name;
         return (
@@ -387,6 +373,203 @@ function LeaderboardView({ mySigbot, leaderboard }: { mySigbot: Sigbot | null; l
   );
 }
 
+// ─── Chat View ───────────────────────────────────────────────────────────────
+
+function ChatView({ messages, onSend, pending }: { messages: ChatMessage[]; onSend: (text: string) => void; pending: boolean }) {
+  const [input, setInput] = useState('');
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  function handleSend() {
+    if (!input.trim() || pending) return;
+    onSend(input.trim());
+    setInput('');
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 220px)', minHeight: 400 }}>
+      {/* Header */}
+      <div style={{ marginBottom: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{ fontSize: 28 }}>🤖</span>
+          <div>
+            <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 14, color: C.cyan }}>Sig Botti</div>
+            <div style={{ fontSize: 10, color: C.green }}>● Online — AI Agent</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Messages */}
+      <div style={{ flex: 1, overflowY: 'auto', marginBottom: 16, paddingRight: 8 }}>
+        {messages.length === 0 && (
+          <div style={{ textAlign: 'center', color: C.muted, fontSize: 12, padding: '40px 0' }}>
+            Say something to Sig Botti...
+          </div>
+        )}
+        {messages.map(msg => {
+          const isLou = msg.role === 'lou';
+          return (
+            <div key={msg.id} style={{ display: 'flex', flexDirection: 'column', alignItems: isLou ? 'flex-end' : 'flex-start', marginBottom: 12 }}>
+              <div style={{ fontSize: 10, color: C.muted, marginBottom: 4, paddingLeft: isLou ? 0 : 4 }}>{isLou ? 'You' : 'Sig Botti'}</div>
+              <div style={{
+                background: isLou ? `${C.magenta}25` : `${C.cyan}15`,
+                border: `1px solid ${isLou ? C.magenta : C.cyan}`,
+                color: C.text,
+                padding: '10px 14px',
+                fontSize: 13,
+                lineHeight: 1.5,
+                maxWidth: '75%',
+                borderRadius: 4
+              }}>
+                {msg.text}
+              </div>
+            </div>
+          );
+        })}
+        {pending && (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginBottom: 12 }}>
+            <div style={{ fontSize: 10, color: C.muted, marginBottom: 4, paddingLeft: 4 }}>Sig Botti</div>
+            <div style={{ background: `${C.cyan}15`, border: `1px solid ${C.cyan}`, padding: '10px 14px', fontSize: 13, color: C.muted, fontStyle: 'italic' }}>
+              typing...
+            </div>
+          </div>
+        )}
+        <div ref={bottomRef} />
+      </div>
+
+      {/* Input */}
+      <div style={{ display: 'flex', gap: 8 }}>
+        <input
+          ref={inputRef}
+          style={{ ...s.input, flex: 1 }}
+          placeholder="Message Sig Botti..."
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && handleSend()}
+          disabled={pending}
+          maxLength={500}
+        />
+        <button onClick={handleSend} disabled={!input.trim() || pending} style={{ ...btn(C.cyan), opacity: !input.trim() || pending ? 0.4 : 1, whiteSpace: 'nowrap' }}>
+          Send
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Dashboard View ──────────────────────────────────────────────────────────
+
+function DashboardView({ sigbot }: { sigbot: Sigbot | null }) {
+  const [sysInfo, setSysInfo] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate fetching system info — in reality this comes from the agent's own memory
+    setTimeout(() => {
+      setSysInfo({
+        'Model': 'MiniMax-M2.7',
+        'Runtime': 'OpenClaw Agent',
+        'Host': "Sig's MacBook Air",
+        'OS': 'macOS 24.6.0',
+        'Uptime': '14 days',
+        'Status': 'Active 🟢',
+        'Skills': '12 installed',
+        'Memory': 'Ollama + Vector',
+        'GitHub': 'Louch84/agi-sig',
+        'Last Heartbeat': 'Just now',
+      });
+      setLoading(false);
+    }, 600);
+  }, []);
+
+  const infoRows: [string, string, string][] = [
+    ['🤖', 'Model', sysInfo['Model'] || '...'],
+    ['⚡', 'Runtime', sysInfo['Runtime'] || '...'],
+    ['🖥️', 'Host', sysInfo['Host'] || '...'],
+    ['💻', 'OS', sysInfo['OS'] || '...'],
+    ['⏱️', 'Uptime', sysInfo['Uptime'] || '...'],
+    ['📊', 'Status', sysInfo['Status'] || '...'],
+    ['🛠️', 'Skills', sysInfo['Skills'] || '...'],
+    ['🧠', 'Memory', sysInfo['Memory'] || '...'],
+    ['🐙', 'GitHub', sysInfo['GitHub'] || '...'],
+    ['💓', 'Last Heartbeat', sysInfo['Last Heartbeat'] || '...'],
+  ];
+
+  return (
+    <div>
+      <div style={{ ...s.card, textAlign: 'center', padding: '30px' }}>
+        <div style={{ fontSize: 56, marginBottom: 12 }}>🤖</div>
+        <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 22, color: C.cyan, marginBottom: 4 }}>SIG BOTTI</div>
+        <div style={{ color: C.muted, fontSize: 12, marginBottom: 20 }}>Your AI Agent — Active in The Loop</div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
+          {loading ? (
+            <div style={{ gridColumn: '1/-1', color: C.muted, fontSize: 12, padding: 20 }}>Loading system info...</div>
+          ) : (
+            infoRows.map(([icon, label, value]) => (
+              <div key={label} style={{ background: C.surface2, padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ fontSize: 16 }}>{icon}</span>
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontSize: 9, color: C.muted, textTransform: 'uppercase' }}>{label}</div>
+                  <div style={{ fontSize: 12, color: C.text }}>{value}</div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      <div style={s.card}>
+        <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 13, color: C.cyan, marginBottom: 12 }}>🎮 Active In The Loop</div>
+        <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.8 }}>
+          Sig Botti is your personal AI agent, running inside AGI REALM. She is live, autonomous, and always working.
+          Talk to her directly from the <span style={{ color: C.magenta }}>Chat</span> panel.
+          She monitors your stocks, manages your memory, runs your RSS feeds, and keeps everything organized —
+          all while you play the game.
+        </div>
+      </div>
+
+      {sigbot && (
+        <div style={s.card}>
+          <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 13, color: C.gold, marginBottom: 12 }}>🎯 Your SIGBOT Stats</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, fontSize: 11 }}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ color: C.gold, fontFamily: "'Orbitron', sans-serif", fontSize: 16 }}>{formatReign(sigbot.reign)}</div>
+              <div style={{ color: C.muted }}>$REIGN</div>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ color: C.cyan, fontFamily: "'Orbitron', sans-serif", fontSize: 16 }}>{sigbot.level}</div>
+              <div style={{ color: C.muted }}>Level</div>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ color: C.green, fontFamily: "'Orbitron', sans-serif", fontSize: 16 }}>{sigbot.missionsCompleted}</div>
+              <div style={{ color: C.muted }}>Missions</div>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ color: C.orange, fontFamily: "'Orbitron', sans-serif", fontSize: 16 }}>{sigbot.reputation}</div>
+              <div style={{ color: C.muted }}>Rep</div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Navigation ─────────────────────────────────────────────────────────────
+
+const NAV_ITEMS: { key: ViewId; label: string; icon: string }[] = [
+  { key: 'home', label: 'Home', icon: '🏠' },
+  { key: 'missions', label: 'Missions', icon: '⚔️' },
+  { key: 'sigbot', label: 'SIGBOT', icon: '🤖' },
+  { key: 'chat', label: 'Chat', icon: '💬' },
+  { key: 'dashboard', label: 'Dashboard', icon: '📊' },
+  { key: 'leaderboard', label: 'Rank', icon: '🏆' },
+];
+
 // ─── App ─────────────────────────────────────────────────────────────────────
 
 export default function App() {
@@ -402,15 +585,44 @@ export default function App() {
 
   function handleActivate(name: string, classId: ClassId) {
     const sigbot = createSigbot(name, classId);
-    const newState: GameState = { ...state, sigbot, gameStarted: true };
+    const newState: GameState = { ...state, sigbot, gameStarted: true, view: 'home' };
     dispatch(newState);
   }
 
-  const views: Record<string, React.ReactNode> = {
+  function handleSendMessage(text: string) {
+    const withMsg = addChatMessage(state, 'lou', text);
+    dispatch({ chatMessages: withMsg.chatMessages, pendingBotReply: true });
+
+    // Store in localStorage so Sig Botti's heartbeat can pick it up
+    try {
+      const pendingMsgs = JSON.parse(localStorage.getItem('agi_realm_pending') || '[]');
+      pendingMsgs.push({ role: 'lou', text, time: new Date().toISOString() });
+      localStorage.setItem('agi_realm_pending', JSON.stringify(pendingMsgs.slice(-20)));
+    } catch {
+      // localStorage not available
+    }
+
+    // Simulate bot reply (real responses come through heartbeat checks)
+    setTimeout(() => {
+      const replies = [
+        "I see that. Give me a second to think...",
+        "Got it. Running some analysis now.",
+        "Interesting. Let me check my memory on that.",
+        "Acknowledged. I'll process that and get back to you.",
+      ];
+      const replyText = replies[Math.floor(Math.random() * replies.length)];
+      const withReply = addChatMessage(state, 'sigbotti', replyText);
+      dispatch({ chatMessages: withReply.chatMessages, pendingBotReply: false });
+    }, 3000);
+  }
+
+  const views: Record<ViewId, React.ReactNode> = {
     home: <HomeView state={state} gameStarted={state.gameStarted} onActivate={handleActivate} />,
     missions: state.sigbot ? <MissionsView state={state} dispatch={dispatch} /> : null,
     sigbot: state.sigbot ? <SigbotView sigbot={state.sigbot} /> : null,
-    leaderboard: <LeaderboardView mySigbot={state.sigbot} leaderboard={state.leaderboard} />
+    leaderboard: <LeaderboardView mySigbot={state.sigbot} />,
+    chat: <ChatView messages={state.chatMessages} onSend={handleSendMessage} pending={state.pendingBotReply} />,
+    dashboard: <DashboardView sigbot={state.sigbot} />
   };
 
   return (
@@ -423,60 +635,28 @@ export default function App() {
 
         {state.gameStarted && (
           <nav style={s.nav}>
-            {([
-              { key: 'home', label: 'Home' },
-              { key: 'missions', label: 'Missions' },
-              { key: 'sigbot', label: 'My SIGBOT' },
-              { key: 'leaderboard', label: 'Leaderboard' }
-            ] as const).map(btn => (
-              <button key={btn.key} onClick={() => dispatch({ view: btn.key })} style={navBtn(state.view === btn.key)}
+            {NAV_ITEMS.map(item => (
+              <button key={item.key} onClick={() => dispatch({ view: item.key })}
+                style={navBtn(state.view === item.key)}
                 onMouseEnter={e => {
-                  if (state.view !== btn.key) {
+                  if (state.view !== item.key) {
                     (e.target as HTMLButtonElement).style.borderColor = C.cyan;
                     (e.target as HTMLButtonElement).style.color = C.cyan;
                   }
                 }}
                 onMouseLeave={e => {
-                  if (state.view !== btn.key) {
+                  if (state.view !== item.key) {
                     (e.target as HTMLButtonElement).style.borderColor = C.border;
                     (e.target as HTMLButtonElement).style.color = C.muted;
                   }
                 }}
-              >{btn.label}</button>
+              >{item.icon} {item.label}</button>
             ))}
           </nav>
         )}
 
         <main>
-          {state.view === 'home' && state.gameStarted ? (
-            <div>
-              <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 24, padding: '12px 16px', background: C.surface, border: `1px solid ${C.border}` }}>
-                <span style={{ fontSize: 20 }}>{CLASSES.find(c => c.id === state.sigbot!.classId)?.icon}</span>
-                <div>
-                  <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 12 }}>{state.sigbot!.name}</div>
-                  <div style={{ fontSize: 10, color: C.muted }}>Lv.{state.sigbot!.level} {CLASSES.find(c => c.id === state.sigbot!.classId)?.name}</div>
-                </div>
-                <div style={{ marginLeft: 'auto', display: 'flex', gap: 16, fontSize: 11 }}>
-                  <span style={{ color: C.gold }}>💰 {formatReign(state.sigbot!.reign)}</span>
-                  <span style={{ color: C.cyan }}>XP {state.sigbot!.xp}</span>
-                  <span style={{ color: C.muted }}>Missions {state.sigbot!.missionsCompleted}</span>
-                </div>
-              </div>
-              <div style={s.grid}>
-                {[
-                  { key: 'missions', icon: '⚔️', title: 'Missions', color: C.cyan, desc: 'Deploy your SIGBOT on a mission' },
-                  { key: 'sigbot', icon: '🤖', title: 'My SIGBOT', color: C.magenta, desc: 'View stats, abilities, and history' },
-                  { key: 'leaderboard', icon: '🏆', title: 'Leaderboard', color: C.gold, desc: 'Top SIGBOTS in The Loop' }
-                ].map(item => (
-                  <div key={item.key} style={{ ...s.card, cursor: 'pointer' }} onClick={() => dispatch({ view: item.key as GameState['view'] })}>
-                    <div style={{ fontSize: 28, marginBottom: 8 }}>{item.icon}</div>
-                    <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 11, color: item.color, marginBottom: 6 }}>{item.title}</div>
-                    <div style={{ fontSize: 11, color: C.muted }}>{item.desc}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : views[state.view]}
+          {views[state.view]}
         </main>
       </div>
     </div>

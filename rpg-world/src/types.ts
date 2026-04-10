@@ -14,7 +14,7 @@ export interface ClassInfo {
   name: string;
   icon: string;
   description: string;
-  handId: string; // matches OpenFang hand
+  handId: string;
   color: string;
   abilityNames: string[];
 }
@@ -28,8 +28,8 @@ export interface Mission {
   duration_minutes: number;
   reward_reign: number;
   xp: number;
-  risk?: number; // 0-1 for trader/oracle
-  security_level?: number; // 1-5 for scout
+  risk?: number;
+  security_level?: number;
   difficulty: 1 | 2 | 3;
 }
 
@@ -42,10 +42,10 @@ export interface Sigbot {
   reign: number;
   reputation: number;
   missionsCompleted: number;
-  predictionsMade?: number;     // oracle only
-  predictionsCorrect?: number;  // oracle only
-  tradesWon?: number;           // trader only
-  tradesLost?: number;          // trader only
+  predictionsMade?: number;
+  predictionsCorrect?: number;
+  tradesWon?: number;
+  tradesLost?: number;
   createdAt: string;
 }
 
@@ -58,7 +58,18 @@ export interface LeaderboardEntry {
   level: number;
 }
 
+// ─── Chat Types ────────────────────────────────────────────────────────────────
+
+export interface ChatMessage {
+  id: string;
+  role: 'lou' | 'sigbotti';
+  text: string;
+  timestamp: string;
+}
+
 // ─── Game State ────────────────────────────────────────────────────────────────
+
+export type ViewId = 'home' | 'missions' | 'sigbot' | 'leaderboard' | 'chat' | 'dashboard';
 
 export interface GameState {
   sigbot: Sigbot | null;
@@ -66,14 +77,16 @@ export interface GameState {
   missionHistory: CompletedMission[];
   leaderboard: LeaderboardEntry[];
   gameStarted: boolean;
-  view: 'home' | 'missions' | 'sigbot' | 'leaderboard';
+  view: ViewId;
+  chatMessages: ChatMessage[];
+  pendingBotReply: boolean;
 }
 
 export interface ActiveMission {
   mission: Mission;
   startedAt: string;
   endsAt: string;
-  progress: number; // 0-100
+  progress: number;
 }
 
 export interface CompletedMission {
@@ -92,5 +105,21 @@ export interface Npc {
   name: string;
   classId: ClassId;
   dialogue: string[];
-  reward_bonus: number; // extra reign multiplier
+  reward_bonus: number;
+}
+
+// ─── Dashboard / System Info ──────────────────────────────────────────────────
+
+export interface SystemInfo {
+  model: string;
+  runtime: string;
+  host: string;
+  os: string;
+  uptime: string;
+  memory: string;
+  lastHeartbeat: string;
+  skills: string[];
+  activeCrons: string[];
+  github: string;
+  claudeCodeAvailable: boolean;
 }

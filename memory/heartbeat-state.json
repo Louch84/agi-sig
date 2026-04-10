@@ -1,10 +1,10 @@
 {
   "lastChecks": {
-    "email": 1744086324,
+    "email": null,
     "calendar": null,
     "weather": null,
     "rss": 1744218180,
-    "cron_status": 1744191540
+    "cron_status": 1744219440
   },
-  "notes": "2026-04-09 11:53 PM ET — 2 new articles (Verge/HN). AGI REALM RPG committed to git. Git clean. All nominal."
+  "notes": "2026-04-10 12:04 AM ET — AGI REALM committed + pushed. Sunday Night Scanner and PerfectPlace Deal Scanner still in error state (not new). Git clean."
 }

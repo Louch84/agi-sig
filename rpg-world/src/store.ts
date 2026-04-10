@@ -1,4 +1,4 @@
-import type { GameState, Sigbot, CompletedMission } from './types';
+import type { GameState, Sigbot, CompletedMission, ChatMessage } from './types';
 import { LEADERBOARD, getLevelFromXP } from './data';
 
 const STORAGE_KEY = 'agi_realm_state';
@@ -9,7 +9,9 @@ const INITIAL_STATE: GameState = {
   missionHistory: [],
   leaderboard: LEADERBOARD,
   gameStarted: false,
-  view: 'home'
+  view: 'home',
+  chatMessages: [],
+  pendingBotReply: false
 };
 
 export function loadState(): GameState {
@@ -17,12 +19,28 @@ export function loadState(): GameState {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return { ...INITIAL_STATE };
     const parsed = JSON.parse(raw) as GameState;
-    // Ensure leaderboard doesn't get overwritten
     parsed.leaderboard = LEADERBOARD;
+    // Ensure new fields exist
+    if (!parsed.chatMessages) parsed.chatMessages = [];
+    if (parsed.pendingBotReply === undefined) parsed.pendingBotReply = false;
     return parsed;
   } catch {
     return { ...INITIAL_STATE };
   }
+}
+
+export function addChatMessage(state: GameState, role: 'lou' | 'sigbotti', text: string): GameState {
+  const msg: ChatMessage = {
+    id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+    role,
+    text,
+    timestamp: new Date().toISOString()
+  };
+  return { ...state, chatMessages: [...state.chatMessages, msg] };
+}
+
+export function setPendingReply(state: GameState, pending: boolean): GameState {
+  return { ...state, pendingBotReply: pending };
 }
 
 export function saveState(state: GameState): void {
