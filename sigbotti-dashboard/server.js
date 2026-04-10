@@ -17,6 +17,7 @@ app.use(helmet({ contentSecurityPolicy: false }))
 app.use(cors({ origin: '*' }))
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'dist')))
+app.use('/assets', express.static(path.join(WORKSPACE, 'assets')))
 
 function run(cmd, cwd = WORKSPACE) {
   return new Promise((resolve) => {

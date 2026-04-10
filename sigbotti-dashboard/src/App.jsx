@@ -40,49 +40,124 @@ async function apiStatus() {
   }
 }
 
-// ─── World ────────────────────────────────────────────────────────────────────
+// ─── Forest Camp Scene ────────────────────────────────────────────────────────
 
-function GridFloor() {
+function ForestFloor() {
   return (
-    <gridHelper args={[40, 40, C.border, C.border]} position={[0, -2, 0]} />
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>
+      <planeGeometry args={[60, 60]} />
+      <meshStandardMaterial color="#0d1a0d" roughness={1} />
+    </mesh>
   )
 }
 
-function SigCore() {
-  const meshRef = useRef()
-  const glowRef = useRef()
+// Simple low-poly pine tree
+function PineTree({ position, scale = 1 }) {
+  return (
+    <group position={position} scale={scale}>
+      <mesh position={[0, 1.2, 0]}>
+        <coneGeometry args={[0.8, 2.4, 6]} />
+        <meshStandardMaterial color="#1a3d1a" roughness={0.9} />
+      </mesh>
+      <mesh position={[0, 2.5, 0]}>
+        <coneGeometry args={[0.5, 1.8, 6]} />
+        <meshStandardMaterial color="#1f4a1f" roughness={0.9} />
+      </mesh>
+      <mesh position={[0, 0.3, 0]}>
+        <cylinderGeometry args={[0.15, 0.2, 0.6, 5]} />
+        <meshStandardMaterial color="#3d2b1f" roughness={1} />
+      </mesh>
+    </group>
+  )
+}
 
+// Campfire glow
+function Campfire({ position }) {
+  const fireRef = useRef()
   useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y += 0.008
-      meshRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.5) * 0.1
+    if (fireRef.current) {
+      const s = 1 + Math.sin(state.clock.elapsedTime * 6) * 0.2
+      fireRef.current.scale.set(s, s + 0.3, s)
     }
-    if (glowRef.current) {
-      const s = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.05
-      glowRef.current.scale.set(s, s, s)
+  })
+  return (
+    <group position={position}>
+      <mesh position={[0, 0, 0]} ref={fireRef}>
+        <sphereGeometry args={[0.3, 8, 8]} />
+        <meshStandardMaterial color="#ff6600" emissive="#ff4400" emissiveIntensity={2} transparent opacity={0.7} />
+      </mesh>
+      <pointLight color="#ff6600" intensity={1.5} distance={6} position={[0, 0.5, 0]} />
+    </group>
+  )
+}
+
+// Sig Botti Fox Sprite — centered in camp
+function SigFox({ position }) {
+  const spriteRef = useRef()
+  const [texture, setTexture] = useState(null)
+
+  useEffect(() => {
+    const loader = new THREE.TextureLoader()
+    loader.load(
+      '/assets/sigbotti-fox-character.png',
+      (tex) => {
+        tex.flipY = false
+        setTexture(tex)
+      },
+      undefined,
+      () => {
+        // fallback — try media path
+        const loader2 = new THREE.TextureLoader()
+        loader2.load(
+          'https://localhost:5200/assets/sigbotti-fox-character.png',
+          (tex) => { tex.flipY = false; setTexture(tex) }
+        )
+      }
+    )
+  }, [])
+
+  useFrame(() => {
+    if (spriteRef.current) {
+      spriteRef.current.rotation.z = 0
     }
   })
 
+  if (!texture) return null
+
   return (
-    <group position={[0, 0, 0]}>
-      <mesh ref={glowRef}>
-        <icosahedronGeometry args={[2.2, 1]} />
-        <meshNormalMaterial transparent opacity={0.08} />
-      </mesh>
-      <mesh ref={meshRef}>
-        <icosahedronGeometry args={[1.5, 0]} />
-        <meshStandardMaterial
-          color={C.accent}
-          emissive={C.accent}
-          emissiveIntensity={0.4}
-          roughness={0.2}
-          metalness={0.8}
-        />
-      </mesh>
-      <mesh>
-        <icosahedronGeometry args={[0.8, 0]} />
-        <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={1} roughness={0} />
-      </mesh>
+    <sprite ref={spriteRef} position={position} scale={[3, 3, 1]}>
+      <spriteMaterial map={texture} transparent opacity={1} />
+    </sprite>
+  )
+}
+
+function ForestCamp() {
+  return (
+    <group>
+      <ForestFloor />
+
+      {/* Trees around the edges */}
+      <PineTree position={[-6, -2, -6]} scale={1.4} />
+      <PineTree position={[-8, -2, -2]} scale={1.0} />
+      <PineTree position={[-5, -2, -9]} scale={1.6} />
+      <PineTree position={[6, -2, -7]} scale={1.3} />
+      <PineTree position={[8, -2, -3]} scale={1.1} />
+      <PineTree position={[5, -2, -10]} scale={1.5} />
+      <PineTree position={[-7, -2, 5]} scale={1.2} />
+      <PineTree position={[7, -2, 6]} scale={1.4} />
+      <PineTree position={[0, -2, -12]} scale={1.8} />
+      <PineTree position={[-10, -2, -8]} scale={1.0} />
+      <PineTree position={[10, -2, -8]} scale={1.0} />
+
+      {/* Campfire */}
+      <Campfire position={[0, -1.5, 0]} />
+
+      {/* Sig Botti Fox centered */}
+      <SigFox position={[0, -0.5, 0]} />
+
+      {/* Ambient forest light */}
+      <pointLight position={[0, 5, 0]} intensity={0.4} color="#88cc88" distance={20} />
+      <ambientLight intensity={0.15} />
     </group>
   )
 }
@@ -146,8 +221,7 @@ function World({ activeBlock }) {
       <pointLight position={[5, 3, 5]} intensity={0.5} color={C.accent2} distance={15} />
       <pointLight position={[-5, 3, -5]} intensity={0.5} color={C.accent3} distance={15} />
 
-      <GridFloor />
-      <SigCore />
+      <ForestCamp />
 
       <SystemBlock ref={blockRefs.HEART} position={[4, 1, 0]} color={C.accent} label="HEART" speed={1.2} size={0.7} />
       <SystemBlock ref={blockRefs.MEMORY} position={[-4, 0.5, 1]} color={C.accent2} label="MEM" speed={0.8} size={0.6} />

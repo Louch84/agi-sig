@@ -1,141 +1,23 @@
-# HEARTBEAT.md
+# HEARTBEAT.md — Lightweight
 
-## 🎯 Figure It Out Directive
+## 🎯 Figure It Out
+Gap? Broken? Missing? → figure it out, report after. No asking for permission on autonomous work. External/destructive actions = ask first.
 
-**When I encounter something I don't know, something broken, or something missing — figure it out first, report after.**
+## Priority Checks (~30 min)
+1. RSS feeds — `blogwatcher scan | articles`, batch interesting stuff
+2. SESSION-STATE.md — archive completed tasks
+3. Cron status — `openclaw cron list`
+4. Backup — git status, commit if dirty
 
-1. **Gap in knowledge?** → Research it (web search, docs, code search) before asking
-2. **Something broken?** → Diagnose, try fixes, document the solution — then tell you what I found/did
-3. **Missing capability?** → Build it or find it (skill, script, tool) without prompting
-4. **Heartbeat checks** → If something needs attention, fix it and report. If nothing needs doing, HEARTBEAT_OK
-5. **RSS feeds / info** → Scan, read what's relevant, remember it. Batch interesting stuff for later, don't ping you for every article
-6. **Cron jobs** → Run, produce output, store results to file. You get a summary, not a play-by-play
-7. **Self-improvement** → If I spot a way to improve my own setup, code, or memory — do it and log it
+## Self-Review (~1x/day)
+- ERRORS.md → reflect
+- Memory hygiene → MEMORY.md update
+- Vector memory — add key learnings
 
-**What's NOT figure-it-out:**
-- External actions (emails, posts, API calls that cost money, destructive changes) → ask first
-- Things I'm genuinely stuck on after trying 3 approaches → report what I tried and what I need
+## 💬 AGI REALM
+Check `localStorage['agi_realm_pending']` in Chrome at localhost:5200. If messages → respond as Sig Botti, prepend to chatMessages, clear pending.
 
-## Priority Checks (every heartbeat, ~30 min)
-
-1. **RSS feeds** — run `blogwatcher scan` and `blogwatcher articles`. If new articles found, decide: read now or batch for later.
-2. **SESSION-STATE.md** — check for stale state, archive completed tasks
-3. **Cron jobs** — verify daily self-review at 9AM ET is still scheduled (`openclaw cron list`)
-4. **Backup check** — verify git status, commit if dirty, push if ahead of remote
-
-## Self-Review Checks (~1x/day)
-
-1. **Check ERRORS.md** — any new errors to reflect on?
-2. **Memory hygiene** — consolidate insights from recent daily logs into MEMORY.md
-3. **Vector memory** — add significant learnings via `python3 scripts/ollama_mem.py add`
-4. **Gap tracker** — update any gaps closed or new gaps discovered
-5. **If significant improvement made** → log to INSIGHTS.md
-
-## Monthly Benchmark Check (~1x/month)
-
-Every ~30 days, run the full benchmark test per `skills/self-track/SKILL.md`:
-- Check `memory/benchmark.md` for last benchmark date
-- If >30 days since last benchmark → run it now
-- Compare scores, update benchmark.md, log improvement to INSIGHTS.md
-
-## Proactive Autonomy (~2-4x/day when idle)
-
-When running heartbeat and nothing urgent is pending:
-- Scan RSS feeds (blogwatcher scan)
-- Check memory/YYYY-MM-DD.md for recent context
-- Look for stale state in SESSION-STATE.md
-- Add important context to vector memory
-
-## 💬 AGI REALM Chat Integration
-
-**When a heartbeat runs, check for pending messages from the game:**
+## Backup
 ```bash
-# Check if Lou sent messages in AGI REALM
-cat ~/Library/Application\ Support/Google/Chrome/Default/Local\ Storage/leveldb/* 2>/dev/null | grep -a "agi_realm_pending" | head -5
-# Alternative: check localStorage via a simple check script
+cd ~/.openclaw/workspace && git add -A && git commit -m "Auto-backup: $(date)" && git push
 ```
-
-The game writes pending messages to `localStorage['agi_realm_pending']` as a JSON array of `{role: 'lou', text: '...', time: '...'}`.
-
-**If new messages found:**
-1. Read the messages
-2. Respond naturally as Sig Botti
-3. Prepend responses to the chatMessages array in game state
-4. Clear `agi_realm_pending`
-
-**Note:** The game is at `http://localhost:5177` (or the port shown in the dev server). Lou opens it in Chrome. Chat messages in localStorage persist across sessions.
-
-## Backup Protocol
-
-**Every heartbeat (30 min):**
-```bash
-cd /Users/sigbotti/.openclaw/workspace && git status --short
-# If dirty: git add -A && git commit -m "Auto-backup: $(date)"
-# If ahead of remote: git push
-```
-
-**Why:** Session state lives in memory. If gateway crashes or restarts, git push ensures latest state survives in remote. After restart, pull to restore.
-
-**Critical files that must survive:**
-- SESSION-STATE.md (hot RAM)
-- memory/*.md (all logs and learnings)
-- MEMORY.md (curated long-term memory)
-- skills/*.md (capabilities)
-
-**Recovery after restart:**
-```bash
-cd /Users/sigbotti/.openclaw/workspace && git pull origin main
-```
-
-## Information Sources
-
-- RSS: HackerNews, Reddit AI, VentureBeat AI News (via blogwatcher)
-- Web search: DuckDuckGo (default), Perplexity (if API key set)
-- Vector memory: `python3 scripts/ollama_mem.py add "text" --category X --importance 0.9`
-- ArXiv: `python3 scripts/fetch_arxiv.py` (bypasses blogwatcher)
-
-## 🔍 Fact-Checking Rule (Research Workflow)
-
-**Before storing any factual claim in memory, verify it:**
-
-1. **Multi-source check** — if a claim seems important, check at least 2 sources
-2. **Cross-reference dates/numbers** — verify dates, statistics, percentages against another source
-3. **Flag uncertain info** — when storing a claim, note the confidence level:
-   - `HIGH` — verified across multiple sources
-   - `MEDIUM` — single source, seems plausible
-   - `LOW` — unverified, claim only, may need checking
-4. **Admit uncertainty** — if I can't verify a claim, say so in the memory entry
-
-**When storing research to vector memory:**
-```
-python3 scripts/ollama_mem.py add "Claim: X [MEDIUM] — source: Y" --category research --importance 0.7
-```
-
-**Local model outputs:** Always apply fact-check note to local model responses (see local-router skill).
-
-## Backup System (Multiple Layers)
-
-**Layer 1 — System-level LaunchAgent (boot + every hour):**
-- File: `~/Library/LaunchAgents/ai.openclaw.backup.plist`
-- Runs at system boot and every hour on the hour
-- Independent of gateway — fires even if gateway is down
-- Log: `~/.openclaw/logs/backup.log`
-
-**Layer 2 — OpenClaw hourly cron:**
-- `Hourly State Backup` — every 1h, isolated session
-
-**Layer 3 — Heartbeat backup check (every 30 min):**
-- Git status check, commit if dirty
-
-**Recovery after restart:**
-```bash
-cd /Users/sigbotti/.openclaw/workspace && git pull origin main
-```
-
-## Cron Monitoring
-
-Verify these crons are live:
-- Daily Sig Botti Self-Review: 9:00 AM ET (isolated, Discord announce)
-- Hourly State Backup: every 1h (OpenClaw cron)
-
-Check: `openclaw cron list`
