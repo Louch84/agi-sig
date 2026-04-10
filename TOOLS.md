@@ -12,6 +12,7 @@
 - **JARVIS-style Task Planner:** `scripts/task-planner.py` — decomposes complex requests into ordered subtasks. Routes each subtask to optimal model.
 - **Learning System:** `scripts/trace_logger.py` — logs every task (model, duration, success). Analyzes to find best model per task type. Feedback improves routing.
 - **Vector Memory (RAG):** `scripts/build-vector-index.py build` — rebuild FAISS index of all memory. `query "<text>"` — semantic search.
+- **World Model:** `scripts/world-model.py context <topic>` — typed knowledge graph (entities, beliefs, relations, events). `world-model.py add-entity <name> <type> <props>`. Query by topic to get structured context before responding.
 - **Available models:**
   - llama3.2:1b — fast (sub-second)
   - llama3:latest — general (2-5s)

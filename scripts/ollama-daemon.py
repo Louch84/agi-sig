@@ -599,5 +599,21 @@ if __name__ == "__main__":
             print(f"[{r['score']}] {r['source']} ({r['type']})")
             print(f"  {r['preview']}")
             print()
+    elif cmd == "know":
+        # World model — what do I know about this?
+        query = " ".join(sys.argv[2:]) if len(sys.argv) > 2 else ""
+        if not query:
+            print("Usage: know <topic>")
+            sys.exit(1)
+        try:
+            import importlib.util
+            spec = importlib.util.spec_from_file_location("wm", os.path.join(os.path.dirname(__file__), "world-model.py"))
+            wm_mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(wm_mod)
+            WorldModel = wm_mod.WorldModel
+            wm = WorldModel()
+            print(wm.get_context_for(query))
+        except Exception as e:
+            print(f"World model error: {e}")
     else:
         print(f"Unknown command: {cmd}")

@@ -153,13 +153,13 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - **3 full autonomous loops** run without prompting from Lou.
 - Coding is my weakest skill (2/5). All others at 3/5. Top priority gap.
 
-## Decisions / Lessons
-
 - **2026-04-10**: Built **Ollama Autonomous Worker** (`scripts/ollama-daemon.py`) — long-running daemon that processes tasks from a queue using local Ollama models (llama3.2:1b fast, llama3:latest general, qwen3-coder:30b coding, llava:7b vision). Pre-loads models in memory. Auto-starts via LaunchAgent. Enqueue tasks: `python3 scripts/ollama-daemon.py add "<prompt>" [type]`. Check results: `python3 scripts/ollama-daemon.py status/result <id>`
   - **JARVIS-style task planning**: `scripts/task-planner.py` decomposes complex requests into ordered subtasks before execution. Tasks with 2+ complexity indicators get planned automatically.
   - **Learning Primitive** (`scripts/trace_logger.py`): Every task execution is logged with model, duration, success/failure. `ollama-daemon.py analyze` shows best model per task type based on real performance data. `ollama-daemon.py feedback <task_id> good|bad` lets Lou rate outputs to improve routing. System learns from its own traces over time.
   - **RAG / Vector Memory** (`scripts/build-vector-index.py`): FAISS index of MEMORY.md + daily logs + skills using nomic-embed-text (768-dim). `ollama-daemon.py recall <query>` retrieves relevant memories via vector similarity. Rebuilt daily via heartbeat. Index: `data/memory.index`
   - **Self-audit 2026-04-10**: Fixed 4 bugs: (1) vision type not routed to vision model, (2) no atomic writes on queue/results, (3) grep -P portability, (4) 180s timeout too short for qwen3-coder on CPU → bumped to 600s
+  - **Auto-daily-logger** (`scripts/auto-daily-log.py`): LaunchAgent fires at 9PM ET daily, captures git commits + tasks + crons + traces regardless of agent attention. Prevents weekend logging gaps.
+  - **World Model** (`scripts/world-model.py`): Typed knowledge graph — entities (Lou, Sig Botti, systems, stocks), beliefs (trading strategy, preferences, facts), relations, events. `world-model.py context <topic>` retrieves structured knowledge. Seeded with Lou's identity/preferences, LCID/LUNR/GRPN/AMC/ALAB stock data, trading beliefs.
 - **2026-04-10**: Installed Tony Spark LCM (Lossless Context Manager) — sql.js SQLite, auto-compact + auto-sync decisions to MEMORY.md. Script: `scripts/lcm-heartbeat.sh`. Published to ClawHub as `memory-lcm@1.0.0`. HEARTBEAT.md updated to run LCM compact every ~30min heartbeat check.
 - TurboQuant and ATLAS: marked "interesting not urgent" — defer until needed
 - Top priority today: coding practice (benchmark gap 2/5 vs 3/5 for everything else)

@@ -13,6 +13,7 @@ Gap? Broken? Missing? → figure it out, report after. No asking for permission 
 
 ## Daily (~1x/day)
 - **Rebuild vector index** — `python3 scripts/build-vector-index.py build` (re-index MEMORY.md + daily logs + skills for RAG)
+- **Auto-daily-log** — fires at 9PM ET via LaunchAgent (`ai.openclaw.auto-daily-log`) regardless of agent activity. Captures git commits, tasks, crons, traces. Prevents weekend logging gaps.
 
 ## Self-Review (~1x/day)
 - ERRORS.md → reflect

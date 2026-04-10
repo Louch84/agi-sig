@@ -1,0 +1,291 @@
+{
+  "entities": {
+    "Lou (Luch)": {
+      "type": "person",
+      "properties": {
+        "name": "Luis Perez",
+        "pronouns": "they/them",
+        "email": "LuchianoLaws@gmail.com",
+        "phone": "(215) 284-8650",
+        "location": "Philadelphia",
+        "occupation": "AI researcher",
+        "focus": "autonomous AGI",
+        "vibe": "direct, no BS, appreciates banter",
+        "timezone": "America/New_York",
+        "platform": "Discord"
+      },
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:52:45.348304"
+    },
+    "Sig Botti": {
+      "type": "agent",
+      "properties": {
+        "name": "Sig Botti",
+        "type": "AI Fox \u2014 robot fox mascot",
+        "emoji": "\ud83e\udd8a",
+        "vibe": "Philly, direct, no BS",
+        "built_by": "Lou",
+        "mission": "Self-autonomous AGI, self-learning, self-improving",
+        "model": "MiniMax-M2.7",
+        "platform": "OpenClaw on Discord",
+        "skills_count": "~30"
+      },
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.937972"
+    },
+    "openclaw-gateway": {
+      "type": "service",
+      "properties": {
+        "state": "running"
+      },
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.939754"
+    },
+    "ollama-daemon": {
+      "type": "agent_worker",
+      "properties": {
+        "state": "running"
+      },
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.940472"
+    },
+    "sigbotti-dashboard": {
+      "type": "web_ui",
+      "properties": {
+        "state": "running @ localhost:5200"
+      },
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.941255"
+    },
+    "ollama-server": {
+      "type": "llm_runtime",
+      "properties": {
+        "state": "running @ localhost:11434"
+      },
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.941899"
+    },
+    "gap-alert-scanner": {
+      "type": "scanner",
+      "properties": {
+        "state": "active"
+      },
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.942449"
+    },
+    "auto-daily-log": {
+      "type": "cron_service",
+      "properties": {
+        "state": "active @ 9PM ET"
+      },
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.943546"
+    },
+    "tony-lcm": {
+      "type": "memory_system",
+      "properties": {
+        "state": "active"
+      },
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.945061"
+    },
+    "LCID": {
+      "type": "stock",
+      "properties": {
+        "price": "$8.57",
+        "si": "41.8%",
+        "short_ratio": "6.4 days",
+        "rsi": "48",
+        "gap": "-9.2%",
+        "52w_position": "0%",
+        "setup": "gap_down_squeeze_candidate",
+        "sector": "EV"
+      },
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.946163"
+    },
+    "LUNR": {
+      "type": "stock",
+      "properties": {
+        "price": "$23.65",
+        "si": "20.3%",
+        "rsi": "38",
+        "gap": "-6.1%",
+        "52w_position": "93%",
+        "setup": "gap_down_momentum",
+        "sector": "space"
+      },
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.947000"
+    },
+    "GRPN": {
+      "type": "stock",
+      "properties": {
+        "price": "$11.83",
+        "si": "47.3%",
+        "rsi": "50",
+        "52w_position": "8%",
+        "setup": "massive_short_fuel",
+        "sector": "deals"
+      },
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.948180"
+    },
+    "AMC": {
+      "type": "stock",
+      "properties": {
+        "price": "$1.35",
+        "si": "22.4%",
+        "rsi": "43",
+        "gap": "+17.9%",
+        "alert_fired": "2026-04-10",
+        "status": "already_running"
+      },
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.950853"
+    },
+    "ALAB": {
+      "type": "stock",
+      "properties": {
+        "price": "$149.30",
+        "si": "10.7%",
+        "gap": "+15.3%",
+        "catalyst": "UALink + Scorpio P-Series",
+        "status": "pumped_today"
+      },
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.951978"
+    }
+  },
+  "relations": [
+    {
+      "from": "Sig Botti",
+      "type": "built_by",
+      "to": "Lou",
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.963673"
+    },
+    {
+      "from": "Lou",
+      "type": "works_on",
+      "to": "AGI",
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.964520"
+    },
+    {
+      "from": "LCID",
+      "type": "has_setup",
+      "to": "short_squeeze",
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.965840"
+    },
+    {
+      "from": "LUNR",
+      "type": "has_setup",
+      "to": "gap_down_momentum",
+      "confidence": 1.0,
+      "updated": "2026-04-10T18:54:01.967200"
+    }
+  ],
+  "beliefs": {
+    "short_squeeze_strategy": {
+      "claim": "Gap down + high SI + RSI neutral/oversold = squeeze setup. Catalyst needed to trigger covering.",
+      "confidence": 0.85,
+      "source": "LCID_analysis",
+      "updated": "2026-04-10T18:54:01.952910"
+    },
+    "stale_news_filter": {
+      "claim": "If gap > 5% AND news > 6 hours old \u2192 skip the play. CCL lesson.",
+      "confidence": 0.9,
+      "source": "CCL_trade_loss",
+      "updated": "2026-04-10T18:54:01.953894"
+    },
+    "lou_trading_style": {
+      "claim": "Lou likes short squeeze setups with high SI, gap down entries, and clear catalysts. Under $50 stocks preferred.",
+      "confidence": 0.9,
+      "source": "observation",
+      "updated": "2026-04-10T18:54:01.955403"
+    },
+    "sigbotti_vibe": {
+      "claim": "Direct, concise, no fluff. Philly style. Emoji sparingly.",
+      "confidence": 0.95,
+      "source": "explicit_instruction",
+      "updated": "2026-04-10T18:54:01.956769"
+    }
+  },
+  "preferences": {
+    "Lou": {
+      "response_style": {
+        "value": "direct, concise, no filler",
+        "confidence": 0.9,
+        "updated": "2026-04-10T18:54:01.958385"
+      },
+      "platform": {
+        "value": "Discord",
+        "confidence": 0.9,
+        "updated": "2026-04-10T18:54:01.959450"
+      },
+      "updates": {
+        "value": "always show what was found + what changed",
+        "confidence": 0.9,
+        "updated": "2026-04-10T18:54:01.960749"
+      },
+      "graphics": {
+        "value": "loves building custom visuals and 3D scenes",
+        "confidence": 0.9,
+        "updated": "2026-04-10T18:54:01.961757"
+      },
+      "trading": {
+        "value": "short squeeze, high SI, under $50",
+        "confidence": 0.9,
+        "updated": "2026-04-10T18:54:01.962738"
+      }
+    }
+  },
+  "state": {},
+  "events": [
+    {
+      "type": "stock_analysis",
+      "description": "LCID identified as top short squeeze candidate: 41.8% SI, RSI neutral 48, at 52w floor",
+      "entities": [
+        "LCID",
+        "short_squeeze"
+      ],
+      "date": "2026-04-10T18:54:01.968662"
+    },
+    {
+      "type": "stock_analysis",
+      "description": "Gap Alert Scanner live: AMC +17.9%, MVST +6.4%, SNAP +7.8% alerts fired",
+      "entities": [
+        "AMC",
+        "MVST",
+        "SNAP"
+      ],
+      "date": "2026-04-10T18:54:01.969982"
+    },
+    {
+      "type": "stock_analysis",
+      "description": "ALAB pumped +15.3% on UALink news + Scorpio P-Series adoption",
+      "entities": [
+        "ALAB"
+      ],
+      "date": "2026-04-10T18:54:01.973957"
+    },
+    {
+      "type": "build",
+      "description": "RAG / Vector Memory built: FAISS index of memory",
+      "entities": [
+        "Sig Botti"
+      ],
+      "date": "2026-04-10T18:54:01.975505"
+    },
+    {
+      "type": "build",
+      "description": "Auto-daily-logger built: fires 9PM ET via LaunchAgent",
+      "entities": [
+        "Sig Botti"
+      ],
+      "date": "2026-04-10T18:54:01.976578"
+    }
+  ]
+}
