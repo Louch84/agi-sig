@@ -146,7 +146,8 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 
 ## Decisions / Lessons
 
-- **2026-04-10**: Built **Ollama Autonomous Worker** (`scripts/ollama-daemon.py`) — long-running daemon that processes tasks from a queue using local Ollama models (llama3.2:1b fast, llama3:latest general, qwen3-coder:30b coding). Pre-loads models in memory. Auto-starts via LaunchAgent. Enqueue tasks: `python3 scripts/ollama-daemon.py add "<prompt>" [type]`. Check results: `python3 scripts/ollama-daemon.py status/result <id>`
+- **2026-04-10**: Built **Ollama Autonomous Worker** (`scripts/ollama-daemon.py`) — long-running daemon that processes tasks from a queue using local Ollama models (llama3.2:1b fast, llama3:latest general, qwen3-coder:30b coding, llava:7b vision). Pre-loads models in memory. Auto-starts via LaunchAgent. Enqueue tasks: `python3 scripts/ollama-daemon.py add "<prompt>" [type]`. Check results: `python3 scripts/ollama-daemon.py status/result <id>`
+  - **Self-audit 2026-04-10**: Fixed 4 bugs: (1) vision type not routed to vision model — added "vision" to MODEL_POOL, (2) no atomic writes on queue/results — added `os.replace()` temp-file pattern, (3) `grep -P` in lcm-heartbeat.sh — replaced with portable awk, (4) 180s timeout too short for qwen3-coder:30b on CPU — increased to 600s
 - **2026-04-10**: Installed Tony Spark LCM (Lossless Context Manager) — sql.js SQLite, auto-compact + auto-sync decisions to MEMORY.md. Script: `scripts/lcm-heartbeat.sh`. Published to ClawHub as `memory-lcm@1.0.0`. HEARTBEAT.md updated to run LCM compact every ~30min heartbeat check.
 - TurboQuant and ATLAS: marked "interesting not urgent" — defer until needed
 - Top priority today: coding practice (benchmark gap 2/5 vs 3/5 for everything else)

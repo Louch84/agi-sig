@@ -22,10 +22,11 @@ MODEL_POOL = {
     "fast": {"model": "llama3.2:1b", "loaded": False},
     "general": {"model": "llama3:latest", "loaded": False},
     "coding": {"model": "qwen3-coder:30b", "loaded": False},
+    "vision": {"model": "llava:7b", "loaded": False},
 }
 
 LOAD_TIMEOUT = 300  # 5 min to load a model
-REQUEST_TIMEOUT = 180  # 3 min per request
+REQUEST_TIMEOUT = 600  # 10 min — qwen3-coder:30b on CPU needs time
 
 loaded_models = {}  # model_name -> True
 model_lock = threading.Lock()
@@ -104,8 +105,10 @@ def load_queue():
 
 def save_queue(queue):
     os.makedirs(os.path.dirname(QUEUE_FILE), exist_ok=True)
-    with open(QUEUE_FILE, "w") as f:
+    tmp = QUEUE_FILE + ".tmp"
+    with open(tmp, "w") as f:
         json.dump(queue, f, indent=2)
+    os.replace(tmp, QUEUE_FILE)  # atomic on POSIX
 
 
 def load_results():
@@ -120,8 +123,10 @@ def load_results():
 
 def save_results(results):
     os.makedirs(os.path.dirname(RESULTS_FILE), exist_ok=True)
-    with open(RESULTS_FILE, "w") as f:
+    tmp = RESULTS_FILE + ".tmp"
+    with open(tmp, "w") as f:
         json.dump(results, f, indent=2)
+    os.replace(tmp, RESULTS_FILE)  # atomic on POSIX
 
 
 def route_task(task: dict) -> str:

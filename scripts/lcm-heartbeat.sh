@@ -15,7 +15,7 @@ echo "=== LCM Heartbeat ==="
 # Check stats first
 STATS=$($LCM status 2>/dev/null)
 TOTAL=$(echo "$STATS" | awk '/Total messages/{print $NF}')
-ACTIVE=$(echo "$STATS" | awk '/Active/{for(i=1;i<=NF;i++) if($i~/^[0-9]+$/) print $i}')
+ACTIVE=$(echo "$STATS" | awk '/Active \(uncompacted\)/{for(i=1;i<=NF;i++) if($i~/^[0-9]+$/) print $i; exit}')
 
 echo "Total: $TOTAL | Active: $ACTIVE"
 
