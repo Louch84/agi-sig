@@ -14,3 +14,6 @@ Thumbs.db
 # Large binaries
 *.mp4
 *.zip
+node_modules/
+open-world/node_modules/
+open-world/dist/
