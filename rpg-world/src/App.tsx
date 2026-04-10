@@ -96,8 +96,8 @@ function ProgressBar({ pct, color }: { pct: number; color?: string }) {
 
 // ─── Home / Onboarding ─────────────────────────────────────────────────────────
 
-function HomeView({ state, onActivate }: { state: GameState; onActivate: (name: string, classId: ClassId) => void }) {
-  const [step, setStep] = useState<'intro' | 'create'>('intro');
+function HomeView({ onActivate, gameStarted }: { state: GameState; gameStarted: boolean; onActivate: (name: string, classId: ClassId) => void }) {
+  const [step, setStep] = useState<'intro' | 'create'>(gameStarted ? 'create' : 'intro');
   const [name, setName] = useState('');
   const [selectedClass, setSelectedClass] = useState<ClassId | null>(null);
 
@@ -106,7 +106,7 @@ function HomeView({ state, onActivate }: { state: GameState; onActivate: (name: 
     onActivate(name.trim(), selectedClass);
   }
 
-  if (!state.gameStarted || step === 'intro') {
+  if (step === 'intro') {
     return (
       <div style={{ textAlign: 'center', padding: '60px 0' }}>
         <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 48, fontWeight: 900, color: C.cyan, textShadow: `0 0 40px ${C.cyan}80`, marginBottom: 16 }}>AGI REALM</div>
@@ -407,7 +407,7 @@ export default function App() {
   }
 
   const views: Record<string, React.ReactNode> = {
-    home: <HomeView state={state} onActivate={handleActivate} />,
+    home: <HomeView state={state} gameStarted={state.gameStarted} onActivate={handleActivate} />,
     missions: state.sigbot ? <MissionsView state={state} dispatch={dispatch} /> : null,
     sigbot: state.sigbot ? <SigbotView sigbot={state.sigbot} /> : null,
     leaderboard: <LeaderboardView mySigbot={state.sigbot} leaderboard={state.leaderboard} />
