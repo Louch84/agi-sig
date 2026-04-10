@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-04-10T10:42:32.184660",
+  "results": [
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc.",
+      "sector": "Technology",
+      "market_cap": 307026591744,
+      "score": 45.8,
+      "gap_pct": -1.59,
+      "gap_filled_pct": -2.3,
+      "price": 128.37,
+      "rsi": 9.0,
+      "short_pct_float": 2.4,
+      "short_ratio": 1.0,
+      "vol_ratio": 0.9,
+      "macd": -2.895,
+      "macd_hist": -115.965,
+      "vwap_dist": -8.78,
+      "52w_pct": 35.9,
+      "today_high": 129.17,
+      "today_low": 122.68,
+      "avg_vol_5d": 52657450.0
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets, Inc.",
+      "sector": "Financial Services",
+      "market_cap": 63201648640,
+      "score": 14.9,
+      "gap_pct": -0.11,
+      "gap_filled_pct": 181.2,
+      "price": 70.18,
+      "rsi": 55.0,
+      "short_pct_float": 3.9,
+      "short_ratio": 1.07,
+      "vol_ratio": 0.29,
+      "macd": 0.144,
+      "macd_hist": -55.965,
+      "vwap_dist": -0.5,
+      "52w_pct": 27.9,
+      "today_high": 70.87,
+      "today_low": 68.28,
+      "avg_vol_5d": 27039100.0
+    }
+  ]
+}
