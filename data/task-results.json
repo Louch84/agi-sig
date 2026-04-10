@@ -12,5 +12,19 @@
     "model": "llama3:latest",
     "response": "[Error]: timed out",
     "completed_at": "2026-04-10T00:35:15.461140"
+  },
+  "task-20260410004108-0": {
+    "id": "task-20260410004108-0",
+    "status": "done",
+    "model": "qwen3-coder:30b",
+    "response": "[Error]: timed out",
+    "completed_at": "2026-04-10T00:47:46.279168"
+  },
+  "task-20260410004932-0": {
+    "id": "task-20260410004932-0",
+    "status": "done",
+    "model": "qwen3-coder:30b",
+    "response": "[Error]: timed out",
+    "completed_at": "2026-04-10T00:52:38.536637"
   }
 }
