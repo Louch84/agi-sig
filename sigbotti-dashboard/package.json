@@ -12,9 +12,11 @@
   "dependencies": {
     "@react-three/drei": "^9.92.7",
     "@react-three/fiber": "^8.15.12",
+    "@react-three/postprocessing": "^3.0.4",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "helmet": "^7.1.0",
+    "postprocessing": "^6.39.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "simple-git": "^3.35.2",

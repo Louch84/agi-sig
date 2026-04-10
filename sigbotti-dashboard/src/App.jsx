@@ -5,7 +5,7 @@ import * as THREE from 'three'
 
 // ─── Palette ──────────────────────────────────────────────────────────────────
 const C = {
-  bg: '#050508',
+  bg: '#0a0f1a',
   panel: '#0a0a12',
   panelDark: '#07070f',
   border: '#1a1a2e',
@@ -20,7 +20,7 @@ const C = {
 }
 
 // ─── API ───────────────────────────────────────────────────────────────────────
-const API = '' // relative — proxied in dev, served from same origin in production
+const API = ''
 
 async function apiAction(action) {
   const r = await fetch(`${API}/api/action`, {
@@ -40,128 +40,545 @@ async function apiStatus() {
   }
 }
 
-// ─── Forest Camp Scene ────────────────────────────────────────────────────────
+// ─── Fox Character (Procedural 3D) ────────────────────────────────────────────
+function Fox({ position = [0, 0, 0] }) {
+  const groupRef = useRef()
+  const bodyRef = useRef()
+  const tailRef = useRef()
+  const earLRRef = useRef()
+  const earRRRef = useRef()
+  const eyeLRef = useRef()
+  const eyeRRef = useRef()
+  const blinkRef = useRef(0)
+  const timeRef = useRef(0)
 
+  useFrame((state) => {
+    timeRef.current += 0.016
+    const t = timeRef.current
+
+    if (groupRef.current) {
+      // Gentle idle sway
+      groupRef.current.rotation.y = Math.sin(t * 0.3) * 0.15
+    }
+    if (bodyRef.current) {
+      // Breathing
+      const b = 1 + Math.sin(t * 1.8) * 0.025
+      bodyRef.current.scale.set(b, 1, b)
+      // Subtle bounce
+      bodyRef.current.position.y = position[1] + Math.sin(t * 1.8) * 0.05
+    }
+    if (tailRef.current) {
+      tailRef.current.rotation.z = Math.sin(t * 2.5) * 0.3 + 0.5
+      tailRef.current.rotation.x = Math.sin(t * 1.5) * 0.15
+    }
+    if (earLRRef.current) {
+      earLRRef.current.rotation.z = Math.sin(t * 3.0 + 1) * 0.08
+    }
+    if (earRRRef.current) {
+      earRRRef.current.rotation.z = -(Math.sin(t * 3.0 + 1) * 0.08)
+    }
+    // Blink
+    blinkRef.current += 0.01
+    if (blinkRef.current > 4.2) {
+      blinkRef.current = 0
+    }
+    const blinkAmount = (blinkRef.current > 4.0 && blinkRef.current < 4.2) ? 0.1 : 1
+    if (eyeLRef.current) eyeLRef.current.scale.y = blinkAmount
+    if (eyeRRef.current) eyeRRef.current.scale.y = blinkAmount
+  })
+
+  const orange = '#e87a25'
+  const darkOrange = '#c45e10'
+  const white = '#f5e6d0'
+  const black = '#111111'
+
+  return (
+    <group ref={groupRef} position={position}>
+      {/* Body */}
+      <mesh ref={bodyRef} position={[0, 0.55, 0]}>
+        <boxGeometry args={[0.7, 0.5, 0.5]} />
+        <meshStandardMaterial color={orange} roughness={0.7} emissive={orange} emissiveIntensity={0.08} />
+      </mesh>
+      {/* Chest */}
+      <mesh position={[0, 0.52, 0.22]}>
+        <boxGeometry args={[0.35, 0.3, 0.08]} />
+        <meshStandardMaterial color={white} roughness={0.8} emissive={white} emissiveIntensity={0.05} />
+      </mesh>
+      {/* Head */}
+      <mesh position={[0, 1.0, 0.2]}>
+        <boxGeometry args={[0.55, 0.45, 0.45]} />
+        <meshStandardMaterial color={orange} roughness={0.7} emissive={orange} emissiveIntensity={0.08} />
+      </mesh>
+      {/* Snout */}
+      <mesh position={[0, 0.92, 0.46]}>
+        <boxGeometry args={[0.22, 0.18, 0.22]} />
+        <meshStandardMaterial color={white} roughness={0.8} />
+      </mesh>
+      {/* Nose */}
+      <mesh position={[0, 0.95, 0.58]}>
+        <sphereGeometry args={[0.045, 8, 8]} />
+        <meshStandardMaterial color={black} roughness={0.3} emissive={black} emissiveIntensity={0.2} />
+      </mesh>
+      {/* Eyes */}
+      <mesh ref={eyeLRef} position={[0.14, 1.06, 0.44]}>
+        <sphereGeometry args={[0.055, 8, 8]} />
+        <meshStandardMaterial color="#222222" roughness={0.1} metalness={0.3} emissive="#111111" emissiveIntensity={0.3} />
+      </mesh>
+      <mesh position={[0.14, 1.08, 0.47]}>
+        <sphereGeometry args={[0.022, 6, 6]} />
+        <meshStandardMaterial color={white} emissive={white} emissiveIntensity={2} />
+      </mesh>
+      <mesh ref={eyeRRef} position={[-0.14, 1.06, 0.44]}>
+        <sphereGeometry args={[0.055, 8, 8]} />
+        <meshStandardMaterial color="#222222" roughness={0.1} metalness={0.3} emissive="#111111" emissiveIntensity={0.3} />
+      </mesh>
+      <mesh position={[-0.14, 1.08, 0.47]}>
+        <sphereGeometry args={[0.022, 6, 6]} />
+        <meshStandardMaterial color={white} emissive={white} emissiveIntensity={2} />
+      </mesh>
+      {/* Left Ear */}
+      <group ref={earLRRef} position={[0.2, 1.32, 0.05]}>
+        <mesh rotation={[0, 0, 0.2]}>
+          <coneGeometry args={[0.1, 0.28, 4]} />
+          <meshStandardMaterial color={orange} roughness={0.7} />
+        </mesh>
+        <mesh position={[0, 0.02, 0.03]} rotation={[0, 0, 0.2]}>
+          <coneGeometry args={[0.055, 0.16, 4]} />
+          <meshStandardMaterial color={white} roughness={0.8} />
+        </mesh>
+      </group>
+      {/* Right Ear */}
+      <group ref={earRRRef} position={[-0.2, 1.32, 0.05]}>
+        <mesh rotation={[0, 0, -0.2]}>
+          <coneGeometry args={[0.1, 0.28, 4]} />
+          <meshStandardMaterial color={orange} roughness={0.7} />
+        </mesh>
+        <mesh position={[0, 0.02, 0.03]} rotation={[0, 0, -0.2]}>
+          <coneGeometry args={[0.055, 0.16, 4]} />
+          <meshStandardMaterial color={white} roughness={0.8} />
+        </mesh>
+      </group>
+      {/* Tail */}
+      <group ref={tailRef} position={[0, 0.65, -0.32]}>
+        <mesh rotation={[-0.8, 0, 0]}>
+          <coneGeometry args={[0.18, 0.7, 8]} />
+          <meshStandardMaterial color={orange} roughness={0.7} />
+        </mesh>
+        <mesh position={[0, -0.28, -0.25]} rotation={[-0.8, 0, 0]}>
+          <coneGeometry args={[0.16, 0.35, 8]} />
+          <meshStandardMaterial color={white} roughness={0.8} />
+        </mesh>
+      </group>
+      {/* Front Legs */}
+      <mesh position={[0.22, 0.2, 0.2]}>
+        <cylinderGeometry args={[0.07, 0.07, 0.4, 8]} />
+        <meshStandardMaterial color={orange} roughness={0.7} />
+      </mesh>
+      <mesh position={[-0.22, 0.2, 0.2]}>
+        <cylinderGeometry args={[0.07, 0.07, 0.4, 8]} />
+        <meshStandardMaterial color={orange} roughness={0.7} />
+      </mesh>
+      {/* Back Legs */}
+      <mesh position={[0.22, 0.2, -0.15]}>
+        <cylinderGeometry args={[0.07, 0.07, 0.4, 8]} />
+        <meshStandardMaterial color={darkOrange} roughness={0.7} />
+      </mesh>
+      <mesh position={[-0.22, 0.2, -0.15]}>
+        <cylinderGeometry args={[0.07, 0.07, 0.4, 8]} />
+        <meshStandardMaterial color={darkOrange} roughness={0.7} />
+      </mesh>
+      {/* Paws */}
+      <mesh position={[0.22, 0.0, 0.2]}>
+        <boxGeometry args={[0.12, 0.06, 0.14]} />
+        <meshStandardMaterial color={white} roughness={0.8} />
+      </mesh>
+      <mesh position={[-0.22, 0.0, 0.2]}>
+        <boxGeometry args={[0.12, 0.06, 0.14]} />
+        <meshStandardMaterial color={white} roughness={0.8} />
+      </mesh>
+      <mesh position={[0.22, 0.0, -0.15]}>
+        <boxGeometry args={[0.12, 0.06, 0.14]} />
+        <meshStandardMaterial color={white} roughness={0.8} />
+      </mesh>
+      <mesh position={[-0.22, 0.0, -0.15]}>
+        <boxGeometry args={[0.12, 0.06, 0.14]} />
+        <meshStandardMaterial color={white} roughness={0.8} />
+      </mesh>
+    </group>
+  )
+}
+
+// ─── Trees ─────────────────────────────────────────────────────────────────────
+function PineTree({ position, scale = 1, rotation = 0 }) {
+  return (
+    <group position={position} scale={scale} rotation={[0, rotation, 0]}>
+      {/* Trunk */}
+      <mesh position={[0, 0.5, 0]}>
+        <cylinderGeometry args={[0.12, 0.18, 1.0, 6]} />
+        <meshStandardMaterial color="#3d2510" roughness={1} />
+      </mesh>
+      {/* Bottom foliage */}
+      <mesh position={[0, 1.5, 0]}>
+        <coneGeometry args={[1.1, 1.6, 6]} />
+        <meshStandardMaterial color="#2d5a2d" roughness={0.9} />
+      </mesh>
+      {/* Middle foliage */}
+      <mesh position={[0, 2.4, 0]}>
+        <coneGeometry args={[0.8, 1.4, 6]} />
+        <meshStandardMaterial color="#366636" roughness={0.9} />
+      </mesh>
+      {/* Top foliage */}
+      <mesh position={[0, 3.15, 0]}>
+        <coneGeometry args={[0.5, 1.2, 6]} />
+        <meshStandardMaterial color="#407040" roughness={0.9} />
+      </mesh>
+    </group>
+  )
+}
+
+function DeciduousTree({ position, scale = 1, rotation = 0 }) {
+  return (
+    <group position={position} scale={scale} rotation={[0, rotation, 0]}>
+      {/* Trunk */}
+      <mesh position={[0, 0.8, 0]}>
+        <cylinderGeometry args={[0.15, 0.22, 1.6, 6]} />
+        <meshStandardMaterial color="#4a3020" roughness={1} />
+      </mesh>
+      {/* Canopy */}
+      <mesh position={[0, 2.5, 0]}>
+        <sphereGeometry args={[1.2, 8, 8]} />
+        <meshStandardMaterial color="#2d5a2d" roughness={0.9} />
+      </mesh>
+      <mesh position={[0, 2.5, 0]}>
+        <sphereGeometry args={[0.9, 8, 8]} />
+        <meshStandardMaterial color="#3a6e3a" roughness={0.9} />
+      </mesh>
+    </group>
+  )
+}
+
+// ─── Campfire ─────────────────────────────────────────────────────────────────
+function Campfire({ position }) {
+  const flame1Ref = useRef()
+  const flame2Ref = useRef()
+  const glowRef = useRef()
+  const lightRef = useRef()
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime
+    if (flame1Ref.current) {
+      flame1Ref.current.scale.x = 1 + Math.sin(t * 8) * 0.15
+      flame1Ref.current.scale.z = 1 + Math.cos(t * 6) * 0.12
+      flame1Ref.current.scale.y = 1 + Math.sin(t * 10) * 0.2
+    }
+    if (flame2Ref.current) {
+      flame2Ref.current.scale.x = 1 + Math.sin(t * 7 + 1) * 0.12
+      flame2Ref.current.scale.z = 1 + Math.cos(t * 9 + 2) * 0.15
+      flame2Ref.current.scale.y = 1 + Math.sin(t * 12) * 0.18
+    }
+    if (glowRef.current) {
+      const s = 1 + Math.sin(t * 4) * 0.1
+      glowRef.current.scale.set(s, s, s)
+    }
+    if (lightRef.current) {
+      lightRef.current.intensity = 1.2 + Math.sin(t * 6) * 0.3
+    }
+  })
+
+  return (
+    <group position={position}>
+      {/* Stone ring */}
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <mesh key={i} position={[Math.cos(i * Math.PI / 3) * 0.4, 0.05, Math.sin(i * Math.PI / 3) * 0.4]}>
+          <sphereGeometry args={[0.1, 5, 5]} />
+          <meshStandardMaterial color="#555555" roughness={1} />
+        </mesh>
+      ))}
+      {/* Logs */}
+      <mesh position={[0.15, 0.05, 0]} rotation={[0, 0.3, Math.PI / 2]}>
+        <cylinderGeometry args={[0.05, 0.05, 0.5, 6]} />
+        <meshStandardMaterial color="#3d2010" roughness={1} />
+      </mesh>
+      <mesh position={[-0.15, 0.05, 0]} rotation={[0, -0.3, Math.PI / 2]}>
+        <cylinderGeometry args={[0.05, 0.05, 0.5, 6]} />
+        <meshStandardMaterial color="#3d2010" roughness={1} />
+      </mesh>
+      {/* Flames */}
+      <mesh ref={flame1Ref} position={[0, 0.35, 0]}>
+        <coneGeometry args={[0.18, 0.6, 6]} />
+        <meshStandardMaterial color="#ff4400" emissive="#ff2200" emissiveIntensity={2} transparent opacity={0.85} />
+      </mesh>
+      <mesh ref={flame2Ref} position={[0.05, 0.45, 0.05]}>
+        <coneGeometry args={[0.12, 0.45, 6]} />
+        <meshStandardMaterial color="#ff8800" emissive="#ff6600" emissiveIntensity={2} transparent opacity={0.8} />
+      </mesh>
+      <mesh ref={glowRef} position={[0, 0.5, 0]}>
+        <sphereGeometry args={[0.25, 8, 8]} />
+        <meshStandardMaterial color="#ffaa00" emissive="#ff8800" emissiveIntensity={1.5} transparent opacity={0.3} />
+      </mesh>
+      <pointLight ref={lightRef} color="#ff6600" intensity={3.0} distance={12} position={[0, 1, 0]} castShadow shadow-mapSize-width={512} shadow-mapSize-height={512} />
+    </group>
+  )
+}
+
+// ─── Fireflies ────────────────────────────────────────────────────────────────
+function Fireflies({ count = 40 }) {
+  const groupRef = useRef()
+  const positionsRef = useRef([])
+
+  const positions = useRef(
+    Array.from({ length: count }, () => ({
+      x: (Math.random() - 0.5) * 16,
+      y: Math.random() * 3 + 0.5,
+      z: (Math.random() - 0.5) * 16,
+      speed: Math.random() * 0.5 + 0.3,
+      offset: Math.random() * Math.PI * 2,
+    }))
+  )
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime
+    if (!groupRef.current) return
+    const children = groupRef.current.children
+    for (let i = 0; i < children.length; i++) {
+      const p = positions.current[i]
+      children[i].position.x = p.x + Math.sin(t * p.speed + p.offset) * 0.8
+      children[i].position.y = p.y + Math.sin(t * p.speed * 1.3 + p.offset) * 0.5
+      children[i].position.z = p.z + Math.cos(t * p.speed * 0.8 + p.offset) * 0.8
+      const glow = 0.3 + Math.sin(t * 3 + p.offset) * 0.3
+      children[i].material.opacity = glow
+    }
+  })
+
+  return (
+    <group ref={groupRef}>
+      {positions.current.map((p, i) => (
+        <mesh key={i} position={[p.x, p.y, p.z]}>
+          <sphereGeometry args={[0.04, 6, 6]} />
+          <meshStandardMaterial color="#aaffaa" emissive="#88ff88" emissiveIntensity={2} transparent opacity={0.5} />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+// ─── Rocks ────────────────────────────────────────────────────────────────────
+function Rock({ position, scale = 1, rotation = 0 }) {
+  return (
+    <group position={position} scale={scale} rotation={[0, rotation, 0]}>
+      <mesh>
+        <dodecahedronGeometry args={[0.3, 0]} />
+        <meshStandardMaterial color="#444444" roughness={1} />
+      </mesh>
+    </group>
+  )
+}
+
+// ─── Tent ─────────────────────────────────────────────────────────────────────
+function Tent({ position }) {
+  return (
+    <group position={position}>
+      {/* Tent body */}
+      <mesh position={[0, 0.5, 0]} rotation={[0, 0.5, 0]}>
+        <coneGeometry args={[1.0, 1.2, 4]} />
+        <meshStandardMaterial color="#c45e5e" roughness={0.8} />
+      </mesh>
+      {/* Tent opening (darker) */}
+      <mesh position={[0.2, 0.35, 0.15]} rotation={[0, 0.5, 0]}>
+        <coneGeometry args={[0.3, 0.6, 4]} />
+        <meshStandardMaterial color="#1a1a1a" roughness={1} />
+      </mesh>
+    </group>
+  )
+}
+
+// ─── Camping Chair ────────────────────────────────────────────────────────────
+function CampingChair({ position, rotation = 0 }) {
+  return (
+    <group position={position} rotation={[0, rotation, 0]}>
+      {/* Seat */}
+      <mesh position={[0, 0.3, 0]}>
+        <boxGeometry args={[0.5, 0.05, 0.5]} />
+        <meshStandardMaterial color="#2255aa" roughness={0.8} />
+      </mesh>
+      {/* Back */}
+      <mesh position={[0, 0.55, -0.22]} rotation={[0.3, 0, 0]}>
+        <boxGeometry args={[0.5, 0.5, 0.05]} />
+        <meshStandardMaterial color="#2255aa" roughness={0.8} />
+      </mesh>
+      {/* Frame */}
+      {[[-0.2, -0.2], [0.2, -0.2], [-0.2, 0.2], [0.2, 0.2]].map(([x, z], i) => (
+        <mesh key={i} position={[x, 0.15, z]}>
+          <cylinderGeometry args={[0.02, 0.02, 0.3, 4]} />
+          <meshStandardMaterial color="#888888" metalness={0.8} roughness={0.3} />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+// ─── Grass Tufts ─────────────────────────────────────────────────────────────
+function GrassTuft({ position }) {
+  return (
+    <group position={position}>
+      {[0, 1, 2].map((i) => (
+        <mesh key={i} position={[i * 0.08 - 0.08, 0.1, 0]} rotation={[0, i * 0.8, 0]}>
+          <coneGeometry args={[0.03, 0.25, 3]} />
+          <meshStandardMaterial color="#2d6a2d" roughness={0.9} />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+// ─── Forest Floor ────────────────────────────────────────────────────────────
 function ForestFloor() {
   return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>
-      <planeGeometry args={[60, 60]} />
-      <meshStandardMaterial color="#0d1a0d" roughness={1} />
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} receiveShadow>
+      <planeGeometry args={[50, 50, 8, 8]} />
+      <meshStandardMaterial color="#1a2e1a" roughness={1} />
     </mesh>
   )
 }
 
-// Simple low-poly pine tree
-function PineTree({ position, scale = 1 }) {
+// ─── Skybox ───────────────────────────────────────────────────────────────────
+const STAR_POSITIONS = Array.from({ length: 400 }, () => ({
+  x: (Math.random() - 0.5) * 250,
+  y: Math.random() * 90 + 8,
+  z: (Math.random() - 0.5) * 250,
+  s: Math.random() * 0.06 + 0.02,
+}))
+
+function Stars() {
   return (
-    <group position={position} scale={scale}>
-      <mesh position={[0, 1.2, 0]}>
-        <coneGeometry args={[0.8, 2.4, 6]} />
-        <meshStandardMaterial color="#1a3d1a" roughness={0.9} />
-      </mesh>
-      <mesh position={[0, 2.5, 0]}>
-        <coneGeometry args={[0.5, 1.8, 6]} />
-        <meshStandardMaterial color="#1f4a1f" roughness={0.9} />
-      </mesh>
-      <mesh position={[0, 0.3, 0]}>
-        <cylinderGeometry args={[0.15, 0.2, 0.6, 5]} />
-        <meshStandardMaterial color="#3d2b1f" roughness={1} />
-      </mesh>
-    </group>
+    <>
+      {STAR_POSITIONS.map((star, i) => (
+        <mesh key={i} position={[star.x, star.y, star.z]}>
+          <sphereGeometry args={[star.s, 4, 4]} />
+          <meshBasicMaterial color="#ffffff" transparent opacity={0.85} />
+        </mesh>
+      ))}
+    </>
   )
 }
 
-// Campfire glow
-function Campfire({ position }) {
-  const fireRef = useRef()
+function Moon() {
+  const glowRef = useRef()
   useFrame((state) => {
-    if (fireRef.current) {
-      const s = 1 + Math.sin(state.clock.elapsedTime * 6) * 0.2
-      fireRef.current.scale.set(s, s + 0.3, s)
+    if (glowRef.current) {
+      const s = 1 + Math.sin(state.clock.elapsedTime * 0.5) * 0.02
+      glowRef.current.scale.set(s, s, s)
     }
   })
   return (
-    <group position={position}>
-      <mesh position={[0, 0, 0]} ref={fireRef}>
-        <sphereGeometry args={[0.3, 8, 8]} />
-        <meshStandardMaterial color="#ff6600" emissive="#ff4400" emissiveIntensity={2} transparent opacity={0.7} />
+    <group position={[30, 45, -60]}>
+      <mesh>
+        <sphereGeometry args={[4, 32, 32]} />
+        <meshStandardMaterial color="#e8e4d8" roughness={0.9} metalness={0} />
       </mesh>
-      <pointLight color="#ff6600" intensity={1.5} distance={6} position={[0, 0.5, 0]} />
+      <mesh ref={glowRef}>
+        <sphereGeometry args={[5.5, 32, 32]} />
+        <meshBasicMaterial color="#c8d8ff" transparent opacity={0.12} />
+      </mesh>
+      <mesh position={[1, 1, 3.5]}>
+        <sphereGeometry args={[0.6, 16, 16]} />
+        <meshStandardMaterial color="#ccc8b8" roughness={1} />
+      </mesh>
+      <mesh position={[-1.5, -0.5, 3.2]}>
+        <sphereGeometry args={[0.4, 16, 16]} />
+        <meshStandardMaterial color="#ccc8b8" roughness={1} />
+      </mesh>
+      <mesh position={[0.5, 2, 3.0]}>
+        <sphereGeometry args={[0.35, 16, 16]} />
+        <meshStandardMaterial color="#ccc8b8" roughness={1} />
+      </mesh>
     </group>
   )
 }
 
-// Sig Botti Fox Sprite — centered in camp
-function SigFox({ position }) {
-  const spriteRef = useRef()
-  const [texture, setTexture] = useState(null)
-
-  useEffect(() => {
-    const loader = new THREE.TextureLoader()
-    loader.load(
-      '/assets/sigbotti-fox-character.png',
-      (tex) => {
-        tex.flipY = false
-        setTexture(tex)
-      },
-      undefined,
-      () => {
-        // fallback — try media path
-        const loader2 = new THREE.TextureLoader()
-        loader2.load(
-          'https://localhost:5200/assets/sigbotti-fox-character.png',
-          (tex) => { tex.flipY = false; setTexture(tex) }
-        )
-      }
-    )
-  }, [])
-
-  useFrame(() => {
-    if (spriteRef.current) {
-      spriteRef.current.rotation.z = 0
-    }
-  })
-
-  if (!texture) return null
-
+function NightSky() {
   return (
-    <sprite ref={spriteRef} position={position} scale={[3, 3, 1]}>
-      <spriteMaterial map={texture} transparent opacity={1} />
-    </sprite>
+    <>
+      <color attach="background" args={['#060c18']} />
+      <fog attach="fog" args={['#060c18', 20, 60]} />
+      <Stars />
+      <Moon />
+    </>
   )
 }
 
+// ─── Forest Camp (Full Scene) ────────────────────────────────────────────────
 function ForestCamp() {
   return (
-    <group>
+    <>
+      <NightSky />
+      {/* Moonlight — main outdoor light source */}
+      <directionalLight position={[30, 50, -60]} intensity={1.4} color="#c8d8f0" castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} shadow-camera-far={100} shadow-camera-left={-20} shadow-camera-right={20} shadow-camera-top={20} shadow-camera-bottom={-20} />
+      <ambientLight intensity={0.2} color="#223355" />
+      <pointLight position={[0, 8, 0]} intensity={0.4} color="#6688aa" distance={35} />
+      <pointLight position={[-8, 4, -8]} intensity={0.3} color="#334422" distance={25} />
+      <pointLight position={[8, 4, 8]} intensity={0.3} color="#334422" distance={25} />
+
+      {/* Forest Floor */}
       <ForestFloor />
 
-      {/* Trees around the edges */}
-      <PineTree position={[-6, -2, -6]} scale={1.4} />
-      <PineTree position={[-8, -2, -2]} scale={1.0} />
-      <PineTree position={[-5, -2, -9]} scale={1.6} />
-      <PineTree position={[6, -2, -7]} scale={1.3} />
-      <PineTree position={[8, -2, -3]} scale={1.1} />
-      <PineTree position={[5, -2, -10]} scale={1.5} />
-      <PineTree position={[-7, -2, 5]} scale={1.2} />
-      <PineTree position={[7, -2, 6]} scale={1.4} />
-      <PineTree position={[0, -2, -12]} scale={1.8} />
-      <PineTree position={[-10, -2, -8]} scale={1.0} />
-      <PineTree position={[10, -2, -8]} scale={1.0} />
+      {/* ── Pine Trees ── */}
+      <PineTree position={[-7, 0, -7]} scale={1.6} rotation={0.3} />
+      <PineTree position={[-9, 0, -3]} scale={1.2} rotation={1.1} />
+      <PineTree position={[-6, 0, -10]} scale={1.8} rotation={2.5} />
+      <PineTree position={[7, 0, -8]} scale={1.4} rotation={0.7} />
+      <PineTree position={[9, 0, -3]} scale={1.3} rotation={3.2} />
+      <PineTree position={[6, 0, -11]} scale={1.7} rotation={1.8} />
+      <PineTree position={[-8, 0, 6]} scale={1.5} rotation={2.1} />
+      <PineTree position={[8, 0, 7]} scale={1.2} rotation={0.4} />
+      <PineTree position={[0, 0, -13]} scale={2.0} rotation={1.5} />
+      <PineTree position={[-11, 0, -9]} scale={1.0} rotation={2.8} />
+      <PineTree position={[11, 0, -9]} scale={1.1} rotation={3.7} />
+      <PineTree position={[-5, 0, -13]} scale={1.3} rotation={1.2} />
+      <PineTree position={[5, 0, -13]} scale={1.4} rotation={0.9} />
+      <PineTree position={[-12, 0, 2]} scale={0.9} rotation={2.3} />
+      <PineTree position={[12, 0, 2]} scale={1.0} rotation={1.6} />
 
-      {/* Campfire */}
-      <Campfire position={[0, -1.5, 0]} />
+      {/* ── Deciduous Trees ── */}
+      <DeciduousTree position={[-10, 0, 0]} scale={1.3} rotation={0.5} />
+      <DeciduousTree position={[10, 0, 0]} scale={1.2} rotation={2.1} />
+      <DeciduousTree position={[-4, 0, -8]} scale={1.0} rotation={1.3} />
+      <DeciduousTree position={[4, 0, -9]} scale={1.1} rotation={3.0} />
 
-      {/* Sig Botti Fox centered */}
-      <SigFox position={[0, -0.5, 0]} />
+      {/* ── Rocks ── */}
+      <Rock position={[-3, 0, -4]} scale={1.2} rotation={0.5} />
+      <Rock position={[4, 0, -3]} scale={0.8} rotation={1.2} />
+      <Rock position={[-5, 0, 3]} scale={1.0} rotation={2.1} />
+      <Rock position={[3, 0, 4]} scale={0.7} rotation={0.8} />
+      <Rock position={[0, 0, -6]} scale={0.5} rotation={1.7} />
 
-      {/* Ambient forest light */}
-      <pointLight position={[0, 5, 0]} intensity={0.4} color="#88cc88" distance={20} />
-      <ambientLight intensity={0.15} />
-    </group>
+      {/* ── Grass Tufts ── */}
+      {[[-2, 0, -3], [3, 0, -2], [-4, 0, 2], [2, 0, 3], [-1, 0, -5], [5, 0, -5]].map(([x, y, z], i) => (
+        <GrassTuft key={i} position={[x, y, z]} />
+      ))}
+
+      {/* ── Campfire ── */}
+      <Campfire position={[0, 0, 0]} />
+
+      {/* ── Tent ── */}
+      <Tent position={[-2.5, 0, -1.5]} />
+
+      {/* ── Camping Chair ── */}
+      <CampingChair position={[1.5, 0, 1.2]} rotation={-0.5} />
+
+      {/* ── Sig Fox ── */}
+      <Fox position={[0, 0, 1.8]} />
+
+      {/* Campfire warm glow on fox */}
+      <pointLight position={[0, 0.5, 0]} color="#ff5500" intensity={0.8} distance={5} />
+
+      {/* ── Fireflies ── */}
+      <Fireflies count={45} />
+    </>
   )
 }
 
+// ─── System Block (kept from original) ────────────────────────────────────────
 function SystemBlock({ position, color, label, speed = 1, size = 0.6, pulseRef }) {
   const ref = useRef()
 
@@ -192,6 +609,7 @@ function SystemBlock({ position, color, label, speed = 1, size = 0.6, pulseRef }
   )
 }
 
+// ─── World (with floating blocks + forest) ───────────────────────────────────
 function World({ activeBlock }) {
   const { camera } = useThree()
   const blockRefs = {
@@ -199,12 +617,11 @@ function World({ activeBlock }) {
   }
 
   useEffect(() => {
-    camera.position.set(0, 8, 14)
-    camera.lookAt(0, 0, 0)
+    camera.position.set(0, 6, 14)
+    camera.lookAt(0, 1, 0)
   }, [camera])
 
   useFrame((state) => {
-    // Pulse the active block
     const key = activeBlock
     if (key && blockRefs[key]?.current) {
       const s = 1 + Math.sin(state.clock.elapsedTime * 4) * 0.15
@@ -214,28 +631,21 @@ function World({ activeBlock }) {
 
   return (
     <>
-      <color attach="background" args={[C.bg]} />
-      <fog attach="fog" args={[C.bg, 20, 60]} />
-      <ambientLight intensity={0.3} />
-      <pointLight position={[0, 5, 0]} intensity={1} color={C.accent} distance={20} />
-      <pointLight position={[5, 3, 5]} intensity={0.5} color={C.accent2} distance={15} />
-      <pointLight position={[-5, 3, -5]} intensity={0.5} color={C.accent3} distance={15} />
-
       <ForestCamp />
 
-      <SystemBlock ref={blockRefs.HEART} position={[4, 1, 0]} color={C.accent} label="HEART" speed={1.2} size={0.7} />
-      <SystemBlock ref={blockRefs.MEMORY} position={[-4, 0.5, 1]} color={C.accent2} label="MEM" speed={0.8} size={0.6} />
-      <SystemBlock ref={blockRefs.SCANNER} position={[0, 2, -4]} color={C.accent3} label="SCAN" speed={1.5} size={0.5} />
-      <SystemBlock ref={blockRefs.GIT} position={[-3, 1.5, -3]} color={C.warning} label="GIT" speed={0.6} size={0.55} />
-      <SystemBlock ref={blockRefs.CRON} position={[3, 0.8, 3]} color={C.success} label="CRON" speed={1.0} size={0.65} />
+      {/* Floating system blocks — orbit around the forest */}
+      <SystemBlock ref={blockRefs.HEART} position={[7, 3, 0]} color={C.accent} label="HEART" speed={1.2} size={0.7} />
+      <SystemBlock ref={blockRefs.MEMORY} position={[-7, 4, 1]} color={C.accent2} label="MEM" speed={0.8} size={0.6} />
+      <SystemBlock ref={blockRefs.SCANNER} position={[0, 5, -7]} color={C.accent3} label="SCAN" speed={1.5} size={0.5} />
+      <SystemBlock ref={blockRefs.GIT} position={[-6, 2.5, -6]} color={C.warning} label="GIT" speed={0.6} size={0.55} />
+      <SystemBlock ref={blockRefs.CRON} position={[6, 2, 5]} color={C.success} label="CRON" speed={1.0} size={0.65} />
 
-      <OrbitControls enablePan={false} minDistance={6} maxDistance={30} maxPolarAngle={Math.PI / 2.1} autoRotate autoRotateSpeed={0.4} />
+      <OrbitControls enablePan={false} minDistance={5} maxDistance={35} maxPolarAngle={Math.PI / 2.1} autoRotate autoRotateSpeed={0.3} />
     </>
   )
 }
 
 // ─── Panel primitives ──────────────────────────────────────────────────────────
-
 function Panel({ title, children, accent = C.accent, style }) {
   return (
     <div style={{
@@ -298,7 +708,6 @@ function PulseBar({ value = 1, color = C.accent }) {
 }
 
 // ─── Action Buttons ────────────────────────────────────────────────────────────
-
 function ActionBtn({ label, onClick, loading, accent = C.accent, icon }) {
   const [hover, setHover] = useState(false)
   const [pressed, setPressed] = useState(false)
@@ -335,7 +744,6 @@ function ActionBtn({ label, onClick, loading, accent = C.accent, icon }) {
 }
 
 // ─── Output Log ────────────────────────────────────────────────────────────────
-
 function OutputLog({ entries }) {
     const bottomRef = useRef(null)
     useEffect(() => {
@@ -376,14 +784,12 @@ function OutputLog({ entries }) {
 }
 
 // ─── Main App ─────────────────────────────────────────────────────────────────
-
 export default function App() {
   const [tick, setTick] = useState(0)
   const [status, setStatus] = useState(null)
   const [activeBlock, setActiveBlock] = useState(null)
   const [loading, setLoading] = useState({})
   const [logEntries, setLogEntries] = useState([])
-  const [expanded, setExpanded] = useState(true)
   const time = new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York' })
   const date = new Date().toLocaleDateString('en-US', { timeZone: 'America/New_York', weekday: 'short', month: 'short', day: 'numeric' })
 
@@ -429,7 +835,6 @@ export default function App() {
     }
   }, [loading, addLog])
 
-  // Periodic status refresh
   useEffect(() => {
     const id = setInterval(async () => {
       const s = await apiStatus()
@@ -438,12 +843,10 @@ export default function App() {
     return () => clearInterval(id)
   }, [])
 
-  // Initial status load
   useEffect(() => {
     apiStatus().then(s => { if (s) setStatus(s) })
   }, [])
 
-  // Clock tick
   useEffect(() => {
     const id = setInterval(() => setTick(t => t + 1), 1000)
     return () => clearInterval(id)
@@ -485,7 +888,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* System status dots */}
         <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
           {[
             { label: 'OC', ok: true },
@@ -551,7 +953,7 @@ export default function App() {
             <StatRow label="Self-eval" value="~21d" color={C.dim} />
           </Panel>
 
-          <Panel title="🐾 Agent" accent={C.accent}>
+          <Panel title="🦊 Agent" accent={C.accent}>
             <StatRow label="Model" value="MiniMax-M2" />
             <StatRow label="Benchmark" value="3.1 / 5" color={C.warning} />
             <StatRow label="Skills" value="~30" />
@@ -561,13 +963,16 @@ export default function App() {
 
         {/* ── World viewport ──────────────────────────────────── */}
         <div style={{ flex: 1, position: 'relative', minWidth: 0 }}>
-          <Canvas gl={{ antialias: true, powerPreference: 'high-performance' }} style={{ position: 'absolute', inset: 0 }}>
+          <Canvas
+            gl={{ antialias: true, powerPreference: 'high-performance', toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.2 }}
+            shadows
+            style={{ position: 'absolute', inset: 0 }}
+          >
             <Suspense fallback={null}>
               <World activeBlock={activeBlock} />
             </Suspense>
           </Canvas>
 
-          {/* Module legend */}
           <div style={{
             position: 'absolute', top: 10, right: 10,
             background: `${C.panel}cc`,
@@ -599,7 +1004,6 @@ export default function App() {
             DRAG TO ORBIT · SCROLL TO ZOOM
           </div>
 
-          {/* Active block glow */}
           {activeBlock && (
             <div style={{
               position: 'absolute', top: 10, left: 12,
@@ -648,7 +1052,6 @@ export default function App() {
             <StatRow label="PerfectPlace" value="ok" color={C.success} />
           </Panel>
 
-          {/* Output log */}
           <Panel title="📋 Output Log" accent={C.accent3} style={{ flex: 1, minHeight: 120 }}>
             <OutputLog entries={logEntries} />
           </Panel>
