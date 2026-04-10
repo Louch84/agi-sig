@@ -2,136 +2,114 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import { exec } from 'child_process'
-import { promisify } from 'util'
 import { fileURLToPath } from 'url'
 import path from 'path'
-import { createServer } from 'http'
+import os from 'os'
+import simpleGit from 'simple-git'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const execAsync = promisify(exec)
+const WORKSPACE = '/Users/sigbotti/.openclaw/workspace'
+const git = simpleGit(WORKSPACE)
 const app = express()
 const PORT = 5200
 
-app.use(helmet({ contentSecurityPolicy: false })) // allow inline for dev
+app.use(helmet({ contentSecurityPolicy: false }))
 app.use(cors({ origin: '*' }))
 app.use(express.json())
-
-// Serve static files from dist/
 app.use(express.static(path.join(__dirname, 'dist')))
 
-// ─── Helpers ───────────────────────────────────────────────────────────────────
-
-function run(cmd, cwd = '/Users/sigbotti/.openclaw/workspace') {
+function run(cmd, cwd = WORKSPACE) {
   return new Promise((resolve) => {
-    exec(cmd, { cwd, timeout: 60000, maxBuffer: 5 * 1024 * 1024 }, (err, stdout, stderr) => {
-      resolve({ out: stdout.trim(), err: stderr.trim(), code: err?.code ?? 0 })
+    exec(cmd, { cwd, timeout: 10, killSignal: 'SIGKILL' }, (err, stdout, stderr) => {
+      resolve({ out: (stdout || '').toString().trim(), err: (stderr || '').toString().trim(), code: err?.code ?? 0 })
     })
   })
 }
 
-async function runBlogwatcher() {
-  const scan = await run('blogwatcher scan 2>&1')
-  await new Promise(r => setTimeout(r, 3000))
-  const articles = await run('blogwatcher articles 2>&1')
-  return { scan: scan.out, articles: articles.out }
-}
-
-// ─── Routes ────────────────────────────────────────────────────────────────────
-
-// GET /api/status — system overview
+// ─── Status ────────────────────────────────────────────────────────────────────
 app.get('/api/status', async (req, res) => {
-  const results = {}
-
+  let gitStatus = []
+  let gitLog = ''
   try {
-    const git = await run('git status --short && git log -1 --oneline')
-    const { out: uptime } = await run('uptime')
-    const { out: memUsed } = await run('vm_stat | head -6')
-    const crons = await run('openclaw cron list 2>&1')
-
-    results.git = git.out.split('\n')
-    results.uptime = uptime
-    results.memory = memUsed
-    results.crons = crons.out
-    results.ok = true
+    const status = await git.status()
+    gitStatus = status.current ? [`${status.current} ${status.tracking || ''}`] : []
+    const log = await git.log({ maxCount: 1 })
+    gitLog = log.latest ? `${log.latest.hash.slice(0, 8)} ${log.latest.message}` : ''
   } catch (e) {
-    results.ok = false
-    results.error = e.message
+    gitStatus = ['git error: ' + e.message]
   }
 
-  res.json(results)
+  const uptimeSecs = os.uptime()
+  const days = Math.floor(uptimeSecs / 86400)
+  const hours = Math.floor((uptimeSecs % 86400) / 3600)
+  const mins = Math.floor((uptimeSecs % 3600) / 60)
+  const uptime = days > 0 ? `${days}d ${hours}h ${mins}m` : `${hours}h ${mins}m`
+
+  const openClaw = await run('ps aux | grep -c "[o]penclaw"')
+
+  res.json({
+    ok: true,
+    git: [...gitStatus, gitLog].filter(Boolean),
+    uptime: `up ${days}d ${hours}h ${mins}m`,
+    openClawProcs: openClaw.out.trim() || '1',
+  })
 })
 
-// POST /api/action — run an action
+// ─── Actions ───────────────────────────────────────────────────────────────────
 app.post('/api/action', async (req, res) => {
   const { action } = req.body
   const id = Date.now().toString()
 
   const actions = {
     'refresh': async () => {
-      const git = await run('git status --short')
-      const crons = await run('openclaw cron list 2>&1')
-      const { scan, articles } = await runBlogwatcher()
-      return {
-        summary: 'Heartbeat refresh complete',
-        git: git.out,
-        crons: crons.out,
-        newArticles: articles.split('\n').filter(l => l.includes('[new]')).length,
-        details: { git: git.out, crons: crons.out, scan, articles }
-      }
+      const status = await git.status()
+      const log = await runBlogwatcherScan()
+      const newCount = (log.match(/\[new\]/g) || []).length
+      return { summary: `Refresh done — ${newCount} new article${newCount !== 1 ? 's' : ''}`, details: { status: status.current, tracking: status.tracking } }
     },
-
     'scan-rss': async () => {
-      const { scan, articles } = await runBlogwatcher()
-      const newCount = articles.split('\n').filter(l => l.includes('[new]')).length
-      return {
-        summary: `RSS scan complete — ${newCount} new article${newCount !== 1 ? 's' : ''}`,
-        details: { scan, articles }
-      }
+      const result = await runBlogwatcherScan()
+      const newCount = (result.match(/\[new\]/g) || []).length
+      return { summary: `RSS scan done — ${newCount} new article${newCount !== 1 ? 's' : ''}` }
     },
-
     'git-status': async () => {
-      const branch = await run('git branch --show-current')
-      const status = await run('git status --short')
-      const log = await run('git log -3 --oneline')
-      const diff = await run('git diff --stat')
+      const status = await git.status()
+      const log = await git.log({ maxCount: 3 })
+      const diff = await git.diffSummary()
       return {
-        summary: status.out || 'Clean — nothing to commit',
-        details: { branch: branch.out, status: status.out, log: log.out, diff: diff.out }
+        summary: status.current ? `${status.current} ${status.tracking || ''}` : 'No git status',
+        details: {
+          branch: status.current || '',
+          status: status.modified?.length ? `${status.modified.length} modified` : 'clean',
+          staged: status.staged?.length || 0,
+          log: log.all?.slice(0, 3).map(l => `${l.hash.slice(0, 8)} ${l.message}`).join('\n') || '',
+          diff: diff.summary || '',
+        }
       }
     },
-
     'run-scanner': async () => {
-      // The PerfectPlace cron fires at 1PM ET — trigger it manually via openclaw
-      const result = await run('openclaw cron fire PerfectPlace 2>&1 || echo "Cron not found or failed"')
-      return {
-        summary: 'Scanner triggered',
-        details: { output: result.out }
-      }
+      const r = await run('openclaw cron fire PerfectPlace 2>&1 || echo "not available"')
+      return { summary: 'Scanner triggered', details: { output: r.out || r.err } }
     },
-
     'sync-memory': async () => {
       const today = new Date().toISOString().slice(0, 10)
-      const daily = await run(`cat memory/${today}.md 2>/dev/null || echo "No log for today"`)
-      const mem = await run('cat MEMORY.md | wc -l')
-      const vecStats = await run('python3 scripts/ollama_mem.py stats 2>&1 || echo "vector store ok"')
-      return {
-        summary: `Memory sync — today: ${daily.out ? 'logged' : 'no entry'}, MEMORY.md: ${mem.out} lines`,
-        details: { dailyLog: daily.out, memoryLines: mem.out, vectorStats: vecStats.out }
-      }
+      const [daily, memLines, vec] = await Promise.all([
+        run(`cat ${WORKSPACE}/memory/${today}.md 2>/dev/null || echo "no entry"`),
+        run(`wc -l < ${WORKSPACE}/MEMORY.md`),
+        run('python3 scripts/ollama_mem.py stats 2>&1 || echo "ok"'),
+      ])
+      return { summary: `Memory — today: ${daily.out === 'no entry' ? 'no log' : 'logged'}, MEMORY.md: ${memLines.out} lines` }
     },
-
     'list-crons': async () => {
-      const crons = await run('openclaw cron list 2>&1')
-      return { summary: 'Cron status retrieved', details: { crons: crons.out } }
+      const r = await run('ls ~/.openclaw/crons/ 2>/dev/null || echo "no crons dir"')
+      return { summary: 'Cron files', details: { crons: r.out || 'no crons dir' } }
     },
-
     'openclaw-status': async () => {
-      const status = await run('openclaw status 2>&1')
-      const gateway = await run('openclaw gateway status 2>&1')
-      return {
-        summary: 'OpenClaw status',
-        details: { status: status.out, gateway: gateway.out }
-      }
+      const [procs, gateway] = await Promise.all([
+        run('ps aux | grep "[o]penclaw" | grep -v grep'),
+        run('ps aux | grep "[o]penclaw-gateway" | grep -v grep'),
+      ])
+      return { summary: `${gateway.out ? 'gateway running' : 'gateway down'} — ${procs.out ? procs.out.split('\n').length : 0} processes`, details: { processes: procs.out, gateway: gateway.out } }
     },
   }
 
@@ -140,11 +118,9 @@ app.post('/api/action', async (req, res) => {
   }
 
   try {
-    // Run action with timeout
-    const timeoutMs = 90000
     const result = await Promise.race([
       actions[action](),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout (90s)')), timeoutMs))
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout (10s)')), 10000))
     ])
     res.json({ ok: true, id, ...result })
   } catch (e) {
@@ -152,24 +128,22 @@ app.post('/api/action', async (req, res) => {
   }
 })
 
-// GET /api/result/:id — get action result (polling)
-const results = {}
-app.get('/api/result/:id', (req, res) => {
-  const r = results[req.params.id]
-  if (!r) return res.json({ ready: false })
-  delete results[req.params.id]
-  res.json({ ready: true, ...r })
-})
+async function runBlogwatcherScan() {
+  const scan = await run('blogwatcher scan 2>&1')
+  await new Promise(r => setTimeout(r, 2000))
+  const articles = await run('blogwatcher articles 2>&1')
+  return [scan.out, articles.out].join('\n')
+}
 
-// SPA fallback — serve index.html for non-API routes
-app.get('*', (req, res, next) => {
+// SPA fallback
+app.get('*', (req, res) => {
   if (!req.path.startsWith('/api')) {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'))
   } else {
-    next()
+    res.status(404).json({ error: 'not found' })
   }
 })
 
 app.listen(PORT, () => {
-  console.log(`🐾 Sig Botti OS API running at http://localhost:${PORT}`)
+  console.log('🐾 Sig Botti OS running at http://localhost:5200')
 })
