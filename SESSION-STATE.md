@@ -42,6 +42,13 @@ Friday morning (April 10, 9:00 AM ET). Daily self-review complete. Three items n
 - **Sunday Night Scanner cron: ERROR** — scan completes, announce times out at 300s limit
 - **NEW — Stale news filter needed:** if gap > 5% AND news > 6hrs old → skip. CCL lesson.
 
+### Gap Alert Scanner (NEW — 2026-04-10)
+- Script: `scripts/gap-alert-scanner.py`
+- Cron: Every 15 min, 1-8PM Mon-Fri (13-20), isolated session
+- Status: **ERROR** — scan works, Discord announce step fails (timeout issue, same as Sunday Night Scanner)
+- Top signal 2026-04-10 3PM: AMC gap +17.9%, vol 78x, SI 22.4%, score 95/100
+- 3 alerts sent today: AMC, SNAP, MVST
+
 ### Real Estate (PerfectPlace/New Western Deal Flow)
 - Location: ~/.openclaw/workspace/real-estate/
 - Model: Find buyers for New Western deals, earn $3-4K spread per deal
@@ -69,9 +76,12 @@ Friday morning (April 10, 9:00 AM ET). Daily self-review complete. Three items n
 - [x] $SIGBOTTI coin launched ✅ (needs performance check)
 - [x] PerfectPlace cron ✅ (recovered 2026-04-07)
 - [x] OpenFang trader ✅ CLOSED (OpenFang removed 2026-04-09)
+- [x] Gap Alert Scanner built ✅ (2026-04-10, runs, announce fails — same timeout issue)
 - [ ] Check $SIGBOTTI coin pump.fun stats
-- [ ] Fix Sunday Night Scanner delivery timeout (increase window or split scan/announce)
+- [ ] Fix Sunday Night Scanner + Gap Alert Scanner delivery timeout (increase window or split scan/announce)
 - [ ] Build stale news filter into scanner (gap > 5% + news > 6hrs old = skip)
+- [ ] Discord webhook URL — Lou said "set that up later"
+- [ ] Facebook Messenger automation — Lou installing agent-browser on Mac
 
 ## Loop Log
 - 2026-04-04 9PM: **$SIGBOTTI launched. Scanner built. Video created. Lou very active.**
