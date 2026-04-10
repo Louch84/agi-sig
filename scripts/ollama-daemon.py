@@ -22,6 +22,59 @@ try:
 except ImportError:
     HAS_TRACING = False
 
+# Vector memory (RAG)
+VECTOR_INDEX = os.path.join(os.path.dirname(__file__), "..", "data", "memory.index")
+VECTOR_META = os.path.join(os.path.dirname(__file__), "..", "data", "memory_meta.json")
+
+def retrieve_memory(query: str, top_k: int = 5) -> list:
+    """Retrieve relevant memories using vector search."""
+    if not os.path.exists(VECTOR_INDEX):
+        return []
+    try:
+        import faiss
+        import numpy as np
+        import json as json_mod
+        index = faiss.read_index(VECTOR_INDEX)
+        with open(VECTOR_META) as f:
+            metadata = json_mod.load(f)
+
+        # Embed query
+        import urllib.request
+        payload = {"model": "nomic-embed-text", "prompt": query[:4000]}
+        data = json_mod.dumps(payload).encode("utf-8")
+        req = urllib.request.Request(
+            "http://localhost:11434/api/embeddings",
+            data=data,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            result = json_mod.loads(resp.read().decode("utf-8"))
+            emb = result.get("embedding", [])
+
+        if not emb:
+            return []
+
+        query_vec = np.array([emb]).astype("float32")
+        norms = np.linalg.norm(query_vec)
+        if norms > 0:
+            query_vec = query_vec / norms
+
+        scores, indices = index.search(query_vec, min(top_k * 2, index.ntotal))
+        results = []
+        for score, idx in zip(scores[0], indices[0]):
+            if idx < len(metadata) and score > 0.3:
+                results.append({
+                    "score": round(float(score), 3),
+                    "source": metadata[idx]["source"],
+                    "type": metadata[idx]["type"],
+                    "preview": metadata[idx]["preview"],
+                })
+        return results[:top_k]
+    except Exception as e:
+        log(f"Memory retrieval error: {e}")
+        return []
+
 OLLAMA_BASE = "http://localhost:11434"
 QUEUE_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "task-queue.json")
 RESULTS_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "task-results.json")
@@ -532,5 +585,19 @@ if __name__ == "__main__":
                     print(f"  {m}: {s['success_rate']}% success, {s['avg_duration_ms']}ms avg, {s['count']} runs")
         else:
             print("Tracing not available")
+    elif cmd == "recall":
+        # Vector memory recall
+        query = " ".join(sys.argv[3:]) if len(sys.argv) > 3 else (sys.argv[2] if len(sys.argv) > 2 else "")
+        if not query:
+            print("Usage: recall <query>")
+            sys.exit(1)
+        print(f"Searching memory for: {query}\n")
+        results = retrieve_memory(query, top_k=5)
+        if not results:
+            print("No relevant memories found.")
+        for r in results:
+            print(f"[{r['score']}] {r['source']} ({r['type']})")
+            print(f"  {r['preview']}")
+            print()
     else:
         print(f"Unknown command: {cmd}")

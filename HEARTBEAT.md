@@ -11,6 +11,9 @@ Gap? Broken? Missing? → figure it out, report after. No asking for permission 
 5. Cron status — `openclaw cron list`
 6. Backup — git status, commit if dirty
 
+## Daily (~1x/day)
+- **Rebuild vector index** — `python3 scripts/build-vector-index.py build` (re-index MEMORY.md + daily logs + skills for RAG)
+
 ## Self-Review (~1x/day)
 - ERRORS.md → reflect
 - Memory hygiene → MEMORY.md update

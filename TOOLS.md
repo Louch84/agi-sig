@@ -11,6 +11,7 @@
   - `python3 scripts/ollama-daemon.py feedback <id> good|bad` — rate output to improve routing
 - **JARVIS-style Task Planner:** `scripts/task-planner.py` — decomposes complex requests into ordered subtasks. Routes each subtask to optimal model.
 - **Learning System:** `scripts/trace_logger.py` — logs every task (model, duration, success). Analyzes to find best model per task type. Feedback improves routing.
+- **Vector Memory (RAG):** `scripts/build-vector-index.py build` — rebuild FAISS index of all memory. `query "<text>"` — semantic search.
 - **Available models:**
   - llama3.2:1b — fast (sub-second)
   - llama3:latest — general (2-5s)
