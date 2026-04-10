@@ -117,6 +117,35 @@ def route_task(task: dict) -> str:
     return "general"
 
 
+def ensure_model(model: str, timeout: int = 300) -> bool:
+    """Check if a model is loaded in Ollama, load if not."""
+    req = urllib.request.Request(
+        f"{OLLAMA_BASE}/api/tags",
+        headers={"Content-Type": "application/json"},
+        method="GET",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            models = json.loads(resp.read().decode("utf-8"))
+            loaded = [m["name"] for m in models.get("models", [])]
+            if model in loaded:
+                return True
+        # Model not loaded — trigger load via a generate call
+        payload = {"model": model, "prompt": "hello", "stream": False}
+        data = json.dumps(payload).encode("utf-8")
+        load_req = urllib.request.Request(
+            f"{OLLAMA_BASE}/api/generate",
+            data=data,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(load_req, timeout=timeout) as resp:
+            resp.read()
+        return True
+    except Exception:
+        return False
+
+
 def process_task(task: dict) -> dict:
     """Process a single task and return result."""
     task_id = task.get("id", "unknown")
@@ -126,6 +155,15 @@ def process_task(task: dict) -> dict:
     context = task.get("context", "")
 
     log(f"Processing task {task_id} with {model} ({task_type})")
+
+    if not ensure_model(model):
+        return {
+            "id": task_id,
+            "status": "error",
+            "model": model,
+            "response": f"Failed to load model {model}",
+            "completed_at": datetime.now().isoformat(),
+        }
 
     messages = []
     if context:

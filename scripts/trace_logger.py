@@ -37,13 +37,11 @@ def log_trace(task_id: str, model: str, task_type: str, prompt: str,
     }
 
     # Append to JSONL file (append-only, crash-safe)
-    tmp = TRACE_FILE + ".tmp"
     try:
-        with open(tmp, "w") as f:
-            json.dump(trace, f)
-        os.replace(tmp, TRACE_FILE)  # atomic
+        with open(TRACE_FILE, "a") as f:
+            f.write(json.dumps(trace) + "\n")
     except Exception as e:
-        # Last resort: just append raw
+        # Last resort: just append raw to a fallback file
         try:
             with open(TRACE_FILE + ".broken", "a") as f:
                 f.write(json.dumps(trace) + "\n")
