@@ -1,9 +1,44 @@
-import React, { useEffect, useRef, Suspense } from 'react';
-import { Canvas, useThree, useFrame } from '@react-three/fiber';
-import { OrbitControls, Sky, useTexture } from '@react-three/drei';
-import { EffectComposer, Bloom, Vignette, ColorAverage } from '@react-three/postprocessing';
+import React, { useEffect, useRef, Suspense, useState } from 'react';
+import { Canvas, useThree } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import { createBuildingMesh, createRoadMesh, createGroundPlane, createGrid, type BuildingData, type StreetEdge } from './world';
+
+// ─── Error Boundary ─────────────────────────────────────────────────────────────
+
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean; error: string }
+> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false, error: '' };
+  }
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error: error.message + '\n' + (error.stack || '') };
+  }
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    console.error('React ErrorBoundary caught:', error, info);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: '#1a0a0a', color: '#ff6060',
+          fontFamily: 'monospace', fontSize: 12,
+          padding: 20, overflow: 'auto', zIndex: 100,
+          whiteSpace: 'pre-wrap',
+        }}>
+          <strong>🔥 Render Error:</strong>
+          {this.state.error}
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
@@ -13,10 +48,10 @@ interface WorldData {
   center: { lat: number; lon: number };
 }
 
-// ─── Scene Data Loader (async) ─────────────────────────────────────────────────
+// ─── Scene Data Loader ─────────────────────────────────────────────────────────
 
 function useWorldData(): WorldData | null {
-  const [data, setData] = React.useState<WorldData | null>(null);
+  const [data, setData] = useState<WorldData | null>(null);
 
   useEffect(() => {
     Promise.all([
@@ -33,63 +68,43 @@ function useWorldData(): WorldData | null {
 // ─── Scene Content ─────────────────────────────────────────────────────────────
 
 function SceneContent({ data }: { data: WorldData }) {
-  const { camera } = useThree();
+  const { camera, scene } = useThree();
 
   useEffect(() => {
-    // Place camera above the scene, looking down
     camera.position.set(0, 120, 80);
     camera.lookAt(0, 0, 0);
-  }, [camera]);
-
-  useFrame(({ clock }) => {
-    // Subtle time-based animation if needed
-  });
+    scene.background = new THREE.Color('#1a1a28');
+    scene.fog = new THREE.Fog('#1a1a28', 80, 500);
+    console.log('SceneContent mounted. Buildings:', data.buildings.length);
+  }, [camera, scene, data.buildings.length]);
 
   const ground = createGroundPlane(data.center);
   const roadMesh = createRoadMesh(data.edges, data.center);
 
-  // Building meshes
   const buildingMeshes = data.buildings.map((b, i) => {
     const mesh = createBuildingMesh(b, data.center);
-    // Slight color variation per building for texture
-    const mat = (mesh.material as THREE.MeshStandardMaterial);
+    const mat = mesh.material as THREE.MeshStandardMaterial;
     const variation = (Math.random() - 0.5) * 0.08;
-    const hsl = new THREE.Color(mat.color).getHSL({});
+    const hsl = { h: 0, s: 0, l: 0 };
+    mat.color.getHSL(hsl);
     mat.color.setHSL(hsl.h, hsl.s, Math.max(0.1, hsl.l + variation));
-    mesh.position.y = i * 0.001; // tiny offset to prevent z-fighting
+    mesh.position.y = i * 0.0005;
     return mesh;
   });
 
   return (
     <>
-      {/* Lighting */}
-      <ambientLight intensity={0.25} color="#b0c0d0" />
-      <directionalLight
-        position={[100, 200, 80]}
-        intensity={1.8}
-        color="#fff5e0"
-        castShadow
-        shadow-mapSize={[2048, 2048]}
-        shadow-camera-far={600}
-        shadow-camera-left={-300}
-        shadow-camera-right={300}
-        shadow-camera-top={300}
-        shadow-camera-bottom={-300}
-      />
-      {/* Warm fill light from opposite side */}
-      <directionalLight position={[-80, 60, -60]} intensity={0.3} color="#ffd090" />
-      {/* Street-level ambient */}
-      <pointLight position={[0, 5, 0]} intensity={0.3} color="#ff9940" distance={50} />
+      {/* Test: bright red box — should definitely show */}
+      <mesh position={[0, 10, 0]}>
+        <boxGeometry args={[20, 20, 20]} />
+        <meshStandardMaterial color="#ff0000" />
+      </mesh>
 
-      {/* Sky */}
-      <Sky
-        distance={450000}
-        sunPosition={[100, 20, -100]}
-        inclination={0.5}
-        azimuth={0.25}
-        turbidity={8}
-        rayleigh={0.5}
-      />
+      {/* Lighting */}
+      <ambientLight intensity={0.7} color="#b0c0d0" />
+      <directionalLight position={[80, 150, 60]} intensity={1.5} color="#fff5e0" castShadow />
+      <directionalLight position={[-60, 40, -40]} intensity={0.35} color="#ffd090" />
+      <pointLight position={[0, 8, 0]} intensity={0.4} color="#ff9940" distance={60} />
 
       {/* Ground */}
       <primitive object={ground} />
@@ -113,17 +128,8 @@ function SceneContent({ data }: { data: WorldData }) {
 function PostFX() {
   return (
     <EffectComposer>
-      {/* Bloom — street lights, windows glow */}
-      <Bloom
-        intensity={0.6}
-        luminanceThreshold={0.4}
-        luminanceSmoothing={0.9}
-        mipmapBlur
-      />
-      {/* Subtle vignette for GTA feel */}
-      <Vignette eskil={false} offset={0.15} darkness={0.7} />
-      {/* Warm color grade */}
-      <ColorAverage />
+      <Bloom intensity={0.5} luminanceThreshold={0.15} luminanceSmoothing={0.9} mipmapBlur />
+      <Vignette eskil={false} offset={0.1} darkness={0.4} />
     </EffectComposer>
   );
 }
@@ -131,21 +137,19 @@ function PostFX() {
 // ─── Camera Controller ─────────────────────────────────────────────────────────
 
 function CameraController() {
-  const controlsRef = useRef<any>(null);
   const { camera } = useThree();
 
   useEffect(() => {
-    camera.position.set(0, 150, 100);
+    camera.position.set(0, 120, 80);
     camera.lookAt(0, 0, 0);
   }, [camera]);
 
   return (
     <OrbitControls
-      ref={controlsRef}
       enableDamping
       dampingFactor={0.05}
-      minDistance={10}
-      maxDistance={600}
+      minDistance={5}
+      maxDistance={500}
       maxPolarAngle={Math.PI / 2.1}
       target={[0, 0, 0]}
     />
@@ -202,14 +206,10 @@ function HUD() {
 // ─── Mini Map ─────────────────────────────────────────────────────────────────
 
 function MiniMap({ data }: { data: WorldData }) {
-  if (!data) return null;
-
   const size = 120;
-  const scale = 2000; // meters per pixel roughly
+  const scale = 2200;
   const cx = size / 2;
   const cy = size / 2;
-
-  // Road type filter
   const isRoad = (h: string) => !['footway', 'path', 'cycleway', 'steps'].includes(h.toLowerCase());
   const roads = data.edges.filter(e => isRoad(e.highway));
 
@@ -222,36 +222,22 @@ function MiniMap({ data }: { data: WorldData }) {
       borderRadius: 4,
       overflow: 'hidden',
     }}>
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: '#0d1a0d',
-      }}>
-        {/* Road lines */}
-        <svg width={size} height={size} style={{ position: 'absolute', inset: 0 }}>
-          {roads.map((edge, i) => {
-            const x1 = cx + (edge.u_lon - data.center.lon) * scale;
-            const y1 = cy - (edge.u_lat - data.center.lat) * scale;
-            const x2 = cx + (edge.v_lon - data.center.lon) * scale;
-            const y2 = cy - (edge.v_lat - data.center.lat) * scale;
-            return (
-              <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-                stroke="#4a5a4a" strokeWidth={0.8} />
-            );
-          })}
-          {/* Center dot */}
-          <circle cx={cx} cy={cy} r={3} fill="#d4a84b" />
-        </svg>
-      </div>
-      <div style={{
-        position: 'absolute', bottom: 4, left: 6,
-        fontSize: 9, color: '#d4a84b80',
-        fontFamily: 'monospace',
-      }}>MINI-MAP</div>
+      <svg width={size} height={size}>
+        {roads.map((edge, i) => {
+          const x1 = cx + (edge.u_lon - data.center.lon) * scale;
+          const y1 = cy - (edge.u_lat - data.center.lat) * scale;
+          const x2 = cx + (edge.v_lon - data.center.lon) * scale;
+          const y2 = cy - (edge.v_lat - data.center.lat) * scale;
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#4a5a4a" strokeWidth={0.8} />;
+        })}
+        <circle cx={cx} cy={cy} r={3} fill="#d4a84b" />
+      </svg>
+      <div style={{ position: 'absolute', bottom: 4, left: 6, fontSize: 9, color: '#d4a84b80', fontFamily: 'monospace' }}>MINI-MAP</div>
     </div>
   );
 }
 
-// ─── App ───────────────────────────────────────────────────────────────────────
+// ─── App ─────────────────────────────────────────────────────────────────────
 
 export default function App() {
   const data = useWorldData();
@@ -260,23 +246,28 @@ export default function App() {
     <div style={{ width: '100vw', height: '100vh', position: 'relative', background: '#0a0a0f' }}>
       {!data && <LoadingScreen />}
 
-      <Canvas
-        shadows
-        gl={{
-          antialias: true,
-          toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.1,
-          outputColorSpace: THREE.SRGBColorSpace,
-        }}
-        camera={{ fov: 55, near: 0.5, far: 3000 }}
-        style={{ position: 'absolute', inset: 0 }}
-      >
-        <Suspense fallback={null}>
-          {data && <SceneContent data={data} />}
-          <CameraController />
-          <PostFX />
-        </Suspense>
-      </Canvas>
+      <ErrorBoundary>
+        <Canvas
+          shadows
+          gl={{
+            antialias: false,
+            powerPreference: 'low-power',
+            toneMapping: THREE.ACESFilmicToneMapping,
+            toneMappingExposure: 1.2,
+          }}
+          camera={{ fov: 55, near: 0.5, far: 3000 }}
+          style={{ position: 'absolute', inset: 0 }}
+          onCreated={({ gl }) => {
+            console.log('Canvas WebGL renderer:', gl.getContext().getParameter(gl.getContext().getExtension('WEBGL_debug_renderer_info')?.UNMASKED_RENDERER_WEBGL || 0));
+          }}
+        >
+          <Suspense fallback={null}>
+            {data && <SceneContent data={data} />}
+            <CameraController />
+            {/* <PostFX /> */}
+          </Suspense>
+        </Canvas>
+      </ErrorBoundary>
 
       {data && <HUD />}
       {data && <MiniMap data={data} />}
