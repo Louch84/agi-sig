@@ -1,35 +1,35 @@
-# DEAL SHEET — 2137 S Gould St
+# DEAL SHEET — 1569 E Hewson St
 
 | Field | Details |
 |-------|---------|
-| **Asking Price** | $39,000 |
+| **Asking Price** | $210,000 |
 | **Property Type** | Single Family Home |
-| **Bedrooms** | 3 |
-| **Bathrooms** | 1 |
-| **Area** | Philadelphia, PA 19142 |
-| **ARV (After Repair Value)** | $97,500.0 (estimate — verify with comps) |
+| **Bedrooms** | 2 |
+| **Bathrooms** | 1.0 |
+| **Area** | Philadelphia, PA 19125 |
+| **ARV (After Repair Value)** | $525,000.0 (estimate — verify with comps) |
 | **Est. Repairs** | TBD |
-| **Your Fee** | $3,000–$4,000 |
+| **Your Fee** | $5,250–$6,250 |
 | **Source** | New Western / Aidan Daly |
-| **Email ID** | 694 |
+| **Email ID** | 710 |
 
 ---
 
 ## The Numbers
 
 ```
-ARV (Estimate):               $97,500.0
-Your Purchase Price:           $39,000
+ARV (Estimate):               $525,000.0
+Your Purchase Price:           $210,000
 Estimated Repairs:             TBD
                              ─────────────
-Your Fee Potential:           $3,000–$4,000
+Your Fee Potential:           $5,250–$6,250
 ```
 
 ---
 
 ## Description
 
-Come check out this shell in 19142! This house is the cheapest property you can find in this pocket. Contact your NW rep today!
+Check out these two flips in Fishtown! We are selling this and 2204 Ritter St together. Combined starting price at $420k. Contact your NW rep ASAP!
 
 ---
 
