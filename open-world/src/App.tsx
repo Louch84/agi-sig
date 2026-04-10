@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, Suspense, useState } from 'react';
+import React, { useEffect, Suspense, useState } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import * as THREE from 'three';
-import { createBuildingMesh, createRoadMesh, createGroundPlane, createGrid, type BuildingData, type StreetEdge } from './world';
+import type { BuildingData, StreetEdge } from './world';
 
 // ─── Error Boundary ─────────────────────────────────────────────────────────────
 
@@ -71,54 +69,23 @@ function SceneContent({ data }: { data: WorldData }) {
   const { camera, scene } = useThree();
 
   useEffect(() => {
-    camera.position.set(0, 120, 80);
-    camera.lookAt(0, 0, 0);
+    camera.position.set(0, 20, 0);
+    camera.lookAt(0, 0, 10);
     scene.background = new THREE.Color('#1a1a28');
-    scene.fog = new THREE.Fog('#1a1a28', 80, 500);
     console.log('SceneContent mounted. Buildings:', data.buildings.length);
   }, [camera, scene, data.buildings.length]);
 
-  const ground = createGroundPlane(data.center);
-  const roadMesh = createRoadMesh(data.edges, data.center);
-
-  const buildingMeshes = data.buildings.map((b, i) => {
-    const mesh = createBuildingMesh(b, data.center);
-    const mat = mesh.material as THREE.MeshStandardMaterial;
-    const variation = (Math.random() - 0.5) * 0.08;
-    const hsl = { h: 0, s: 0, l: 0 };
-    mat.color.getHSL(hsl);
-    mat.color.setHSL(hsl.h, hsl.s, Math.max(0.1, hsl.l + variation));
-    mesh.position.y = i * 0.0005;
-    return mesh;
-  });
-
   return (
     <>
-      {/* Test: bright red box — should definitely show */}
-      <mesh position={[0, 10, 0]}>
-        <boxGeometry args={[20, 20, 20]} />
-        <meshStandardMaterial color="#ff0000" />
+      {/* Simple test with lights */}
+      <ambientLight intensity={1} />
+      <pointLight position={[0, 10, 10]} intensity={2} color="#ffffff" />
+
+      {/* Bright red box in front of camera */}
+      <mesh position={[0, 0, 10]}>
+        <boxGeometry args={[4, 4, 4]} />
+        <meshStandardMaterial color="#ff3333" />
       </mesh>
-
-      {/* Lighting */}
-      <ambientLight intensity={0.7} color="#b0c0d0" />
-      <directionalLight position={[80, 150, 60]} intensity={1.5} color="#fff5e0" castShadow />
-      <directionalLight position={[-60, 40, -40]} intensity={0.35} color="#ffd090" />
-      <pointLight position={[0, 8, 0]} intensity={0.4} color="#ff9940" distance={60} />
-
-      {/* Ground */}
-      <primitive object={ground} />
-
-      {/* Roads */}
-      <primitive object={roadMesh} />
-
-      {/* Buildings */}
-      {buildingMeshes.map((mesh, i) => (
-        <primitive key={i} object={mesh} />
-      ))}
-
-      {/* Grid */}
-      <primitive object={createGrid(data.center)} />
     </>
   );
 }
@@ -126,12 +93,15 @@ function SceneContent({ data }: { data: WorldData }) {
 // ─── Post-Processing ───────────────────────────────────────────────────────────
 
 function PostFX() {
+  return null; // DISABLED — was causing silent failures
+  /*
   return (
     <EffectComposer>
       <Bloom intensity={0.5} luminanceThreshold={0.15} luminanceSmoothing={0.9} mipmapBlur />
       <Vignette eskil={false} offset={0.1} darkness={0.4} />
     </EffectComposer>
   );
+  */
 }
 
 // ─── Camera Controller ─────────────────────────────────────────────────────────
@@ -248,23 +218,15 @@ export default function App() {
 
       <ErrorBoundary>
         <Canvas
-          shadows
-          gl={{
-            antialias: false,
-            powerPreference: 'low-power',
-            toneMapping: THREE.ACESFilmicToneMapping,
-            toneMappingExposure: 1.2,
-          }}
-          camera={{ fov: 55, near: 0.5, far: 3000 }}
+          gl={{ antialias: false, powerPreference: 'low-power' }}
+          camera={{ fov: 75, near: 0.1, far: 1000 }}
           style={{ position: 'absolute', inset: 0 }}
           onCreated={({ gl }) => {
-            console.log('Canvas WebGL renderer:', gl.getContext().getParameter(gl.getContext().getExtension('WEBGL_debug_renderer_info')?.UNMASKED_RENDERER_WEBGL || 0));
+            console.log('Canvas renderer info:', gl.getContext().getParameter(gl.getContext().getExtension('WEBGL_debug_renderer_info')?.UNMASKED_RENDERER_WEBGL || 'unknown'));
           }}
         >
           <Suspense fallback={null}>
             {data && <SceneContent data={data} />}
-            <CameraController />
-            {/* <PostFX /> */}
           </Suspense>
         </Canvas>
       </ErrorBoundary>

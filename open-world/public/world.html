@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>West Philly — 60th & Market</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0a0a0f; overflow: hidden; font-family: 'Courier New', monospace; }
+    #root { width: 100vw; height: 100vh; position: relative; }
+    canvas { display: block; }
+
+    #loading {
+      position: absolute; inset: 0;
+      background: #0a0a0f;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: #d4a84b; font-family: 'Courier New', monospace;
+      font-size: 14px; letter-spacing: 3;
+      z-index: 10;
+    }
+    #loading .title { font-size: 28px; margin-bottom: 20px; }
+    #loading .subtitle { opacity: 0.5; margin-top: 10px; }
+    #loading .bar-wrap {
+      width: 280px; height: 4px;
+      background: #222; border-radius: 2px;
+      margin-top: 20px; overflow: hidden;
+    }
+    #loading .bar {
+      height: 100%; width: 0%;
+      background: #d4a84b; border-radius: 2px;
+      transition: width 0.2s ease;
+    }
+    #loading .status {
+      margin-top: 12px; font-size: 11px;
+      opacity: 0.6; max-width: 300px; text-align: center;
+    }
+
+    #error {
+      position: absolute; inset: 0;
+      background: #1a0a0a; color: #ff6060;
+      font-family: monospace; font-size: 12px;
+      padding: 20px; overflow: auto; z-index: 100;
+      white-space: pre-wrap; display: none;
+    }
+
+    #hud {
+      position: absolute; top: 16px; left: 16;
+      color: #d4a84b; font-family: 'Courier New', monospace;
+      font-size: 12px; pointer-events: none;
+      text-shadow: 0 0 8px #d4a84b80; line-height: 1.8;
+      z-index: 5;
+    }
+    #hud .title { font-size: 16px; font-weight: bold; margin-bottom: 4px; }
+
+    #minimap {
+      position: absolute; bottom: 16px; right: 16;
+      width: 120px; height: 120px;
+      background: rgba(10,10,10,0.85);
+      border: 1px solid #d4a84b40;
+      border-radius: 4px; overflow: hidden; z-index: 5;
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <div class="title">🗺️</div>
+    <div>Loading 60th &amp; Market...</div>
+    <div class="subtitle">West Philadelphia</div>
+    <div class="bar-wrap"><div class="bar" id="load-bar"></div></div>
+    <div class="status" id="load-status">Initializing...</div>
+  </div>
+
+  <div id="error"></div>
+
+  <div id="hud" style="display:none;">
+    <div class="title">WEST PHILADELPHIA</div>
+    <div>📍 60th &amp; Market</div>
+    <div>🎮 Orbit: Left Mouse</div>
+    <div>🔍 Zoom: Scroll</div>
+    <div>📋 Pan: Right Mouse</div>
+    <div id="stats" style="margin-top:8px;color:#888;font-size:10px;"></div>
+  </div>
+
+  <div id="minimap" style="display:none;">
+    <svg id="minimap-svg" width="120" height="120"></svg>
+    <div style="position:absolute;bottom:4;left:6;font-size:9;color:#d4a84b80;font-family:monospace;">MINI-MAP</div>
+  </div>
+
+  <!-- Load Three.js UMD first (no module system needed) -->
+  <script src="/lib/three.umd.min.js"></script>
+  <!-- Then load OrbitControls as UMD -->
+  <script src="/lib/OrbitControls.js"></script>
+
+  <script>
+    // Global error catcher
+    window.onerror = (msg, src, line, col, err) => {
+      const el = document.getElementById('error');
+      el.style.display = 'block';
+      el.textContent += 'ERROR: ' + msg + '\n' + src + ':' + line + ':' + col + '\n' + (err ? err.stack : '') + '\n';
+    };
+
+    window.addEventListener('unhandledrejection', e => {
+      const el = document.getElementById('error');
+      el.style.display = 'block';
+      el.textContent += 'UNHANDLED PROMISE REJECTION: ' + e.reason + '\n';
+    });
+
+    // Start loading when Three.js is ready
+    function whenReady(fn) {
+      if (window.THREE) { fn(); return; }
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+
+    whenReady(async () => {
+      const THREE = window.THREE;
+      const OrbitControls = window.OrbitControls;
+
+      if (!THREE) {
+        document.getElementById('error').style.display = 'block';
+        document.getElementById('error').textContent = 'THREE.JS FAILED TO LOAD\nCheck that /lib/three.umd.min.js exists and is accessible.';
+        return;
+      }
+
+      await main(THREE, OrbitControls);
+    });
+
+    async function main(THREE, OrbitControls) {
+      const loadBar = document.getElementById('load-bar');
+      const loadStatus = document.getElementById('load-status');
+      const setProgress = (pct, msg) => {
+        loadBar.style.width = pct + '%';
+        if (msg) loadStatus.textContent = msg;
+      };
+
+      try {
+        // ─── Scene setup ──────────────────────────────────────────────────────
+        setProgress(5, 'Setting up 3D scene...');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color('#1a1a28');
+        scene.fog = new THREE.Fog('#1a1a28', 80, 500);
+
+        // ─── Camera ───────────────────────────────────────────────────────────
+        setProgress(8, 'Setting up camera...');
+        const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.5, 3000);
+        camera.position.set(0, 120, 80);
+        camera.lookAt(0, 0, 0);
+
+        // ─── Renderer ────────────────────────────────────────────────────────
+        setProgress(10, 'Starting renderer...');
+        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+        document.getElementById('root').appendChild(renderer.domElement);
+
+        // ─── Controls ────────────────────────────────────────────────────────
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.minDistance = 5;
+        controls.maxDistance = 500;
+        controls.maxPolarAngle = Math.PI / 2.1;
+        controls.target.set(0, 0, 0);
+
+        // ─── Lighting ───────────────────────────────────────────────────────
+        setProgress(12, 'Adding lights...');
+        const ambient = new THREE.AmbientLight(0xb0c0d0, 0.7);
+        scene.add(ambient);
+
+        const sun = new THREE.DirectionalLight(0xfff5e0, 1.5);
+        sun.position.set(80, 150, 60);
+        sun.castShadow = true;
+        scene.add(sun);
+
+        const fill = new THREE.DirectionalLight(0xffd090, 0.35);
+        fill.position.set(-60, 40, -40);
+        scene.add(fill);
+
+        const point = new THREE.PointLight(0xff9940, 0.4, 60);
+        point.position.set(0, 8, 0);
+        scene.add(point);
+
+        // ─── Load world data ─────────────────────────────────────────────────
+        setProgress(15, 'Fetching buildings...');
+        const buildingsResp = await fetch('/buildings.json');
+        if (!buildingsResp.ok) throw new Error('buildings.json: ' + buildingsResp.status);
+        setProgress(40, 'Parsing buildings...');
+        const buildings = await buildingsResp.json();
+
+        setProgress(50, 'Fetching streets...');
+        const streetsResp = await fetch('/streets.json');
+        if (!streetsResp.ok) throw new Error('streets.json: ' + streetsResp.status);
+        setProgress(65, 'Parsing streets...');
+        const streets = await streetsResp.json();
+        const edges = streets.edges || [];
+        const center = streets.center;
+
+        // ─── Coordinate projection ────────────────────────────────────────────
+        const R = 6378137;
+        const latCirc = 2 * Math.PI * R;
+        const lonCirc = Math.cos(center.lat * Math.PI / 180) * latCirc;
+        const project = (lat, lon) => ({
+          x: (lon - center.lon) / 360 * lonCirc,
+          z: (lat - center.lat) / 360 * latCirc,
+        });
+
+        // ─── Building colors ─────────────────────────────────────────────────
+        const BUILDING_COLORS = {
+          yes: '#8B7355', house: '#9B8B7A', semidetached_house: '#A89080',
+          residential: '#9B8B7A', apartments: '#7A8B9B', retail: '#6B8B7A',
+          commercial: '#6B8B7A', office: '#5B7B8B', terrace: '#8B7B65',
+          transportation: '#4B5B6B', industrial: '#5B5B5B', warehouse: '#5B5B5B',
+          school: '#8B7B9B', religious: '#9B8B9B', hospital: '#9B6B6B',
+          hotel: '#7B8B9B', civic: '#8B9B8B',
+        };
+
+        // ─── Ground ──────────────────────────────────────────────────────────
+        setProgress(68, 'Building ground...');
+        const groundGeo = new THREE.PlaneGeometry(2000, 2000);
+        const groundMat = new THREE.MeshStandardMaterial({ color: '#1a1a28', roughness: 1 });
+        const ground = new THREE.Mesh(groundGeo, groundMat);
+        ground.rotation.x = -Math.PI / 2;
+        ground.receiveShadow = true;
+        scene.add(ground);
+
+        // ─── Roads ───────────────────────────────────────────────────────────
+        setProgress(70, 'Building roads...');
+        const roadGroup = new THREE.Group();
+        const isDriveable = h => !['footway','path','cycleway','steps'].includes(h?.toLowerCase());
+        const driveable = edges.filter(e => isDriveable(e.highway));
+
+        for (const edge of driveable) {
+          const u = project(edge.u_lat, edge.u_lon);
+          const v = project(edge.v_lat, edge.v_lon);
+          const dx = v.x - u.x, dz = v.z - u.z;
+          const len = Math.sqrt(dx*dx + dz*dz);
+          if (len < 0.1) continue;
+
+          const lanes = edge.lanes ? Math.max(4, Number(edge.lanes) * 2) : 6;
+          const geo = new THREE.PlaneGeometry(len, lanes);
+          geo.rotateX(-Math.PI / 2);
+          geo.translate((u.x+v.x)/2, 0.01, (u.z+v.z)/2);
+          const angle = Math.atan2(dx, dz);
+          geo.rotateY(-angle);
+
+          const mat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.95 });
+          const mesh = new THREE.Mesh(geo, mat);
+          mesh.receiveShadow = true;
+          roadGroup.add(mesh);
+
+          // Center yellow line
+          const lineGeo = new THREE.PlaneGeometry(len, 0.15);
+          lineGeo.rotateX(-Math.PI / 2);
+          lineGeo.translate((u.x+v.x)/2, 0.02, (u.z+v.z)/2);
+          lineGeo.rotateY(-angle);
+          const lineMat = new THREE.MeshStandardMaterial({ color: 0xd4a84b, roughness: 0.5, emissive: 0xd4a84b, emissiveIntensity: 0.1 });
+          roadGroup.add(new THREE.Mesh(lineGeo, lineMat));
+        }
+        scene.add(roadGroup);
+
+        // ─── Buildings ────────────────────────────────────────────────────────
+        setProgress(75, 'Building ' + buildings.length + ' meshes...');
+        const buildingGroup = new THREE.Group();
+
+        for (let i = 0; i < buildings.length; i++) {
+          const b = buildings[i];
+          const pts = b.polygon.map(([lat, lon]) => new THREE.Vector2(...project(lat, lon)));
+          const shape = new THREE.Shape(pts);
+
+          const geo = new THREE.ExtrudeGeometry(shape, {
+            depth: b.height || 10,
+            bevelEnabled: false,
+          });
+          geo.rotateX(-Math.PI / 2);
+
+          const color = BUILDING_COLORS[b.type?.toLowerCase()] || BUILDING_COLORS.yes;
+          const variation = (Math.random() - 0.5) * 0.08;
+          const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.85, metalness: 0.05 });
+          const hsl = { h: 0, s: 0, l: 0 };
+          mat.color.getHSL(hsl);
+          mat.color.setHSL(hsl.h, hsl.s, Math.max(0.1, hsl.l + variation));
+
+          const mesh = new THREE.Mesh(geo, mat);
+          mesh.castShadow = true;
+          mesh.receiveShadow = true;
+          mesh.position.y = i * 0.0005;
+          buildingGroup.add(mesh);
+
+          if (i % 50 === 0) {
+            const pct = 75 + Math.floor(i / buildings.length * 20);
+            setProgress(pct, 'Building meshes ' + i + '/' + buildings.length + '...');
+          }
+        }
+        scene.add(buildingGroup);
+
+        // ─── Grid ────────────────────────────────────────────────────────────
+        setProgress(97, 'Finalizing...');
+        const gridHelper = new THREE.GridHelper(2000, 40, 0x333344, 0x222233);
+        gridHelper.position.y = 0.05;
+        scene.add(gridHelper);
+
+        // ─── Mini-map ────────────────────────────────────────────────────────
+        const minimapSvg = document.getElementById('minimap-svg');
+        const scale = 2200;
+        const cx = 60, cy = 60;
+
+        for (const edge of driveable) {
+          const x1 = cx + (edge.u_lon - center.lon) * scale;
+          const y1 = cy - (edge.u_lat - center.lat) * scale;
+          const x2 = cx + (edge.v_lon - center.lon) * scale;
+          const y2 = cy - (edge.v_lat - center.lat) * scale;
+          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+          line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+          line.setAttribute('stroke', '#4a5a4a');
+          line.setAttribute('stroke-width', '0.8');
+          minimapSvg.appendChild(line);
+        }
+        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dot.setAttribute('cx', cx); dot.setAttribute('cy', cy);
+        dot.setAttribute('r', '3'); dot.setAttribute('fill', '#d4a84b');
+        minimapSvg.appendChild(dot);
+
+        // ─── Resize handler ──────────────────────────────────────────────────
+        window.addEventListener('resize', () => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // ─── Hide loading, show HUD ──────────────────────────────────────────
+        setProgress(100, 'Done!');
+        await new Promise(r => setTimeout(r, 200));
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('hud').style.display = 'block';
+        document.getElementById('minimap').style.display = 'block';
+        document.getElementById('stats').textContent = buildings.length + ' buildings • ' + driveable.length + ' road segments';
+
+        // ─── Animation loop ─────────────────────────────────────────────────
+        function animate() {
+          requestAnimationFrame(animate);
+          controls.update();
+          renderer.render(scene, camera);
+        }
+        animate();
+
+      } catch(e) {
+        const el = document.getElementById('error');
+        el.style.display = 'block';
+        el.textContent = 'FATAL ERROR:\n' + e.message + '\n' + (e.stack || '');
+      }
+    }
+  </script>
+</body>
+</html>
