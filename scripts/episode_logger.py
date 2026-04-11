@@ -60,6 +60,10 @@ def log_episode(
     try:
         with open(EPISODE_LOG, "a") as f:
             f.write(json.dumps(episode) + "\n")
+        
+        # Auto-update world model with significant events
+        _auto_notify_world_model(episode)
+        
         return episode["episode_id"]
     except Exception as e:
         try:
@@ -88,6 +92,40 @@ def _compute_tags(outcome, task_type, error, duration_ms):
     if outcome == "failure":
         tags.append("needs_review")
     return tags
+
+
+def _auto_notify_world_model(episode: dict):
+    """
+    After logging an episode, push significant events to world model.
+    Called automatically — this is how the world model stays live.
+    """
+    try:
+        import subprocess
+        outcome = episode.get("outcome", "")
+        
+        # Only log significant outcomes
+        if outcome == "failure":
+            task_type = episode.get("task_type", "unknown")
+            error = episode.get("error", "unknown")[:100]
+            event_name = f"Failure: {task_type}"
+            desc = f"Task failed: {error}"
+        elif outcome == "success" and episode.get("duration_ms", 0) > 30000:
+            # Slow success — worth noting
+            task_type = episode.get("task_type", "unknown")
+            dur_s = episode.get("duration_ms", 0) / 1000
+            event_name = f"Slow task: {task_type}"
+            desc = f"Task succeeded but took {dur_s:.0f}s"
+        else:
+            return  # Don't log routine episodes
+        
+        subprocess.run(
+            ["python3", os.path.join(os.path.dirname(__file__), "world-model.py"),
+             "add-event", event_name, outcome,
+             f"{desc} | {episode.get('description', '')[:100]}"],
+            capture_output=True, timeout=10
+        )
+    except Exception:
+        pass  # Never let auto-update break episode logging
 
 
 def log_reflection_result(episode_id: str, reflection: str, improvements: list):

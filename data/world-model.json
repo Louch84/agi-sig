@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated": "2026-04-10T22:58:21.351327",
+  "last_updated": "2026-04-10T23:57:24.578199",
   "entities": {
     "Sig Botti": {
       "type": "agent",
@@ -345,6 +345,24 @@
     }
   ],
   "events": [
+    {
+      "type": "failure",
+      "name": "Failure: web_research",
+      "date": "2026-04-10",
+      "description": "Task failed: Timeout: yfinance rate limited after 3 tickers | Research AI speed optimization"
+    },
+    {
+      "type": "success",
+      "name": "Slow task: stock_scan",
+      "date": "2026-04-10",
+      "description": "Task succeeded but took 45s | Test scan of 43 stocks"
+    },
+    {
+      "type": "infrastructure",
+      "name": "Hermes self-improvement loop built",
+      "date": "2026-04-10",
+      "description": "Built: episode_logger.py, reflection_analyzer.py, self_improve.py, model_router.py, query_cache.py. World model preload hook enabled. Ollama daemon restarted with self-improve wired in."
+    },
     {
       "type": "stock_analysis",
       "description": "LCID identified as top short squeeze candidate: 41.8% SI, RSI neutral 48, at 52w floor",

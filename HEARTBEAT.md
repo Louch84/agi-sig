@@ -15,7 +15,7 @@ Gap? Broken? Missing? → figure it out, report after. No asking for permission 
 ## Daily (~1x/day)
 - **Rebuild vector index** — `python3 scripts/build-vector-index.py build` (re-index MEMORY.md + daily logs + skills for RAG)
 - **Auto-daily-log** — fires at 9PM ET via LaunchAgent (`ai.openclaw.auto-daily-log`) regardless of agent activity. Captures git commits, tasks, crons, traces. Prevents weekend logging gaps.
-- **World model update** — `python3 scripts/self_improve.py --update-world-model` (push recent events to world model)
+- **World model full build** — `python3 scripts/world-model.py build` (syncs from reflection log + episode stats + events queue. Run every 1-2 days.)
 
 ## Weekly (~1x/week)
 - **Full reflection analysis** — `python3 scripts/reflection_analyzer.py --write-report --update-memory --days 7`

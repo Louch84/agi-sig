@@ -147,49 +147,18 @@ def run_model_routing_recalibration():
 def run_world_model_update():
     """
     Push recent significant events to the world model.
-    Called daily or after major events.
+    Uses world-model.py full_build to merge all sources.
     """
     try:
-        sys.path.insert(0, os.path.join(WORKSPACE, "scripts"))
-        from reflection_analyzer import load_episodes, analyze_successes, analyze_failures
-        
-        episodes = load_episodes(limit=100)
-        if not episodes:
-            return
-        
-        # Get recent lessons
-        successes = analyze_successes(episodes)
-        failures = analyze_failures(episodes)
-        
-        # Build event entries for world model
-        events = []
-        
-        if successes.get("count", 0) >= 5:
-            top_type = successes.get("top_types", [{}])[0].get("type", "unknown")
-            events.append({
-                "type": "learning",
-                "name": f"Strong task type: {top_type}",
-                "date": datetime.now().strftime("%Y-%m-%d"),
-                "description": f"Recent success pattern: {top_type} working well ({successes['count']} successes)"
-            })
-        
-        if failures.get("count", 0) >= 3:
-            top_error = failures.get("top_errors", [{}])[0].get("error", "unknown")[:100]
-            events.append({
-                "type": "lesson",
-                "name": f"Recurring failure: {top_error[:60]}",
-                "date": datetime.now().strftime("%Y-%m-%d"),
-                "description": f"Failure pattern detected: {top_error}. See reflection-log.md for details."
-            })
-        
-        if events:
-            # Append to world model events (simple append, world-model.py handles merge)
-            wm_events_file = os.path.join(WORKSPACE, "data", "world-model-events.jsonl")
-            os.makedirs(os.path.dirname(wm_events_file), exist_ok=True)
-            with open(wm_events_file, "a") as f:
-                for event in events:
-                    f.write(json.dumps(event) + "\n")
-            print(f"[self-improve] World model updated with {len(events)} events")
+        import subprocess
+        result = subprocess.run(
+            ["python3", os.path.join(WORKSPACE, "scripts", "world-model.py"), "build"],
+            capture_output=True, text=True, timeout=30
+        )
+        if result.returncode == 0:
+            print(f"[self-improve] World model updated:\n{result.stdout.strip()}")
+        else:
+            print(f"[self-improve] World model update error: {result.stderr[:200]}")
     except Exception as e:
         print(f"[self-improve] World model update error: {e}")
 
