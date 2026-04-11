@@ -237,7 +237,7 @@ def plan_complex_task(prompt: str) -> dict:
             ["python3", PLANNER_SCRIPT, prompt],
             capture_output=True,
             text=True,
-            timeout=90,
+            timeout=180,
         )
         output = result.stdout.strip()
 
@@ -282,7 +282,7 @@ def process_task_with_planner(task: dict) -> dict:
 
     if not plan or "subtasks" not in plan:
         log(f"Planner failed for {task_id}, falling back to direct execution")
-        return process_task(task)
+        return process_task_simple(task)
 
     log(f"Plan: {plan.get('summary', 'N/A')} — {len(plan['subtasks'])} subtasks")
 

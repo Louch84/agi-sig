@@ -158,3 +158,16 @@ Saturday early morning (April 11, ~00:40 ET). System audit completed. Key fixes 
 - Daily AI Research cron updated to AUTO-IMPLEMENT (not just report)
 - 24 new info sources documented in memory/info-sources.md
 
+
+## Gap Fixes Applied (2026-04-11 01:08 ET)
+- Ollama daemon pre-flight check: added to start-ollama-daemon.sh (waits for Ollama server, 12 retries, 5s interval)
+- Ollama daemon verified: starts clean, PID 20133 alive
+- self_improve.py --check: now outputs correctly (was UTC/local mismatch, fixed by System Auditor)
+- Vector rebuild cron: added (Daily Vector Index Rebuild, 10AM ET)
+- Duplicate ollama-dispatcher.py: removed
+- Daily Code Self-Audit cron: still needs investigation (error 399s on last run)
+
+## Remaining Known Issues
+- Episode logger has only 2 episodes — daemon running but no real tasks queued yet
+- Daily Code Self-Audit: errored 399s (isolated session likely can't access all files)
+- Ollama daemon still dies under LaunchAgent (pre-flight helps but root cause unknown)
