@@ -14,17 +14,41 @@ import urllib.error
 import threading
 from datetime import datetime
 
-# Import trace logger
+# Import trace logger + episodic memory
 sys.path.insert(0, os.path.dirname(__file__))
 try:
     from trace_logger import log_trace, get_routing_hints, load_traces, analyze_routing
     HAS_TRACING = True
 except ImportError:
     HAS_TRACING = False
-
-# Vector memory (RAG)
+try:
+    from episode_logger import log_episode
+    HAS_EPISODES = True
+except ImportError:
+    HAS_EPISODES = False
 VECTOR_INDEX = os.path.join(os.path.dirname(__file__), "..", "data", "memory.index")
 VECTOR_META = os.path.join(os.path.dirname(__file__), "..", "data", "memory_meta.json")
+
+# Self-improvement tracking
+_IMPROVE_COUNTER = 0
+_IMPROVE_TRIGGER = 10  # Run self-improve every N task dispatches
+
+
+def _trigger_self_improve():
+    """Trigger self-improvement check every N dispatches."""
+    global _IMPROVE_COUNTER
+    _IMPROVE_COUNTER += 1
+    if _IMPROVE_COUNTER % _IMPROVE_TRIGGER == 0:
+        try:
+            import subprocess
+            result = subprocess.run(
+                ["python3", os.path.join(os.path.dirname(__file__), "self_improve.py"), "--check"],
+                capture_output=True, text=True, timeout=30
+            )
+            if result.stdout.strip():
+                log(result.stdout.strip())
+        except Exception as e:
+            log(f"Self-improve check error: {e}")
 
 def retrieve_memory(query: str, top_k: int = 5) -> list:
     """Retrieve relevant memories using vector search."""
@@ -327,6 +351,20 @@ def execute_subtask(subtask: dict, context: str = "") -> dict:
     duration_ms = int((time.time() - start) * 1000)
 
     success = not response.startswith("[Error]")
+    
+    # Log episode for reflection loop (Hermes pattern: observe)
+    if HAS_EPISODES:
+        sub_id = f"subtask-{subtask.get('id', 0)}"
+        log_episode(
+            task_id=sub_id,
+            task_type=task_type,
+            description=subtask.get("description", "")[:200],
+            outcome="success" if success else "failure",
+            error=response if not success else None,
+            duration_ms=duration_ms,
+            model_used=model,
+        )
+    
     if HAS_TRACING:
         sub_id = f"subtask-{subtask.get('id', 0)}"
         log_trace(sub_id, model, task_type, prompt, response, duration_ms, success)
@@ -398,6 +436,18 @@ def process_task_simple(task: dict) -> dict:
 
     success = not response.startswith("[Error]")
 
+    # Log episode for reflection loop (Hermes pattern: observe)
+    if HAS_EPISODES:
+        log_episode(
+            task_id=task_id,
+            task_type=task_type,
+            description=prompt[:200],
+            outcome="success" if success else "failure",
+            error=response if not success else None,
+            duration_ms=duration_ms,
+            model_used=model,
+        )
+
     # Log trace for learning
     if HAS_TRACING:
         log_trace(task_id, model, task_type, prompt, response, duration_ms, success)
@@ -406,6 +456,7 @@ def process_task_simple(task: dict) -> dict:
         "id": task_id,
         "status": "done",
         "model": model,
+        "task_type": task_type,
         "response": response,
         "completed_at": datetime.now().isoformat(),
     }
@@ -473,6 +524,8 @@ def daemon(poll_interval=30):
             count = dispatch_once()
             if count:
                 log(f"Processed {count} tasks")
+                # Self-improvement check after each dispatch cycle
+                _trigger_self_improve()
         except Exception as e:
             log(f"Dispatch error: {e}")
         
