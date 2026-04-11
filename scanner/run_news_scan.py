@@ -95,14 +95,30 @@ def get_ticker_news(ticker_sym: str) -> list:
 def sentiment_aggregate(news_items: list) -> dict:
     """
     Aggregate multiple news items into one sentiment score.
+    Also computes news_age_hours (age of most recent item).
     """
     if not news_items:
-        return {'sentiment': 'neutral', 'score': 0.0, 'fresh': False}
+        return {'sentiment': 'neutral', 'score': 0.0, 'fresh': False, 'news_age_hours': None}
 
     scores = []
+    most_recent_dt = None
+    now = datetime.now()
     for n in news_items:
         headline = n.get('title', '')
         scores.append(score_sentiment(headline))
+        # Track most recent news datetime for stale filter
+        pub_str = n.get('pubDate', '')
+        if pub_str:
+            try:
+                dt = datetime.fromisoformat(pub_str.replace('Z', '+00:00')).replace(tzinfo=None)
+                if most_recent_dt is None or dt > most_recent_dt:
+                    most_recent_dt = dt
+            except Exception:
+                pass
+
+    news_age_hours = None
+    if most_recent_dt:
+        news_age_hours = (now - most_recent_dt).total_seconds() / 3600
 
     avg_score = sum(s['score'] for s in scores) / len(scores)
     sentiments = [s['sentiment'] for s in scores]
@@ -122,7 +138,8 @@ def sentiment_aggregate(news_items: list) -> dict:
         'score': round(avg_score, 3),
         'fresh': True,
         'item_count': len(news_items),
-        'headlines': [n.get('title', '')[:100] for n in news_items[:3]]
+        'headlines': [n.get('title', '')[:100] for n in news_items[:3]],
+        'news_age_hours': round(news_age_hours, 1) if news_age_hours is not None else None
     }
 
 
@@ -195,6 +212,13 @@ for i, sym in enumerate(tickers):
             conf_boost = 1
 
     if direction:
+        # ── STALE NEWS FILTER (CCL lesson: 2026-04-10) ──────────────────────
+        # If gap > 5% AND news > 6 hrs old → skip (stale gap reversal, already priced in)
+        news_age = sentiment.get('news_age_hours')
+        if news_age is not None and abs(gap_pct) > 5 and news_age > 6:
+            print(f"  ⏭ {sym}: STALE — gap {gap_pct:+.1f}%, news {news_age:.1f}h old (skip)")
+            continue
+        # ───────────────────────────────────────────────────────────────────
         g['direction'] = direction
         g['confidence'] = min(5, 3 + conf_boost)
         g['sentiment'] = sentiment['sentiment']
@@ -239,6 +263,13 @@ for i, sym in enumerate(tickers):
         direction = 'CALL'
         conf_boost = 0
 
+    # ── STALE NEWS FILTER (CCL lesson: 2026-04-10) ──────────────────────
+    # If momentum run > 10% AND news > 6 hrs old → skip (move likely exhausted)
+    news_age = sentiment.get('news_age_hours')
+    if news_age is not None and mom5d > 10 and news_age > 6:
+        print(f"  ⏭ {sym}: STALE — mom5d {mom5d:+.1f}%, news {news_age:.1f}h old (skip)")
+        continue
+    # ───────────────────────────────────────────────────────────────────
     s['direction'] = direction
     s['confidence'] = min(5, 3 + conf_boost)
     s['sentiment'] = sentiment['sentiment']

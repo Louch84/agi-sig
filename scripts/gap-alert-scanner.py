@@ -82,7 +82,7 @@ def scan_ticker(ticker):
     """Scan one ticker. Returns dict or None."""
     try:
         t = yf.Ticker(ticker)
-        h = t.history(period="5d", interval="1m")  # intraday for today
+        h = t.history(period="2d", interval="15m")  # 2d 15min — fast enough for gap detection
         info = t.info
 
         if h.empty:

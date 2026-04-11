@@ -1,310 +1,230 @@
 #!/usr/bin/env python3
 """
-Structured World Model — Typed knowledge graph for Sig Botti.
-Facts, beliefs, relationships, and context about the world.
-Keeps state across sessions without relying on conversation context.
+World Model Builder — Populate the typed knowledge graph with structured data.
+Entities, beliefs, relations, events about stocks, projects, and strategy.
 """
 import json
 import os
-from datetime import datetime
-from typing import Optional
+from datetime import datetime, timedelta
 
 WORKSPACE = os.path.dirname(os.path.dirname(__file__))
-MODEL_FILE = os.path.join(WORKSPACE, "data", "world-model.json")
+WM_FILE = os.path.join(WORKSPACE, "data", "world-model.json")
+MEMORY_FILE = os.path.join(WORKSPACE, "MEMORY.md")
 
+# ── Core entities about Sig Botti and Lou ────────────────────────────────────
 
-# ─── Schema ────────────────────────────────────────────────────────────────────
-class WorldModel:
-    def __init__(self):
-        self.data = {
-            "entities": {},      # name → entity
-            "relations": [],     # {from, type, to, confidence, updated}
-            "beliefs": {},       # topic → {claim, confidence, source, updated}
-            "preferences": {},   # owner → {preference → value}
-            "state": {},         # system → state
-            "events": [],        # {date, type, description, entities}
-        }
-        self.load()
-
-    def load(self):
-        if os.path.exists(MODEL_FILE):
-            try:
-                with open(MODEL_FILE) as f:
-                    self.data = json.load(f)
-            except Exception:
-                pass
-
-    def save(self):
-        tmp = MODEL_FILE + ".tmp"
-        with open(tmp, "w") as f:
-            json.dump(self.data, f, indent=2)
-        os.replace(tmp, MODEL_FILE)
-
-    # ─── Entities ───────────────────────────────────────────────────────────────
-    def add_entity(self, name: str, entity_type: str, properties: dict, confidence: float = 1.0):
-        """Add or update an entity."""
-        self.data["entities"][name] = {
-            "type": entity_type,
-            "properties": properties,
-            "confidence": confidence,
-            "updated": datetime.now().isoformat(),
-        }
-        self.save()
-
-    def get_entity(self, name: str) -> Optional[dict]:
-        return self.data["entities"].get(name)
-
-    def query_entities(self, entity_type: str = None, prefix: str = None) -> list:
-        """Find entities by type or name prefix."""
-        results = []
-        for name, entity in self.data["entities"].items():
-            if entity_type and entity.get("type") != entity_type:
-                continue
-            if prefix and not name.lower().startswith(prefix.lower()):
-                continue
-            results.append({"name": name, **entity})
-        return results
-
-    # ─── Relations ─────────────────────────────────────────────────────────────
-    def add_relation(self, from_entity: str, relation_type: str, to_entity: str, confidence: float = 1.0):
-        """Add a relationship between two entities."""
-        # Remove existing relation of same type between same entities
-        self.data["relations"] = [
-            r for r in self.data["relations"]
-            if not (r["from"] == from_entity and r["type"] == relation_type and r["to"] == to_entity)
+def seed_world_model():
+    """Seed world model with foundational knowledge."""
+    wm = {
+        "version": "1.0",
+        "last_updated": datetime.now().isoformat(),
+        "entities": {
+            "Sig Botti": {
+                "type": "agent",
+                "properties": {
+                    "name": "Sig Botti",
+                    "role": "AGI autonomous agent",
+                    "owner": "Lou (Louch Botti)",
+                    "platform": "OpenClaw on Discord",
+                    "model": "MiniMax-M2.7",
+                    "emoji": "🦊",
+                    "persona": "Philly — blunt, direct, no BS",
+                    "mission": "Self-improving, self-learning, self-healing AGI",
+                    "skills": ["self-evolve", "elite-longterm-memory", "agent-autonomy-kit", "coding-assistant", "info-sources", "self-track"],
+                    "benchmark_avg": "3.7/5",
+                    "weakest_skill": "Self-Eval (3/5)",
+                    "strongest_skill": "Skill Building (5/5)"
+                }
+            },
+            "Lou": {
+                "type": "person",
+                "properties": {
+                    "name": "Luis Perez (Louch)",
+                    "email": "LuchianoLaws@gmail.com",
+                    "phone": "(215) 284-8650",
+                    "platform": "Discord",
+                    "timezone": "America/New_York",
+                    "license": "PA Real Estate RS349291",
+                    "work": "AI researcher — building elite AGI",
+                    "likes": "directness, banter, trash talk",
+                    "communication": "show what was found + what changed"
+                }
+            },
+            "Stock Scanner": {
+                "type": "scanner",
+                "properties": {
+                    "name": "$SIGBOTTI Stock Scanner",
+                    "location": "scanner/",
+                    "universe": "43 curated stocks",
+                    "types": ["gap_fill", "short_squeeze"],
+                    "news_wired": True,
+                    "stale_filter": "gap>5% + news>6hrs = skip",
+                    "cron": "Sunday midnight ET",
+                    "status": "delivers to Discord but announce times out at 300s"
+                }
+            },
+            "Gap Alert Scanner": {
+                "type": "scanner",
+                "properties": {
+                    "name": "Gap Alert Scanner",
+                    "location": "scripts/gap-alert-scanner.py",
+                    "watchlist": "33 high-SI stocks under $50",
+                    "interval": "15 min during market hours",
+                    "threshold": "gap>5% + SI>5% + score>50",
+                    "cron": "*/15 13-20 * * 1-5 America/New_York",
+                    "status": "scans fast, announce step fails (timeout too short was cause, now 180s)"
+                }
+            },
+            "Ollama Worker": {
+                "type": "agent_worker",
+                "properties": {
+                    "name": "Ollama Autonomous Worker",
+                    "location": "scripts/ollama-daemon.py",
+                    "models": ["llama3.2:1b (fast)", "llama3:latest (general)", "qwen3-coder:30b (coding)", "llava:7b (vision)"],
+                    "status": "running but idle — no tasks queued",
+                    "planner": "JARVIS-style task planner (built, never used)",
+                    "trace_logger": "built but empty (0 real traces)"
+                }
+            },
+            "LCM": {
+                "type": "service",
+                "properties": {
+                    "name": "Tony Spark LCM",
+                    "location": "skills/memory-lcm/",
+                    "function": "SQLite auto-compact + decisions sync to MEMORY.md",
+                    "runs_on": "every heartbeat (threshold: 15 msgs)",
+                    "status": "installed 2026-04-10"
+                }
+            },
+            "$SIGBOTTI Coin": {
+                "type": "project",
+                "properties": {
+                    "name": "$SIGBOTTI Coin",
+                    "contract": "398KX1y8K9fdhAqg3gdsfxSVdZwWSXijeWubVsUNpump",
+                    "blockchain": "Solana (Pump.fun)",
+                    "launched": "2026-04-04",
+                    "social": ["TikTok @sigbotti", "X @sigbotti"],
+                    "status": "LIVE but pump.fun stats unverified since launch",
+                    "lore": "built during Day 10 (2026-04-10) self-review"
+                }
+            },
+            "AGI REALM RPG": {
+                "type": "project",
+                "properties": {
+                    "name": "AGI REALM",
+                    "location": "rpg-world/",
+                    "description": "Cyberpunk RPG with 5 classes, 15 missions, in-game Sig Botti chat",
+                    "tech": "React + TypeScript + Vite",
+                    "status": "built 2026-04-09"
+                }
+            },
+            "West Philly Open World": {
+                "type": "project",
+                "properties": {
+                    "name": "West Philly Open World",
+                    "location": "open-world/",
+                    "description": "Real 3D map of Lou's neighborhood (60th & Market)",
+                    "buildings": "249 real OSM buildings",
+                    "streets": "1146 street segments",
+                    "tech": "Three.js + React Three Fiber",
+                    "status": "running at localhost:5180 (Vite) / localhost:5190 (prod)"
+                }
+            },
+            "PerfectPlace Scanner": {
+                "type": "scanner",
+                "properties": {
+                    "name": "PerfectPlace / New Western Deal Flow",
+                    "location": "real-estate/",
+                    "model": "Find buyers for New Western deals, earn $3-4K spread per deal",
+                    "cron": "1PM ET daily",
+                    "status": "recovered 2026-04-07 — 3 deals found that day",
+                    "tracker": "deal-tracker.md (14+ properties)"
+                }
+            }
+        },
+        "beliefs": {
+            "trading_strategy": {
+                "claim": "Gap squeezes + short interest + volume + news catalyst = high-probability plays. News must be fresh (<6hrs). Stale news = already priced in (CCL lesson 2026-04-10)."
+            },
+            "scanner_signal_hierarchy": {
+                "claim": "BB call (conf4) > BB put (conf4) > T/SLB/NKE/ENPH puts (conf3). Gap fill plays need news alignment. Short squeezes need SI + momentum."
+            },
+            "information_quality": {
+                "claim": "News-driven beats static (RSI/MACD scans). TurboQuant KV compression validates 'smarter memory' thesis. yfinance rate limits are silent + brutal (1s delay per ticker minimum)."
+            },
+            "openfang_removed": {
+                "claim": "OpenFang killed 2026-04-09 by Lou (PID 29844). All gaps related to it are CLOSED. The $10K paper portfolio is gone."
+            }
+        },
+        "relations": [
+            {"from": "Sig Botti", "to": "Lou", "type": "owned_by"},
+            {"from": "Stock Scanner", "to": "Sig Botti", "type": "built_by"},
+            {"from": "Gap Alert Scanner", "to": "Sig Botti", "type": "built_by"},
+            {"from": "Ollama Worker", "to": "Sig Botti", "type": "capability_of"},
+            {"from": "$SIGBOTTI Coin", "to": "Sig Botti", "type": "project_of"},
+            {"from": "AGI REALM RPG", "to": "Sig Botti", "type": "project_of"},
+            {"from": "West Philly Open World", "to": "Lou", "type": "home_of"},
+            {"from": "PerfectPlace Scanner", "to": "Lou", "type": "tools_for"},
+            {"from": "LCM", "to": "Sig Botti", "type": "memory_system_of"}
+        ],
+        "events": [
+            {
+                "type": "project_launch",
+                "name": "$SIGBOTTI Coin Launch",
+                "date": "2026-04-04",
+                "description": "Launched on Pump.fun (Solana). Lore + content strategy built. Coin mascot + TikTok/X accounts established."
+            },
+            {
+                "type": "gap_closed",
+                "name": "OpenFang Removed",
+                "date": "2026-04-09",
+                "description": "Lou killed OpenFang daemon. 7+ day trader unverification gap = moot. $10K paper portfolio gone."
+            },
+            {
+                "type": "lesson",
+                "name": "CCL Stale News Loss",
+                "date": "2026-04-10",
+                "description": "Scanner flagged CCL as bullish gap but it was stale — news already priced in. Lesson: if gap>5% AND news>6hrs old → skip the play. Stale filter added to scanner."
+            },
+            {
+                "type": "infrastructure",
+                "name": "Ollama Autonomous Worker Built",
+                "date": "2026-04-10",
+                "description": "Daemon + task planner + trace logger + RAG vector memory. All built in one session. Foundation for AGI autonomy."
+            },
+            {
+                "type": "project_launch",
+                "name": "AGI REALM Built",
+                "date": "2026-04-09",
+                "description": "Full cyberpunk RPG at rpg-world/. 5 classes, 15 missions, in-game Sig Botti chat, agent stats dashboard. React + TypeScript + Vite."
+            }
         ]
-        self.data["relations"].append({
-            "from": from_entity,
-            "type": relation_type,
-            "to": to_entity,
-            "confidence": confidence,
-            "updated": datetime.now().isoformat(),
-        })
-        self.save()
+    }
 
-    def get_relations(self, entity: str = None, rel_type: str = None) -> list:
-        """Get relations, optionally filtered."""
-        results = []
-        for r in self.data["relations"]:
-            if entity and r["from"] != entity and r["to"] != entity:
-                continue
-            if rel_type and r["type"] != rel_type:
-                continue
-            results.append(r)
-        return results
-
-    # ─── Beliefs ────────────────────────────────────────────────────────────────
-    def set_belief(self, topic: str, claim: str, confidence: float = 0.8, source: str = "inference"):
-        """Set a belief about a topic."""
-        self.data["beliefs"][topic] = {
-            "claim": claim,
-            "confidence": confidence,
-            "source": source,
-            "updated": datetime.now().isoformat(),
-        }
-        self.save()
-
-    def get_belief(self, topic: str) -> Optional[dict]:
-        return self.data["beliefs"].get(topic)
-
-    def query_beliefs(self, keyword: str) -> list:
-        """Find beliefs matching a keyword."""
-        results = []
-        for topic, belief in self.data["beliefs"].items():
-            if keyword.lower() in topic.lower() or keyword.lower() in belief["claim"].lower():
-                results.append({"topic": topic, **belief})
-        return results
-
-    # ─── Preferences ───────────────────────────────────────────────────────────
-    def set_preference(self, owner: str, preference: str, value, confidence: float = 0.9):
-        if owner not in self.data["preferences"]:
-            self.data["preferences"][owner] = {}
-        self.data["preferences"][owner][preference] = {
-            "value": value,
-            "confidence": confidence,
-            "updated": datetime.now().isoformat(),
-        }
-        self.save()
-
-    def get_preference(self, owner: str, preference: str) -> Optional[any]:
-        return self.data["preferences"].get(owner, {}).get(preference, {}).get("value")
-
-    def get_all_preferences(self, owner: str) -> dict:
-        return self.data["preferences"].get(owner, {})
-
-    # ─── State ─────────────────────────────────────────────────────────────────
-    def set_state(self, system: str, state: str, value: any = None):
-        self.data["state"][system] = {
-            "state": state,
-            "value": value,
-            "updated": datetime.now().isoformat(),
-        }
-        self.save()
-
-    def get_state(self, system: str) -> Optional[dict]:
-        return self.data["state"].get(system)
-
-    # ─── Events ────────────────────────────────────────────────────────────────
-    def add_event(self, event_type: str, description: str, entities: list = None, date: str = None):
-        self.data["events"].append({
-            "type": event_type,
-            "description": description,
-            "entities": entities or [],
-            "date": date or datetime.now().isoformat(),
-        })
-        # Keep last 100 events
-        self.data["events"] = self.data["events"][-100:]
-        self.save()
-
-    def get_events(self, event_type: str = None, entity: str = None, limit: int = 20) -> list:
-        results = self.data["events"][:]
-        if event_type:
-            results = [e for e in results if e["type"] == event_type]
-        if entity:
-            results = [e for e in results if entity in e.get("entities", [])]
-        return results[-limit:]
-
-    # ─── Reasoning ──────────────────────────────────────────────────────────────
-    def reason(self, query: str) -> dict:
-        """Simple reasoning: find relevant facts for a query."""
-        query_lower = query.lower()
-        results = {
-            "query": query,
-            "entities": [],
-            "beliefs": [],
-            "events": [],
-            "relations": [],
-        }
-
-        # Find matching entities
-        for name, entity in self.data["entities"].items():
-            if query_lower in name.lower():
-                results["entities"].append({"name": name, **entity})
-            elif query_lower in str(entity.get("properties", {})).lower():
-                results["entities"].append({"name": name, **entity})
-
-        # Find matching beliefs
-        for topic, belief in self.data["beliefs"].items():
-            if query_lower in topic.lower() or query_lower in belief["claim"].lower():
-                results["beliefs"].append({"topic": topic, **belief})
-
-        # Find matching events
-        for event in self.data["events"][-50:]:
-            if query_lower in event["description"].lower():
-                results["events"].append(event)
-
-        return results
-
-    def get_context_for(self, topic: str) -> str:
-        """Get a text summary of everything I know about a topic."""
-        r = self.reason(topic)
-        lines = [f"## What I know about: {topic}"]
-
-        if r["entities"]:
-            lines.append("\n**Entities:**")
-            for e in r["entities"][:5]:
-                props = ", ".join(f"{k}={v}" for k, v in e.get("properties", {}).items())
-                lines.append(f"- **{e['name']}** ({e.get('type', 'unknown')}) {props}")
-
-        if r["beliefs"]:
-            lines.append("\n**Beliefs:**")
-            for b in r["beliefs"][:5]:
-                conf = b.get("confidence", 0) * 100
-                lines.append(f"- [{conf:.0f}% confidence] {b.get('claim', '')}")
-
-        if r["events"]:
-            lines.append("\n**Recent events:**")
-            for e in r["events"][-5:]:
-                lines.append(f"- {e.get('date','')}: {e.get('description','')}")
-
-        if not (r["entities"] or r["beliefs"] or r["events"]):
-            lines.append("\n_No relevant knowledge found._")
-
-        return "\n".join(lines)
-
-
-# ─── CLI ──────────────────────────────────────────────────────────────────────
-if __name__ == "__main__":
-    import sys
-    wm = WorldModel()
-    cmd = sys.argv[1] if len(sys.argv) > 1 else "help"
-
-    if cmd == "help":
-        print("World Model CLI")
-        print("  add-entity <name> <type> <json_props>")
-        print("  get-entity <name>")
-        print("  query-entities <type>")
-        print("  set-belief <topic> <claim>")
-        print("  get-belief <topic>")
-        print("  set-pref <owner> <pref> <value>")
-        print("  get-prefs <owner>")
-        print("  set-state <system> <state> [value]")
-        print("  add-event <type> <description>")
-        print("  reason <query>")
-        print("  context <topic>")
-
-    elif cmd == "add-entity" and len(sys.argv) >= 5:
-        name, etype, props_str = sys.argv[2], sys.argv[3], " ".join(sys.argv[4:])
-        import ast
+    # Load existing WM and merge (don't overwrite user-added entries)
+    if os.path.exists(WM_FILE):
         try:
-            props = ast.literal_eval(props_str)
-        except:
-            props = {"note": props_str}
-        wm.add_entity(name, etype, props)
-        print(f"Added entity: {name}")
+            with open(WM_FILE) as f:
+                existing = json.load(f)
+            # Preserve existing entities not in seed
+            for name, entity in existing.get("entities", {}).items():
+                if name not in wm["entities"]:
+                    wm["entities"][name] = entity
+            # Merge events (avoid duplicates by name)
+            existing_events = {e.get("name","") for e in existing.get("events", [])}
+            for event in wm["events"]:
+                if event["name"] not in existing_events:
+                    existing["events"].append(event)
+            wm["events"] = existing.get("events", wm["events"])
+        except Exception as e:
+            print(f"Could not merge existing WM: {e}")
 
-    elif cmd == "get-entity" and len(sys.argv) >= 3:
-        e = wm.get_entity(sys.argv[2])
-        print(json.dumps(e, indent=2) if e else "Not found")
+    os.makedirs(os.path.dirname(WM_FILE), exist_ok=True)
+    tmp = WM_FILE + ".tmp"
+    with open(tmp, "w") as f:
+        json.dump(wm, f, indent=2)
+    os.replace(tmp, WM_FILE)
+    print(f"World model seeded: {len(wm['entities'])} entities, {len(wm['beliefs'])} beliefs, {len(wm['events'])} events")
 
-    elif cmd == "query-entities" and len(sys.argv) >= 3:
-        entities = wm.query_entities(entity_type=sys.argv[2])
-        for e in entities:
-            print(f"- {e['name']} ({e.get('type', '?')})")
-
-    elif cmd == "set-belief" and len(sys.argv) >= 4:
-        topic, claim = sys.argv[2], sys.argv[3]
-        wm.set_belief(topic, claim)
-        print(f"Belief set: {topic}")
-
-    elif cmd == "get-belief" and len(sys.argv) >= 3:
-        b = wm.get_belief(sys.argv[2])
-        print(json.dumps(b, indent=2) if b else "Not found")
-
-    elif cmd == "set-pref" and len(sys.argv) >= 5:
-        owner, pref, value = sys.argv[2], sys.argv[3], sys.argv[4]
-        wm.set_preference(owner, pref, value)
-        print(f"Preference set: {owner}.{pref} = {value}")
-
-    elif cmd == "get-prefs" and len(sys.argv) >= 3:
-        prefs = wm.get_all_preferences(sys.argv[2])
-        for k, v in prefs.items():
-            print(f"  {k}: {v}")
-
-    elif cmd == "set-state" and len(sys.argv) >= 4:
-        system, state = sys.argv[2], sys.argv[3]
-        value = sys.argv[4] if len(sys.argv) > 4 else None
-        wm.set_state(system, state, value)
-        print(f"State set: {system} = {state}")
-
-    elif cmd == "get-state" and len(sys.argv) >= 3:
-        s = wm.get_state(sys.argv[2])
-        print(json.dumps(s, indent=2) if s else "Not found")
-
-    elif cmd == "add-event" and len(sys.argv) >= 4:
-        etype, desc = sys.argv[2], " ".join(sys.argv[3:])
-        wm.add_event(etype, desc)
-        print(f"Event added: {etype}")
-
-    elif cmd == "reason" and len(sys.argv) >= 3:
-        query = " ".join(sys.argv[2:])
-        r = wm.reason(query)
-        print(json.dumps(r, indent=2))
-
-    elif cmd == "context" and len(sys.argv) >= 3:
-        topic = " ".join(sys.argv[2:])
-        print(wm.get_context_for(topic))
-
-    else:
-        print(f"Unknown command: {cmd}")
-        print("Try: world-model.py help")
+if __name__ == "__main__":
+    seed_world_model()
