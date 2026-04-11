@@ -76,6 +76,61 @@ Sig's `self-rewriting-skill` already has runtime skill modification. Memento-Ski
 
 ### Status: ✅ FRAMEWORK IDENTIFIED — Integration opportunity identified. Sig's self-rewriting-skill is architecturally compatible. Next step: align the reflect phase to trigger skill mutation on failures.
 
+---
+
+## 2026-04-11 (Evening) — Hermes Agent Self-Evolution (DSPy + GEPA)
+
+### What: NousResearch's Evolutionary Self-Improvement Engine
+GitHub: NousResearch/hermes-agent-self-evolution | MIT Licensed | ICLR 2026 Oral
+
+**The architecture:**
+```
+Read current skill/prompt/tool → Generate eval dataset
+         ↓
+  GEPA Optimizer ← Execution traces
+         ↓              ↑
+  Candidate variants → Evaluate
+         ↓
+  Constraint gates (tests, size, benchmarks)
+         ↓
+  Best variant → PR against hermes-agent
+```
+
+- Uses **DSPy** (Stanford's prompt optimization framework) + **GEPA** (Genetic-Pareto Prompt Evolution)
+- Reads execution traces to understand *why* things fail — not just that they failed
+- Proposes targeted text mutations for skills, tool descriptions, system prompts
+- Evaluates variants: pytest 100%, size limits (Skills ≤15KB, tool desc ≤500 chars), semantic preservation
+- **No GPU training** — API calls only, ~$2-10 per optimization run
+- Phase 1 (SKILL.md files): ✅ live | Phases 2-5 (tools, prompts, code, continuous loop): 🔲 planned
+
+### Relation to Sig's Architecture
+Sig's `self-rewriting-skill` handles skill file I/O (create/read/update/delete/append) — this is equivalent to Hermes' Phase 1. **What Sig is missing**: the automatic reflect→mutate→evaluate loop that runs when a skill fails.
+
+**Missing components in Sig's architecture:**
+1. `memory/skill-traces/` — execution log: timestamp, skill used, task, outcome, errors
+2. `scripts/reflect_on_failure.py` — reads trace, uses local Ollama model to analyze failure pattern, proposes mutation
+3. `scripts/evaluate_variant.py` — tests mutated skill against known tasks, checks size/syntax
+4. Skill mutation is written to a `*.draft.md` file (not applied directly — PR-style review before merge)
+
+### Status: 🔲 OPPORTUNITY IDENTIFIED — Next step: build `reflect_on_failure.py` using qwen3-coder:30b via Ollama
+
+### Actionable Integration Plan
+```bash
+# Step 1: Create trace directory
+mkdir -p memory/skill-traces
+
+# Step 2: Instrument manage_skills.py to log executions
+# Add: on skill use → write trace JSON to memory/skill-traces/
+
+# Step 3: Build reflect_on_failure.py
+# Input: trace JSON
+# Output: mutated SKILL.md draft
+# Engine: qwen3-coder:30b (or llama3:latest for general skills)
+
+# Step 4: Add evaluate_variant.py
+# Input: draft SKILL.md
+# Output: pass/fail on pytest, size check, syntax check
+```
 
 ---
 

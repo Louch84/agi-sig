@@ -4,6 +4,38 @@ _Last updated: 2026-04-11_
 
 ## April 11, 2026
 
+### Hermes Agent v0.7.0 + Self-Evolution — Nous Research's Self-Improving Agent (33K GitHub Stars)
+**Hermes Agent** (MIT, GitHub: NousResearch/hermes-agent) is a self-evolving open-source agent framework that has grown to **33,000+ GitHub stars** in just 2 months since February 2026 release. v0.7.0 "The Resilience Release" shipped April 3rd with 168 PRs merged, 46 issues resolved.
+
+**Core architecture:**
+- **Self-learning skill system**: Auto-generates reusable skill documents from completed tasks; skills improve through usage
+- **Episodic memory**: Records every execution (actions, results, errors, timing) as a learning dataset
+- **Reflection module**: Analyzes failure/success patterns and proposes alternative strategies
+- **Multi-platform gateway**: Discord, Slack, Telegram, WhatsApp, Signal, Feishu, WeCom — unified CLI
+- **MCP native support**: Can act as MCP server or connect to MCP servers (GitHub, databases, APIs)
+- **Pluggable memory backends**: 6 third-party providers, configured via `hermes memory setup`
+- **Camofox browser**: Anti-detection browser with VNC debugging for web automation
+
+**Hermes Agent Self-Evolution** (GitHub: NousResearch/hermes-agent-self-evolution) is the evolutionary self-improvement engine:
+- Uses **DSPy + GEPA (Genetic-Pareto Prompt Evolution)** to automatically evolve skills, tool descriptions, system prompts, and code
+- **No GPU training required** — operates via API calls, ~$2-10 per optimization run
+- Reads execution traces to understand *why* things fail (not just that they failed), then proposes targeted mutations
+- ICLR 2026 Oral, MIT licensed
+- Phase 1 (Skills SKILL.md): ✅ Implemented | Phase 2-4 (tools, prompts, code): 🔲 Planned
+- All variants must pass: pytest 100%, size limits (Skills ≤15KB), semantic preservation, PR review
+
+**Architecture comparison** (from Emelia benchmark):
+| Framework | Self-Improvement | Memory | Stars |
+|-----------|-----------------|---------|-------|
+| Hermes Agent | ✅ Native | Episodic + vector | 33K |
+| OpenClaw | ❌ (Sig has self-rewriting-skill workaround) | Configurable | 12K |
+| LangGraph | ❌ Manual | Configurable | 8K |
+| CrewAI | ❌ | Basic | 25K |
+
+**Relevance to Sig:** Hermes Agent Self-Evolution's GEPA loop is the exact missing piece for Sig's self-rewriting-skill. Sig's current implementation handles skill file I/O but lacks the automatic reflect→mutate→evaluate→PR loop. Next step: integrate GEPA-style trace analysis to trigger automatic skill evolution when failures occur.
+
+---
+
 ### Memento-Skills — Found the Real Framework (MIT, GitHub)
 The VentureBeat article described a real open-source project: **Memento-Skills** from Memento-Teams (GitHub: Memento-Teams/Memento-Skills, arXiv:2603.18743). MIT licensed. This is what the original "AI agents rewrite own skills" article was based on.
 
@@ -21,6 +53,13 @@ The VentureBeat article described a real open-source project: **Memento-Skills**
 Z.ai released GLM-5.1 (754B params, MIT license, open weights on Hugging Face) that scored **58.4% on SWE-Bench Pro**, beating GPT-5.4 (57.7), Claude Opus 4.6 (57.3), and Gemini 3.1 Pro (55.1). Can work autonomously on a single coding task for **up to 8 hours** — planning, execution, testing, and optimization in a continuous loop. In a demo, built a full Linux desktop environment from scratch over 8 hours.
 
 **Relevance:** This is a local-queue-able model if it ever gets an Ollama GGUF conversion. Currently above Sig's local model tier. But watch for quantized versions.
+
+---
+
+### Hermes Agent Self-Evolution — DSPy + GEPA Evolutionary Skill Improvement (ICLR 2026 Oral)
+See April 11 entry above. Hermes Agent Self-Evolution (NousResearch/hermes-agent-self-evolution) is the production-grade implementation of the self-improving skills concept. Uses execution traces + genetic prompt evolution. MIT licensed, ~$2-10 per optimization run via API calls. Phase 1 (skill files) live; Phases 2-5 in progress.
+
+**Key insight for Sig:** The GEPA loop (Generate → Evaluate → Preserve → Amplify) is the missing autonomous layer in Sig's self-rewriting-skill. Sig has the skill file I/O but no automatic trace analysis → mutation → evaluation pipeline. Integration opportunity: build `reflect_on_failure.py` that reads skill execution traces and proposes targeted mutations using Ollama local models.
 
 ---
 
