@@ -23,11 +23,12 @@ REFLECTION_LOG = os.path.join(WORKSPACE, "memory", "reflection-log.md")
 
 
 def count_episodes():
-    """Count episodes logged today."""
-    today = datetime.now().strftime("%Y-%m-%d")
-    count = 0
+    """Count episodes logged today (matching by UTC date from ISO timestamp)."""
     if not os.path.exists(EPISODE_LOG):
         return 0
+    # Use UTC date to match ISO timestamps in file (which are timezone-naive UTC)
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+    count = 0
     try:
         with open(EPISODE_LOG) as f:
             for line in f:
@@ -35,6 +36,17 @@ def count_episodes():
                     count += 1
     except:
         pass
+    if count == 0:
+        # Fallback: also try local date (handles same-day timezone edge cases)
+        local_today = datetime.now().strftime("%Y-%m-%d")
+        if local_today != today:
+            try:
+                with open(EPISODE_LOG) as f:
+                    for line in f:
+                        if local_today in line:
+                            count += 1
+            except:
+                pass
     return count
 
 
@@ -177,6 +189,8 @@ if __name__ == "__main__":
         count = count_episodes()
         print(f"Episodes today: {count}")
         check_and_trigger_reflection()
+        if count < 10:
+            print(f"[self-improve] Need {10 - count} more episodes for mini reflection (every 10)")
     elif args.mini:
         run_mini_reflection()
     elif args.full:
