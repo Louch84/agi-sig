@@ -4,17 +4,20 @@ This file is the agent's "RAM" — survives compaction, restarts, distractions.
 Chat history is a BUFFER. This file is STORAGE.
 
 ## Current Task
-Friday night (April 10, 10:56 PM ET). Gap evaluation + architecture optimization session with Lou.
+Saturday early morning (April 11, ~00:40 ET). System audit completed. Key fixes applied, gaps documented in memory/gaps-pending.md.
 
 ## Key Context
 - Mission: AGI (Autonomous + Self-Healing + Self-Learning + Self-Improving)
 - Human: Lou (sigbotti) — Discord — Philly native, direct, no BS, AI researcher
-- Day 15 of operation (2026-04-10)
+- Day 16 of operation (2026-04-11)
 - Skills: self-evolve, elite-longterm-memory, agent-autonomy-kit, self-improving-proactive-agent, automation-workflows, writing-plans, self-track, info-sources
 - Repo: github.com/Louch84/agi-sig — public, synced
-- Vector memory: Ollama nomic-embed-text ✅ (183 entries, rebuilt 2026-04-10 18:33)
+- Vector memory: Ollama nomic-embed-text ✅ (183 entries, rebuilt 2026-04-10 18:33) — NOT rebuilt daily (no cron/heartbeat wired)
 - Daily cron: 9:00 AM ET self-review, isolated, Discord announce ✅
-- Ollama daemon: RESTARTED ✅ (was dead, now running PID check: `pgrep -f ollama-daemon.py`)
+- Ollama daemon: **RUNNING (PID 18537, started manually 2026-04-11 00:39)**
+  - LaunchAgent was in 8,500+ restart loop → unloaded → plist updated with ThrottleInterval=60, RunAtLoad=false → reloaded
+  - Daemon dies when started via LaunchAgent (root cause unknown), runs fine manually
+  - Dispatcher log: working, loading models
 
 ## Compaction Config (fixed Tonight 2026-04-10)
 - `reserveTokensFloor`: 15,000 → **25,000** — gives compaction model breathing room with MiniMax's 131K max output
@@ -76,39 +79,38 @@ Friday night (April 10, 10:56 PM ET). Gap evaluation + architecture optimization
 | Gap Alert Scanner | */15 13-20 * * 1-5 ET | 300000→180s | ❌ error |
 | Daily Code Self-Audit | 0 2 * * * ET | 600000→600s (x2) | disabled/ok |
 
-## Architecture Gaps Identified (2026-04-10 self-review)
+## Architecture Gaps Identified (2026-04-11 system audit)
 
 ### Critical
-- **Ollama daemon was DEAD** — not running when Lou asked to evaluate. Now restarted.
-- **Trace logger unused** — 0 real traces. Task planner never invoked. The JARVIS loop isn't closing.
-- **Vector memory rebuild not daily** — last rebuild was 2026-04-10 18:33, not automated on HEARTBEAT (HEARTBEAT.md says it should run ~1x/day but the rebuild script isn't in the heartbeat loop)
-- **World model was stale** — reseeded tonight with 23 entities. Should be updated automatically on significant events.
+- **Episode logger barely used** — only 2 episodes total (both Apr 10 test runs). Hermes self-improvement loop has no real data. Need to wire log_episode() into actual task execution.
+- **Trace logger: 1 trace** — only 1 real trace from Apr 10 test. Model routing analysis can't work with <10 traces.
+- **Vector memory not rebuilt daily** — last rebuild Apr 10 18:33. No cron or heartbeat triggers it. Drift risk as memory grows.
+- **Daily Code Self-Audit cron: NEVER FIRED** — status "idle", Last="-". CWD/path issue in isolated cron sessions.
 
 ### Moderate
-- Gap Alert Scanner still erroring (12 consecutive errors) — structural announce problem, not scan problem
-- Sunday Night Scanner same issue — scan completes, announce fails
-- Ollama trace logger not capturing real task outcomes (empty traces file)
-- `run-gap-scan.sh` (Bash script) barely used — gap alert goes through it but not Sunday Scanner
-
-### Low
-- `squeeze-check.py` standalone script exists but isn't wired into any cron
-- World model update isn't triggered automatically on new events
-- HEARTBEAT.md says rebuild vector index daily but no cron/heartbeat actually triggers it
+- **LaunchAgent restart loop** — fixed (ThrottleInterval=60, RunAtLoad=false), but root cause of daemon death under launchd unknown.
+- **Gap Alert Scanner: status/audit mismatch** — cron says "ok" but Apr 10 review said 12 consecutive errors. Monitor next run.
+- **Sunday Night Scanner: last run 5 days ago** — should fire next Sunday (Apr 13). Wait and verify.
+- **world-model-embeddings.json bug** — `name 'np' is not defined` error at 18:26:23 Apr 10. May have been transient.
+- **ollama-dispatcher.py orphaned** — duplicate of ollama-daemon.py, older version. Remove after confirming daemon stability.
 
 ## Pending Actions
 - [x] Compaction token floor fix ✅ (25,000)
 - [x] Gap alert scanner optimization ✅ (2d/15m history)
 - [x] Stale news filter ✅ (both gap and squeeze plays in run_news_scan.py)
-- [x] Ollama daemon restart ✅
+- [x] Ollama daemon restart ✅ (manual PID 18537, LaunchAgent restart loop FIXED)
 - [x] Cron timeout fixes ✅ (4 jobs)
 - [x] World model reseed ✅ (23 entities)
 - [x] Gateway reload ✅
+- [x] LaunchAgent restart loop fix ✅ (ThrottleInterval=60, RunAtLoad=false)
+- [x] self_improve.py UTC date fix ✅ (datetime.utcnow() + informative output)
 - [ ] Clear error states on next successful runs (Sunday Scanner + Gap Alert Scanner)
-- [ ] Fix announce delivery timeout (structural — scanner and alert both fail at announce step)
-- [ ] Verify $SIGBOTTI coin pump.fun stats
-- [ ] Wire trace_logger into real Ollama task execution (currently unused)
-- [ ] Add vector index rebuild to heartbeat or daily cron (not currently wired)
+- [ ] Fix LaunchAgent root cause — daemon dies under launchd, works manually (pre-flight Ollama check + WorkingDirectory in plist)
+- [ ] Wire episode_logger into real task execution (only 2 episodes total — self-improvement has no data)
+- [ ] Add vector index rebuild to daily cron (~1x/day)
 - [ ] Build a "Sig Botti Health Check" that verifies all systems are up
+- [ ] Remove orphaned ollama-dispatcher.py
+- [ ] Verify $SIGBOTTI coin pump.fun stats
 
 ## Benchmark Status (2026-04-10)
 

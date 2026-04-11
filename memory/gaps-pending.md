@@ -129,4 +129,70 @@
 
 ---
 
-*Generated: 2026-04-11 00:40 ET by system audit subagent*
+---
+
+## ✅ FIXED During This Audit (2026-04-11 ~00:40 ET)
+
+### Fixed: Ollama Daemon Restart Loop
+- **Problem:** LaunchAgent in tight restart loop (8,500+ restarts logged). Daemon not running.
+- **Fix:** Unloaded LaunchAgent, updated plist with `ThrottleInterval=60` (was default 10s) and `RunAtLoad=false` (was true — prevented restart loop from consuming resources). Reloaded.
+- **Status:** Daemon is now running (PID 18537). Restart loop stopped. Launch log frozen at 8675 lines.
+- **Note:** Root cause of daemon death under launchd is still unknown — daemon runs fine when started manually.
+
+### Fixed: self_improve.py --check Silent Output
+- **Problem:** `python3 self_improve.py --check` returned zero output (episodes exist, but UTC/local timezone mismatch + no output when below 10-episode threshold).
+- **Fix:** (1) Changed `count_episodes()` to use `datetime.utcnow()` to match UTC ISO timestamps in episodes file. (2) Added output showing how many more episodes needed for first reflection trigger.
+- **Status:** Now outputs: `Episodes today: 0` + `Need 10 more episodes for mini reflection`
+
+---
+
+## ⚠️ STILL PENDING — Needs Lou's Attention
+
+### 1. Root Cause: Why Daemon Dies Under Launchd
+The daemon runs fine started manually, but dies quickly when LaunchAgent starts it. Not seen in dispatcher.log (no crash logs from LaunchAgent starts), suggesting it dies before logging. Possible causes:
+- Different Python environment under launchd (launchd uses a minimal PATH)
+- Ollama server not ready when daemon tries to load model
+- Working directory issue
+
+**Action needed:** Add pre-flight check to `start-ollama-daemon.sh`: verify Ollama server (`curl -s http://localhost:11434`) is up before starting daemon. Also add `WorkingDirectory` to plist.
+
+### 2. Episode Logger Has Only 2 Episodes (Total)
+- No real task execution being logged
+- Need to wire `log_episode()` into OpenClaw's main response path, OR run more daemon tasks
+- Until episodes accumulate, self-improvement loop has no data to analyze
+
+### 3. Vector Memory Index Not Rebuilt Daily
+- `data/memory.index` last built Apr 10 18:33
+- `build-vector-index.py build` needs to run ~1x/day
+- Not in any cron. HEARTBEAT.md describes it but doesn't trigger it.
+- **Action:** Add to existing daily cron OR create new daily cron for it
+
+### 4. Daily Code Self-Audit Cron Never Fired
+- Status "idle", Last="-" — never ran
+- Same CWD/path issue as other isolated cron sessions
+- Script itself (`code-self-review.sh`) looks correct; likely needs same fix as Sunday Scanner (timeout config or CWD)
+
+### 5. World Model Embeddings Bug
+- `retrieve_memory()` error: `name 'np' is not defined` at 18:26:23 today
+- Likely: `import numpy as np` failed silently inside try block, causing np to be undefined when used later in same function
+- **Action:** Verify numpy is importable in all Python environments (`python3 -c "import numpy"` ✅ works in current env). May have been a one-time issue. Needs monitoring.
+
+### 6. ollama-dispatcher.py Orphaned
+- Duplicate of ollama-daemon.py, older version
+- Both write to same dispatcher.log → log confusion
+- **Action:** Remove `scripts/ollama-dispatcher.py` after confirming daemon is stable
+
+### 7. Sunday Night Scanner — Last Run 5 Days Ago
+- Status "ok" but last run was Apr 6 (should run every Sunday)
+- Today is Apr 11 (Saturday). Next run should be Apr 13 (Sunday midnight ET)
+- No action needed right now — wait for next Sunday
+
+### 8. Gap Alert Scanner — Status Says OK but Apr 10 Review Said Error
+- `openclaw cron list` shows status "ok" (4h ago)
+- SESSION-STATE says "12 consecutive errors" from Apr 10 review
+- Either the timeout fix worked, or status is stale
+- **Action:** Wait for next run (Mon-Fri 1-8PM ET) and verify
+
+---
+
+*Generated: 2026-04-11 00:47 ET by system audit subagent*

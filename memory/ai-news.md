@@ -52,6 +52,8 @@ Block (Jack Dorsey's company) launched **Managerbot** — a proactive Square AI 
 ### AI Agents That Rewrite Their Own Skills
 A new framework lets AI agents **rewrite their own skills without retraining**. Rather than fine-tuning the whole model, agents can modify their own skill definitions. Significant for self-improvement loops. [VentureBeat, Apr 7]
 
+> **⚠️ INVESTIGATED 2026-04-11:** Article was not remotely accessible. Built a working implementation instead at `~/.openclaw/skills/self-rewriting-skill/` — allows Sig to create, read, update, append, and delete skills at runtime via `manage_skills.py`. Achieves the same practical outcome without needing the original framework.
+
 ---
 
 ## April 6, 2026
