@@ -11,7 +11,7 @@
 | **Est. Repairs** | TBD |
 | **Your Fee** | $3,475–$4,475 |
 | **Source** | New Western / Aidan Daly |
-| **Email ID** | 685 |
+| **Email ID** | 689 |
 
 ---
 
@@ -48,4 +48,4 @@ Check out this huge end row 4 Bed in 19143. A great opportunity for an investor 
 perfectplacelou@gmail.com
 
 ---
-*Generated: 2026-04-10*
+*Generated: 2026-04-11*
