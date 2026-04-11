@@ -615,5 +615,34 @@ if __name__ == "__main__":
             print(wm.get_context_for(query))
         except Exception as e:
             print(f"World model error: {e}")
+    elif cmd == "squeeze":
+        # Short squeeze consolidated — fresh data + world model context
+        tickers = sys.argv[2:] if len(sys.argv) > 2 else None
+        squeeze_script = os.path.join(os.path.dirname(__file__), "squeeze-check.py")
+        if os.path.exists(squeeze_script):
+            import subprocess
+            args = ["python3", squeeze_script] + (tickers or [])
+            result = subprocess.run(args, capture_output=True, text=True, timeout=60)
+            print(result.stdout)
+            if result.stderr:
+                print("Errors:", result.stderr[:200])
+        else:
+            print("squeeze-check.py not found")
+    elif cmd == "stocks":
+        # Quick stock lookup with fresh data
+        tickers = sys.argv[2:] if len(sys.argv) > 2 else []
+        if not tickers:
+            print("Usage: stocks <ticker> [ticker...]")
+            sys.exit(1)
+        for ticker in tickers:
+            try:
+                import subprocess
+                result = subprocess.run(
+                    ["python3", os.path.join(os.path.dirname(__file__), "squeeze-check.py")] + [ticker],
+                    capture_output=True, text=True, timeout=30
+                )
+                print(result.stdout)
+            except Exception as e:
+                print(f"{ticker}: error — {e}")
     else:
         print(f"Unknown command: {cmd}")
