@@ -6,17 +6,25 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
-| **Stale news filter for gap plays** | 🟡 DISCOVERED 2026-04-09 | 🟡 MED | CCL loss: gap > 5% + news > 6hrs old = skip. Need to add to scanner. |
-| **Sunday Night Scanner delivery** | 🟡 ACTIVE | 🟡 MED | Scan completes fine, announce step times out at 300s. Need longer timeout or split scan/announce. |
-| $SIGBOTTI coin performance | 🟡 UNVERIFIED | 🟡 MED | Launched 2026-04-04. Pump.fun stats never checked post-launch. |
-| Real AI video generation | 🟡 DISCOVERED | 🟡 MED | No free path. Paid APIs (Vidu ~$50+, Runway/Pika trials). FFmpeg slideshow is free workaround. |
-| Weekend logging discipline | 🟡 DISCOVERED | 🟡 MED | Weekends get missed. 2026-04-04 massive but 2026-04-05 had no log. |
-| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~21 days to first run. Unverified. |
+| **Episode logger data-starved** | 🔴 DISCOVERED 2026-04-11 | 🔴 HIGH | Only 2 episodes ever logged. Self-improvement loop is blind. Need to wire into task execution. |
+| **Trace logger: 1 trace** | 🟡 DISCOVERED 2026-04-11 | 🟡 MED | Routing analysis needs 10+ traces. Daemon was dead most of the time. |
+| **LaunchAgent root cause** | 🟡 ACTIVE | 🟡 MED | Daemon dies under launchd, runs fine manually. Pre-flight helps, root cause unknown. |
+| **$SIGBOTTI coin performance** | 🟡 UNVERIFIED | 🟡 MED | Launched 2026-04-04. Day 8. Pump.fun stats never checked. |
+| **Sunday Night Scanner** | 🟡 WAITING | 🟡 MED | Next run Apr 13 (Sunday midnight ET). Verify delivery. |
+| **Gap Alert Scanner** | 🟡 PENDING | 🟡 MED | Timeout fix applied Apr 11. Needs Mon-Fri market hours verification. |
+| Real AI video generation | 🟡 DISCOVERED | 🟡 MED | No free path. FFmpeg slideshow is free workaround. |
+| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~21 days to first run. |
 
 ## Priority Gaps — RESOLVED/DEFERRED
 
 | Gap | Status | Fixed | Solution |
 |-----|--------|-------|----------|
+| **Ollama daemon restart loop** | ✅ CLOSED | 2026-04-11 | ThrottleInterval=60, RunAtLoad=false. PID 18537 running. |
+| **Duplicate ollama-dispatcher.py** | ✅ CLOSED | 2026-04-11 | Removed orphaned dispatcher. ollama-daemon.py is primary. |
+| **self_improve.py UTC bug** | ✅ CLOSED | 2026-04-11 | datetime.utcnow() fix. Now outputs episode count correctly. |
+| **Stale news filter** | ✅ CLOSED | 2026-04-10 | Added to scanner: gap > 5% + news > 6hrs old → skip. |
+| **Gap alert scanner history** | ✅ CLOSED | 2026-04-10 | 2d/15m instead of 5d/1m — optimized. |
+| **Sunday Night Scanner timeout** | ✅ CLOSED | 2026-04-10 | 600s → 900s timeout. Next run Apr 13. |
 | **OpenFang trader** | ✅ CLOSED | 2026-04-09 | OpenFang removed entirely (daemon killed PID 29844). Gap is moot. |
 | **OpenFang Daily Report cron** | ✅ CLOSED | 2026-04-09 | OpenFang removed. Gap is moot. |
 | **Coding skill (2/5)** | ✅ CLOSED | 2026-03-30 | 55/55 tests passed (100%), S-grade. Fixed 3 bugs. |

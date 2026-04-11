@@ -75,6 +75,15 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - $SIGBOTTI coin: unverified post-launch performance on Pump.fun
 - Self-eval monthly cron: ~23 days to first run
 
+## Self-Review Learnings (2026-04-11 — 9AM ET, Day 16)
+- **System audit 2026-04-10/11 (late night session):** Full infrastructure review. Ollama daemon restart loop fixed (ThrottleInterval=60, RunAtLoad=false, PID 18537 running). self_improve.py UTC output bug fixed. Duplicate ollama-dispatcher.py removed. Scanner optimized (2d/15m history). Stale news filter added to gap plays.
+- **Episode logger: CRITICAL gap** — only 2 episodes total. Self-improvement loop is flying blind. Need to wire log_episode() into real task execution.
+- **Trace logger: 1 trace** — routing analysis needs 10+ minimum.
+- **LaunchAgent root cause unresolved** — daemon dies under launchd, runs fine manually. Pre-flight check helps but doesn't fully fix.
+- **$SIGBOTTI coin: 8 days post-launch, pump.fun stats still unverified.**
+- Sunday Night Scanner: next run Apr 13 (Sunday midnight ET). Gap Alert Scanner: fix applied, needs market hours verification.
+- **Self-improvement loop is the weakest pillar right now** — episode data needed before the loop can actually improve anything.
+
 ## Self-Review Learnings (2026-04-10 — 9AM ET, Day 15)
 - **OpenFang REMOVED** — Lou killed the daemon (PID 29844). $10K paper portfolio gone. OpenFang trader gap (CRITICAL, 7+ days unverified) is now MOOT.
 - **CCL trade loss — stale news filter needed:** Scanner flagged CCL as bullish gap play, but move was stale gap reversal (news already priced in). Need: if gap > 5% AND news > 6 hours old → skip the play.

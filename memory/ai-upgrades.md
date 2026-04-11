@@ -59,6 +59,24 @@ Block's shift from reactive chatbot → proactive agent that acts without waitin
 - **Relevance:** Potential integration point for enterprise workflows
 - **Action:** Evaluate Nvidia Agent Toolkit for skill building compatibility
 
+
+---
+
+## 2026-04-11 — Memento-Skills Framework Integration
+
+### What: Memento-Skills (MIT, GitHub: Memento-Teams/Memento-Skills)
+Real open-source implementation of the "AI agents rewrite own skills" concept (VentureBeat source, arXiv:2603.18743). 4-stage ReAct loop (Intent → Planning → Execution → Reflect → Finalize) + external skill memory. On failure: locates failing skill → rewrites it → writes improved version back. 80% task success vs 50% for BM25 retrieval.
+
+### Relation to Sig's Architecture
+Sig's `self-rewriting-skill` already has runtime skill modification. Memento-Skills provides the theoretical loop that should GOVERN it:
+- READ → retrieve candidate skills  
+- EXECUTE → run skills via tool calling  
+- REFLECT → on failure, record state, update utility, attribute to specific skills  
+- WRITE → optimize weak skills, rewrite broken ones, create new ones
+
+### Status: ✅ FRAMEWORK IDENTIFIED — Integration opportunity identified. Sig's self-rewriting-skill is architecturally compatible. Next step: align the reflect phase to trigger skill mutation on failures.
+
+
 ---
 
 ### 🟡 Medium Priority

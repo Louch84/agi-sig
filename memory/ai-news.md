@@ -2,6 +2,83 @@
 
 _Last updated: 2026-04-11_
 
+## April 11, 2026
+
+### Memento-Skills — Found the Real Framework (MIT, GitHub)
+The VentureBeat article described a real open-source project: **Memento-Skills** from Memento-Teams (GitHub: Memento-Teams/Memento-Skills, arXiv:2603.18743). MIT licensed. This is what the original "AI agents rewrite own skills" article was based on.
+
+**Architecture:** 4-stage ReAct loop (Intent → Planning → Execution → Reflection/Finalize) with external skill memory. Skills are retrievable, executable, persistent, and evolvable. On failure: the system locates the failing skill, rewrites it, and writes improved capability back to the skill library.
+
+**Benchmark results:** 66.0% on GAIA vs 52.3% baseline (+13.7pp). On HLE: 38.7% vs 17.9% baseline (2x+). Skill router (behavioral routing, not just semantic similarity) achieved 80% task success vs 50% for standard BM25 retrieval.
+
+**Key insight vs OpenClaw:** Both share DNA — skills as first-class units, tool use, local execution, persistent memory. But Memento-Skills is centered on "getting an agent to learn from deployment experience" while OpenClaw is centered on "getting an assistant deployed and connected to the real world." Memento-Skills explicitly treats retrieval + routing as core problems. Sig's existing self-rewriting-skill is architecturally compatible.
+
+**Relation to Sig:** Sig's `self-rewriting-skill` already implemented runtime skill modification. Memento-Skills provides the theoretical framework for the READ-WRITE REFLECTIVE LEARNING loop that should govern it. Next step: align Sig's self-rewriting-skill with Memento-Skills' Reflect loop so failures trigger skill mutation.
+
+---
+
+### GLM-5.1 (Z.ai) — Open Source #1 on SWE-Bench Pro
+Z.ai released GLM-5.1 (754B params, MIT license, open weights on Hugging Face) that scored **58.4% on SWE-Bench Pro**, beating GPT-5.4 (57.7), Claude Opus 4.6 (57.3), and Gemini 3.1 Pro (55.1). Can work autonomously on a single coding task for **up to 8 hours** — planning, execution, testing, and optimization in a continuous loop. In a demo, built a full Linux desktop environment from scratch over 8 hours.
+
+**Relevance:** This is a local-queue-able model if it ever gets an Ollama GGUF conversion. Currently above Sig's local model tier. But watch for quantized versions.
+
+---
+
+### CLawArena — Model > Framework
+New benchmark paper (arXiv:2604.04202) tested AI agents across 64 scenarios, 8 domains, 1,879 rounds. **Finding: model capability matters 2x more than framework design** (15.4% performance range from models vs 9.2% from frameworks).
+
+**Relevance:** Reinforces Sig's approach of routing to best-capable model per task rather than over-engineering framework. Sig's Ollama daemon model routing is the right bet.
+
+---
+
+### Anthropic Claude Managed Agents — Production Agents at Scale
+Anthropic launched Claude Managed Agents (public beta) — APIs for cloud-hosted AI agents with infrastructure, state management, and permissioning handled for you. Launch partners: Sentry (auto-fixing bugs end-to-end), Rakuten (7 hours autonomous coding), Notion (delegating work to Claude inside workspaces).
+
+**Relevance:** This is enterprise-grade managed agents. For personal use, this may matter when Sig wants to deploy agents that run without her MacBook being online.
+
+---
+
+### Microsoft Memento — Context Compression (Not the Same as Memento-Skills)
+Microsoft released **Memento** (different project from Memento-Skills): teaches LLMs to manage their own context by segmenting reasoning into blocks, compressing each into dense "mementos," and masking the block from KV cache. Cuts peak KV cache 2-3x. Open-sourced with 228K OpenMementos dataset and a vLLM patch with native block masking. (arXiv: Memento by Dimitris Papailiopoulos)
+
+**Note:** Unrelated to the VentureBeat Memento-Skills. Two different projects, both named Memento.
+
+---
+
+### TriAttention — 32B Model on Single RTX 4090
+TriAttention compresses KV cache for long-context reasoning: **2.5x faster inference, 10.7x less memory**, exactly matching full attention accuracy on AIME25 (40.8%). Enables 32B OpenClaw on a single 24GB RTX 4090. Prince Canuma implemented it in MLX hitting 81% KV compression at 60k tokens on Gemma-4-31B.
+
+**Relevance:** This could enable Sig to run much larger local models on her MacBook Air (which has less RAM than a 4090). MLX implementation is the relevant path for Apple Silicon.
+
+---
+
+### Hippo Memory — Biologically-Inspired Agent Memory
+GitHub: kitfunso/hippo-memory. Zero-dependency biologically-inspired memory for AI agents with decay, retrieval strengthening, and consolidation. [HN discussion](https://github.com/kitfunso/hippo-memory)
+
+**Relevance:** Could be evaluated for Sig's long-term memory system. Biological memory decay + consolidation is a good model for agent memory that doesn't just accumulate forever.
+
+---
+
+### MemPalace — Best AI Memory System Ever Benchmark
+GitHub: milla-jovovich/mempalace. Claims highest scores on AI memory benchmarks. Free. [HN discussion](https://github.com/kitfunso/hippo-memory)
+
+**Relevance:** If it's genuinely the best, worth studying for potential integration into Sig's memory architecture.
+
+---
+
+### OpenClaw + Atomic.chat + Gemma 4 — 25 tok/s on MacBook Air M4
+Atomic.chat demoed OpenClaw + Gemma 4 running locally at **25 tok/s on a 16GB MacBook Air M4** via TurboQuant KV cache compression. No cloud, no subscription. This is the local-only AI assistant dream — and it's working today.
+
+**Relevance:** Sig should evaluate TurboQuant / inferrs for her local Ollama setup. The KV cache compression + local model path is directly applicable.
+
+---
+
+### OpenAI Symphony — 1M+ Line Codebase, Zero Human-Written Code
+OpenAI's Frontier team runs a 1M+ line codebase with zero human-written AND zero human-reviewed code before merge. Consumes 1B+ tokens/day (~$2-3K/day). Their orchestration system **Symphony** (open-source Elixir) makes coding agents actual teammates, not copilots. This is the "dark factory" model for AI development.
+
+**Relevance:** This is where the frontier is heading — autonomous agents as full teammates. Sig's architecture should keep pace with this vision.
+
+
 ## April 10, 2026
 
 ### Anthropic — Mythos Model (Dangerous, Not Released)
