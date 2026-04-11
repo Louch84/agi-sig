@@ -31,7 +31,6 @@ WATCHLIST = [
     "PLTR",   # 2.4% SI but RSI oversold
     "ASTS",   # 20.1% SI, $98 (over $50 but watch)
     "LUNR",   # 20.3% SI, $23
-    "DNA",    # 16.4% SI, $6.56
     # Cheap high-SI picks
     "SRAX",   # micro-cap squeeze
     "OPK",    # biotech squeeze
@@ -90,7 +89,7 @@ def scan_ticker(ticker):
 
         price = info.get('currentPrice') or info.get('regularMarketPrice')
         if not price or price > 100:  # skip expensive stocks
-            pass
+            return None
 
         si = (info.get('shortPercentOfFloat', 0) or 0) * 100
         sr = info.get('shortRatio', 0) or 0
