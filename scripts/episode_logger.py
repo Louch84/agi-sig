@@ -98,6 +98,7 @@ def _auto_notify_world_model(episode: dict):
     """
     After logging an episode, push significant events to world model.
     Called automatically — this is how the world model stays live.
+    Only processes episodes with outcome==failure or slow successes.
     """
     try:
         import subprocess
@@ -118,12 +119,17 @@ def _auto_notify_world_model(episode: dict):
         else:
             return  # Don't log routine episodes
         
-        subprocess.run(
-            ["python3", os.path.join(os.path.dirname(__file__), "world-model.py"),
-             "add-event", event_name, outcome,
-             f"{desc} | {episode.get('description', '')[:100]}"],
-            capture_output=True, timeout=10
-        )
+        # Use world-model-events.jsonl as a queue instead of subprocess per episode
+        # (subprocess spawning on every episode creates a fork bomb under the daemon)
+        import json as json_mod
+        wm_events_file = os.path.join(os.path.dirname(__file__), "..", "data", "world-model-events.jsonl")
+        os.makedirs(os.path.dirname(wm_events_file), exist_ok=True)
+        with open(wm_events_file, "a") as f:
+            f.write(json_mod.dumps({
+                "name": event_name,
+                "type": outcome,
+                "description": f"{desc} | {episode.get('description', '')[:100]}"
+            }) + "\n")
     except Exception:
         pass  # Never let auto-update break episode logging
 

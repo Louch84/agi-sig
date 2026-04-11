@@ -134,18 +134,21 @@ def get_technicals(ticker_symbol):
         call_oi = 0
         
         try:
-            opt = ticker.option_chain()
-            if opt is not None:
-                options_available = True
-                puts = opt.puts
-                calls = opt.calls
-                if len(puts) > 0:
-                    put_volume = puts['volume'].sum()
-                    put_oi = puts['openInterest'].sum()
-                if len(calls) > 0:
-                    call_volume = calls['volume'].sum()
-                    call_oi = calls['openInterest'].sum()
-        except:
+            # Get nearest expiration date, then fetch option chain
+            expirations = ticker.options
+            if expirations:
+                opt = ticker.option_chain(expirations[0])
+                if opt is not None:
+                    options_available = True
+                    puts = opt.puts
+                    calls = opt.calls
+                    if len(puts) > 0:
+                        put_volume = puts['volume'].sum()
+                        put_oi = puts['openInterest'].sum()
+                    if len(calls) > 0:
+                        call_volume = calls['volume'].sum()
+                        call_oi = calls['openInterest'].sum()
+        except Exception:
             pass
         
         return {

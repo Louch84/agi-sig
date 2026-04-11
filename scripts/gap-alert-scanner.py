@@ -106,22 +106,25 @@ def scan_ticker(ticker):
 
         # Today's volume vs 5-day avg
         vol_5d = today['Volume'].sum()
-        avg_vol = vol_5d / len(today) * len(h)  # rough 5-day avg
-        vol_ratio = today['Volume'].sum() / (avg_vol / len(today)) if avg_vol > 0 else 1
+        avg_vol = vol_5d / len(today)  # mean vol per bar (15min)
+        vol_ratio = today_vol / avg_vol if avg_vol > 0 else 1
 
         # High of day
         high = today['High'].max()
         current = today['Close'].iloc[-1]
 
-        # RSI (5d)
-        closes_5d = h['Close'].values
-        deltas = np.diff(closes_5d)
-        gains = np.where(deltas > 0, deltas, 0)
-        losses = np.where(deltas < 0, -deltas, 0)
-        ag = np.mean(gains[-14:]) if len(gains) >= 14 else np.mean(gains)
-        al = np.mean(losses[-14:]) if len(losses) >= 14 else np.mean(losses)
-        rs = ag / al if al > 0 else 100
-        rsi = 100 - (100 / (1 + rs))
+        # RSI (14d) — use last 14 closes from the 2-day history, not the 5d window
+        closes_14 = h["Close"].values
+        if len(closes_14) < 14:
+            rsi = 50.0
+        else:
+            deltas = np.diff(closes_14)
+            gains = np.where(deltas > 0, deltas, 0)
+            losses = np.where(deltas < 0, -deltas, 0)
+            ag = np.mean(gains[-14:])
+            al = np.mean(losses[-14:])
+            rs = ag / al if al > 0 else 100
+            rsi = 100 - (100 / (1 + rs))
 
         # 52w position
         h52 = t.history(period="1y")['High'].max()
