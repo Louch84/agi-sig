@@ -48,4 +48,4 @@ Off market 4 bedroom single detached in Broomall 1 block away from Marple Newtow
 perfectplacelou@gmail.com
 
 ---
-*Generated: 2026-04-11*
+*Generated: 2026-04-12*
