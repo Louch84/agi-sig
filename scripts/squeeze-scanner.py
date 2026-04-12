@@ -16,7 +16,7 @@ UNIVERSE = [
     "TSLA", "NVDA", "AMD", "AVGO", "MU", "QQQ",
     "AAPL", "AMZN", "META", "MSFT", "GOOGL", "NFLX",
     "PLTR", "SOFI", "GME", "AMC", "BBBY", "BB", "NOK",
-    "RIVN", "LCID", "F", "GM", "RIVN",
+    "RIVN", "LCID", "F", "GM",
     "SPY", "QCOM", "MSTR", "COIN", "HOOD",
     "SMCI", "ASTS", "RKLB", "LUNR",
     "TSM", "ASML", "AMAT", "LRCX",

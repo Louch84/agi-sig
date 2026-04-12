@@ -77,7 +77,7 @@ def check_cache(query: str) -> str:
     try:
         with open(CACHE_FILE) as f:
             cache = json.load(f)
-    except:
+    except Exception:
         return None
     
     # Hash the query for cache key

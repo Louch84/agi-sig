@@ -8,7 +8,7 @@ import json
 import os
 import sys
 import math
-import requests
+import urllib.request
 
 MEMORY_FILE = os.path.join(os.path.dirname(__file__), "..", "memory", "vector_memory.json")
 OLLAMA_URL = "http://localhost:11434/api/embeddings"
@@ -16,9 +16,16 @@ EMBED_MODEL = "nomic-embed-text"
 
 def get_embedding(text):
     """Get embedding for text via Ollama."""
-    resp = requests.post(OLLAMA_URL, json={"model": EMBED_MODEL, "prompt": text}, timeout=30)
-    resp.raise_for_status()
-    return resp.json()["embedding"]
+    payload = {"model": EMBED_MODEL, "prompt": text}
+    data = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(
+        OLLAMA_URL,
+        data=data,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        return json.loads(resp.read().decode("utf-8"))["embedding"]
 
 def cosine_sim(a, b):
     """Compute cosine similarity between two vectors."""
