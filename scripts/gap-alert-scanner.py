@@ -104,9 +104,9 @@ def scan_ticker(ticker):
 
         gap_pct = ((today_open - prev_close) / prev_close) * 100
 
-        # Today's volume vs 5-day avg
-        vol_5d = today['Volume'].sum()
-        avg_vol = vol_5d / len(today)  # mean vol per bar (15min)
+        # Today's volume vs avg vol per 15min bar
+        today_vol = today['Volume'].sum()
+        avg_vol = today_vol / len(today) if len(today) > 0 else 1
         vol_ratio = today_vol / avg_vol if avg_vol > 0 else 1
 
         # High of day

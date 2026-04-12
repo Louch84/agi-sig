@@ -39,7 +39,7 @@ COMPLEX_INDICATORS = [
     "write a script", "run a scan", "search the web", "look up",
     "code", "python", "javascript", "sql", "query",
     "summarize", "explain", "translate", "rewrite",
-    "plan", "design", "architecture", "architecture",
+    "plan", "design", "architecture",
     "multiple", "several", "all of", "both", "between",
 ]
 

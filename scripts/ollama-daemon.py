@@ -516,9 +516,6 @@ def dispatch_once():
 def daemon(poll_interval=30):
     log(f"Ollama Autonomous Worker started (poll interval: {poll_interval}s)")
     
-    # Pre-load fast model
-    ensure_model(MODEL_POOL["fast"]["model"])
-    
     while True:
         try:
             count = dispatch_once()
