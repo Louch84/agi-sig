@@ -93,7 +93,7 @@ def _infer_patterns(failures, error_counter):
 
 def analyze_slow_tasks(episodes, threshold_ms=30000):
     """Find tasks that took too long."""
-    slow = [e for e in episodes if 0 < e.get("duration_ms", 0) > threshold_ms]
+    slow = [e for e in episodes if (e.get("duration_ms") or 0) > threshold_ms]
     if not slow:
         return {"count": 0, "avg_duration": 0, "slowest": []}
     

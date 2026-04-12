@@ -10,6 +10,7 @@ import sys
 from datetime import datetime
 from urllib.request import urlopen, Request
 import urllib.error
+import yfinance as yf
 
 WORKSPACE = os.path.dirname(os.path.dirname(__file__))
 WM_FILE = os.path.join(WORKSPACE, "data", "world-model.json")

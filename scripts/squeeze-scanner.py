@@ -50,7 +50,6 @@ def get_gap_data(ticker, period="5d"):
 
         # Yesterday's close
         yesterday_close = closes[-2]
-        prev_close = closes[-2]
 
         # Gap calculation
         gap_pct = ((today_open - yesterday_close) / yesterday_close) * 100
