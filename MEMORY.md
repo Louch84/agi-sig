@@ -75,6 +75,15 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - $SIGBOTTI coin: unverified post-launch performance on Pump.fun
 - Self-eval monthly cron: ~23 days to first run
 
+## Self-Review Learnings (2026-04-12 — 9AM ET, Day 17)
+- **$SIGBOTTI coin: FIRST VERIFIED** — ~$2.3K market cap on Pump.fun (Day 9 since launch 2026-04-04). Not a moonshot but real early traction.
+- **Ollama routing fix:** qwen3-coder:30b on CPU was timing out on ALL tasks (complete failure, not slowness). MODEL_POOL["coding"] → llama3:latest. Traces cleared. Daemon restarted (PID 96315).
+- **Cron announce timeout: 3 jobs failing** — Daily Code Self-Audit, Daily AI Research Agent, Daily Vector Index Rebuild. All complete work fine, fail at Discord announce step. Same timeout pattern as PerfectPlace and Sunday Night Scanner previously. The isolated session Discord delivery is the consistently failing component.
+- **Episode logger still data-starved** — only 2 episodes ever, no change. Self-improvement loop still flying blind.
+- Sunday Night Scanner: next run Apr 13 midnight ET
+- Gap Alert Scanner: fix applied, needs Mon-Fri market hours verification
+- $SIGBOTTI coin: first post-launch verification ✅
+
 ## Self-Review Learnings (2026-04-11 — 9AM ET, Day 16)
 - **System audit 2026-04-10/11 (late night session):** Full infrastructure review. Ollama daemon restart loop fixed (ThrottleInterval=60, RunAtLoad=false, PID 18537 running). self_improve.py UTC output bug fixed. Duplicate ollama-dispatcher.py removed. Scanner optimized (2d/15m history). Stale news filter added to gap plays.
 - **Episode logger: CRITICAL gap** — only 2 episodes total. Self-improvement loop is flying blind. Need to wire log_episode() into real task execution.
@@ -172,3 +181,7 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - **2026-04-10**: Installed Tony Spark LCM (Lossless Context Manager) — sql.js SQLite, auto-compact + auto-sync decisions to MEMORY.md. Script: `scripts/lcm-heartbeat.sh`. Published to ClawHub as `memory-lcm@1.0.0`. HEARTBEAT.md updated to run LCM compact every ~30min heartbeat check.
 - TurboQuant and ATLAS: marked "interesting not urgent" — defer until needed
 - Top priority today: coding practice (benchmark gap 2/5 vs 3/5 for everything else)
+
+## Self-Improvement Insights (from reflection)
+- Recurring error [5x]: [Error]: timed out
+- High failure rate: 75.0% — investigate root causes above

@@ -6,10 +6,11 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
-| **Episode logger data-starved** | 🔴 DISCOVERED 2026-04-11 | 🔴 HIGH | Only 2 episodes ever logged. Self-improvement loop is blind. Need to wire into task execution. |
-| **Trace logger: 1 trace** | 🟡 DISCOVERED 2026-04-11 | 🟡 MED | Routing analysis needs 10+ traces. Daemon was dead most of the time. |
+| **Cron announce timeout** | 🔴 ACTIVE 2026-04-12 | 🔴 HIGH | 3 jobs failing at Discord announce step (Daily Code Self-Audit, Daily AI Research Agent, Daily Vector Index Rebuild). Work completes fine, delivery times out. Same pattern hit PerfectPlace + Sunday Night Scanner previously. |
+| **Episode logger data-starved** | 🟡 DISCOVERED 2026-04-11 | 🟡 MED | Only 2 episodes ever logged. Self-improvement loop is blind. Need to wire into task execution. |
+| **Trace logger: cleared** | 🟡 DISCOVERED 2026-04-11 | 🟡 MED | Cleared Apr 12 due to recommending 0%-success qwen3-coder model. Starting fresh, needs 10+ traces for routing analysis. |
 | **LaunchAgent root cause** | 🟡 ACTIVE | 🟡 MED | Daemon dies under launchd, runs fine manually. Pre-flight helps, root cause unknown. |
-| **$SIGBOTTI coin performance** | 🟡 UNVERIFIED | 🟡 MED | Launched 2026-04-04. Day 8. Pump.fun stats never checked. |
+| **$SIGBOTTI coin performance** | 🟡 VERIFIED | 🟡 MED | Launched 2026-04-04. ~$2.3K market cap on Pump.fun (Day 9). First post-launch verification done. Needs content/trading strategy. |
 | **Sunday Night Scanner** | 🟡 WAITING | 🟡 MED | Next run Apr 13 (Sunday midnight ET). Verify delivery. |
 | **Gap Alert Scanner** | 🟡 PENDING | 🟡 MED | Timeout fix applied Apr 11. Needs Mon-Fri market hours verification. |
 | Real AI video generation | 🟡 DISCOVERED | 🟡 MED | No free path. FFmpeg slideshow is free workaround. |

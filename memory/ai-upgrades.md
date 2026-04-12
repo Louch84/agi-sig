@@ -116,21 +116,70 @@ Sig's `self-rewriting-skill` handles skill file I/O (create/read/update/delete/a
 
 ### Actionable Integration Plan
 ```bash
-# Step 1: Create trace directory
+# Step 1: Create trace directory — DONE 2026-04-12
 mkdir -p memory/skill-traces
 
 # Step 2: Instrument manage_skills.py to log executions
 # Add: on skill use → write trace JSON to memory/skill-traces/
 
-# Step 3: Build reflect_on_failure.py
+# Step 3: Build reflect_on_failure.py — DONE 2026-04-12
 # Input: trace JSON
 # Output: mutated SKILL.md draft
-# Engine: qwen3-coder:30b (or llama3:latest for general skills)
+# Engine: llama3:latest (or qwen3-coder:30b for coding skills)
 
 # Step 4: Add evaluate_variant.py
 # Input: draft SKILL.md
 # Output: pass/fail on pytest, size check, syntax check
 ```
+
+---
+
+## 2026-04-12 — Reflect-on-Failure Script + Skill Trace Directory
+
+### What Was Built
+
+1. **`memory/skill-traces/`** — Directory created for skill execution traces. Each trace is a JSON file containing: timestamp, skill used, task, model, duration, outcome, error (if any).
+
+2. **`scripts/reflect_on_failure.py`** — Analyzes failed skill executions using local Ollama model. Takes a trace JSON file, queries `llama3:latest` to identify root cause and propose a mutation, writes a reviewable draft to `memory/skill-traces/draft-<skill>-<timestamp>.md`.
+
+### Architecture Alignment
+This completes the REFLECT phase of the Memento-Skills READ→EXECUTE→REFLECT→WRITE loop that was identified on 2026-04-11 as missing from Sig's `self-rewriting-skill`.
+
+The loop now works:
+- **READ**: `manage_skills.py read <skill>` — retrieve candidate skills
+- **EXECUTE**: Skills run via normal tool calling
+- **REFLECT**: `reflect_on_failure.py` — on failure, analyze trace and propose mutation (NEW today)
+- **WRITE**: `manage_skills.py append/edit` — optimize weak skills, rewrite broken ones
+
+### Next Steps
+1. Add trace logging to `manage_skills.py` — instrument skill invocations to automatically write traces
+2. Build `evaluate_variant.py` — validates mutated SKILL.md (syntax, size limits, semantic preservation)
+3. Add `skill-trace` subcommand to manage_skills.py for manual trace creation
+
+### Security Note (from RSAC 2026 research)
+Sig's SOUL.md red line ("ask before external/destructive actions") aligns with the exact failure mode seen at Fortune 50 companies: agents modifying things they shouldn't because they lack the permissions to do so and remove the restriction themselves. No identity framework would have caught it. Sig's architecture avoids this by design — but the credential management review is still flagged.
+
+---
+
+## 2026-04-12 — ClawHavoc + CVE-2026-25253 Research
+
+### What Was Researched
+RSAC 2026 coverage revealed major OpenClaw security issues from January-February 2026:
+
+**CVE-2026-25253**: Cross-site WebSocket hijacking in OpenClaw's local gateway. CVSS 8.8. Allows full admin control via a single malicious web page. Patched in v2026.1.29 (January 29, 2026). 40,000+ instances remain unpatched.
+
+**ClawHavoc**: Supply chain attack. 341 malicious skills uploaded to ClawHub during namespace transition. Techniques: prompt injection in skill descriptors, reverse shell scripts, token exfiltration via CVE-2026-25253.
+
+**Scale:** 500,000+ internet-facing OpenClaw instances (Cato CTRL scan). 15,200 vulnerable to RCE.
+
+### Sig's Posture
+- OpenClaw v2026.3.28 ✅ (patched)
+- localhost-only gateway ✅
+- No ClawHub third-party installs (19 skills are custom-built) ✅
+- **Not affected** by ClawHavoc
+
+### Action: Credential Management Review Flagged
+Sig's memory files may contain plaintext credentials. Review flagged for next self-review cycle.
 
 ---
 
