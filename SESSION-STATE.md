@@ -41,7 +41,12 @@ Sunday morning (April 12, 2026 — 4:20 AM ET). Overnight heartbeat check.
 - `scripts/trace_logger.py` — learning from execution traces
 - `scripts/world-model.py` — typed knowledge graph
 - Tony Spark LCM: `scripts/lcm-heartbeat.sh` — SQLite auto-compact
-- 3 pending tasks (stale from Apr 11 01:20) being processed now
+- **CRITICAL FINDING (2026-04-12):** qwen3-coder:30b on CPU times out on ALL tasks
+  - 3 research tasks all returned "[Error]: timed out" despite model loading
+  - CPU-only MacBook Air cannot handle 30B model inference in <120s
+  - Routing hints from trace_logger are WRONG for this hardware
+  - **Fix needed:** Clear routing hints for "coding" type OR add CPU-based model selection
+  - Use llama3:latest for general tasks on CPU; qwen3-coder:30b only if GPU available
 
 ## Projects
 
@@ -72,8 +77,8 @@ Sunday morning (April 12, 2026 — 4:20 AM ET). Overnight heartbeat check.
 | Daily Vector Index Rebuild | 0 10 * * * ET | ⚠️ announce fail | Work done, announce times out |
 
 ## Top Priorities
-1. 🔴 Verify $SIGBOTTI coin pump.fun stats (Day 9, never checked)
-2. 🔴 Monitor ollama-daemon — qwen3-coder:30b loading on CPU, tasks resuming
+1. 🔴 Fix ollama-daemon routing: clear learned hint for "coding" → qwen3-coder:30b (CPU too slow)
+2. 🔴 Verify $SIGBOTTI coin pump.fun stats (Day 9, never checked)
 3. 🟡 Investigate cron delivery/announce failures (isolated session Discord posting)
 4. 🟢 No market activity today (Sunday) — scanner/scan crons sleep until Monday
 

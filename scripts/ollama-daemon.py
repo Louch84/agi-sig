@@ -109,7 +109,7 @@ PLANNER_SCRIPT = os.path.join(os.path.dirname(__file__), "task-planner.py")
 MODEL_POOL = {
     "fast": {"model": "llama3.2:1b", "loaded": False},
     "general": {"model": "llama3:latest", "loaded": False},
-    "coding": {"model": "qwen3-coder:30b", "loaded": False},
+    "coding": {"model": "llama3:latest", "loaded": False},  # qwen3-coder:30b too slow on CPU-only MacBook Air
     "vision": {"model": "llava:7b", "loaded": False},
 }
 
