@@ -4,7 +4,7 @@ This file is the agent's "RAM" — survives compaction, restarts, distractions.
 Chat history is a BUFFER. This file is STORAGE.
 
 ## Current Task
-Sunday morning (April 12, 2026 — 4:20 AM ET). Overnight heartbeat check.
+Sunday morning (April 12, 2026 — 4:54 AM ET). Heartbeat — found and fixed Ollama routing bug.
 
 ## Key Context
 - Mission: AGI (Autonomous + Self-Healing + Self-Learning + Self-Improving)
@@ -12,28 +12,6 @@ Sunday morning (April 12, 2026 — 4:20 AM ET). Overnight heartbeat check.
 - Day 17 of operation (2026-04-12)
 - Skills: self-evolve, elite-longterm-memory, agent-autonomy-kit, self-improving-proactive-agent, automation-workflows, writing-plans, self-track, info-sources
 - Repo: github.com/Louch84/agi-sig — public, synced
-- Ollama daemon: RESTARTED (PID 93181, 2026-04-12 04:12) — was dead, tasks stalled
-- qwen3-coder:30b model loading slowly on CPU (5+ minutes), tasks resuming
-
-## Overnight Findings
-
-### ✅ Fixed: Ollama Daemon Dead
-- Ollama daemon (PID 18537 from Apr 11) died sometime Apr 11/12
-- 3 pending tasks stalled for 27+ hours (submitted Apr 11 01:20 AM)
-- Daemon restarted 2026-04-12 04:12 via start-ollama-daemon.sh
-- qwen3-coder:30b now loading (CPU, slow ~5min), tasks will resume
-
-### ⚠️ Cron Delivery Failures (Not Task Failures)
-- Daily Code Self-Audit: "error" status — task completes but announce fails
-- Daily AI Research Agent: "error" status — task completes (ai-news.md written Apr 11 09:35) but announce fails
-- Daily Vector Index Rebuild: "error" status — task completes but announce fails
-- **Root cause: Isolated cron session completes work but delivery/announce step fails**
-- **Files ARE being written** — actual work succeeds, only Discord announce fails
-
-### 📰 27 New Articles (HackerNews 24, The Verge AI 5)
-- Most relevant: "How We Broke Top AI Agent Benchmarks" (Berkeley RDI)
-- Others: Tesla FSD Netherlands, Google News Polymarket error, Tofolli gates
-- Blogwatcher has 1518 unread articles total — backlog growing
 
 ## Ollama Infrastructure
 - `scripts/ollama-daemon.py` — daemon + queue, pre-loaded models
@@ -41,12 +19,11 @@ Sunday morning (April 12, 2026 — 4:20 AM ET). Overnight heartbeat check.
 - `scripts/trace_logger.py` — learning from execution traces
 - `scripts/world-model.py` — typed knowledge graph
 - Tony Spark LCM: `scripts/lcm-heartbeat.sh` — SQLite auto-compact
-- **CRITICAL FINDING (2026-04-12):** qwen3-coder:30b on CPU times out on ALL tasks
-  - 3 research tasks all returned "[Error]: timed out" despite model loading
-  - CPU-only MacBook Air cannot handle 30B model inference in <120s
-  - Routing hints from trace_logger are WRONG for this hardware
-  - **Fix needed:** Clear routing hints for "coding" type OR add CPU-based model selection
-  - Use llama3:latest for general tasks on CPU; qwen3-coder:30b only if GPU available
+- **FIXED (2026-04-12):** qwen3-coder:30b on CPU was timing out on ALL tasks
+  - MODEL_POOL["coding"] changed: qwen3-coder:30b → llama3:latest
+  - Traces cleared (were recommending 0%-success model)
+  - Ollama daemon restarted (PID 96315)
+  - Future tasks will use llama3:latest for coding/research on CPU
 
 ## Projects
 
@@ -77,14 +54,12 @@ Sunday morning (April 12, 2026 — 4:20 AM ET). Overnight heartbeat check.
 | Daily Vector Index Rebuild | 0 10 * * * ET | ⚠️ announce fail | Work done, announce times out |
 
 ## Top Priorities
-1. 🔴 Fix ollama-daemon routing: clear learned hint for "coding" → qwen3-coder:30b (CPU too slow)
-2. 🔴 Verify $SIGBOTTI coin pump.fun stats (Day 9, never checked)
-3. 🟡 Investigate cron delivery/announce failures (isolated session Discord posting)
-4. 🟢 No market activity today (Sunday) — scanner/scan crons sleep until Monday
+1. 🔴 Verify $SIGBOTTI coin pump.fun stats (Day 9, never checked)
+2. 🟡 Investigate cron delivery/announce failures (isolated session Discord posting)
+3. 🟢 No market activity today (Sunday) — scanner/scan crons sleep until Monday
 
 ## Pending Actions
 - [ ] Verify $SIGBOTTI coin pump.fun stats
-- [ ] Monitor ollama-daemon task processing after model loads
 - [ ] Investigate cron delivery/announce failure pattern
 - [ ] Sunday Night Scanner next run: Apr 13 midnight ET
 - [ ] PerfectPlace next run: Apr 14 1PM ET
@@ -106,4 +81,4 @@ Sunday morning (April 12, 2026 — 4:20 AM ET). Overnight heartbeat check.
 **Average: 3.7/5** | **Self-Eval: ~20 days to first run**
 
 ---
-*Last updated: 2026-04-12T08:20:00.000Z (overnight heartbeat)*
+*Last updated: 2026-04-12T08:54:00.000Z (heartbeat — fixed ollama routing bug)*
