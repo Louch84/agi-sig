@@ -38,8 +38,9 @@ def log_episode(
       partial  — got something but not ideal
       skipped  — deliberately skipped (e.g. stale filter triggered)
     """
+    episode_id = task_id if task_id else f"ep_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
     episode = {
-        "episode_id": task_id or f"ep_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}",
+        "episode_id": episode_id,
         "timestamp": datetime.now().isoformat(),
         "task_type": task_type or "unknown",
         "description": description,

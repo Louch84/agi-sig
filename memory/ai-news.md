@@ -279,3 +279,8 @@ Six major labs shipping open models (Apache 2.0/MIT):
 
 ---
 _Trimmed to last 30 days on 2026-04-12_
+## 2026-04-12
+
+### New Knowledge Source
+- [Karpathy LLM Wiki](https://github.com/karpathy/llm-wiki) — 14-page wiki covering LLM fundamentals, building from scratch, fine-tuning, RLHF, inference optimization, local deployment. Ingested into knowledge/karpathy-llm-wiki/
+

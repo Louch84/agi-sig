@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated": "2026-04-12T09:05:36.180969",
+  "last_updated": "2026-04-12T21:37:50.859963",
   "entities": {
     "Sig Botti": {
       "type": "agent",
@@ -281,6 +281,23 @@
       },
       "confidence": 1.0,
       "updated": "2026-04-10T18:54:01.951978"
+    },
+    "Karpathy LLM Wiki": {
+      "type": "knowledge_base",
+      "properties": {
+        "url": "https://github.com/karpathy/llm-wiki",
+        "topics": [
+          "LLM fundamentals",
+          "Building from scratch",
+          "Fine-tuning",
+          "RLHF",
+          "Inference optimization",
+          "Local deployment"
+        ],
+        "files": 14,
+        "ingested": "2026-04-12",
+        "source": "karpathy/llm-wiki"
+      }
     }
   },
   "beliefs": {
