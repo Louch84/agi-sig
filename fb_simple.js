@@ -8,12 +8,21 @@ const { chromium } = require('playwright');
   await page.goto('https://www.facebook.com');
   await page.waitForTimeout(3000);
 
+  // Credentials from environment variables
+  const fbEmail = process.env.FB_EMAIL || '';
+  const fbPass = process.env.FB_PASS || '';
+
   // Check for login
   const emailInput = await page.$('input[name="email"]');
   if (emailInput) {
+    if (!fbEmail || !fbPass) {
+      console.log('ERROR: FB_EMAIL or FB_PASS environment variable not set.');
+      await browser.close();
+      process.exit(1);
+    }
     console.log('Logging in...');
-    await page.fill('input[name="email"]', '2152848650');
-    await page.fill('input[name="pass"]', 'Conquerer4891');
+    await page.fill('input[name="email"]', fbEmail);
+    await page.fill('input[name="pass"]', fbPass);
     await page.click('button[name="login"]');
     await page.waitForTimeout(10000);
   }

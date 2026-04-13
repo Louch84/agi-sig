@@ -102,7 +102,7 @@ def _auto_notify_world_model(episode: dict):
     Only processes episodes with outcome==failure or slow successes.
     """
     try:
-        import subprocess
+        import json as json_mod
         outcome = episode.get("outcome", "")
         
         # Only log significant outcomes
@@ -122,7 +122,6 @@ def _auto_notify_world_model(episode: dict):
         
         # Use world-model-events.jsonl as a queue instead of subprocess per episode
         # (subprocess spawning on every episode creates a fork bomb under the daemon)
-        import json as json_mod
         wm_events_file = os.path.join(os.path.dirname(__file__), "..", "data", "world-model-events.jsonl")
         os.makedirs(os.path.dirname(wm_events_file), exist_ok=True)
         with open(wm_events_file, "a") as f:
@@ -131,8 +130,13 @@ def _auto_notify_world_model(episode: dict):
                 "type": outcome,
                 "description": f"{desc} | {episode.get('description', '')[:100]}"
             }) + "\n")
-    except Exception:
-        pass  # Never let auto-update break episode logging
+    except Exception as e:
+        # Log errors so failures are visible — but never break episode logging
+        import sys
+        try:
+            print(f"[episode_logger] World model update failed: {e}", file=sys.stderr)
+        except:
+            pass  # Absolute last resort — truly never break logging
 
 
 def log_reflection_result(episode_id: str, reflection: str, improvements: list):

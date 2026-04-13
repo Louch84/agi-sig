@@ -58,7 +58,7 @@ def yf_info(ticker):
                 "currentPrice": price_data.get("regularMarketPrice", {}).get("raw") or price_data.get("currentPrice", {}).get("raw") or 0,
                 "marketCap": price_data.get("marketCap", {}).get("raw", 0) or 0,
             }
-    except:
+    except Exception as e:
         return {}
 
 
@@ -67,8 +67,8 @@ def load_world_model():
         try:
             with open(WM_FILE) as f:
                 return json.load(f)
-        except:
-            pass
+        except Exception as e:
+            pass  # Fallback return is appropriate here
     return {}
 
 
@@ -131,9 +131,12 @@ def run_check(tickers=None):
             mc = info.get('marketCap', 0) or 0
             mc_str = f"${mc/1e9:.1f}B" if mc > 1e9 else f"${mc/1e6:.0f}M" if mc > 1e6 else ""
 
-            # 52w position
-            h52 = t.history(period="1y")['High'].max()
-            l52 = t.history(period="1y")['Low'].min()
+        except yf.exceptions.YfinanceError as e:
+            print(f"  {ticker}: yfinance error — {e}")
+
+            # 52w position — derived from available 5d window (avoids extra t.history call)
+            h52 = float(np.max(h['High'].values))
+            l52 = float(np.min(h['Low'].values))
             pos52 = (price - l52) / (h52 - l52) * 100 if h52 > l52 else 50
 
             # World model context

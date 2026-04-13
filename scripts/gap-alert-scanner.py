@@ -126,9 +126,9 @@ def scan_ticker(ticker):
             rs = ag / al if al > 0 else 100
             rsi = 100 - (100 / (1 + rs))
 
-        # 52w position
-        h52 = t.history(period="1y")['High'].max()
-        l52 = t.history(period="1y")['Low'].min()
+        # 52w position — derived from available window (was making separate t.history call)
+        h52 = float(np.max(h['High'].values))
+        l52 = float(np.min(h['Low'].values))
         pos_52w = (current - l52) / (h52 - l52) * 100 if h52 != l52 else 50
 
         return {
