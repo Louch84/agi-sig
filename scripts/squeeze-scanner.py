@@ -165,7 +165,7 @@ def get_gap_data(ticker, period="10d"):
             "52w_pct": round(((today_close - low52) / (high52 - low52)) * 100, 1) if (high52 - low52) != 0 else 50,
             "avg_vol_5d": round(avg_volume_5d, 0),
             "today_vol": round(today_vol, 0),
-            "at_52w_low": today_close <= low52 * 1.05,  # within 5% of 52w low = bottomfishing signal
+            "at_52w_low": bool(today_close <= low52 * 1.05),  # within 5% of 52w low = bottomfishing signal
         }
     except Exception as e:
         return None
@@ -183,24 +183,44 @@ def _ema(data, period):
 
 
 def get_short_data(ticker):
-    """Get short interest data (from yfinance info)."""
+    """Get short interest data + whale activity signals from yfinance info."""
     try:
         t = yf.Ticker(ticker)
         info = t.info
 
         si = info.get('shortPercentOfFloat', 0) or 0
         si_shares = info.get('sharesShort', 0) or 0
+        si_prior_month = info.get('sharesShortPriorMonth', 0) or 0
         short_ratio = info.get('shortRatio', 0) or 0
         price = info.get('currentPrice') or info.get('regularMarketPrice') or 0
+        inst_pct = info.get('heldPercentInstitutions', 0) or 0
+        avg_vol = info.get('averageVolume10days', 0) or 0
+        avg_vol_3m = info.get('averageDailyVolume3Month', 0) or 0
+
+        # SI change MoM — positive = shorts building up (bearish pressure)
+        si_change_pct = 0
+        if si_prior_month > 0:
+            si_change_pct = round(((si_shares - si_prior_month) / si_prior_month) * 100, 1)
+
+        # Institutional ownership — high % = whale support
+        inst_pct_val = round(inst_pct * 100, 1)
 
         return {
             "short_pct_float": round(si * 100, 2) if si else 0,
             "short_ratio": round(short_ratio, 2) if short_ratio else 0,
             "shares_short": si_shares,
+            "si_change_mom": si_change_pct,  # MoM change in short interest
             "price": price,
+            "inst_pct": inst_pct_val,  # % held by institutions
+            "avg_vol_10d": avg_vol,
+            "avg_vol_3m": avg_vol_3m,
         }
     except Exception:
-        return {"short_pct_float": 0, "short_ratio": 0, "shares_short": 0, "price": 0}
+        return {
+            "short_pct_float": 0, "short_ratio": 0, "shares_short": 0,
+            "si_change_mom": 0, "price": 0, "inst_pct": 0,
+            "avg_vol_10d": 0, "avg_vol_3m": 0
+        }
 
 
 def get_market_cap(ticker):
@@ -266,7 +286,31 @@ def score_squeeze(row, short_data):
     # === RSI DIVERGENCE (bottomfishing edge) ===
     # Price making similar lows but RSI higher = bullish divergence
     rsi_div = row.get('rsi_divergence', 0)
-    score += min(rsi_div * 2, 20)  # up to 20 pts for divergence
+    # === VOLUME SPIKE (whale activity) ===
+    # 3x+ volume vs 10d avg = institutional whale activity
+    vr10 = row.get('vol_ratio_10d', 1)
+    if vr10 >= 5:
+        score += 25  # extreme whale activity
+    elif vr10 >= 3:
+        score += 18  # significant whale move
+    elif vr10 >= 2:
+        score += 10
+
+    # === SI CHANGE MoM (shorts building = trapped) ===
+    si_change = short_data.get('si_change_mom', 0)
+    if si_change >= 20:
+        score += 15  # shorts rapidly building — fuel for squeeze
+    elif si_change >= 10:
+        score += 10
+    elif si_change >= 5:
+        score += 5
+
+    # === INSTITUTIONAL OWNERSHIP (whale support/resistance) ===
+    inst_pct = short_data.get('inst_pct', 0)
+    if inst_pct >= 70:
+        score += 5  # high inst ownership = whale support
+    elif inst_pct >= 50:
+        score += 3
 
     # === AT 52-WEEK LOW (bottomfishing entry) ===
     # Being near the 52w low means more room to run, less overhead resistance
@@ -303,20 +347,51 @@ def score_squeeze(row, short_data):
     return min(round(score, 1), 100)
 
 
+def format_whale_flags(row, short_data):
+    """Return whale activity flags as a string for display."""
+    flags = []
+    vr = row.get('vol_ratio_10d', 1)
+    si_change = short_data.get('si_change_mom', 0)
+    inst_pct = short_data.get('inst_pct', 0)
+
+    if vr >= 5:
+        flags.append(f"🐋 VOL SPIKE {vr:.1f}x")
+    elif vr >= 3:
+        flags.append(f"🐋 vol {vr:.1f}x")
+    if si_change >= 10:
+        flags.append(f"📈 shorts +{si_change:.0f}% MoM")
+    elif si_change <= -10:
+        flags.append(f"📉 shorts {si_change:.0f}% MoM")
+    if inst_pct >= 60:
+        flags.append(f"🏦 inst {inst_pct:.0f}%")
+    return " | ".join(flags) if flags else ""
+
+
 def scan():
     print(f"Scanning {len(UNIVERSE)} stocks for squeeze setups...")
     print(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S %Z')}")
     print("=" * 60)
 
+    import time
     results = []
 
     for i, ticker in enumerate(UNIVERSE):
         print(f"[{i+1}/{len(UNIVERSE)}] {ticker}...", end=" ", flush=True)
 
-        gap_data = get_gap_data(ticker)
+        # Retry logic for yfinance rate limiting
+        gap_data = None
+        for attempt in range(2):
+            gap_data = get_gap_data(ticker)
+            if gap_data:
+                break
+            time.sleep(1)  # wait and retry
+
         if not gap_data:
             print("⚠ no data")
+            time.sleep(0.5)
             continue
+
+        time.sleep(0.3)  # throttle to avoid rate limiting
 
         short_data = get_short_data(ticker)
         mc, sector, name = get_market_cap(ticker)
@@ -343,7 +418,10 @@ def scan():
             "rsi_divergence": gap_data.get('rsi_divergence', 0),
             "short_pct_float": short_data.get('short_pct_float', 0),
             "short_ratio": short_data.get('short_ratio', 0),
+            "si_change_mom": short_data.get('si_change_mom', 0),
+            "inst_pct": short_data.get('inst_pct', 0),
             "vol_ratio": gap_data.get('vol_ratio', 0),
+            "vol_ratio_10d": gap_data.get('vol_ratio_10d', 1),
             "macd": gap_data.get('macd', 0),
             "macd_hist": gap_data.get('macd_hist', 0),
             "vwap_dist": gap_data.get('vwap_dist', 0),
@@ -355,7 +433,8 @@ def scan():
         }
 
         results.append(row)
-        print(f"gap {gap_pct:+.1f}% | RSI {gap_data.get('rsi',0):.0f} | SI {short_data.get('short_pct_float',0):.1f}% | score {score}")
+        whale = format_whale_flags(row, short_data)
+        print(f"gap {gap_pct:+.1f}% | RSI {gap_data.get('rsi',0):.0f} | SI {short_data.get('short_pct_float',0):.1f}%{(' | '+whale) if whale else ''} | score {score}")
 
     # Sort by score
     results.sort(key=lambda x: x['score'], reverse=True)
@@ -369,11 +448,13 @@ def scan():
         mc_str = f"${mc_m:.1f}B" if r['market_cap'] > 1e9 else f"${mc_m:.0f}M"
         div_note = f" | RSI div: +{r['rsi_divergence']:.0f}" if r['rsi_divergence'] > 2 else ""
         low_note = " 📍52W LOW" if r.get('at_52w_low') else ""
+        whale = format_whale_flags(r, short_data)
         print(f"\n{i+1}. {r['ticker']} — {r['name']}{low_note}")
         print(f"   Price: ${r['price']} | Gap: {r['gap_pct']:+.1f}% | Gap Filled: {r['gap_filled_pct']:.0f}%{div_note}")
         print(f"   RSI: {r['rsi']:.0f} | MACD hist: {r['macd_hist']:+.3f} | VWAP dist: {r['vwap_dist']:+.1f}%")
-        print(f"   Short %Float: {r['short_pct_float']:.1f}% | Short ratio: {r['short_ratio']:.1f} days to cover")
-        print(f"   Vol ratio: {r['vol_ratio']:.1f}x | 52w position: {r['52w_pct']:.0f}%")
+        print(f"   Short %Float: {r['short_pct_float']:.1f}% | Short ratio: {r['short_ratio']:.1f} days | SI MoM: {r['si_change_mom']:+.0f}%")
+        print(f"   Vol ratio: {r['vol_ratio']:.1f}x | 10d vol: {r['vol_ratio_10d']:.1f}x | 52w position: {r['52w_pct']:.0f}%")
+        print(f"   🏦 Inst: {r['inst_pct']:.0f}% | {whale}")
         print(f"   SCORE: {r['score']}/100 🎯 | Sector: {r['sector'] or 'N/A'}")
 
     # Save results
