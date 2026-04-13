@@ -1,25 +1,25 @@
-# DEAL SHEET — 5425 W Girard Ave
+# DEAL SHEET — 5141 Folsom St
 
 | Field | Details |
 |-------|---------|
-| **Asking Price** | $113,000 |
+| **Asking Price** | $57,000 |
 | **Property Type** | Single Family Home |
-| **Bedrooms** | 3 |
+| **Bedrooms** | 2 |
 | **Bathrooms** | 1 |
-| **Area** | Philadelphia, PA 19131 |
-| **ARV (After Repair Value)** | $282,500.0 (estimate — verify with comps) |
+| **Area** | Philadelphia, PA 19139 |
+| **ARV (After Repair Value)** | $142,500.0 (estimate — verify with comps) |
 | **Est. Repairs** | TBD |
 | **Your Fee** | $3,000–$4,000 |
 | **Source** | New Western / Aidan Daly |
-| **Email ID** | 708 |
+| **Email ID** | 717 |
 
 ---
 
 ## The Numbers
 
 ```
-ARV (Estimate):               $282,500.0
-Your Purchase Price:           $113,000
+ARV (Estimate):               $142,500.0
+Your Purchase Price:           $57,000
 Estimated Repairs:             TBD
                              ─────────────
 Your Fee Potential:           $3,000–$4,000
@@ -29,7 +29,7 @@ Your Fee Potential:           $3,000–$4,000
 
 ## Description
 
-Vacant RM1 in 19131! Group 3 Section 8 & Strong Market Rent all around us. Contact your NW agent today!
+Come check out this ultra cheap row home in 19141! This property needs work but has strong flip and rental comps nearby. Contact your NW rep today!
 
 ---
 

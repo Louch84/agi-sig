@@ -1,25 +1,25 @@
-# DEAL SHEET — 5425 W Girard Ave
+# DEAL SHEET — 734 N 63rd St
 
 | Field | Details |
 |-------|---------|
-| **Asking Price** | $113,000 |
+| **Asking Price** | $100,000 |
 | **Property Type** | Single Family Home |
-| **Bedrooms** | 3 |
+| **Bedrooms** | 5 |
 | **Bathrooms** | 1 |
-| **Area** | Philadelphia, PA 19131 |
-| **ARV (After Repair Value)** | $282,500.0 (estimate — verify with comps) |
+| **Area** | Philadelphia, PA 19151 |
+| **ARV (After Repair Value)** | $250,000.0 (estimate — verify with comps) |
 | **Est. Repairs** | TBD |
 | **Your Fee** | $3,000–$4,000 |
 | **Source** | New Western / Aidan Daly |
-| **Email ID** | 708 |
+| **Email ID** | 718 |
 
 ---
 
 ## The Numbers
 
 ```
-ARV (Estimate):               $282,500.0
-Your Purchase Price:           $113,000
+ARV (Estimate):               $250,000.0
+Your Purchase Price:           $100,000
 Estimated Repairs:             TBD
                              ─────────────
 Your Fee Potential:           $3,000–$4,000
@@ -29,7 +29,7 @@ Your Fee Potential:           $3,000–$4,000
 
 ## Description
 
-Vacant RM1 in 19131! Group 3 Section 8 & Strong Market Rent all around us. Contact your NW agent today!
+Come check out this RARE flip opportunity on a beautiful block in 19151/West Philly. We are a 3 story, 2600sqft twin that needs a full rehab to hit an ARV of 400k. Contact me ASAP for full details.
 
 ---
 

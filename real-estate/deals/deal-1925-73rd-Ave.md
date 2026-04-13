@@ -1,35 +1,35 @@
-# DEAL SHEET — 5425 W Girard Ave
+# DEAL SHEET — 1925 73rd Ave
 
 | Field | Details |
 |-------|---------|
-| **Asking Price** | $113,000 |
+| **Asking Price** | $165,000 |
 | **Property Type** | Single Family Home |
 | **Bedrooms** | 3 |
-| **Bathrooms** | 1 |
-| **Area** | Philadelphia, PA 19131 |
-| **ARV (After Repair Value)** | $282,500.0 (estimate — verify with comps) |
+| **Bathrooms** | 1.5 |
+| **Area** | Philadelphia, PA 19138 |
+| **ARV (After Repair Value)** | $412,500.0 (estimate — verify with comps) |
 | **Est. Repairs** | TBD |
-| **Your Fee** | $3,000–$4,000 |
+| **Your Fee** | $4,125–$5,125 |
 | **Source** | New Western / Aidan Daly |
-| **Email ID** | 708 |
+| **Email ID** | 719 |
 
 ---
 
 ## The Numbers
 
 ```
-ARV (Estimate):               $282,500.0
-Your Purchase Price:           $113,000
+ARV (Estimate):               $412,500.0
+Your Purchase Price:           $165,000
 Estimated Repairs:             TBD
                              ─────────────
-Your Fee Potential:           $3,000–$4,000
+Your Fee Potential:           $4,125–$5,125
 ```
 
 ---
 
 ## Description
 
-Vacant RM1 in 19131! Group 3 Section 8 & Strong Market Rent all around us. Contact your NW agent today!
+Off market, good condition, 3 bed row home in West Oak Lane. Nearby flip comps as high as $335k. Contact your NW Agent ASAP to attend showing on Weds afternoon!
 
 ---
 
