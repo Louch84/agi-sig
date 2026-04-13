@@ -11,34 +11,57 @@ import sys
 from datetime import datetime, timedelta
 from urllib.error import URLError
 
-# Universe — curated stocks known for squeeze potential
-# Fixed: removed duplicate AMD and NOK (was listed twice)
+# Universe — curated stocks known for squeeze potential + fresh high-SI bottomfishing picks
+# Updated 2026-04-13: replaced stale tickers with current high-SI list
 UNIVERSE = [
-    "TSLA", "NVDA", "AMD", "AVGO", "MU", "QQQ",
-    "AAPL", "AMZN", "META", "MSFT", "GOOGL", "NFLX",
-    "PLTR", "SOFI", "GME", "AMC", "BBBY", "BB", "NOK",
-    "RIVN", "LCID", "F", "GM",
-    "SPY", "QCOM", "MSTR", "COIN", "HOOD",
-    "SMCI", "ASTS", "RKLB", "LUNR",
-    "TSM", "ASML", "AMAT", "LRCX",
-    "ARM", "SNAP", "PINS", "RBLX",
-    "DIRI", "NAAS",  # micro-caps with high SI
+    # === SQUEEZE CLASSICS ===
+    "GME", "AMC", "LCID", "SOFI", "PLTR", "RIVN", "SMCI",
+    "BB", "NOK", "COIN", "HOOD", "ASTS", "LUNR", "RKLB",
+    # === FRESH HIGH-SI BOTTOMFISHING PICKS (from highshortinterest.com 2026-04-13) ===
+    # These have 25-53% short interest — prime squeeze fuel near lows
+    "GRPN",   # 53% SI — highest on the list
+    "HTZ",    # 48% SI — Hertz
+    "HIMS",   # 40% SI — telehealth momentum
+    "SOUN",   # 35% SI — SoundHound AI (hot sector)
+    "AI",      # 36% SI — C3.ai
+    "TTEC",   # 33% SI — scored 78/100 today
+    "PCT",    # 33% SI — Purecycle
+    "MARA",   # 31% SI — crypto mining
+    "INDI",   # 32% SI — semiconductor
+    "NVAX",   # 30% SI — biotech squeeze history
+    "BYND",   # 30% SI — activist investor interest
+    "ENVX",   # 32% SI — Enovix battery
+    "RXRX",   # 35% SI — Recursion Pharma AI drug discovery
+    "CYPH",   # 32% SI — biotech
+    "IOVA",   # 32% SI — Iovance Biotherapeutics
+    "CRDF",   # 26% SI — Cardiff Oncology (scored 75/100 today)
+    "ABEO",   # 28% SI — Abeona Therapeutics (scored 74/100 today)
+    "MNPR",   # 66% SI — Monopar Therapeutics (EXTREME SI)
+    "SNBR",   # 30% SI — Sleep Number
+    "ROOT",   # 28% SI — Root Inc insurance
+    "EOSE",   # 28% SI — Eos Energy
+    "ABEO",   # 28% SI — Abeona Therapeutics
+    # === HIGH-SI SQUEEZE TIGHT ENTRY ===
+    "SRPT",   # 25% SI — Sarepta Therapeutics
+    "BETR",   # 34% SI — Better Home & Finance
+    "SPHR",   # 29% SI — Sphere Entertainment
+    "MPTI",   # 29% SI — MicroPort
+    "BBAI",   # 26% SI — BigBear.ai
 ]
 
 RESULTS_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "squeeze-scanner.json")
 
 
-def get_gap_data(ticker, period="5d"):
-    """Get gap down data for a ticker.
+def get_gap_data(ticker, period="10d"):
+    """Get gap down + bottomfishing data for a ticker.
     
-    Performance fix: was calling t.history(period="1y") separately for 52w stats.
-    Now derives 52w position from rolling window in the same 5d fetch,
-    cutting API calls per ticker from 2 to 1 (~50% reduction in yfinance API load).
+    Uses 10d fetch for RSI divergence detection (compares recent low to previous low).
+    Still derives 52w stats from same window — no extra API call.
     """
     try:
         t = yf.Ticker(ticker)
         hist = t.history(period=period, interval="1d")
-        if hist.empty or len(hist) < 3:
+        if hist.empty or len(hist) < 5:
             return None
 
         closes = hist['Close'].values
@@ -63,7 +86,7 @@ def get_gap_data(ticker, period="5d"):
         # Yesterday's range
         avg_volume_5d = np.mean(volumes[:-1])
 
-        # RSI (14-day)
+        # RSI (14-day) + DIVERGENCE DETECTION
         deltas = np.diff(closes)
         gains = np.where(deltas > 0, deltas, 0)
         losses = np.where(deltas < 0, -deltas, 0)
@@ -71,6 +94,39 @@ def get_gap_data(ticker, period="5d"):
         avg_loss = np.mean(losses[-14:]) if len(losses) >= 14 else np.mean(losses)
         rs = avg_gain / avg_loss if avg_loss > 0 else 100
         rsi = 100 - (100 / (1 + rs))
+
+        # RSI DIVERGENCE: compare RSI in recent lows vs older lows
+        # If price making similar/low lows but RSI is higher = bullish divergence
+        rsi_divergence = 0
+        if len(closes) >= 10:
+            recent_5_rsi = []
+            for i in range(len(closes)-5, len(closes)):
+                if i > 0:
+                    d = np.diff(closes[max(0,i-14):i+1])
+                    g = np.where(d > 0, d, 0)
+                    l = np.where(d < 0, -d, 0)
+                    ag = np.mean(g) if len(g) > 0 else 0
+                    al = np.mean(l) if len(l) > 0 else 0
+                    r = ag/al if al > 0 else 100
+                    recent_5_rsi.append(100 - (100/(1+r)))
+            prev_5_rsi = []
+            for i in range(max(0, len(closes)-10), max(0, len(closes)-5)):
+                if i > 0:
+                    d = np.diff(closes[max(0,i-14):i+1])
+                    g = np.where(d > 0, d, 0)
+                    l = np.where(d < 0, -d, 0)
+                    ag = np.mean(g) if len(g) > 0 else 0
+                    al = np.mean(l) if len(l) > 0 else 0
+                    r = ag/al if al > 0 else 100
+                    prev_5_rsi.append(100 - (100/(1+r)))
+            if recent_5_rsi and prev_5_rsi:
+                avg_recent = np.mean(recent_5_rsi)
+                avg_prev = np.mean(prev_5_rsi)
+                # Bullish divergence: recent RSI higher but price similar or lower
+                price_recent_low = np.min(closes[-5:])
+                price_prev_low = np.min(closes[-10:-5])
+                if avg_recent > avg_prev and price_recent_low <= price_prev_low * 1.05:
+                    rsi_divergence = min(avg_recent - avg_prev, 20)  # up to 20pt divergence bonus
 
         # MACD
         ema12 = _ema(closes, 12)
@@ -99,6 +155,7 @@ def get_gap_data(ticker, period="5d"):
             "today_high": round(today_high, 2),
             "today_low": round(today_low, 2),
             "rsi": round(rsi, 1),
+            "rsi_divergence": round(rsi_divergence, 1),
             "macd": round(macd[-1], 3),
             "macd_hist": round(macd_hist, 3),
             "vol_ratio": round(vol_ratio, 2),
@@ -108,6 +165,7 @@ def get_gap_data(ticker, period="5d"):
             "52w_pct": round(((today_close - low52) / (high52 - low52)) * 100, 1) if (high52 - low52) != 0 else 50,
             "avg_vol_5d": round(avg_volume_5d, 0),
             "today_vol": round(today_vol, 0),
+            "at_52w_low": today_close <= low52 * 1.05,  # within 5% of 52w low = bottomfishing signal
         }
     except Exception as e:
         return None
@@ -159,46 +217,88 @@ def get_market_cap(ticker):
 
 
 def score_squeeze(row, short_data):
-    """Score squeeze potential 0-100."""
+    """Score squeeze + bottomfishing potential 0-100.
+    
+    Enhanced 2026-04-13:
+    - Added RSI divergence detection bonus
+    - Added 52w low position bonus (bottomfishing edge)
+    - Weighted days-to-cover more heavily (DTOC > 5 = trapped shorts)
+    - Added at-52w-low bonus for bottomfishing entries
+    """
     score = 0
 
-    # Gap down bonus (bigger gap = bigger squeeze potential) — cap at -20%
+    # === GAP DOWN (core trigger) ===
     gap = row.get('gap_pct', 0)
-    if gap < -2:
-        score += min(abs(gap) * 4, 40)  # up to 40 pts for gap
+    if gap < -3:
+        score += min(abs(gap) * 4, 45)  # up to 45 pts for big gaps
+    elif gap < -2:
+        score += min(abs(gap) * 3.5, 35)
     elif gap < -1:
-        score += abs(gap) * 3
+        score += abs(gap) * 2.5
 
-    # Short interest — the core squeeze catalyst
+    # === SHORT INTEREST (squeeze battery) ===
     si = short_data.get('short_pct_float', 0)
-    score += min(si * 3, 35)  # up to 35 pts for high SI
+    score += min(si * 2.5, 40)  # up to 40 pts — SI is the core catalyst
 
-    # Short ratio (days to cover)
+    # === DAYS TO COVER (trapped shorts = explosive) ===
+    # Higher DTC = more forced covering = bigger squeeze
     sr = short_data.get('short_ratio', 0)
-    score += min(sr * 3, 20)  # up to 20 pts
+    if sr >= 10:
+        score += 25  # extreme DTC — shorts are completely trapped
+    elif sr >= 5:
+        score += 20  # high DTC — significant squeeze fuel
+    elif sr >= 3:
+        score += 12
+    elif sr >= 1:
+        score += min(sr * 3, 10)
 
-    # RSI oversold bonus
+    # === RSI OVERSOLD (bounce probability) ===
     rsi = row.get('rsi', 50)
-    if rsi < 35:
-        score += (35 - rsi) * 0.8  # up to ~28 pts
+    if rsi < 25:
+        score += 35  # deeply oversold — high bounce probability
+    elif rsi < 30:
+        score += 28
+    elif rsi < 35:
+        score += (35 - rsi) * 1.5
     elif rsi < 45:
-        score += (45 - rsi) * 0.4
+        score += (45 - rsi) * 0.5
 
-    # Volume surge bonus
-    vr = row.get('vol_ratio', 1)
-    if vr > 2:
-        score += min(vr * 3, 15)  # up to 15 pts
+    # === RSI DIVERGENCE (bottomfishing edge) ===
+    # Price making similar lows but RSI higher = bullish divergence
+    rsi_div = row.get('rsi_divergence', 0)
+    score += min(rsi_div * 2, 20)  # up to 20 pts for divergence
 
-    # MACD histogram improvement bonus
-    if row.get('macd_hist', 0) > 0:
-        score += 5  # bullish macd
-
-    # Gap not yet filled — bigger unfilled gap = more squeeze room
-    gf = row.get('gap_filled_pct', 0)
-    if gf < 30:
-        score += 10  # gap mostly intact
-    elif gf < 60:
+    # === AT 52-WEEK LOW (bottomfishing entry) ===
+    # Being near the 52w low means more room to run, less overhead resistance
+    w52_pct = row.get('52w_pct', 50)
+    if w52_pct <= 15:
+        score += 15  # within 15% of 52w low = near absolute bottom
+    elif w52_pct <= 25:
+        score += 10
+    elif w52_pct <= 35:
         score += 5
+
+    # === VOLUME SURGE (confirmation) ===
+    vr = row.get('vol_ratio', 1)
+    if vr > 3:
+        score += 15  # strong volume confirms the move
+    elif vr > 2:
+        score += 10
+    elif vr > 1.5:
+        score += 5
+
+    # === MACD HISTOGRAM (momentum shift) ===
+    if row.get('macd_hist', 0) > 0:
+        score += 5  # bullish MACD confirms bounce
+
+    # === GAP FILL INTACT (room to run) ===
+    gf = row.get('gap_filled_pct', 0)
+    if gf < 20:
+        score += 12  # gap mostly intact
+    elif gf < 50:
+        score += 6
+    elif gf < 80:
+        score += 2
 
     return min(round(score, 1), 100)
 
@@ -240,6 +340,7 @@ def scan():
             "gap_filled_pct": gap_data.get('gap_filled_pct', 0),
             "price": gap_data['today_close'],
             "rsi": gap_data.get('rsi', 0),
+            "rsi_divergence": gap_data.get('rsi_divergence', 0),
             "short_pct_float": short_data.get('short_pct_float', 0),
             "short_ratio": short_data.get('short_ratio', 0),
             "vol_ratio": gap_data.get('vol_ratio', 0),
@@ -247,6 +348,7 @@ def scan():
             "macd_hist": gap_data.get('macd_hist', 0),
             "vwap_dist": gap_data.get('vwap_dist', 0),
             "52w_pct": gap_data.get('52w_pct', 0),
+            "at_52w_low": gap_data.get('at_52w_low', False),
             "today_high": gap_data.get('today_high', 0),
             "today_low": gap_data.get('today_low', 0),
             "avg_vol_5d": gap_data.get('avg_vol_5d', 0),
@@ -265,10 +367,12 @@ def scan():
     for i, r in enumerate(results[:15]):
         mc_m = r['market_cap'] / 1e9 if r['market_cap'] > 1e9 else r['market_cap'] / 1e6
         mc_str = f"${mc_m:.1f}B" if r['market_cap'] > 1e9 else f"${mc_m:.0f}M"
-        print(f"\n{i+1}. {r['ticker']} — {r['name']}")
-        print(f"   Price: ${r['price']} | Gap: {r['gap_pct']:+.1f}% | Gap Filled: {r['gap_filled_pct']:.0f}%")
+        div_note = f" | RSI div: +{r['rsi_divergence']:.0f}" if r['rsi_divergence'] > 2 else ""
+        low_note = " 📍52W LOW" if r.get('at_52w_low') else ""
+        print(f"\n{i+1}. {r['ticker']} — {r['name']}{low_note}")
+        print(f"   Price: ${r['price']} | Gap: {r['gap_pct']:+.1f}% | Gap Filled: {r['gap_filled_pct']:.0f}%{div_note}")
         print(f"   RSI: {r['rsi']:.0f} | MACD hist: {r['macd_hist']:+.3f} | VWAP dist: {r['vwap_dist']:+.1f}%")
-        print(f"   Short %Float: {r['short_pct_float']:.1f}% | Short ratio: {r['short_ratio']:.1f} days")
+        print(f"   Short %Float: {r['short_pct_float']:.1f}% | Short ratio: {r['short_ratio']:.1f} days to cover")
         print(f"   Vol ratio: {r['vol_ratio']:.1f}x | 52w position: {r['52w_pct']:.0f}%")
         print(f"   SCORE: {r['score']}/100 🎯 | Sector: {r['sector'] or 'N/A'}")
 

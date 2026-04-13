@@ -16,7 +16,7 @@ WORKSPACE = "/Users/sigbotti/.openclaw/workspace"
 INDEX_FILE = os.path.join(WORKSPACE, "data", "memory.index")
 META_FILE = os.path.join(WORKSPACE, "data", "memory_meta.json")
 OLLAMA = "http://localhost:11434"
-EMBED_MODEL = "nomic-embed-text"
+EMBED_MODEL = "nomic-embed-text:latest"
 DIM = 768  # nomic-embed-text dimension
 
 
@@ -71,7 +71,7 @@ def load_memory_files():
         chunks = [c.strip() for c in content.split("\n##") if c.strip()]
         for chunk in chunks:
             if len(chunk) > 20:
-                texts.append(chunk[:2000])  # Truncate very long chunks
+                texts.append(chunk[:1000])  # Truncate very long chunks
                 metadata.append({"source": "MEMORY.md", "type": "curated", "preview": chunk[:100]})
 
     # Daily logs
@@ -84,7 +84,7 @@ def load_memory_files():
         chunks = content.split("\n## ")
         for chunk in chunks:
             if len(chunk) > 30:
-                texts.append(chunk[:1500])
+                texts.append(chunk[:800])
                 metadata.append({"source": fname, "type": "daily_log", "preview": chunk[:80]})
 
     # Skills
@@ -95,7 +95,7 @@ def load_memory_files():
                 content = f.read()
             # Take first 500 chars of each skill
             if len(content) > 50:
-                texts.append(content[:1500])
+                texts.append(content[:800])
                 metadata.append({
                     "source": os.path.relpath(skill_file, WORKSPACE),
                     "type": "skill",
@@ -117,7 +117,14 @@ def build_index():
 
     print(f"Embedding {len(texts)} chunks...")
     start = time.time()
-    embeddings = embed_texts(texts)
+    embeddings = []
+    batch_size = 20
+    for batch_start in range(0, len(texts), batch_size):
+        batch = texts[batch_start:batch_start + batch_size]
+        batch_embs = embed_texts(batch)
+        embeddings.extend(batch_embs)
+        print(f"  Embedded {len(embeddings)}/{len(texts)}...")
+        import gc; gc.collect()
     elapsed = time.time() - start
     print(f"Embedded in {elapsed:.1f}s ({len(texts)/elapsed:.1f} embeds/sec)")
 
