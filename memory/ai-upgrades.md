@@ -2,7 +2,42 @@
 
 _Tracking significant capability improvements relevant to Sig Botti's self-improvement mission._
 
-_Last updated: 2026-04-11_
+_Last updated: 2026-04-13_
+
+---
+
+## 2026-04-13 — Info Source Added: NextBigFuture + Stanford AI Index 2026
+
+### NextBigFuture Added to Blogwatcher
+Added `https://www.nextbigfuture.com/feed` — high-signal AI/tech news source covering frontier AI, world models, research breakthroughs. Not previously in Sig's feed list. First scan found 11 new articles.
+
+### NextBigFuture covers Claude Mythos, GPT-6, World Models
+Today's research sessions (Apr 13) covered: Claude Mythos Preview announcement (April 7), GPT-6 releasing April 14, Stanford 2026 AI Index, world model breakthroughs. All documented in `memory/ai-news.md`.
+
+**No new capability implementations today.** Today's session was primarily news gathering + source expansion + bug fixes.
+
+### Bugs Fixed Today
+
+**1. `scripts/world-model.py` — Duplicate subparser crash (FIXED)**
+- Bug: `ValueError: conflicting subparser: context` — line 282 and 286 both defined `context` subparser
+- Fix: Removed duplicate line 282 (first definition without args, kept line 286 which has `topic` arg)
+- Verified: `world-model.py context ai` now returns structured world model data ✅
+
+**2. `scripts/self_improve.py` — datetime.utcnow() deprecation warning (FIXED)**
+- Bug: `DeprecationWarning: datetime.datetime.utcnow() is deprecated` on every `--check` call
+- Fix: Changed `from datetime import datetime` → `from datetime import datetime, timezone` and `datetime.utcnow()` → `datetime.now(timezone.utc)`
+- Verified: `self_improve.py --check` runs clean with no deprecation warnings ✅
+
+**3. Daily Code Self-Audit Cron — Timeout extended (FIXED)**
+- Bug: Cron firing at 2AM ET but timing out at 599,994ms (10 min hard limit)
+- Fix: Extended timeout from 600s to 1200s via `openclaw cron edit <id> --timeout-seconds 1200`
+- Status: Next run Apr 14 2AM ET — will confirm if 20 min is enough
+
+### Key Research Findings (Informational, Not Implemented)
+- **Claude Mythos Preview** (Apr 7) — Anthropic's restricted new tier. Cybersecurity capabilities too dangerous for public release. Glasswing closed consortium model. Informational only for Sig.
+- **Stanford 2026 AI Index** — Benchmarks are broken (42% error rate). Anthropic leads March 2026. AI adoption faster than PC/internet. Informational.
+- **World Models breakthrough** — Hassabis says 2026 is breakout year for continual learning + world models. Aligns with Sig's existing gaps (episodes logger, world-model.py). Architectural fix needed, not quick win.
+- **GPT-6 releasing Apr 14** — OpenAI's next flagship. Worth monitoring tomorrow.
 
 ---
 

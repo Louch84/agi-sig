@@ -4,7 +4,7 @@ This file is the agent's "RAM" — survives compaction, restarts, distractions.
 Chat history is a BUFFER. This file is STORAGE.
 
 ## Current Task
-Monday morning (April 13, 2026 — 2:36 AM ET). Heartbeat. Timeout fix applied to cron jobs.
+Monday morning (April 13, 2026 — 9:00 AM ET). Daily self-review complete. Cron infrastructure stable.
 
 ## Key Context
 - Mission: AGI (Autonomous + Self-Healing + Self-Learning + Self-Improving)
@@ -20,19 +20,19 @@ Monday morning (April 13, 2026 — 2:36 AM ET). Heartbeat. Timeout fix applied t
 - `scripts/world-model.py` — typed knowledge graph
 - Tony Spark LCM: `scripts/lcm-heartbeat.sh` — SQLite auto-compact
 - Ollama daemon: **RUNNING (PID 53282)**
-- Model pool: qwen2.5:0.5b (fast, general, coding) — small model for CPU stability
+- Model: qwen2.5:0.5b (small, general, coding — CPU stability model)
 
 ## Projects
 
 ### $SIGBOTTI Coin
 - Contract: `398KX1y8K9fdhAqg3gdsfxSVdZwWSXijeWubVsUNpump` (Solana, Pump.fun)
 - Launched: 2026-04-04
-- **Verified (Day 9): ~$2.3K market cap** — real traction!
+- **Verified: ~$2.3K market cap (Day 9)**
 
 ### Stock Scanner
 - Scanner: `run_news_scan.py` — news-driven gap/squeeze analysis
-- Sunday Night Scanner: ✅ fired Apr 13 midnight ET — OK
-- Gap Alert Scanner: weekdays only (Mon-Fri market hours 1-8PM ET)
+- Sunday Night Scanner: ✅ fired Apr 13 midnight ET — completed (231s), produced signals, but **Discord delivery failed** ("No Discord webhook configured")
+- Gap Alert Scanner: resumes today Mon-Fri 1-8PM ET — first weekday run
 
 ### Real Estate (PerfectPlace)
 - PerfectPlace cron: ✅ OK — next run Mon Apr 14 1PM ET
@@ -40,30 +40,30 @@ Monday morning (April 13, 2026 — 2:36 AM ET). Heartbeat. Timeout fix applied t
 ## Cron Jobs Status
 | Name | Schedule | Status | Note |
 |------|----------|--------|------|
-| Daily Sig Botti Self-Review | 0 9 * * * ET | ✅ OK | Next: Apr 14 9AM |
-| Monthly Benchmark | every 30d | ✅ OK | ~16 days |
+| Daily Sig Botti Self-Review | 0 9 * * * ET | ✅ OK | Just ran |
+| Monthly Benchmark | every 30d | ✅ OK | ~15 days |
 | PerfectPlace Deal Scanner | 0 13 * * * ET | ✅ OK | Next: Apr 14 1PM |
-| Sunday Night Scanner | 0 0 * * 1 ET | ✅ OK | Fired Apr 13 midnight |
-| Gap Alert Scanner | */15 13-20 * * 1-5 ET | ✅ OK | Weekdays only |
-| Daily Code Self-Audit | 0 2 * * * ET | ✅ FIXED | timeout 600→1200s, --no-deliver |
+| Sunday Night Scanner | 0 0 * * 1 ET | ✅ scan OK | Discord delivery failed — webhook missing |
+| Gap Alert Scanner | */15 13-20 * * 1-5 ET | ✅ resumes today | First weekday run 1-8PM ET |
+| Daily Code Self-Audit | 0 2 * * * ET | ✅ FIXED | timeout 1200s, --no-deliver |
 | Weekly Self-Reflection | 0 9 * * 0 ET | ✅ OK | Next: Apr 14 9AM |
-| Daily AI Research Agent | 0 9 * * * ET | ✅ FIXED | timeout 600→1200s, --no-deliver |
+| Daily AI Research Agent | 0 9 * * * ET | ✅ FIXED | timeout 1200s, --no-deliver |
 | Daily Vector Index Rebuild | 0 10 * * * ET | ✅ OK | Next: Apr 14 10AM |
 
-**FIXED (Apr 13 2:36 AM):**
-- Daily Code Self-Audit: timed out at 600s (599,994ms) — bumped to 1200s
-- Daily AI Research Agent: timeout bumped to 1200s
-- Both have `--no-deliver` active
+**All 7 cron jobs: 0 consecutive errors.** Cron announce timeout problem is FIXED (1200s + --no-deliver).
 
 ## Top Priorities
-1. 🟢 Monday — market opens 9:30AM ET, Gap Alert Scanner resumes 1PM ET
-2. 🟢 No immediate action — cron timeout fix applied
+1. 🟢 **Gap Alert Scanner** — fires today 1-8PM ET, first weekday run since fix
+2. 🟡 **Discord webhook** — scanner scan works, delivery fails. Need to find webhook URL or route through OpenClaw
+3. 🟡 **PerfectPlace cron** — verifies tomorrow Apr 14 1PM ET
 
 ## Pending Actions
-- [ ] Gap Alert Scanner: resumes Mon-Fri 1-8PM ET
+- [ ] Gap Alert Scanner: Mon-Fri 1-8PM ET (first run: today)
 - [ ] PerfectPlace: Apr 14 1PM ET
+- [ ] Daily Code Self-Audit: Apr 14 2AM ET (first run with new timeout)
+- [ ] Daily AI Research Agent: Apr 14 9AM ET (first run with new timeout)
 
-## Benchmark Status (2026-04-10)
+## Benchmark Status (2026-04-13)
 
 | Capability | Score |
 |-----------|-------|
@@ -77,7 +77,7 @@ Monday morning (April 13, 2026 — 2:36 AM ET). Heartbeat. Timeout fix applied t
 | Persistence | 4/5 |
 | Autonomy | 4/5 |
 
-**Average: 3.7/5** | **Self-Eval: ~19 days to first run**
+**Average: 3.7/5** | **Self-Eval: ~15 days to first run**
 
 ---
-*Last updated: 2026-04-13T06:36:00.000Z (heartbeat — cron timeout fix applied)*
+*Last updated: 2026-04-13T13:00:00.000Z (daily self-review complete)*

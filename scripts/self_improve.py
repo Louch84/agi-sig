@@ -13,7 +13,7 @@ import os
 import sys
 import time
 import subprocess
-from datetime import datetime
+from datetime import datetime, timezone
 
 WORKSPACE = os.path.dirname(os.path.dirname(__file__))
 EPISODE_LOG = os.path.join(WORKSPACE, "data", "episodes", "episodes.jsonl")
@@ -27,7 +27,7 @@ def count_episodes():
     if not os.path.exists(EPISODE_LOG):
         return 0
     # Use UTC date to match ISO timestamps in file (which are timezone-naive UTC)
-    today = datetime.utcnow().strftime("%Y-%m-%d")
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     count = 0
     try:
         with open(EPISODE_LOG) as f:

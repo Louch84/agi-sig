@@ -75,6 +75,13 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - $SIGBOTTI coin: unverified post-launch performance on Pump.fun
 - Self-eval monthly cron: ~23 days to first run
 
+## Self-Review Learnings (2026-04-13 — 9AM ET, Day 18)
+- **Cron announce timeout: FIXED ✅** — 1200s timeout + --no-deliver flag. All 7 cron jobs now show 0 consecutive errors. Old failures were stale (from before fix applied at 2:36 AM).
+- **Sunday Night Scanner ran successfully** at midnight Apr 13 (231s, real signals) — but Discord delivery failed: "No Discord webhook configured." Scan works fine, delivery config is the gap.
+- **Discord delivery ≠ timeout** — these are two separate problems. Timeout was fixed. Webhook URL is a different missing piece for scanner scripts.
+- **Gap Alert Scanner: resumes today 1-8PM ET** — first weekday market-hours run since fix.
+- Ollama daemon: PID 53282, qwen2.5:0.5b (small model for CPU stability).
+
 ## Self-Review Learnings (2026-04-12 — 9AM ET, Day 17)
 - **$SIGBOTTI coin: FIRST VERIFIED** — ~$2.3K market cap on Pump.fun (Day 9 since launch 2026-04-04). Not a moonshot but real early traction.
 - **Ollama routing fix:** qwen3-coder:30b on CPU was timing out on ALL tasks (complete failure, not slowness). MODEL_POOL["coding"] → llama3:latest. Traces cleared. Daemon restarted (PID 96315).

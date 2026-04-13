@@ -279,7 +279,6 @@ if __name__ == "__main__":
     sub = parser.add_subparsers(dest="cmd")
     
     sub.add_parser("build", help="Full rebuild from all sources")
-    sub.add_parser("context", help="Query context for a topic (pass as stdin if no args)")
     sub.add_parser("sync-from-reflection", help="Sync events from reflection log")
     sub.add_parser("update-from-episodes", help="Update stats from episode log")
     

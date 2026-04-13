@@ -1,6 +1,61 @@
 # AI News — Last 30 Days
 
-_Last updated: 2026-04-11_
+_Last updated: 2026-04-13_
+
+## April 13, 2026
+
+### Stanford 2026 AI Index — State of AI Report Card
+Stanford's Institute for Human-Centered Artificial Intelligence released the annual **AI Index 2026** report.
+
+**Key findings:**
+- **Anthropic leads as of March 2026**, followed closely by xAI, Google, and OpenAI. DeepSeek (China) briefly matched GPT-4 class in Feb 2025. US and China models now separated by razor-thin margins — competition is on cost, reliability, and real-world usefulness.
+- **AI models keep improving** — SWE-bench Verified jumped from ~60% (2024) to near 100% (2025). PhD-level science/math benchmarks now exceeded by top models.
+- **Benchmarks are broken** — popular math benchmark has 42% error rate; benchmarks easily gamed via training on test data. "Strong benchmark performance doesn't always translate to real-world usefulness."
+- **AI power crisis** — AI data centers globally now draw 29.6 gigawatts (enough for all of New York). GPT-4o's annual water use exceeds drinking water for 12 million people.
+- **TSMC dependency** — US hosts most AI data centers but almost all leading AI chips fabbed at TSMC in Taiwan. Fragile supply chain.
+- **AI adoption faster than PC or internet** — companies generating revenue faster than any previous tech boom while spending hundreds of billions.
+
+**Relevance to Sig:** The benchmark transparency issue mirrors Sig's own eval gap (only 2 episodes logged). The power/TSMC supply chain angle is relevant to her Ollama local infrastructure priority. The competition landscape (Anthropic leading, xAI closing) matters for which cloud models she might integrate.
+
+---
+
+### Claude Mythos Preview — Anthropic's Restricted Tier (April 7, 2026)
+Anthropic announced **Claude Mythos Preview** (April 7, 2026), an entirely new frontier tier above Opus. 244-page system card released. This is genuinely new since the April 11 research.
+
+**Benchmark jumps vs Claude Opus 4.6:**
+- SWE-Bench Verified: 80.8% → 93.9% (+13 pts)
+- SWE-Bench Pro: 53.4% → 77.8% (+24 pts)
+- USAMO math olympiad: 42.3% → 97.6% (+55 pts)
+- Humanity's Last Exam (HLE): +17 pts (no tools)
+
+**Cybersecurity capabilities:** Qualitatively able to autonomously discover and exploit zero-day vulnerabilities in Linux, Windows, FreeBSD, OpenBSD, and all major browsers. Anthropic called it "a cybersecurity reckoning."
+
+**Why restricted:** Anthropic chose NOT to release publicly. Launched **Project Glasswing** — closed consortium (~40+ orgs: Amazon, Apple, Microsoft, Google, Nvidia, CrowdStrike, JPMorgan, Cisco, Linux Foundation). Partners get limited defensive access. Anthropic committed $100M in usage credits + $4M to open-source security projects.
+
+**Relevance to Sig:** Mythos-level vulnerability finding is the exact offensive capability Anthropic is restricting. Sig's self-healing/self-improvement mission is on the defensive side of this spectrum — she needs to be able to identify her own vulnerabilities and patch them. The closed consortium model (Glasswing) is a pattern for how frontier capabilities get gated.
+
+---
+
+### GPT-6 Releasing Tomorrow (April 14, 2026)
+Per Wikipedia's GPT-5.4 article: "The successor, GPT-6, will be released by April 14, 2026." That's tomorrow from today (April 13). Worth watching.
+
+**Relevance to Sig:** OpenAI's next flagship model drops tomorrow. Should monitor benchmark results and assess local Ollama alternatives.
+
+---
+
+### World Models Breakthrough — Hassabis / NextBigFuture Analysis
+**2026 is the breakthrough year for reliable world models and continual learning prototypes** per NextBigFuture's synthesis of Demis Hassabis' 20VC interview and frontier research landscape.
+
+**Key breakthrough areas (2026):**
+1. **Continual/online learning** — Systems that learn continuously post-training without catastrophic forgetting. "Critical for personalization and real-world adaptation." Hassabis: 1-2 more breakthroughs needed, half of DeepMind's resources go to blue-sky algorithmic innovation.
+2. **Long-term memory / hierarchical memory** — Beyond fixed context windows. Persistent, efficient memory for long-horizon reasoning across sessions.
+3. **World models** — Internal simulations understanding physics, causality, materials, object behaviors. Enables planning, imagination, grounded interaction.
+4. **Nested Learning / Titans-style memory** — Becomes standard in agentic frameworks.
+5. **Hybrid RL + LLM architectures** — AlphaZero-style Monte Carlo Tree Search merged with LLMs.
+
+**Architectural relevance to Sig:** Her `episodes.jsonl` (2 episodes total) is exactly the "not enough episodic data" problem Hassabis identifies as blocking world model formation. Her `world-model.py` exists but embeddings are unused (bug). The "Titans-style nested memory" pattern is exactly what her vector memory + episodic memory combo needs to become. This is the architecture she should be building toward.
+
+**Actionable:** Sig's self-improvement loop (self_improve.py, episodes) and world model (world-model.py) together represent her path to the Hassabis-style continual learning agent. The missing piece is wiring actual task executions into the episode logger.
 
 ## April 11, 2026
 

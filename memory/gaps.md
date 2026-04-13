@@ -6,20 +6,21 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
-| **Cron announce timeout** | 🔴 ACTIVE 2026-04-12 | 🔴 HIGH | 3 jobs failing at Discord announce step (Daily Code Self-Audit, Daily AI Research Agent, Daily Vector Index Rebuild). Work completes fine, delivery times out. Same pattern hit PerfectPlace + Sunday Night Scanner previously. |
+| **Discord webhook for scanner** | 🟡 DISCOVERED 2026-04-13 | 🟡 MED | Sunday Night Scanner completed successfully (231s, real signals) but can't deliver to Discord — "No Discord webhook configured." Need to find/configure webhook URL or route through OpenClaw's built-in Discord. |
 | **Episode logger data-starved** | 🟡 DISCOVERED 2026-04-11 | 🟡 MED | Only 2 episodes ever logged. Self-improvement loop is blind. Need to wire into task execution. |
-| **Trace logger: cleared** | 🟡 DISCOVERED 2026-04-11 | 🟡 MED | Cleared Apr 12 due to recommending 0%-success qwen3-coder model. Starting fresh, needs 10+ traces for routing analysis. |
+| **Trace logger: 0 traces** | 🟡 ACTIVE | 🟡 MED | Cleared Apr 12. Fresh start, needs 10+ traces for routing analysis. |
 | **LaunchAgent root cause** | 🟡 ACTIVE | 🟡 MED | Daemon dies under launchd, runs fine manually. Pre-flight helps, root cause unknown. |
-| **$SIGBOTTI coin performance** | 🟡 VERIFIED | 🟡 MED | Launched 2026-04-04. ~$2.3K market cap on Pump.fun (Day 9). First post-launch verification done. Needs content/trading strategy. |
-| **Sunday Night Scanner** | 🟡 WAITING | 🟡 MED | Next run Apr 13 (Sunday midnight ET). Verify delivery. |
-| **Gap Alert Scanner** | 🟡 PENDING | 🟡 MED | Timeout fix applied Apr 11. Needs Mon-Fri market hours verification. |
+| **$SIGBOTTI coin** | 🟡 VERIFIED | 🟡 MED | ~$2.3K market cap Day 9. Needs content/trading strategy. |
+| **Gap Alert Scanner** | 🟡 RESUMES TODAY | 🟡 MED | Fix applied. First weekday run: Mon Apr 13 1-8PM ET. |
+| **PerfectPlace** | 🟡 NEXT RUN | 🟡 LOW | Next run Mon Apr 14 1PM ET. |
 | Real AI video generation | 🟡 DISCOVERED | 🟡 MED | No free path. FFmpeg slideshow is free workaround. |
-| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~21 days to first run. |
+| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~15 days to first run. |
 
 ## Priority Gaps — RESOLVED/DEFERRED
 
 | Gap | Status | Fixed | Solution |
 |-----|--------|-------|----------|
+| **Cron announce timeout** | ✅ CLOSED | 2026-04-13 | 1200s timeout + --no-deliver flag. All 7 cron jobs: 0 consecutive errors. |
 | **Ollama daemon restart loop** | ✅ CLOSED | 2026-04-11 | ThrottleInterval=60, RunAtLoad=false. PID 18537 running. |
 | **Duplicate ollama-dispatcher.py** | ✅ CLOSED | 2026-04-11 | Removed orphaned dispatcher. ollama-daemon.py is primary. |
 | **self_improve.py UTC bug** | ✅ CLOSED | 2026-04-11 | datetime.utcnow() fix. Now outputs episode count correctly. |
@@ -67,16 +68,16 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | Persistence | 4/5 | 3-layer backup, gateway restart survival tested |
 | Autonomy | 4/5 | Figure It Out directive active, acting without prompting |
 
-**Average: 3.7/5** | Self-eval in ~21 days
+**Average: 3.7/5** | Self-eval in ~15 days
 
-## Today's Actions (2026-04-10)
+## Today's Actions (2026-04-13)
 
 - [x] Daily self-review ✅
-- [x] MEMORY.md updated (2026-04-10 learnings + OpenFang removal)
-- [x] gaps.md updated (OpenFang gaps closed, stale news filter added)
-- [ ] Check $SIGBOTTI coin pump.fun stats
-- [ ] Fix Sunday Night Scanner delivery timeout
-- [ ] Build stale news filter into scanner (gap > 5% + news > 6hrs old = skip)
+- [x] MEMORY.md updated ✅
+- [x] gaps.md updated ✅
+- [ ] Find Discord webhook URL for scanner OR route through OpenClaw's built-in Discord
+- [ ] Gap Alert Scanner: verify 1PM-8PM ET run today
+- [ ] PerfectPlace: verify Mon Apr 14 1PM ET run
 
 ---
-*Last updated: 2026-04-10 13:00 UTC*
+*Last updated: 2026-04-13 09:00 UTC*

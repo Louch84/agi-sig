@@ -55,11 +55,12 @@
 
 ## MODERATE
 
-### Gap: Daily Code Self-Audit Cron — Never Run
-**What it should be:** Fires daily at 2AM ET, queues a code audit task via `ollama-daemon.py add`
-**What's happening:** `openclaw cron list` shows status "idle", Last = "-". Never fired.
-**Why it matters:** Code quality self-audit (finding bugs, implementing fixes) is a key self-improvement loop step. The script `code-self-review.sh` exists and looks correct, but the cron never ran.
-**Root cause:** Likely same CWD issue as self_improve.py — cron runs from a different directory and the relative paths in `code-self-review.sh` break.
+### Gap: Daily Code Self-Audit Cron — Timeout Issue (MONITORING)
+**What it should be:** Fires daily at 2AM ET, audits all Python scripts for bugs and implements fixes.
+**What was happening (Apr 11):** Status "idle", Last = "-" — never fired. Root cause: CWD/path issue in isolated session.
+**What is happening (Apr 13):** Now firing and RUNNING (status changed from idle to error). At 2AM ET Apr 13: ran for full 599,994ms (10 min) and timed out. Audit completed successfully but got killed before delivery. Confirmed: script works, just too slow for 10-min window.
+**Fix applied (2026-04-13):** Extended timeout from 600s to 1200s (20 minutes) via `openclaw cron edit <id> --timeout-seconds 1200`.
+**Still needed:** Monitor next run (Apr 14 2AM ET) — if it still times out at 20 min, the isolated session may need different approach (e.g., break audit into smaller chunks, or use a faster model for code review).
 
 ---
 
@@ -79,11 +80,12 @@
 
 ---
 
-### Gap: world-model-embeddings.json — Large but Unused
-**What it should be:** Vector embeddings of world model entities for fast context retrieval
-**What's happening:** File exists (354KB, built Apr 11 00:05) but `retrieve_memory()` in daemon has a bug (`name 'np' is not defined` at 18:26:23). The embeddings are never actually used in the daemon's context retrieval.
-**Why it matters:** World model context is a key component of the JARVIS loop — without working embeddings, the "know" command can't retrieve structured knowledge fast.
-**Fix:** The `np` variable is defined as `import numpy as np` inside the function but the function uses `np` before that line executes. Fix the import order.
+### Gap: world-model.py CLI — Duplicate Subparser Bug (FIXED 2026-04-13)
+**What it should be:** `python3 scripts/world-model.py context <topic>` returns structured world model knowledge
+**What was happening:** `ValueError: conflicting subparser: context` — line 282 and 286 both defined `context` subparser. First definition (no args) conflicted with second (with args).
+**Why it mattered:** World model CLI completely broken. Could not query structured knowledge.
+**Fix (2026-04-13):** Removed duplicate line 282. Verified working: `world-model.py context ai` now returns structured data.
+**Note:** The `ollama-daemon.py` `retrieve_memory()` function had been suspected of `np` import bug, but code inspection shows import is correctly placed inside try block before usage. The real bug was the CLI subparser conflict.
 
 ---
 
