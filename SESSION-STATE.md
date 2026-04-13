@@ -4,7 +4,7 @@ This file is the agent's "RAM" — survives compaction, restarts, distractions.
 Chat history is a BUFFER. This file is STORAGE.
 
 ## Current Task
-Sunday morning (April 12, 2026 — 9:30 AM ET). Heartbeat. Cron delivery fix applied.
+Sunday night (April 12, 2026 — 11:33 PM ET). Heartbeat. Found and fixed syntax error in ollama-daemon.py.
 
 ## Key Context
 - Mission: AGI (Autonomous + Self-Healing + Self-Learning + Self-Improving)
@@ -19,9 +19,9 @@ Sunday morning (April 12, 2026 — 9:30 AM ET). Heartbeat. Cron delivery fix app
 - `scripts/trace_logger.py` — learning from execution traces
 - `scripts/world-model.py` — typed knowledge graph
 - Tony Spark LCM: `scripts/lcm-heartbeat.sh` — SQLite auto-compact
-- Ollama daemon: RUNNING (PID 96315)
-- **FIXED (2026-04-12):** qwen3-coder:30b on CPU was timing out → changed to llama3:latest for coding tasks
-- Vector index: **245 vectors** rebuilt at 09:26 AM ET
+- Ollama daemon: **RUNNING (PID 53282, 2026-04-12 23:33)**
+- **CRITICAL FIX (2026-04-12 23:33):** Syntax error in MODEL_POOL dict — unmatched `}}`. Fixed.
+- **Model pool reset to qwen2.5:0.5b** — small model for CPU-only MacBook Air stability
 
 ## Projects
 
@@ -32,7 +32,7 @@ Sunday morning (April 12, 2026 — 9:30 AM ET). Heartbeat. Cron delivery fix app
 
 ### Stock Scanner
 - Scanner: `run_news_scan.py` — news-driven gap/squeeze analysis
-- Sunday Night Scanner: next run Apr 13 midnight ET
+- **Sunday Night Scanner fires in ~27 min** (midnight ET) — first real test of announce fix
 - Gap Alert Scanner: weekdays only (Mon-Fri market hours 1-8PM ET)
 
 ### Real Estate (PerfectPlace)
@@ -42,24 +42,23 @@ Sunday morning (April 12, 2026 — 9:30 AM ET). Heartbeat. Cron delivery fix app
 | Name | Schedule | Status | Note |
 |------|----------|--------|------|
 | Daily Sig Botti Self-Review | 0 9 * * * ET | ✅ OK | Next: Apr 13 9AM |
-| Monthly Benchmark | every 30d | ✅ OK | ~20 days |
+| Monthly Benchmark | every 30d | ✅ OK | ~16 days |
 | PerfectPlace Deal Scanner | 0 13 * * * ET | ✅ OK | Next: Apr 14 1PM |
-| Sunday Night Scanner | 0 0 * * 1 ET | ✅ OK | Next: Apr 13 midnight |
+| **Sunday Night Scanner** | 0 0 * * 1 ET | ✅ NEXT | **Midnight ET (~27min)** |
 | Gap Alert Scanner | */15 13-20 * * 1-5 ET | ✅ OK | Weekdays only |
-| Daily Code Self-Audit | 0 2 * * * ET | ✅ FIXED | --no-deliver applied |
+| Daily Code Self-Audit | 0 2 * * * ET | ✅ OK | Next: Apr 13 2AM |
 | Weekly Self-Reflection | 0 9 * * 0 ET | ✅ OK | Next: Apr 14 9AM |
-| Daily AI Research Agent | 0 9 * * * ET | ✅ FIXED | --no-deliver applied |
-| Daily Vector Index Rebuild | 0 10 * * * ET | ✅ FIXED | --no-deliver applied, rebuilt 245 vectors |
+| Daily AI Research Agent | 0 9 * * * ET | ✅ FIXED | --no-deliver applied, next: Apr 13 9AM |
+| Daily Vector Index Rebuild | 0 10 * * * ET | ✅ OK | Next: Apr 13 10AM |
 
-**FIXED TODAY:** 3 cron jobs (Daily Code Self-Audit, AI Research Agent, Vector Index Rebuild) were completing work but failing at Discord announce step. Fixed by applying `--no-deliver` to disable announce delivery. Work completes and writes to SESSION-STATE; Lou checks heartbeat for status.
+**FIXED TONIGHT:** Syntax error `}}` in ollama-daemon.py MODEL_POOL caused daemon to crash. Fixed, daemon restarted (PID 53282).
 
 ## Top Priorities
-1. 🟢 Sunday quiet — no market activity
-2. 🟢 Sunday Night Scanner fires Apr 13 midnight ET
-3. 🟢 Gap Alert Scanner resumes Mon-Fri market hours
+1. 🟡 Sunday Night Scanner fires midnight ET — first test of --no-deliver announce fix
+2. 🟢 Quiet Sunday night — all systems stable after syntax error fix
 
 ## Pending Actions
-- [ ] Sunday Night Scanner: Apr 13 midnight ET
+- [ ] Sunday Night Scanner: Apr 13 midnight ET (in ~27 min)
 - [ ] PerfectPlace: Apr 14 1PM ET
 
 ## Benchmark Status (2026-04-10)
@@ -79,4 +78,4 @@ Sunday morning (April 12, 2026 — 9:30 AM ET). Heartbeat. Cron delivery fix app
 **Average: 3.7/5** | **Self-Eval: ~20 days to first run**
 
 ---
-*Last updated: 2026-04-12T13:30:00.000Z (heartbeat — cron delivery fix applied)*
+*Last updated: 2026-04-13T03:33:00.000Z (heartbeat — syntax error fix, daemon restarted)*
