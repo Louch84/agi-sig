@@ -105,12 +105,14 @@ RESULTS_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "task-resul
 LOG_FILE = os.path.join(os.path.dirname(__file__), "..", "logs", "dispatcher.log")
 PLANNER_SCRIPT = os.path.join(os.path.dirname(__file__), "task-planner.py")
 
-# Model pool — keep these loaded
+# Model pool — tuned for 8GB MacBook Air (no GPU, no swap)
+# Only ONE model loaded at a time to avoid OOM
 MODEL_POOL = {
-    "fast": {"model": "llama3.2:1b", "loaded": False},
-    "general": {"model": "llama3:latest", "loaded": False},
-    "coding": {"model": "llama3:latest", "loaded": False},  # qwen3-coder:30b too slow on CPU-only MacBook Air
-    "vision": {"model": "llava:7b", "loaded": False},
+    "fast": {"model": "qwen2.5:0.5b", "loaded": False},      # 397MB — sub-second响应
+    "general": {"model": "qwen2.5:0.5b", "loaded": False},    # same model, faster than llama3
+    "coding": {"model": "qwen2.5:0.5b", "loaded": False},    # qwen2.5-coder-0.5b if available, else same
+    # llama3:latest (4.6GB) — load manually when needed, kills qwen2.5 from memory
+    # llava:7b (4.7GB) — disabled, OOM risk on 8GB Air
 }
 
 LOAD_TIMEOUT = 300  # 5 min to load a model
