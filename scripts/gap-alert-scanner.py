@@ -131,13 +131,25 @@ def scan_ticker(ticker):
         l52 = float(np.min(h['Low'].values))
         pos_52w = (current - l52) / (h52 - l52) * 100 if h52 != l52 else 50
 
+        # Compute how much of today's gap has been filled
+        if gap_pct > 0:  # gap up
+            gap_total = today_open - prev_close
+            gap_filled = max(0, today_open - current)
+            gap_filled_pct = min(100, round((gap_filled / gap_total) * 100, 1)) if gap_total > 0 else 0
+        elif gap_pct < 0:  # gap down
+            gap_total = prev_close - today_open
+            gap_filled = max(0, current - today_open)
+            gap_filled_pct = min(100, round((gap_filled / gap_total) * 100, 1)) if gap_total > 0 else 0
+        else:
+            gap_filled_pct = 0
+
         return {
             "ticker": ticker,
             "price": round(current, 2),
             "open": round(today_open, 2),
             "prev_close": round(prev_close, 2),
             "gap_pct": round(gap_pct, 2),
-            "gap_filled_pct": 0,  # calc later
+            "gap_filled_pct": gap_filled_pct,
             "rsi": round(rsi, 1),
             "si": round(si, 2),
             "short_ratio": round(sr, 2),
@@ -188,11 +200,23 @@ def score_alert(row):
     elif sr >= 1:
         score += 5
 
-    # RSI oversold
+    # RSI oversold — good for squeeze
     if rsi < 35:
         score += 10
     elif rsi < 45:
         score += 5
+    # RSI overbought — squeeze has no gas left, penalize
+    elif rsi > 70:
+        score -= 25
+    elif rsi > 60:
+        score -= 15
+
+    # Gap fill check — if gap is already filling, the squeeze is fading
+    gap_filled = row.get('gap_filled_pct', 0)
+    if gap_pct > 0 and gap_filled > 50:
+        score -= 20  # more than half the gap already filled = weak setup
+    elif gap_pct > 0 and gap_filled > 25:
+        score -= 10
 
     # Volume surge
     if vr >= 3:
