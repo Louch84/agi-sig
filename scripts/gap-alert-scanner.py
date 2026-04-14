@@ -213,9 +213,9 @@ def score_alert(row):
 
     # Gap fill check — if gap is already filling, the squeeze is fading
     gap_filled = row.get('gap_filled_pct', 0)
-    if gap_pct > 0 and gap_filled > 50:
+    if gap > 0 and gap_filled > 50:
         score -= 20  # more than half the gap already filled = weak setup
-    elif gap_pct > 0 and gap_filled > 25:
+    elif gap > 0 and gap_filled > 25:
         score -= 10
 
     # Volume surge
