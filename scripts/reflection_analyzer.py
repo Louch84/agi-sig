@@ -266,12 +266,27 @@ def write_reflection_report(stats: dict, output_path: str = None):
         lines.append("")
     
     content = "\n".join(lines)
-    
-    # Append to log file
+
+    # Append to log file, keeping last 30 entries
     os.makedirs(os.path.dirname(output), exist_ok=True)
     with open(output, "a") as f:
         f.write(content + "\n\n")
-    
+
+    # Prune: keep only the last 30 reflection entries (each entry is separated by "\n\n")
+    try:
+        with open(output) as f:
+            raw = f.read()
+        entries = raw.split("\n\n## ")
+        # If we have more than 30 entries, trim to the most recent 30
+        if len(entries) > 31:  # 30 entries + the header block before first ##
+            # Reconstruct: first element is the header (before any ##), keep it
+            header = entries[0]
+            recent = [header] + entries[-30:]
+            with open(output, "w") as f:
+                f.write("\n\n## ".join(recent))
+    except Exception:
+        pass  # Never break on pruning errors
+
     return content
 
 

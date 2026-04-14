@@ -113,17 +113,43 @@ def call_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
 
 def parse_mutation_response(response: str) -> dict:
     """Parse the JSON mutation proposal from the model response."""
-    # Try to extract JSON from the response
-    json_match = re.search(r'\{[^{}]*"root_cause"[^{}]*\}', response, re.DOTALL)
-    if not json_match:
-        # Try broader JSON extraction
-        json_match = re.search(r'\{.*\}', response, re.DOTALL)
+    # Try to extract JSON using bracket balancing (handles nested objects)
+    start = response.find('{')
+    if start == -1:
+        return {
+            "root_cause": "PARSE_ERROR",
+            "failing_component": response[:500],
+            "proposed_mutation": "",
+            "mutation_type": "unknown",
+            "confidence": 0.0
+        }
 
-    if json_match:
-        try:
-            return json.loads(json_match.group())
-        except json.JSONDecodeError:
-            pass
+    depth = 0
+    end = -1
+    for i in range(start, len(response)):
+        if response[i] == '{':
+            depth += 1
+        elif response[i] == '}':
+            depth -= 1
+            if depth == 0:
+                end = i + 1
+                break
+
+    if end == -1:
+        return {
+            "root_cause": "PARSE_ERROR",
+            "failing_component": response[:500],
+            "proposed_mutation": "",
+            "mutation_type": "unknown",
+            "confidence": 0.0
+        }
+
+    json_text = response[start:end]
+
+    try:
+        return json.loads(json_text)
+    except json.JSONDecodeError:
+        pass
 
     # Fallback: return raw response with error flag
     return {

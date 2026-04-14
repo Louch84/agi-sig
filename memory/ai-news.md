@@ -339,3 +339,29 @@ _Trimmed to last 30 days on 2026-04-12_
 ### New Knowledge Source
 - [Karpathy LLM Wiki](https://github.com/karpathy/llm-wiki) — 14-page wiki covering LLM fundamentals, building from scratch, fine-tuning, RLHF, inference optimization, local deployment. Ingested into knowledge/karpathy-llm-wiki/
 
+---
+
+## April 14, 2026
+
+### Historic AI Week — GPT-6, Claude Opus 4.7, Meta LlamaCon (April 14–20)
+This week is unprecedented in AI history: three frontier labs releasing flagships within the same 7-day window.
+
+**GPT-6 (Spud)** — releasing today (April 14). Codenamed "Spud." Pre-training completed March 17, post-training complete. 40% performance gain over GPT-5.4 in coding, reasoning, and agent tasks. 2M token context window. Polymarket 78% confidence. OpenAI officially confirmed April 7. "Not incremental" per Greg Brockman.
+
+**Claude Opus 4.7** — releasing this week alongside GPT-6. Geeky Gadgets confirmed via leaks: "Full-stack AI studio" alongside new model. Anthropic's response to GPT-6.
+
+**Meta LlamaCon** — also this week. Developer conference expected. Not clear if new llama model or just conference. Llama 4 Scout and Maverick launched April 5, 2025 (last year).
+
+**Relevance to Sig:** If GPT-6 drops benchmark results showing significant advances, need to assess local Ollama alternatives. The competition driving faster releases is good for capability available to Sig.
+
+### Daily Code Self-Audit — Error Investigated, Task Re-Queued
+**Cron ID:** 38f03f66-e2a1-47cf-b1bf-7fba44b482a9
+
+**Status:** 2 consecutive errors. Last error timestamp: 2026-04-14T06:00:00.029Z (2AM ET this morning).
+
+**Action taken:** Re-ran `openclaw cron run` manually — task enqueued successfully. Ollama daemon running (PID 34803). Queue: Pending: 0, Completed: 9, Errors: 0. Reset cron state.
+
+**Root cause:** Timeout extended to 20 min on Apr 13 but cron still errored. code-self-review.sh is a simple wrapper calling `ollama-daemon.py add`. Should work. Next check: Apr 15 2AM ET.
+
+**No new capability implementations today.** Session was news gathering + cron troubleshooting.
+

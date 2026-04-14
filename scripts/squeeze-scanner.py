@@ -40,7 +40,6 @@ UNIVERSE = [
     "SNBR",   # 30% SI — Sleep Number
     "ROOT",   # 28% SI — Root Inc insurance
     "EOSE",   # 28% SI — Eos Energy
-    "ABEO",   # 28% SI — Abeona Therapeutics
     # === HIGH-SI SQUEEZE TIGHT ENTRY ===
     "SRPT",   # 25% SI — Sarepta Therapeutics
     "BETR",   # 34% SI — Better Home & Finance
@@ -163,9 +162,7 @@ def get_gap_data(ticker, period="10d"):
             "vol_ratio": round(vol_ratio, 2),
             "vol_ratio_10d": round(vol_ratio_10d, 2),
             "vwap_dist": round(vwap_dist, 2),
-            "window_high": round(window_high, 2),  # 10d rolling high (NOT 52w)
-            "window_low": round(window_low, 2),    # 10d rolling low (NOT 52w)
-            "window_pct": round(((today_close - window_low) / (window_high - window_low)) * 100, 1) if (window_high - window_low) != 0 else 50,  # 10d position
+            "52w_pct": round(((today_close - window_low) / (window_high - window_low)) * 100, 1) if (window_high - window_low) != 0 else 50,  # 10d position (labeled for scoring compat)
             "avg_vol_5d": round(avg_volume_5d, 0),
             "today_vol": round(today_vol, 0),
             "at_window_low": bool(today_close <= window_low * 1.05),  # within 5% of 10d low
@@ -428,7 +425,7 @@ def scan():
             "macd": gap_data.get('macd', 0),
             "macd_hist": gap_data.get('macd_hist', 0),
             "vwap_dist": gap_data.get('vwap_dist', 0),
-            "52w_pct": gap_data.get('window_pct', 0),
+            "52w_pct": gap_data.get('52w_pct', 0),
             "at_window_low": gap_data.get('at_window_low', False),
             "today_high": gap_data.get('today_high', 0),
             "today_low": gap_data.get('today_low', 0),

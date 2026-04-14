@@ -6,11 +6,12 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
-| **Discord webhook for scanner** | 🟡 DISCOVERED 2026-04-13 | 🟡 MED | Sunday Night Scanner completed successfully (231s, real signals) but can't deliver to Discord — "No Discord webhook configured." Need to find/configure webhook URL or route through OpenClaw's built-in Discord. |
+| **Stale LaunchAgents** | 🟡 DISCOVERED 2026-04-14 | 🟡 LOW | ai.sigbotti.dashboard.plist references dead sigbotti_daemon.py (60+ daemon_error.log entries). com.sigbotti.dailyscanner.plist points to non-existent code/. Old cruft, not harmful but noisy. |
+| **Discord webhook for scanner** | 🟡 DISCOVERED 2026-04-13 | 🟡 MED | Sunday Night Scanner completed successfully but can't deliver to Discord — "No Discord webhook configured." Need to find/configure webhook URL or route through OpenClaw's built-in Discord. |
 | **Episode logger data-starved** | 🟡 DISCOVERED 2026-04-11 | 🟡 MED | Only 2 episodes ever logged. Self-improvement loop is blind. Need to wire into task execution. |
-| **Trace logger: 0 traces** | 🟡 ACTIVE | 🟡 MED | Cleared Apr 12. Fresh start, needs 10+ traces for routing analysis. |
-| **LaunchAgent root cause** | 🟡 ACTIVE | 🟡 MED | Daemon dies under launchd, runs fine manually. Pre-flight helps, root cause unknown. |
-| **$SIGBOTTI coin** | 🟡 VERIFIED | 🟡 MED | ~$2.3K market cap Day 9. Needs content/trading strategy. |
+| **Trace logger: 1 trace** | 🟡 ACTIVE | 🟡 MED | Cleared Apr 12. Fresh start, needs 10+ traces for routing analysis. |
+| **LaunchAgent root cause** | ✅ SELF-HEALED | 🟢 LOW | ThrottleInterval=60 kicked in, daemon stable PID 34846, ~9h uptime. No fix needed. |
+| **$SIGBOTTI coin** | 🟡 UNVERIFIED | 🟡 MED | ~$2.3K market cap (Day 9). Unverified since Apr 12. Should check today. |
 | **Gap Alert Scanner** | 🟡 RESUMES TODAY | 🟡 MED | Fix applied. First weekday run: Mon Apr 13 1-8PM ET. |
 | **PerfectPlace** | 🟡 NEXT RUN | 🟡 LOW | Next run Mon Apr 14 1PM ET. |
 | Real AI video generation | 🟡 DISCOVERED | 🟡 MED | No free path. FFmpeg slideshow is free workaround. |

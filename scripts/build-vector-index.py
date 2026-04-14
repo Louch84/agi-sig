@@ -16,7 +16,7 @@ WORKSPACE = "/Users/sigbotti/.openclaw/workspace"
 INDEX_FILE = os.path.join(WORKSPACE, "data", "memory.index")
 META_FILE = os.path.join(WORKSPACE, "data", "memory_meta.json")
 OLLAMA = "http://localhost:11434"
-EMBED_MODEL = "nomic-embed-text:latest"
+EMBED_MODEL = "nomic-embed-text"
 DIM = 768  # nomic-embed-text dimension
 
 
