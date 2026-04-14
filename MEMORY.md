@@ -192,3 +192,14 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 ## Self-Improvement Insights (from reflection)
 - Recurring error [5x]: [Error]: timed out
 - High failure rate: 75.0% — investigate root causes above
+
+## Self-Review Learnings (2026-04-13 — 9PM ET, Day 18)
+- **imsg rebuilt from source** ✅ — ~/projects/imsg cloned, swift build --configuration release, v0.5.0 works. Homebrew imsg had wrong arch (imsg binary moved to ~/bin/, Homebrew version broken). Image send to phone now works.
+- **Gmail SMTP BROKEN** — Louch Gmail app password `ibjivcjxrhifnbjj` is invalid/revoked. Gmail SMTP rejects it (535). IMAP works (himalaya reads OK). PerfectPlace creds work fine. Need new app password from Google Account → Security → App Passwords.
+- **MODEL_POOL routing BUG** — ollama-daemon.py had coding/general both set to qwen2.5:0.5b (tiny 0.5B model). Root cause of 4/6 coding episodes timing out. Fixed to llama3:latest for both. Daemon needs restart.
+- **Image gen quality drift** — Chained prompts cause diffusion model to diverge. Best: pick ONE good reference, don't chain.
+- **Episode logger: CRITICAL GAP** — Only 16 episodes logged total. Self-improvement loop flying blind. Need to wire log_episode() into daemon.
+- **Daily Code Self-Audit timeout** — Fixed by narrowing scope to scripts/ only.
+- **Autorouting non-functional** — Only 1 trace logged. Need trace_logger properly integrated.
+- Benchmark: Self-Eval 3/5 (lowest), avg 3.7/5. Monthly benchmark cron hasn't fired.
+- 6 failures (37% failure rate) — all coding timeouts on tiny model (now fixed).

@@ -109,8 +109,9 @@ PLANNER_SCRIPT = os.path.join(os.path.dirname(__file__), "task-planner.py")
 # Only ONE model loaded at a time to avoid OOM
 MODEL_POOL = {
     "fast": {"model": "qwen2.5:0.5b", "loaded": False},
-    "general": {"model": "qwen2.5:0.5b", "loaded": False},
-    "coding": {"model": "qwen2.5:0.5b", "loaded": False},
+    "general": {"model": "llama3:latest", "loaded": False},
+    "coding": {"model": "llama3:latest", "loaded": False},
+    "vision": {"model": "llava:7b", "loaded": False},
 }
 LOAD_TIMEOUT = 300  # 5 min to load a model
 REQUEST_TIMEOUT = 600  # 10 min — qwen3-coder:30b on CPU needs time
