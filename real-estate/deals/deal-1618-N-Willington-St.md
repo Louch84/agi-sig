@@ -1,35 +1,35 @@
-# DEAL SHEET — 1925 73rd Ave
+# DEAL SHEET — 1618 N Willington St
 
 | Field | Details |
 |-------|---------|
-| **Asking Price** | $165,000 |
+| **Asking Price** | $150,000 |
 | **Property Type** | Single Family Home |
-| **Bedrooms** | 3 |
-| **Bathrooms** | 1.5 |
-| **Area** | Philadelphia, PA 19138 |
-| **ARV (After Repair Value)** | $412,500.0 (estimate — verify with comps) |
+| **Bedrooms** | 5 |
+| **Bathrooms** | 3 |
+| **Area** | Philadelphia, PA 19121 |
+| **ARV (After Repair Value)** | $375,000.0 (estimate — verify with comps) |
 | **Est. Repairs** | TBD |
-| **Your Fee** | $4,125–$5,125 |
+| **Your Fee** | $3,750–$4,750 |
 | **Source** | New Western / Aidan Daly |
-| **Email ID** | 719 |
+| **Email ID** | 724 |
 
 ---
 
 ## The Numbers
 
 ```
-ARV (Estimate):               $412,500.0
-Your Purchase Price:           $165,000
+ARV (Estimate):               $375,000.0
+Your Purchase Price:           $150,000
 Estimated Repairs:             TBD
                              ─────────────
-Your Fee Potential:           $4,125–$5,125
+Your Fee Potential:           $3,750–$4,750
 ```
 
 ---
 
 ## Description
 
-Off market, good condition, 3 bed row home in West Oak Lane. Nearby flip comps as high as $335k. Contact your NW Agent ASAP to attend showing on Weds afternoon!
+Check out this prime multifamily opportunity in the heart of Temple University. Comparable properties are under contract as high as 799k only a block away! Contact a New Western agent for showing details!
 
 ---
 
