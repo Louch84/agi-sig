@@ -99,6 +99,7 @@ def analyze_routing() -> dict:
     for tt, models in stats.items():
         best_model = None
         best_score = -1
+        best_model_success_rate = 0.0
         for model, s in models.items():
             success_rate = s["successes"] / s["count"] if s["count"] > 0 else 0
             avg_duration = s["total_duration"] / s["count"] if s["count"] > 0 else 0
@@ -107,9 +108,12 @@ def analyze_routing() -> dict:
             if score > best_score:
                 best_score = score
                 best_model = model
+                best_model_success_rate = success_rate
 
         recommendations[tt] = {
             "recommended_model": best_model,
+            "best_model": best_model,  # alias for compatibility
+            "best_success_rate": round(best_model_success_rate, 4) if best_model else 0,
             "score": best_score,
             "models": {
                 m: {

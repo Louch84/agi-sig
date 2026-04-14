@@ -83,8 +83,9 @@ def get_gap_data(ticker, period="10d"):
         # Gap calculation
         gap_pct = ((today_open - yesterday_close) / yesterday_close) * 100
 
-        # Yesterday's range
-        avg_volume_5d = np.mean(volumes[:-1])
+        # Average volumes for ratio calculations
+        avg_volume_5d = np.mean(volumes[:-1]) if len(volumes) > 1 else today_vol
+        avg_volume_10d = np.mean(volumes[:-1]) if len(volumes) >= 10 else (avg_volume_5d if avg_volume_5d > 0 else today_vol)
 
         # RSI (14-day) + DIVERGENCE DETECTION
         deltas = np.diff(closes)
@@ -135,16 +136,17 @@ def get_gap_data(ticker, period="10d"):
         signal = _ema(np.concatenate([[ema12[-1]], [macd[-1]]]), 9)
         macd_hist = macd[-1] - signal[-1] if len(signal) > 0 else 0
 
-        # Volume ratio
+        # Volume ratios
         vol_ratio = today_vol / avg_volume_5d if avg_volume_5d > 0 else 1
+        vol_ratio_10d = today_vol / avg_volume_10d if avg_volume_10d > 0 else 1
 
         # Distance from VWAP
         vwap = np.mean(hist['High'].values[-20:] + hist['Low'].values[-20:]) / 2
         vwap_dist = ((today_close - vwap) / vwap) * 100
 
-        # 52-week position — derived from rolling window (no extra t.history call)
-        high52 = float(np.max(highs))
-        low52 = float(np.min(lows))
+        # Rolling window position (NOT true 52w — only 10d of data available)
+        window_high = float(np.max(highs))
+        window_low = float(np.min(lows))
 
         return {
             "today_close": round(today_close, 2),
@@ -159,13 +161,14 @@ def get_gap_data(ticker, period="10d"):
             "macd": round(macd[-1], 3),
             "macd_hist": round(macd_hist, 3),
             "vol_ratio": round(vol_ratio, 2),
+            "vol_ratio_10d": round(vol_ratio_10d, 2),
             "vwap_dist": round(vwap_dist, 2),
-            "52w_high": round(high52, 2),
-            "52w_low": round(low52, 2),
-            "52w_pct": round(((today_close - low52) / (high52 - low52)) * 100, 1) if (high52 - low52) != 0 else 50,
+            "window_high": round(window_high, 2),  # 10d rolling high (NOT 52w)
+            "window_low": round(window_low, 2),    # 10d rolling low (NOT 52w)
+            "window_pct": round(((today_close - window_low) / (window_high - window_low)) * 100, 1) if (window_high - window_low) != 0 else 50,  # 10d position
             "avg_vol_5d": round(avg_volume_5d, 0),
             "today_vol": round(today_vol, 0),
-            "at_52w_low": bool(today_close <= low52 * 1.05),  # within 5% of 52w low = bottomfishing signal
+            "at_window_low": bool(today_close <= window_low * 1.05),  # within 5% of 10d low
         }
     except Exception as e:
         return None
@@ -425,8 +428,8 @@ def scan():
             "macd": gap_data.get('macd', 0),
             "macd_hist": gap_data.get('macd_hist', 0),
             "vwap_dist": gap_data.get('vwap_dist', 0),
-            "52w_pct": gap_data.get('52w_pct', 0),
-            "at_52w_low": gap_data.get('at_52w_low', False),
+            "52w_pct": gap_data.get('window_pct', 0),
+            "at_window_low": gap_data.get('at_window_low', False),
             "today_high": gap_data.get('today_high', 0),
             "today_low": gap_data.get('today_low', 0),
             "avg_vol_5d": gap_data.get('avg_vol_5d', 0),
@@ -447,13 +450,13 @@ def scan():
         mc_m = r['market_cap'] / 1e9 if r['market_cap'] > 1e9 else r['market_cap'] / 1e6
         mc_str = f"${mc_m:.1f}B" if r['market_cap'] > 1e9 else f"${mc_m:.0f}M"
         div_note = f" | RSI div: +{r['rsi_divergence']:.0f}" if r['rsi_divergence'] > 2 else ""
-        low_note = " 📍52W LOW" if r.get('at_52w_low') else ""
+        low_note = " 📍10D LOW" if r.get('at_window_low') else ""
         whale = format_whale_flags(r, short_data)
         print(f"\n{i+1}. {r['ticker']} — {r['name']}{low_note}")
         print(f"   Price: ${r['price']} | Gap: {r['gap_pct']:+.1f}% | Gap Filled: {r['gap_filled_pct']:.0f}%{div_note}")
         print(f"   RSI: {r['rsi']:.0f} | MACD hist: {r['macd_hist']:+.3f} | VWAP dist: {r['vwap_dist']:+.1f}%")
         print(f"   Short %Float: {r['short_pct_float']:.1f}% | Short ratio: {r['short_ratio']:.1f} days | SI MoM: {r['si_change_mom']:+.0f}%")
-        print(f"   Vol ratio: {r['vol_ratio']:.1f}x | 10d vol: {r['vol_ratio_10d']:.1f}x | 52w position: {r['52w_pct']:.0f}%")
+        print(f"   Vol ratio: {r['vol_ratio']:.1f}x | 10d vol: {r['vol_ratio_10d']:.1f}x | 10d position: {r['52w_pct']:.0f}%")
         print(f"   🏦 Inst: {r['inst_pct']:.0f}% | {whale}")
         print(f"   SCORE: {r['score']}/100 🎯 | Sector: {r['sector'] or 'N/A'}")
 

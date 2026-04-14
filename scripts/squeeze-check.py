@@ -98,9 +98,18 @@ def run_check(tickers=None):
         print(f"Lou's style: {pref}")
     print()
 
-    results = []
-
     for ticker in tickers:
+        # Defaults so exception handlers can safely reference these
+        price = 0.0
+        si = 0.0
+        sr = 0.0
+        gap = 0.0
+        rsi = 50.0
+        mc_str = ""
+        pos52 = 50.0
+        wm_setup = "no prior setup"
+        wm_note = ""
+
         try:
             t = yf.Ticker(ticker)
             info = t.info
@@ -131,10 +140,7 @@ def run_check(tickers=None):
             mc = info.get('marketCap', 0) or 0
             mc_str = f"${mc/1e9:.1f}B" if mc > 1e9 else f"${mc/1e6:.0f}M" if mc > 1e6 else ""
 
-        except yf.exceptions.YfinanceError as e:
-            print(f"  {ticker}: yfinance error — {e}")
-
-            # 52w position — derived from available 5d window (avoids extra t.history call)
+            # 52w position
             h52 = float(np.max(h['High'].values))
             l52 = float(np.min(h['Low'].values))
             pos52 = (price - l52) / (h52 - l52) * 100 if h52 > l52 else 50
@@ -161,7 +167,7 @@ def run_check(tickers=None):
             elif sr >= 1: score += 4
             if pos52 < 20: score += 8
 
-            # Direction
+            # Direction verdict
             if gap > 5:
                 verdict = "⚠️ ALERT"
                 verdict_detail = "Already ran hard today"
@@ -192,6 +198,9 @@ def run_check(tickers=None):
                 print(f"         💡 Note: {wm_note}")
             print(f"         Score: {score_bar} {score}/100")
             print()
+
+        except yf.exceptions.YfinanceError as e:
+            print(f"  {ticker}: yfinance error — {e}")
 
         except Exception as e:
             print(f"  {ticker}: error — {e}")
