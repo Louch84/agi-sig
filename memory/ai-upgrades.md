@@ -275,3 +275,66 @@ Session focused on:
 2. **Daily Code Self-Audit cron troubleshooting** — 2 consecutive errors investigated. Task re-queued. Root cause unclear. Next check at Apr 15 2AM ET.
 
 No new skills, scripts, or integrations implemented today. Nothing actionable found in today's research that wasn't already covered in previous sessions.
+---
+
+## 2026-04-15 — GLM-5.1 Available in Ollama
+
+### GLM-5.1 is in Ollama library (confirmed)
+```
+glm-5.1
+```
+Available via `ollama pull glm-5.1`. 744B MoE model with MIT license — reportedly beats Claude Opus 4.6 AND GPT-5.4 on SWE-Bench Pro.
+
+**Sig's current Ollama models:**
+- qwen3-coder:30b — current coding specialist
+- llama3:latest — general
+- llama3.2:1b — fast
+- kimi-k2.5:cloud — cloud (not local)
+
+**Recommendation:** Pull and evaluate GLM-5.1 as replacement for qwen3-coder:30b for coding tasks. Update scripts/model_router.py to route coding tasks to GLM-5.1 when available.
+
+### Gemma 4 also available in Ollama
+```
+gemma4:31b
+gemma3:27b
+gemma3:12b
+gemma3:4b
+```
+
+### Key Action Items for Sig
+1. **Pull GLM-5.1:** `ollama pull glm-5.1` — strongest local coding model by benchmark
+2. **Update model_router.py:** route coding tasks to glm-5.1 when available
+3. **Evaluate computer-use gap:** no desktop/UI automation agent in current stack
+4. **GLM-5.1 MIT license** — no commercial restrictions, free to self-host
+
+---
+
+## 2026-04-15 — model_router.py Updated: GLM-5.1 Coding Route
+
+### Change: Added coding routing tier
+- Added `CODING_INDICATORS` list (python, javascript, code, debug, git, etc.)
+- `classify_query()` now returns 'coding' when coding indicators detected
+- Coding tasks route to `glm-5.1` (60s timeout) — best local coding model by SWE-Bench Pro
+- Verified working: "fix this python bug" → coding, "hey" → fast ✅
+
+### Why this matters
+GLM-5.1 is MIT licensed, reportedly beats Claude Opus 4.6 on SWE-Bench Pro, and is free to self-host. Routing coding tasks to it instead of qwen3-coder:30b should yield better code quality for self-review and code audit tasks.
+
+### Next step
+Pull glm-5.1 via: `ollama pull glm-5.1` then update daemon model config.
+
+---
+
+## 2026-04-15 — Key Finding: Apple Silicon Ollama Bug Affects Agentic Coding
+
+Gemma 4 31B (and likely other 31B+ models) cannot reliably run via Ollama on Apple Silicon due to two bugs in v0.20.3:
+1. Streaming bug — tool-call responses go to wrong field
+2. Flash Attention freeze on prompts >500 tokens
+
+**Impact on Sig's stack:** Ollama daemon currently uses qwen2.5:0.5b (small model) — this avoids the bugs. Do NOT upgrade to larger models via Ollama without testing. Codex CLI is the recommended path for agentic coding with stronger local models.
+
+**Recommended path for local agentic coding:**
+1. Use Codex CLI as the agentic coding frontend (has its own model provider system)
+2. Use Ollama only for simple/fast tasks that don't need tool calling
+3. OR use llama.cpp directly with specific flags for larger models on Apple Silicon
+

@@ -221,3 +221,12 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - **Market research doc written** — memory/market-research.md covers 5 major crashes, squeeze anatomy (VW/GME/AMC), seasonality, regime-based options strategies, RSI/VIX/SI indicators. Key: RSI>70=squeeze dead, VIX>40=don't sell premium, Sell in May effect.
 - **Dilution filter tested**: LUNR✅ ASTS✅ AMC✅ SMCI✅ LCID❌ (8mo cash runway)
 - **Lesson**: Technical setup without fundamental confirmation = gambling. Always check dilution before alerting.
+
+## Self-Review Learnings (2026-04-15 — Day 20)
+- **Cron ET timezone bug** — Gap Alert Scanner `*/15 13-20 * * 1-5 ET` fired at 08:53 UTC (= 4:53 AM ET), not 1PM ET. Cron daemon may not support named timezone `ET`. May need numeric UTC offset instead (`0 17 * * 1-5` for 1PM ET).
+- **PerfectPlace Apr 14 1PM ET: unverified** — no output file found. Need to confirm run.
+- **Sunday Night Scanner Apr 14 midnight: unverified** — no output logged.
+- Ollama daemon PID 34846: stable ~29h uptime.
+- $SIGBOTTI coin: unverified since Apr 12 (Day 11 since launch).
+- Episode logger: still 2 episodes (persistent gap, 4 days running).
+- Self-eval monthly cron: ~13 days to first run.

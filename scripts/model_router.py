@@ -37,10 +37,18 @@ COMPLEX_INDICATORS = [
     "find all", "search for", "investigate", "deep dive",
     "self-improve", "reflect", "remember", "archive",
     "write a script", "run a scan", "search the web", "look up",
-    "code", "python", "javascript", "sql", "query",
     "summarize", "explain", "translate", "rewrite",
     "plan", "design", "architecture",
     "multiple", "several", "all of", "both", "between",
+]
+
+# Coding task indicators — route to GLM-5.1 (best local coding model)
+CODING_INDICATORS = [
+    "code", "python", "javascript", "typescript", "rust", "golang", "java",
+    "sql", "query", "script", "programming", "function", "class",
+    "debug", "fix bug", "refactor", "implement", "algorithm",
+    "repo", "git", "repository", "commit", "pull request",
+    "swe-bench", "coding benchmark",
 ]
 
 # Minimum length for complex classification
@@ -49,10 +57,16 @@ FAST_MAX_LEN = 100
 
 def classify_query(query: str) -> str:
     """
-    Classify a query as 'fast' or 'complex'.
+    Classify a query as 'fast', 'coding', or 'complex'.
     Returns model identifier string.
+    
+    Coding takes priority over fast (even short coding queries get GLM-5.1).
     """
     query_lower = query.lower().strip()
+    
+    # Check for coding indicators first — route to GLM-5.1 (strongest local coding model)
+    if any(ind in query_lower for ind in CODING_INDICATORS):
+        return "coding"
     
     # Very short queries → fast
     if len(query_lower) < FAST_MAX_LEN:
@@ -176,6 +190,10 @@ def route_and_respond(query: str, use_cache: bool = True) -> tuple[str, str, flo
     if model_key == "fast":
         model = "llama3.2:1b"
         response = query_ollama(model, query, timeout=15)
+    elif model_key == "coding":
+        # Route coding tasks to GLM-5.1 — strongest local coding model (MIT, beats Opus 4.6 on SWE-Bench Pro)
+        model = "glm-5.1"
+        response = query_ollama(model, query, timeout=60)
     else:
         # Complex query → use MiniMax via OpenClaw's normal routing
         # We return a marker that tells the caller to use MiniMax

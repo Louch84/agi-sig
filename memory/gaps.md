@@ -6,16 +6,16 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
-| **Stale LaunchAgents** | 🟡 DISCOVERED 2026-04-14 | 🟡 LOW | ai.sigbotti.dashboard.plist references dead sigbotti_daemon.py (60+ daemon_error.log entries). com.sigbotti.dailyscanner.plist points to non-existent code/. Old cruft, not harmful but noisy. |
-| **Discord webhook for scanner** | 🟡 DISCOVERED 2026-04-13 | 🟡 MED | Sunday Night Scanner completed successfully but can't deliver to Discord — "No Discord webhook configured." Need to find/configure webhook URL or route through OpenClaw's built-in Discord. |
-| **Episode logger data-starved** | 🟡 DISCOVERED 2026-04-11 | 🟡 MED | Only 2 episodes ever logged. Self-improvement loop is blind. Need to wire into task execution. |
-| **Trace logger: 1 trace** | 🟡 ACTIVE | 🟡 MED | Cleared Apr 12. Fresh start, needs 10+ traces for routing analysis. |
-| **LaunchAgent root cause** | ✅ SELF-HEALED | 🟢 LOW | ThrottleInterval=60 kicked in, daemon stable PID 34846, ~9h uptime. No fix needed. |
-| **$SIGBOTTI coin** | 🟡 UNVERIFIED | 🟡 MED | ~$2.3K market cap (Day 9). Unverified since Apr 12. Should check today. |
-| **Gap Alert Scanner** | 🟡 RESUMES TODAY | 🟡 MED | Fix applied. First weekday run: Mon Apr 13 1-8PM ET. |
-| **PerfectPlace** | 🟡 NEXT RUN | 🟡 LOW | Next run Mon Apr 14 1PM ET. |
+| **Cron ET timezone parsing** | 🟡 DISCOVERED 2026-04-15 | 🟡 HIGH | Gap Alert Scanner `*/15 13-20 * * 1-5 ET` fired at 08:53 UTC (= 4:53 AM ET), not 1PM ET. Cron daemon doesn't support `ET` alias. Need numeric UTC offset (`0 17-0 * * 1-5` for 1PM-8PM ET = 17:00-0:00 UTC). |
+| **$SIGBOTTI coin** | 🟡 UNVERIFIED | 🟡 HIGH | ~$2.3K market cap (Day 9). Unverified since Apr 12. Now Day 11 since launch. Must check today. |
+| **PerfectPlace Apr 14** | 🟡 UNVERIFIED | 🟡 MED | No output file found from Apr 14 1PM ET run. Need to confirm ran or reschedule. |
+| **Sunday Night Scanner Apr 14 midnight** | 🟡 UNVERIFIED | 🟡 LOW | No output logged from midnight run. |
+| **Discord webhook for scanner** | 🟡 DISCOVERED 2026-04-13 | 🟡 MED | Sunday Night Scanner completed successfully but can't deliver to Discord — "No Discord webhook configured." |
+| **Episode logger data-starved** | 🟡 DISCOVERED 2026-04-11 | 🟡 MED | Only 2 episodes ever logged. Self-improvement loop is blind. Persistent 4+ days. |
+| **Trace logger** | 🟡 ACTIVE | 🟡 MED | 1 trace since Apr 13. Needs 10+ traces for routing analysis. |
+| **Stale LaunchAgents** | 🟡 DISCOVERED 2026-04-14 | 🟡 LOW | ai.sigbotti.dashboard.plist + com.sigbotti.dailyscanner.plist — old cruft. |
 | Real AI video generation | 🟡 DISCOVERED | 🟡 MED | No free path. FFmpeg slideshow is free workaround. |
-| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~15 days to first run. |
+| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~13 days to first run. |
 
 ## Priority Gaps — RESOLVED/DEFERRED
 
@@ -82,3 +82,21 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 
 ---
 *Last updated: 2026-04-13 09:00 UTC*
+
+---
+
+## 2026-04-15 — NEW GAPS DISCOVERED
+
+### No Computer Use / Desktop Agent
+Discovered via awesome-ai-agents-2026 list: "Computer Use & Desktop Agents" is a major 2026 category with 12+ frameworks. Sig's stack has no UI automation, no desktop interaction capability. 
+
+**Why it matters for self-healing:** A computer-use agent could scan her own runtime logs, detect errors, file bug reports, and apply fixes autonomously. Currently she can reason but not act on her own UI.
+
+**Relevance:** agent-browser-clawdbot skill exists but is not specifically agentic computer use. Need to assess whether it's adequate.
+
+### GLM-5.1 Available in Ollama (Actionable)
+GLM-5.1 is now in Ollama library — MIT licensed, 744B MoE, reportedly beats Claude Opus 4.6 + GPT-5.4 on SWE-Bench Pro. Routing added to model_router.py. Still needs: `ollama pull glm-5.1`
+
+### No Local Model Beats GLM-5.1 for Coding
+Current local coding model: qwen3-coder:30b. GLM-5.1 is a significant upgrade on benchmarks (MIT + stronger). Gap exists until GLM-5.1 is pulled and tested.
+

@@ -365,3 +365,87 @@ This week is unprecedented in AI history: three frontier labs releasing flagship
 
 **No new capability implementations today.** Session was news gathering + cron troubleshooting.
 
+
+---
+
+## April 15, 2026
+
+### GPT-6 Still Not Released — April 16 Leaker Was Wrong
+GPT-6 (codename "Spud") was rumored for April 16 release — that was incorrect. Polymarket betting 78% by April 30. Pre-training reportedly wrapped March 24 at Stargate supercluster in Texas, post-training complete. Multiple sources confirm OpenAI was ready to ship around April 14 but the date came and went without release. No confirmed new date yet. This aligns with prior research noting GPT-6 releasing "within weeks" — likely delayed.
+
+**Relevance:** Sig uses MiniMax-M2.7 as primary cloud model. When GPT-6 drops it will shift the competitive landscape. GLM-5.1 is the more immediate local alternative worth testing.
+
+---
+
+### GLM-5.1: The Model That Beat the Frontier — Free to Run
+Zhipu AI (Z.ai) released GLM-5.1 on April 7 under MIT license. 744B total parameters (MoE), 40B active per forward pass, 200K context window. Benchmarks:
+- **SWE-Bench Pro: reportedly beat Claude Opus 4.6 AND GPT-5.4** — the first open-weight model to top this benchmark
+- **Cost:** ~$1/$3.2 per million tokens via API, or **free to self-host**
+- **License:** MIT — most permissive, no restrictions on commercial use
+
+This is a capability unlock directly relevant to Sig's local Ollama setup. GLM-5.1 is potentially the best coding model that can run locally. Currently NOT in Sig's Ollama model list.
+
+**Action:** GLM-5.1 should be evaluated for Ollama compatibility. If it can be quantized and run locally, it would be the strongest local coding model by benchmark. Add to model evaluation queue.
+
+---
+
+### Gemma 4 — Google's Open-Weight Family (April 1, 2026)
+Google shipped Gemma 4 family on April 1:
+- Gemma 4 27B — text + image + audio
+- Gemma 4 26B-A4B
+- Gemma 4 E2B / E4B
+- **License:** Apache 2.0 — free to self-host
+
+Apache 2.0 is more permissive than most open licenses (no attribution walls). 27B is a reasonable size for local inference. Available now via Ollama.
+
+**Action:** Add to Ollama model evaluation list. Apache 2.0 means no commercial restrictions.
+
+---
+
+### Qwen 3.6-Plus — Agentic Open Model (April 2)
+Alibaba released Qwen 3.6-Plus on April 2 with explicit "agentic" focus. Already in Ollama library. Qwen series has been consistently strong for local inference. Sig's Ollama daemon already has qwen3-coder:30b — this could be an upgrade.
+
+---
+
+### Computer Use & Desktop Agents — A Gap in Sig's Stack
+The awesome-ai-agents-2026 list identifies "Computer Use & Desktop Agents" as a major 2026 category. 12+ frameworks listed including OpenAI's Codex CLI and similar tools. Sig's current agent stack has no computer-use capability — she can reason and plan but not interact with a desktop UI.
+
+Relevant to self-healing mission: a computer-use agent could scan her own runtime logs, detect errors, file bug reports, even apply fixes. This is a meaningful gap.
+
+**Action:** Investigate computer-use frameworks (Claude's computer use, OS-level agents). Assess whether this fits the self-healing/self-improvement stack. The agent-browser skill exists but is not specifically agentic computer use.
+
+---
+
+### Agent Protocols: MCP + A2A Maturing
+The agent framework landscape lists MCP (Model Context Protocol) and A2A (Agent-to-Agent) as established standards. Sig's skills show `mcporter` skill for calling MCP servers. This is a foundation she already has. Worth verifying whether MCP servers are being used in her stack.
+
+---
+
+### Key Takeaways
+1. **The real story of April 2026:** Open source is closing the gap — GLM-5.1 (MIT, free) beating proprietary frontier models on real benchmarks
+2. **Anthropic's glass ceiling:** Mythos locked up, most capable model gated to 50 orgs
+3. **GPT-6 delay:** Real — it's coming but wasn't April 14
+4. **Sig's architecture gap:** No local model matches GLM-5.1's coding benchmark. No computer-use agent.这两个都值得研究。
+
+---
+
+### Gemma 4 Can Do Tool Calling — Local Agentic Coding Works (Medium, April 13)
+Real-world test: running Gemma 4 31B locally in Codex CLI as replacement for cloud models. Key findings:
+- **tau2-bench function-calling: 86.4%** — previous Gemma generations scored 6.6%. This is a generational leap.
+- Codex CLI (OpenAI's terminal coding agent) works with local models via custom provider API
+- **Ollama v0.20.3 has two critical bugs on Apple Silicon:** (1) streaming bug routes tool-call responses to wrong field, (2) Flash Attention freeze hangs on prompts >500 tokens. These prevent Gemma 4 from working properly via Ollama.
+- **llama.cpp workaround required on Apple Silicon** with specific flags: `--jinja`, `-ctk q8_0 -ctv q8_0` (KV cache quantization), `-np 1`
+- Codex CLI config: `web_search = "disabled"` required (llama.cpp rejects web_search_preview tool type)
+
+**Relevance to Sig:** Two-part issue:
+1. Her Ollama daemon (qwen2.5:0.5b, very small) works fine for simple tasks — no issue there
+2. For agentic coding with stronger local models, Ollama may have Apple Silicon bugs. The `agentic-coding` skill routes to Codex CLI which has its own model provider setup
+3. This is why the daemon uses qwen2.5:0.5b (small enough to avoid the bugs) instead of larger models
+
+**Action:** Do NOT upgrade Ollama to larger models without testing. The Apple Silicon bugs affect 31B+ models. Consider Codex CLI as the agentic coding path for stronger models.
+
+---
+
+### World Models + Continual Learning — 2026 Breakthrough Year
+NextBigFuture confirms 2026 is the breakthrough year for reliable world models and continual learning. This aligns with Sig's self-improvement mission — continual learning without catastrophic forgetting is exactly what enables persistent self-improvement.
+
