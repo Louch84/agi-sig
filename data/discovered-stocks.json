@@ -1,18 +1,12 @@
 {
-  "timestamp": "2026-04-14T23:35:44.562195",
-  "total_found": 37,
+  "timestamp": "2026-04-15T08:47:51.633221",
+  "total_found": 36,
   "results": [
-    {
-      "ticker": "RKLB",
-      "source": "Reddit WSB ($ mentions)",
-      "post_title": "$RKLB CEO Peter Beck reduces his salary to 1$ and cancels all his stock plans, then files for neutro",
-      "score": 1573
-    },
     {
       "ticker": "BULL",
       "source": "Reddit WSB ($ mentions)",
       "post_title": "$BULL generational wealth incoming",
-      "score": 682
+      "score": 1246
     },
     {
       "ticker": "MNPR",
