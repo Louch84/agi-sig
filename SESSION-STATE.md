@@ -54,6 +54,7 @@ Wednesday morning (April 15, 2026 — 9:00 AM ET). Daily self-review complete. N
 
 ## New Gaps Found (Apr 15)
 1. **Cron ET timezone bug** — Gap Alert Scanner fired at 4:53 AM ET instead of 1PM ET. Need numeric UTC offset instead of `ET` alias.
+2. **Daily Vector Index Rebuild — 1 consecutive error** — Error is NOT the build itself (completes fine, ~2-5 min). Error is a write step in announce phase: `Write: run_vec_build.sh failed`. Build succeeds but delivery fails. Manual run triggered 2026-04-15 10:50 AM ET.
 
 ## Top Priorities
 1. 🔴 **$SIGBOTTI coin** — verify pump.fun stats (Day 11, unverified since Apr 12)
