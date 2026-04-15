@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "updatedAt": "2026-04-15T02:28:33.360Z",
+  "entries": {
+    "memory:memory/2026-04-13.md:31:63": {
+      "key": "memory:memory/2026-04-13.md:31:63",
+      "path": "memory/2026-04-13.md",
+      "startLine": 31,
+      "endLine": 63,
+      "source": "memory",
+      "snippet": "| Daily AI Research Agent | ✅ 0 errors | fix applied | | Daily Vector Index Rebuild | ✅ OK | | | Gap Alert Scanner | ✅ resumes today 1-8PM | first weekday | | PerfectPlace | ✅ next Mon Apr 14 1PM | | ## Stats - Ollama daemon: running PID 53282 (qwen2.5:0.5b model) - Episode count: 2 (still data-starved) - Cron consecutive errors: all 0 (FIXED) ## Files Written - memory/self-reviews/2026-04-13.md ✅ - memory/2026-04-13.md ✅ - SESSION-STATE.md (pending) ## AI Research Agent Session (9:08-9:20 AM ET) **What I did:** - Added NextBigFuture to blogwatcher (11 new articles) - Researched today's AI news: Claude Mythos Preview (Apr 7), Stanford 2026 AI Index, GPT-6 (Apr 14), World Models breakthrou",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-15T02:28:33.360Z",
+      "lastRecalledAt": "2026-04-15T02:28:33.360Z",
+      "queryHashes": [
+        "0a4bb119a68b"
+      ],
+      "recallDays": [
+        "2026-04-14"
+      ],
+      "conceptTags": [
+        "gpt",
+        "1-8pm",
+        "qwen2.5",
+        "0.5b",
+        "data-starved",
+        "memory/2026-04-13.md",
+        "session-state.md",
+        "08-9"
+      ]
+    },
+    "memory:memory/self-reviews/2026-04-07.md:1:27": {
+      "key": "memory:memory/self-reviews/2026-04-07.md:1:27",
+      "path": "memory/self-reviews/2026-04-07.md",
+      "startLine": 1,
+      "endLine": 27,
+      "source": "memory",
+      "snippet": "# Self-Review — 2026-04-07 | Day 12 | 9AM ET ## Summary Quiet day. Two cron jobs failing (timeout). Scanner ran successfully but cron delivery failed. OpenFang trader still unverified. $SIGBOTTI coin unverified post-launch. ## Learnings - Scanner DOES run at midnight ET Sunday — confirmed 21 signals generated (BB calls conf4, T/SLB/NKE puts conf3) - Cron delivery timeout is the failure point, not the scan itself — scan completes, Discord announce step times out - PerfectPlace scanner timing out (300s) — 2 consecutive errors ## Gaps Closed - None ## Gaps Discovered - **Cron timeout gap:** PerfectPlace + Sunday Night Scanner both timing out at delivery stage (300s limit too short) - **Open",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-15T02:28:33.360Z",
+      "lastRecalledAt": "2026-04-15T02:28:33.360Z",
+      "queryHashes": [
+        "0a4bb119a68b"
+      ],
+      "recallDays": [
+        "2026-04-14"
+      ],
+      "conceptTags": [
+        "self-review",
+        "post-launch",
+        "t/slb/nke",
+        "self",
+        "review",
+        "day",
+        "9am",
+        "summary"
+      ]
+    }
+  }
+}
