@@ -1,25 +1,25 @@
-# DEAL SHEET — 5141 Folsom St
+# DEAL SHEET — 1819 E Orleans St
 
 | Field | Details |
 |-------|---------|
-| **Asking Price** | $57,000 |
+| **Asking Price** | $69,000 |
 | **Property Type** | Single Family Home |
-| **Bedrooms** | 2 |
+| **Bedrooms** | 3 |
 | **Bathrooms** | 1 |
-| **Area** | Philadelphia, PA 19139 |
-| **ARV (After Repair Value)** | $142,500.0 (estimate — verify with comps) |
+| **Area** | Philadelphia, PA 19134 |
+| **ARV (After Repair Value)** | $172,500.0 (estimate — verify with comps) |
 | **Est. Repairs** | TBD |
 | **Your Fee** | $3,000–$4,000 |
 | **Source** | New Western / Aidan Daly |
-| **Email ID** | 717 |
+| **Email ID** | 726 |
 
 ---
 
 ## The Numbers
 
 ```
-ARV (Estimate):               $142,500.0
-Your Purchase Price:           $57,000
+ARV (Estimate):               $172,500.0
+Your Purchase Price:           $69,000
 Estimated Repairs:             TBD
                              ─────────────
 Your Fee Potential:           $3,000–$4,000
@@ -29,7 +29,7 @@ Your Fee Potential:           $3,000–$4,000
 
 ## Description
 
-Come check out this ultra cheap row home in 19141! This property needs work but has strong flip and rental comps nearby. Contact your NW rep today!
+Check out this solid corner 3-bed opportunity in Kensington. This is a solid buy and hold for an investor looking at the long term or someone looking to start their portfolio. Contact a New Western agent to set up a walk through.
 
 ---
 
