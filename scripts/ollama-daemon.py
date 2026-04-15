@@ -128,8 +128,8 @@ def log(msg):
         os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
         with open(LOG_FILE, "a") as f:
             f.write(line + "\n")
-    except:
-        pass
+    except OSError:
+        pass  # Log failure is non-fatal — don't crash the daemon
 
 
 def ensure_model(model_name: str):

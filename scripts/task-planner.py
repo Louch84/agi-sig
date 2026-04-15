@@ -112,7 +112,10 @@ def execute_plan(plan: dict, executor_func) -> list:
             # Check dependencies
             deps = subtask.get("depends_on", [])
             if all(d in completed for d in deps):
-                result = executor_func(subtask)
+                try:
+                    result = executor_func(subtask)
+                except Exception as e:
+                    result = {"id": tid, "status": "error", "output": f"Executor error: {e}"}
                 results[tid] = result
                 if result.get("status") == "done":
                     completed.add(tid)

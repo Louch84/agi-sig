@@ -438,7 +438,7 @@ def scan():
         mc_str = f"${mc_m:.1f}B" if r['market_cap'] > 1e9 else f"${mc_m:.0f}M"
         div_note = f" | RSI div: +{r['rsi_divergence']:.0f}" if r['rsi_divergence'] > 2 else ""
         low_note = " 📍10D LOW" if r.get('at_window_low') else ""
-        whale = format_whale_flags(r, short_data)
+        whale = format_whale_flags(r, r)  # r IS the short_data row (merged into row dict)
         print(f"\n{i+1}. {r['ticker']} — {r['name']}{low_note}")
         print(f"   Price: ${r['price']} | Gap: {r['gap_pct']:+.1f}% | Gap Filled: {r['gap_filled_pct']:.0f}%{div_note}")
         print(f"   RSI: {r['rsi']:.0f} | MACD hist: {r['macd_hist']:+.3f} | VWAP dist: {r['vwap_dist']:+.1f}%")
