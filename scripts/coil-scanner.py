@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+from fundamental_filter import check_fundamentals
 """
 Coiled Consolidation Scanner — Tight range compression breakout setups.
 Finds stocks coiled up in narrow consolidation (low volatility compressing)
@@ -182,6 +182,12 @@ def get_coil_data(ticker, lookback=60):
         prev_close = closes[-2]
         gap_today = ((today_open - prev_close) / prev_close) * 100
 
+        # ── Fundamental check ─────────────────────────────────────────
+        fund = check_fundamentals(ticker)
+        dilution = fund.get('dilution_risk', False)
+        verdict = fund.get('fundamental_verdict', 'UNKNOWN')
+        red_flags = fund.get('red_flags', [])
+
         return {
             "ticker": ticker,
             "price": round(current, 2),
@@ -207,6 +213,9 @@ def get_coil_data(ticker, lookback=60):
             "window_high": round(window_high, 2),
             "window_low": round(window_low, 2),
             "10d_range_size": round(window_high - window_low, 2),
+            "fundamental_verdict": verdict,
+            "dilution_risk": dilution,
+            "red_flags": red_flags,
         }
     except Exception as e:
         return None
@@ -215,6 +224,10 @@ def get_coil_data(ticker, lookback=60):
 def score_coil(row):
     """Score 0-100 how coiled + ready to burst."""
     score = 0
+
+    # Dilution penalty
+    if row.get('dilution_risk', False):
+        score -= 40
 
     # === ATR SQUEEZE (< 0.7 = significant compression) ===
     atr = row.get('atr_ratio', 1)
@@ -363,21 +376,29 @@ def scan(verbose=True):
 
         if verbose:
             flags = format_flags(data)
+            diltn = " ⚠️ DILUTING" if data.get('dilution_risk') else ""
             print(
                 f"BW {data['bb_width']:.1f}% | ATR {data['atr_ratio']:.2f} | "
                 f"DR {data['days_in_range']}d | vol {data['vol_trend']:.1f}x | "
                 f"RSI {data['rsi']:.0f} | pos {data['pos_in_range']:.0f}% | "
-                f"gap {data['gap_today']:+.1f}% | score {score}/100"
+                f"gap {data['gap_today']:+.1f}% | score {score}/100{diltn}"
             )
-            if score >= 60:
+            if score >= 60 and not data.get('dilution_risk'):
                 print(f"  🔥 COIL: {flags}")
+            elif data.get('dilution_risk'):
+                print(f"  ⚠️ KILLED: dilution risk")
 
         time.sleep(0.4)  # throttle
 
     results.sort(key=lambda x: x['score'], reverse=True)
 
-    print("\n" + "=" * 65)
-    print(f"🔥 TOP COILED SETUPS (score ≥ 55):")
+    # Filter dilution
+    pre = len(results)
+    results = [r for r in results if not r.get('dilution_risk', False)]
+    print(f"\n⚠️ Filtered {pre - len(results)} diluting stocks → {len(results)} passing fundamentals\n")
+
+    print(f"\n" + "=" * 65)
+    print(f"🔥 TOP COILED SETUPS (score ≥ 55, fundamentals passing):")
     print("=" * 65)
 
     hot = [r for r in results if r['score'] >= 55]

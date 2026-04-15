@@ -8,6 +8,7 @@ import yfinance as yf
 import json
 import os
 import time
+from fundamental_filter import check_fundamentals
 from datetime import datetime
 
 UNIVERSE_FILE = "/Users/sigbotti/.openclaw/workspace/data/universe.json"
@@ -40,25 +41,29 @@ def save_universe(tickers, metadata=None):
 
 
 def validate_ticker(ticker):
-    """Verify ticker is real and tradeable before adding to universe."""
+    """Verify ticker is real, tradeable, and fundamentally sound before adding to universe."""
     try:
         t = yf.Ticker(ticker)
         info = t.info
         price = info.get('currentPrice') or info.get('regularMarketPrice')
         # Must have a price (not delisted) and not too expensive for SI plays
-        if not price or price > 500:  # skip > $500 (not relevant for our plays)
-            return None
+        if not price or price > 500:
+            return None, "price out of range"
         # Verify it has enough data
         h = t.history(period="5d", interval="1d")
         if h.empty or len(h) < 3:
-            return None
+            return None, "insufficient data"
+        # Check fundamentals
+        fund = check_fundamentals(ticker)
+        if not fund.get('pass', True):
+            return None, f"fundamental fail: {fund.get('fundamental_verdict', 'UNKNOWN')}"
         return {
             'price': round(price, 2),
             'market_cap': info.get('marketCap', 0),
             'short_interest': round((info.get('shortPercentOfFloat', 0) or 0) * 100, 1),
-        }
-    except Exception:
-        return None
+        }, None
+    except Exception as e:
+        return None, str(e)
 
 
 def score_discovery_candidates(discovered):
@@ -162,15 +167,15 @@ def enrich_universe(dry_run=False):
         return
 
     # Validate new tickers before adding
-    print("\n🔍 Validating new tickers...")
+    print("\n🔍 Validating new tickers (fundamental check + price check)...")
     validated = []
     for t in to_add:
-        info = validate_ticker(t)
+        info, err = validate_ticker(t)
         if info:
             print(f"   ✅ {t}: ${info['price']}, SI {info['short_interest']}%, MC ${info['market_cap']/1e6:.0f}M")
             validated.append(t)
         else:
-            print(f"   ❌ {t}: failed validation (delisted or no data)")
+            print(f"   ❌ {t}: failed validation ({err})")
         time.sleep(0.3)
 
     if validated:

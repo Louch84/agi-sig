@@ -14,6 +14,7 @@ import json
 import os
 import time
 from datetime import datetime
+from fundamental_filter import check_fundamentals
 
 UNIVERSE_FILE = "/Users/sigbotti/.openclaw/workspace/data/universe.json"
 RESULTS_FILE = "/Users/sigbotti/.openclaw/workspace/data/fast-scan.json"
@@ -149,12 +150,22 @@ def scan_ticker_fast(ticker):
         si = (info.get('shortPercentOfFloat', 0) or 0) * 100
         short_ratio = info.get('shortRatio', 0) or 0
 
-        # ── Intraday (5d 15m) ───────────────────────────────────────────
+        # ── Fundamental check ──────────────────────────────────────────
+        fund = check_fundamentals(ticker)
+        dilution = fund.get('dilution_risk', False)
+        verdict = fund.get('fundamental_verdict', 'UNKNOWN')
+        red_flags = fund.get('red_flags', [])
+
+        # Scoring starts here
         si_score = 0
         coil_score = 0
         momentum_score = 0
 
-        # Short interest scoring
+        # Dilution penalty — heavy penalty, not a kill switch
+        if dilution:
+            si_score -= 50
+            coil_score -= 20
+            momentum_score -= 20
         if si >= 40: si_score += 35
         elif si >= 20: si_score += 25
         elif si >= 10: si_score += 15
@@ -212,7 +223,10 @@ def scan_ticker_fast(ticker):
             "si_score": int(si_score),
             "coil_score": int(coil_score),
             "momentum_score": int(momentum_score),
-            "total_score": int(si_score + coil_score + momentum_score),
+            "total_score": int(max(0, si_score + coil_score + momentum_score)),
+            "fundamental_verdict": verdict,
+            "dilution_risk": dilution,
+            "red_flags": red_flags,
         }
     except Exception:
         return None
@@ -246,25 +260,36 @@ def main():
             print(f"gap {row['gap_pct']:+.1f}% | RSI {row['rsi']:.0f} | "
                   f"SI {row['si']:.0f}% | ATR {row['atr_ratio']:.2f} | "
                   f"BW {row['bb_width']:.1f}%({row['bb_pct']:.0f}%ile) | "
-                  f"score {row['total_score']}/100")
+                  f"score {row['total_score']}/100 "
+                  f"{'⚠️ DILUTING' if row['dilution_risk'] else ''}")
             results.append(row)
         else:
             print("no data")
         time.sleep(0.2)
 
+    # Filter: skip dilution stocks
+    pre_filter = len(results)
+    results = [r for r in results if not r.get('dilution_risk', False)]
+    print(f"\n⚠️ Filtered {pre_filter - len(results)} diluting stocks → {len(results)} passing fundamentals\n")
+
     results.sort(key=lambda x: x['total_score'], reverse=True)
 
-    print(f"\n{'='*60}")
-    print(f"🔥 TOP SETUPS:")
+    print(f"{'='*60}")
+    print(f"🔥 TOP SETUPS — passing fundamentals:")
     for r in results[:10]:
         tags = []
         if r['coil_score'] >= 40: tags.append("COIL")
         if r['si_score'] >= 30: tags.append("SI")
         if r['momentum_score'] >= 20: tags.append("MOMO")
         tag_str = f"[{','.join(tags)}]" if tags else ""
+        fund = r.get('fundamental_verdict', '')
         print(f"  {r['ticker']:6} ${r['price']:7.2f} | {r['total_score']:3}/100 {tag_str:15} | "
               f"gap {r['gap_pct']:+.1f}% | RSI {r['rsi']:5.0f} | "
-              f"SI {r['si']:5.1f}% | BW {r['bb_width']:5.1f}%({r['bb_pct']:4.0f}%ile)")
+              f"SI {r['si']:5.1f}% | BW {r['bb_width']:5.1f}%({r['bb_pct']:4.0f}%ile) | fund: {fund}")
+    print()
+    for r in results[:10]:
+        if r.get('red_flags'):
+            print(f"  ⚠️ {r['ticker']} red flags: {r['red_flags']}")
 
     os.makedirs(os.path.dirname(RESULTS_FILE), exist_ok=True)
     with open(RESULTS_FILE, "w") as f:

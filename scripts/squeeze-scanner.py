@@ -3,6 +3,7 @@
 Short Squeeze Scanner — Gap Down + Short Interest + Technicals
 Finds stocks setup to squeeze and gap fill.
 """
+from fundamental_filter import check_fundamentals
 import yfinance as yf
 import numpy as np
 import json
@@ -237,6 +238,10 @@ def score_squeeze(row, short_data):
     """
     score = 0
 
+    # Dilution penalty
+    if row.get('dilution_risk', False):
+        score -= 40
+
     # === GAP DOWN (core trigger) ===
     gap = row.get('gap_pct', 0)
     if gap < -3:
@@ -393,7 +398,14 @@ def scan():
             print(f"↑ {gap_pct:+.1f}% (not gapped down)")
             continue
 
+        # Fundamental check
+        fund = check_fundamentals(ticker)
+        dilution = fund.get('dilution_risk', False)
+        verdict = fund.get('fundamental_verdict', 'UNKNOWN')
+
         score = score_squeeze(gap_data, short_data)
+        if dilution:
+            score = max(0, score - 40)
 
         row = {
             "ticker": ticker,
@@ -420,17 +432,26 @@ def scan():
             "today_high": gap_data.get('today_high', 0),
             "today_low": gap_data.get('today_low', 0),
             "avg_vol_5d": gap_data.get('avg_vol_5d', 0),
+            "fundamental_verdict": verdict,
+            "dilution_risk": dilution,
+            "red_flags": fund.get('red_flags', []),
         }
 
         results.append(row)
         whale = format_whale_flags(row, short_data)
-        print(f"gap {gap_pct:+.1f}% | RSI {gap_data.get('rsi',0):.0f} | SI {short_data.get('short_pct_float',0):.1f}%{(' | '+whale) if whale else ''} | score {score}")
+        diltn = " ⚠️ DILUTING" if dilution else ""
+        print(f"gap {gap_pct:+.1f}% | RSI {gap_data.get('rsi',0):.0f} | SI {short_data.get('short_pct_float',0):.1f}%{(' | '+whale) if whale else ''} | score {score}{diltn}")
+
+    # Filter dilution
+    pre = len(results)
+    results = [r for r in results if not r.get('dilution_risk', False)]
+    print(f"\n⚠️ Filtered {pre - len(results)} diluting stocks → {len(results)} passing fundamentals\n")
 
     # Sort by score
     results.sort(key=lambda x: x['score'], reverse=True)
 
     print("\n" + "=" * 60)
-    print(f"TOP SQUEEZE SETUPS (gapped down today):")
+    print(f"TOP SQUEEZE SETUPS (gapped down + fundamentals passing):")
     print("=" * 60)
 
     for i, r in enumerate(results[:15]):
