@@ -12,6 +12,7 @@ import sys
 import time
 from datetime import datetime, timedelta
 from urllib.error import URLError
+from fundamental_filter import check_fundamentals
 
 # ─── Watchlist: stocks under $50 with elevated SI potential ───────────────────
 WATCHLIST = [
@@ -75,6 +76,47 @@ def save_state(state):
     with open(tmp, "w") as f:
         json.dump(state, f, indent=2)
     os.replace(tmp, STATE_FILE)
+
+
+def _ema(prices, period):
+    """Compute EMA for a price array."""
+    k = 2 / (period + 1)
+    ema = float(prices[0])
+    for price in prices[1:]:
+        ema = price * k + ema * (1 - k)
+    return ema
+
+
+def _get_ma_data(ticker, current_price):
+    """Get MA signals for a ticker. Returns dict."""
+    try:
+        t = yf.Ticker(ticker)
+        h = t.history(period="6mo", interval="1d")
+        if h.empty or len(h) < 60:
+            return {}
+        closes = h["Close"].values
+        ema9 = _ema(closes, 9)
+        ema21 = _ema(closes, 21)
+        ema50 = _ema(closes, 50) if len(closes) >= 50 else None
+        ema200 = _ema(closes, 200) if len(closes) >= 200 else None
+        signal = "NEUTRAL"
+        if ema50 and ema200:
+            signal = "GOLDEN_CROSS" if ema50 > ema200 else "DEATH_CROSS"
+        slope_50 = 0
+        if ema50 and len(closes) >= 55:
+            ema50_5d = _ema(closes[:-5], 50)
+            slope_50 = round(((ema50 - ema50_5d) / ema50_5d) * 100, 2)
+        return {
+            "ma_signal": signal,
+            "short_signal": "ABOVE_EMA21" if current_price > ema21 else "BELOW_EMA21",
+            "ema9": round(ema9, 2),
+            "ema21": round(ema21, 2),
+            "ema50": round(ema50, 2) if ema50 else None,
+            "ema200": round(ema200, 2) if ema200 else None,
+            "slope_50": slope_50,
+        }
+    except Exception:
+        return {}
 
 
 def scan_ticker(ticker):
@@ -143,7 +185,7 @@ def scan_ticker(ticker):
         else:
             gap_filled_pct = 0
 
-        return {
+        result = {
             "ticker": ticker,
             "price": round(current, 2),
             "open": round(today_open, 2),
@@ -161,6 +203,10 @@ def scan_ticker(ticker):
             "name": info.get('shortName', ticker),
             "score": 0,
         }
+        # Add MA signals
+        ma_data = _get_ma_data(ticker, current)
+        result.update(ma_data)
+        return result
     except Exception as e:
         return None
 
@@ -224,6 +270,26 @@ def score_alert(row):
     elif vr >= 2:
         score += 5
 
+    # ── MA SIGNAL SCORING ─────────────────────────────────────────────
+    # Golden cross = strong bullish confirmation for squeeze plays
+    ma_signal = row.get('ma_signal')
+    if ma_signal == 'GOLDEN_CROSS':
+        score += 25
+    elif ma_signal == 'DEATH_CROSS':
+        score -= 25  # Opposing trend — squeeze unlikely
+
+    # Price vs EMA21 — below = short-term bearish headwind
+    short_signal = row.get('short_signal')
+    if short_signal == 'BELOW_EMA21':
+        score -= 10
+
+    # EMA50 slope — positive = trend strengthening
+    slope_50 = row.get('slope_50', 0)
+    if slope_50 > 1:
+        score += 10
+    elif slope_50 < -1:
+        score -= 10
+
     return min(round(score, 1), 100)
 
 
@@ -248,8 +314,21 @@ def run_scan(verbose=True):
 
         row['score'] = score_alert(row)
 
+        # ── FUNDAMENTAL FILTER ──────────────────────────────────────────────
+        # Lou's rule: no trade if fundamentals are broken (dilution, earnings, etc.)
+        fund = check_fundamentals(ticker)
+        fund_verdict = fund.get('fundamental_verdict', 'UNKNOWN')
+        if not fund.get('pass', True):
+            row['score'] = 0
+            row['kill_reason'] = fund_verdict
+            if verbose:
+                print(f"gap {row['gap_pct']:+.1f}% | score {row['score']} | KILLED: {fund_verdict}")
+            results.append(row)
+            continue
+
         if verbose:
-            print(f"gap {row['gap_pct']:+.1f}% | vol {row['vol_ratio']:.1f}x | SI {row['si']:.1f}% | score {row['score']}")
+            ma_info = row.get('ma_signal', 'N/A')
+            print(f"gap {row['gap_pct']:+.1f}% | vol {row['vol_ratio']:.1f}x | SI {row['si']:.1f}% | RSI {row['rsi']} | MA {ma_info} | score {row['score']}")
 
         # Trigger alert if gap > threshold AND SI > threshold AND score > 50
         if (row['gap_pct'] >= ALERT_THRESHOLD_GAP and

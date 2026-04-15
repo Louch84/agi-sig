@@ -213,3 +213,11 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - **Autorouting non-functional** — Only 1 trace logged. Need trace_logger properly integrated.
 - Benchmark: Self-Eval 3/5 (lowest), avg 3.7/5. Monthly benchmark cron hasn't fired.
 - 6 failures (37% failure rate) — all coding timeouts on tiny model (now fixed).
+
+## Self-Review Learnings (2026-04-14 — Day 19)
+- **LCID trade: LOST** — Gap +16.2% + SI 41.8% looked like a squeeze setup. Closed flat. Scanner missed fundamental bomb: $1.05B dilution announced same day. Lou lost money. This is unacceptable.
+- **ROOT CAUSE: Scanner had no fundamental filter** — RSI overbought penalty added (RSI>70 = -25pts, RSI>60 = -15pts). Gap-fill detection added (gap>50% filled = -20pts). These helped but didn't catch the dilution.
+- **DILUTION FILTER BUILT** — fundamental_filter.py checks cash runway, dilution risk, earnings. Integrated into gap-alert-scanner.py. LCID now gets killed by fundamental check. Would not have alerted.
+- **Market research doc written** — memory/market-research.md covers 5 major crashes, squeeze anatomy (VW/GME/AMC), seasonality, regime-based options strategies, RSI/VIX/SI indicators. Key: RSI>70=squeeze dead, VIX>40=don't sell premium, Sell in May effect.
+- **Dilution filter tested**: LUNR✅ ASTS✅ AMC✅ SMCI✅ LCID❌ (8mo cash runway)
+- **Lesson**: Technical setup without fundamental confirmation = gambling. Always check dilution before alerting.
