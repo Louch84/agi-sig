@@ -15,43 +15,27 @@ from urllib.error import URLError
 from fundamental_filter import check_fundamentals
 
 # ─── Watchlist: stocks under $50 with elevated SI potential ───────────────────
-WATCHLIST = [
-    # High SI meme/squeeze plays
-    "GME",    # 15.7% SI, $22
-    "AMC",    # 22.4% SI, $1.35
-    "LCID",   # 41.8% SI, $8.82
-    "SOFI",   # 11.1% SI, $16
-    "SMCI",   # 19.7% SI, $24
-    "PINS",   # 17.3% SI, $17
-    "BB",     # 4.4% SI, $3.82
-    "DNA",    # 16.4% SI, $6.56
-    "NAAS",   # micro-cap, $2.34
-    "RIVN",   # 13.6% SI, $15
-    "SNAP",   # 8.6% SI, $4.84
-    "HOOD",   # 3.9% SI, $70 (slightly over)
-    "PLTR",   # 2.4% SI but RSI oversold
-    "ASTS",   # 20.1% SI, $98 (over $50 but watch)
-    "LUNR",   # 20.3% SI, $23
-    # Cheap high-SI picks
-    "SRAX",   # micro-cap squeeze
-    "OPK",    # biotech squeeze
-    "CTRM",   # shipping squeeze
-    "GRPN",   # 10%+ SI
-    "NCTY",   # micro-cap
-    "TIGO",   # $8, SI unknown
-    "SENS",   # $2, micro-cap squeeze
-    "MVST",   # $3, battery squeeze
-    "AIML",   # $4, AI micro-cap
-    "FU",     # Direxion 3x leveraged
-    "TNA",    # 3x small cap
-    "FAS",    # 3x financial
-    "LABD",   # 3x biotech
-    "SOXS",   # 3x semiconductor bear
-    "DRIP",   # 3x oil & gas
-    "GUSH",   # 3x energy
-    "NUGT",   # 3x gold
-    "JDST",   # 3x junior gold
+# Universe: loaded from data/universe.json if it exists, otherwise falls back to hardcoded list
+UNIVERSE_FILE = "/Users/sigbotti/.openclaw/workspace/data/universe.json"
+
+def load_universe():
+    if os.path.exists(UNIVERSE_FILE):
+        with open(UNIVERSE_FILE) as f:
+            data = json.load(f)
+            tickers = data.get('tickers', [])
+            if tickers:
+                print(f"📦 Loaded {len(tickers)} tickers from universe.json")
+                return tickers
+    return None
+
+_fallback_watchlist = [
+    "GME", "AMC", "LCID", "SOFI", "SMCI", "PINS", "BB", "DNA", "NAAS",
+    "RIVN", "SNAP", "HOOD", "PLTR", "ASTS", "LUNR", "SRAX", "OPK", "CTRM",
+    "GRPN", "NCTY", "TIGO", "SENS", "MVST", "AIML",
 ]
+
+_watchlist = load_universe() or _fallback_watchlist
+WATCHLIST = _watchlist
 
 RESULTS_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "gap-alerts.json")
 STATE_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "gap-alert-state.json")

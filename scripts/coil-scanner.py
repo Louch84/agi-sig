@@ -15,8 +15,20 @@ import sys
 import time
 from datetime import datetime
 
-# Universe: same squeeze universe (high-SI + bottomfishing)
-UNIVERSE = [
+# Universe: loaded from data/universe.json if it exists, otherwise falls back to hardcoded list
+UNIVERSE_FILE = "/Users/sigbotti/.openclaw/workspace/data/universe.json"
+
+def load_universe():
+    if os.path.exists(UNIVERSE_FILE):
+        with open(UNIVERSE_FILE) as f:
+            data = json.load(f)
+            tickers = data.get('tickers', [])
+            if tickers:
+                print(f"📦 Loaded {len(tickers)} tickers from universe.json")
+                return tickers
+    return None
+
+_fallback_universe = [
     "GME", "AMC", "LCID", "SOFI", "PLTR", "RIVN", "SMCI",
     "BB", "NOK", "COIN", "HOOD", "ASTS", "LUNR", "RKLB",
     "GRPN", "HTZ", "HIMS", "SOUN", "AI", "TTEC", "PCT", "MARA", "INDI",
@@ -24,6 +36,10 @@ UNIVERSE = [
     "MNPR", "SNBR", "ROOT", "EOSE", "SRPT", "BETR", "SPHR", "MPTI", "BBAI",
     "SRAX", "OPK", "CTRM", "NCTY", "TIGO", "SENS", "MVST",
 ]
+
+_universe = load_universe() or _fallback_universe
+# Re-assign UNIVERSE for backward compat
+UNIVERSE = _universe
 
 RESULTS_FILE = "/Users/sigbotti/.openclaw/workspace/data/coil-scanner.json"
 

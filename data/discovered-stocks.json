@@ -1,0 +1,263 @@
+{
+  "timestamp": "2026-04-14T23:35:44.562195",
+  "total_found": 37,
+  "results": [
+    {
+      "ticker": "RKLB",
+      "source": "Reddit WSB ($ mentions)",
+      "post_title": "$RKLB CEO Peter Beck reduces his salary to 1$ and cancels all his stock plans, then files for neutro",
+      "score": 1573
+    },
+    {
+      "ticker": "BULL",
+      "source": "Reddit WSB ($ mentions)",
+      "post_title": "$BULL generational wealth incoming",
+      "score": 682
+    },
+    {
+      "ticker": "MNPR",
+      "short_interest_pct": 65.8,
+      "short_ratio": 9.56,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "HTZ",
+      "short_interest_pct": 48.4,
+      "short_ratio": 9.53,
+      "source": "yfinance SI scan",
+      "sources": [
+        "Earnings Momentum"
+      ]
+    },
+    {
+      "ticker": "GRPN",
+      "short_interest_pct": 47.3,
+      "short_ratio": 9.49,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "PCT",
+      "short_interest_pct": 43.1,
+      "short_ratio": 9.29,
+      "source": "yfinance SI scan",
+      "sources": [
+        "Earnings Momentum"
+      ]
+    },
+    {
+      "ticker": "LCID",
+      "short_interest_pct": 41.8,
+      "short_ratio": 6.44,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "HIMS",
+      "short_interest_pct": 38.7,
+      "short_ratio": 1.97,
+      "source": "yfinance SI scan",
+      "sources": [
+        "Earnings Momentum"
+      ]
+    },
+    {
+      "ticker": "MARA",
+      "short_interest_pct": 38.6,
+      "short_ratio": 2.36,
+      "source": "yfinance SI scan",
+      "sources": [
+        "Earnings Momentum"
+      ]
+    },
+    {
+      "ticker": "INDI",
+      "short_interest_pct": 36.4,
+      "short_ratio": 9.22,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "SOUN",
+      "short_interest_pct": 35.4,
+      "short_ratio": 5.26,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "RXRX",
+      "short_interest_pct": 34.9,
+      "short_ratio": 9.8,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "SPHR",
+      "short_interest_pct": 34.9,
+      "short_ratio": 7.08,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "ENVX",
+      "short_interest_pct": 34.6,
+      "short_ratio": 9.64,
+      "source": "yfinance SI scan",
+      "sources": [
+        "Earnings Momentum"
+      ]
+    },
+    {
+      "ticker": "TTEC",
+      "short_interest_pct": 33.2,
+      "short_ratio": 8.96,
+      "source": "yfinance SI scan",
+      "sources": [
+        "Earnings Momentum"
+      ]
+    },
+    {
+      "ticker": "BETR",
+      "short_interest_pct": 32.7,
+      "short_ratio": 5.76,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "AI",
+      "short_interest_pct": 31.8,
+      "short_ratio": 7.48,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "SNBR",
+      "short_interest_pct": 30.3,
+      "short_ratio": 5.17,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "NVAX",
+      "short_interest_pct": 30.0,
+      "short_ratio": 10.07,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "IOVA",
+      "short_interest_pct": 30.0,
+      "short_ratio": 5.24,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "BYND",
+      "short_interest_pct": 29.7,
+      "short_ratio": 4.05,
+      "source": "yfinance SI scan",
+      "sources": [
+        "Earnings Momentum"
+      ]
+    },
+    {
+      "ticker": "EOSE",
+      "short_interest_pct": 28.2,
+      "short_ratio": 3.29,
+      "source": "yfinance SI scan",
+      "sources": [
+        "Earnings Momentum"
+      ]
+    },
+    {
+      "ticker": "ABEO",
+      "short_interest_pct": 28.1,
+      "short_ratio": 15.17,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "BBAI",
+      "short_interest_pct": 26.3,
+      "short_ratio": 3.42,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "CRDF",
+      "short_interest_pct": 26.1,
+      "short_ratio": 23.26,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "SRPT",
+      "short_interest_pct": 25.3,
+      "short_ratio": 10.4,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "LUNR",
+      "short_interest_pct": 20.3,
+      "short_ratio": 3.15,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "ASTS",
+      "short_interest_pct": 20.1,
+      "short_ratio": 3.89,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "SMCI",
+      "short_interest_pct": 19.7,
+      "short_ratio": 3.61,
+      "source": "yfinance SI scan",
+      "sources": [
+        "Earnings Momentum"
+      ]
+    },
+    {
+      "ticker": "ROOT",
+      "short_interest_pct": 19.0,
+      "short_ratio": 6.04,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "GME",
+      "short_interest_pct": 15.3,
+      "short_ratio": 11.07,
+      "source": "yfinance SI scan"
+    },
+    {
+      "ticker": "AMC",
+      "short_interest_pct": 15.3,
+      "short_ratio": 3.4,
+      "source": "yfinance SI scan",
+      "sources": [
+        "Earnings Momentum"
+      ]
+    },
+    {
+      "ticker": "CYPH",
+      "next_earnings": "N/A",
+      "5d_return_pct": 17.7,
+      "price": 0.95,
+      "source": "Earnings Momentum"
+    },
+    {
+      "ticker": "BB",
+      "next_earnings": "N/A",
+      "5d_return_pct": 12.5,
+      "price": 3.97,
+      "source": "Earnings Momentum"
+    },
+    {
+      "ticker": "MVST",
+      "next_earnings": "N/A",
+      "5d_return_pct": 10.9,
+      "price": 1.73,
+      "source": "Earnings Momentum"
+    },
+    {
+      "ticker": "HOOD",
+      "next_earnings": "N/A",
+      "5d_return_pct": 10.1,
+      "price": 79.09,
+      "source": "Earnings Momentum"
+    },
+    {
+      "ticker": "NOK",
+      "next_earnings": "N/A",
+      "5d_return_pct": 9.6,
+      "price": 10.35,
+      "source": "Earnings Momentum"
+    }
+  ]
+}

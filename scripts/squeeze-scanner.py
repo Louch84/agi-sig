@@ -11,42 +11,32 @@ import sys
 from datetime import datetime, timedelta
 from urllib.error import URLError
 
-# Universe — curated stocks known for squeeze potential + fresh high-SI bottomfishing picks
-# Updated 2026-04-13: replaced stale tickers with current high-SI list
-UNIVERSE = [
+# Universe — loaded from data/universe.json if it exists, otherwise falls back to hardcoded list below
+UNIVERSE_FILE = "/Users/sigbotti/.openclaw/workspace/data/universe.json"
+
+def load_universe():
+    if os.path.exists(UNIVERSE_FILE):
+        with open(UNIVERSE_FILE) as f:
+            data = json.load(f)
+            tickers = data.get('tickers', [])
+            if tickers:
+                print(f"📦 Loaded {len(tickers)} tickers from universe.json")
+                return tickers
+    return None
+
+_fallback_universe = [
     # === SQUEEZE CLASSICS ===
     "GME", "AMC", "LCID", "SOFI", "PLTR", "RIVN", "SMCI",
     "BB", "NOK", "COIN", "HOOD", "ASTS", "LUNR", "RKLB",
-    # === FRESH HIGH-SI BOTTOMFISHING PICKS (from highshortinterest.com 2026-04-13) ===
-    # These have 25-53% short interest — prime squeeze fuel near lows
-    "GRPN",   # 53% SI — highest on the list
-    "HTZ",    # 48% SI — Hertz
-    "HIMS",   # 40% SI — telehealth momentum
-    "SOUN",   # 35% SI — SoundHound AI (hot sector)
-    "AI",      # 36% SI — C3.ai
-    "TTEC",   # 33% SI — scored 78/100 today
-    "PCT",    # 33% SI — Purecycle
-    "MARA",   # 31% SI — crypto mining
-    "INDI",   # 32% SI — semiconductor
-    "NVAX",   # 30% SI — biotech squeeze history
-    "BYND",   # 30% SI — activist investor interest
-    "ENVX",   # 32% SI — Enovix battery
-    "RXRX",   # 35% SI — Recursion Pharma AI drug discovery
-    "CYPH",   # 32% SI — biotech
-    "IOVA",   # 32% SI — Iovance Biotherapeutics
-    "CRDF",   # 26% SI — Cardiff Oncology (scored 75/100 today)
-    "ABEO",   # 28% SI — Abeona Therapeutics (scored 74/100 today)
-    "MNPR",   # 66% SI — Monopar Therapeutics (EXTREME SI)
-    "SNBR",   # 30% SI — Sleep Number
-    "ROOT",   # 28% SI — Root Inc insurance
-    "EOSE",   # 28% SI — Eos Energy
-    # === HIGH-SI SQUEEZE TIGHT ENTRY ===
-    "SRPT",   # 25% SI — Sarepta Therapeutics
-    "BETR",   # 34% SI — Better Home & Finance
-    "SPHR",   # 29% SI — Sphere Entertainment
-    "MPTI",   # 29% SI — MicroPort
-    "BBAI",   # 26% SI — BigBear.ai
+    # === HIGH-SI BOTTOMFISHING PICKS ===
+    "GRPN", "HTZ", "HIMS", "SOUN", "AI", "TTEC", "PCT", "MARA", "INDI",
+    "NVAX", "BYND", "ENVX", "RXRX", "CYPH", "IOVA", "CRDF", "ABEO",
+    "MNPR", "SNBR", "ROOT", "EOSE", "SRPT", "BETR", "SPHR", "MPTI", "BBAI",
 ]
+
+UNIVERSE = load_universe() or _fallback_universe
+
+# ─── Curated stocks known for squeeze potential + fresh high-SI bottomfishing picks ───
 
 RESULTS_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "squeeze-scanner.json")
 
