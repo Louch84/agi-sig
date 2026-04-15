@@ -1,0 +1,196 @@
+{
+  "timestamp": "2026-04-14T21:52:57.824668",
+  "watchlist": [
+    {
+      "symbol": "LCID",
+      "timestamp": "2026-04-14T21:52:51.990618",
+      "messages_analyzed": 30,
+      "bullish_count": 7,
+      "bearish_count": 0,
+      "bull_pct": 100.0,
+      "sentiment_label": "STRONG_BULL"
+    },
+    {
+      "symbol": "LUNR",
+      "timestamp": "2026-04-14T21:52:52.632753",
+      "messages_analyzed": 30,
+      "bullish_count": 3,
+      "bearish_count": 0,
+      "bull_pct": 100.0,
+      "sentiment_label": "STRONG_BULL"
+    },
+    {
+      "symbol": "AMC",
+      "timestamp": "2026-04-14T21:52:51.578828",
+      "messages_analyzed": 30,
+      "bullish_count": 10,
+      "bearish_count": 2,
+      "bull_pct": 83.3,
+      "sentiment_label": "STRONG_BULL"
+    },
+    {
+      "symbol": "GME",
+      "timestamp": "2026-04-14T21:52:51.780869",
+      "messages_analyzed": 30,
+      "bullish_count": 10,
+      "bearish_count": 4,
+      "bull_pct": 71.4,
+      "sentiment_label": "STRONG_BULL"
+    },
+    {
+      "symbol": "SPY",
+      "timestamp": "2026-04-14T21:52:50.778072",
+      "messages_analyzed": 30,
+      "bullish_count": 6,
+      "bearish_count": 3,
+      "bull_pct": 66.7,
+      "sentiment_label": "STRONG_BULL"
+    },
+    {
+      "symbol": "RIVN",
+      "timestamp": "2026-04-14T21:52:53.495297",
+      "messages_analyzed": 30,
+      "bullish_count": 4,
+      "bearish_count": 2,
+      "bull_pct": 66.7,
+      "sentiment_label": "STRONG_BULL"
+    },
+    {
+      "symbol": "SMCI",
+      "timestamp": "2026-04-14T21:52:53.228144",
+      "messages_analyzed": 30,
+      "bullish_count": 9,
+      "bearish_count": 5,
+      "bull_pct": 64.3,
+      "sentiment_label": "BULL"
+    },
+    {
+      "symbol": "SOUN",
+      "timestamp": "2026-04-14T21:52:52.377595",
+      "messages_analyzed": 30,
+      "bullish_count": 7,
+      "bearish_count": 4,
+      "bull_pct": 63.6,
+      "sentiment_label": "BULL"
+    },
+    {
+      "symbol": "IWM",
+      "timestamp": "2026-04-14T21:52:51.280596",
+      "messages_analyzed": 30,
+      "bullish_count": 4,
+      "bearish_count": 3,
+      "bull_pct": 57.1,
+      "sentiment_label": "BULL"
+    },
+    {
+      "symbol": "SOFI",
+      "timestamp": "2026-04-14T21:52:53.738651",
+      "messages_analyzed": 30,
+      "bullish_count": 4,
+      "bearish_count": 3,
+      "bull_pct": 57.1,
+      "sentiment_label": "BULL"
+    },
+    {
+      "symbol": "QQQ",
+      "timestamp": "2026-04-14T21:52:51.083685",
+      "messages_analyzed": 30,
+      "bullish_count": 6,
+      "bearish_count": 6,
+      "bull_pct": 50.0,
+      "sentiment_label": "NEUTRAL"
+    },
+    {
+      "symbol": "AMD",
+      "timestamp": "2026-04-14T21:52:54.744593",
+      "messages_analyzed": 30,
+      "bullish_count": 6,
+      "bearish_count": 6,
+      "bull_pct": 50.0,
+      "sentiment_label": "NEUTRAL"
+    },
+    {
+      "symbol": "ASTS",
+      "timestamp": "2026-04-14T21:52:52.880358",
+      "messages_analyzed": 30,
+      "bullish_count": 5,
+      "bearish_count": 7,
+      "bull_pct": 41.7,
+      "sentiment_label": "STRONG_BEAR"
+    },
+    {
+      "symbol": "NVDA",
+      "timestamp": "2026-04-14T21:52:54.045460",
+      "messages_analyzed": 30,
+      "bullish_count": 5,
+      "bearish_count": 7,
+      "bull_pct": 41.7,
+      "sentiment_label": "STRONG_BEAR"
+    },
+    {
+      "symbol": "TSLA",
+      "timestamp": "2026-04-14T21:52:54.428152",
+      "messages_analyzed": 30,
+      "bullish_count": 3,
+      "bearish_count": 7,
+      "bull_pct": 30.0,
+      "sentiment_label": "BEAR"
+    },
+    {
+      "symbol": "PLTR",
+      "timestamp": "2026-04-14T21:52:55.078195",
+      "messages_analyzed": 30,
+      "bullish_count": 2,
+      "bearish_count": 5,
+      "bull_pct": 28.6,
+      "sentiment_label": "BEAR"
+    }
+  ],
+  "market_mood": {
+    "market_mood": "RISK_OFF",
+    "bull_pct": 33,
+    "top_trending": [
+      {
+        "symbol": "KENDU.X",
+        "twits_mentions": 7
+      },
+      {
+        "symbol": "ROLR",
+        "twits_mentions": 2
+      },
+      {
+        "symbol": "ASML",
+        "twits_mentions": 2
+      },
+      {
+        "symbol": "OKLO",
+        "twits_mentions": 2
+      },
+      {
+        "symbol": "BE",
+        "twits_mentions": 2
+      },
+      {
+        "symbol": "POET",
+        "twits_mentions": 2
+      },
+      {
+        "symbol": "IONQ",
+        "twits_mentions": 2
+      },
+      {
+        "symbol": "BULL",
+        "twits_mentions": 2
+      },
+      {
+        "symbol": "LCID",
+        "twits_mentions": 1
+      },
+      {
+        "symbol": "TSLA",
+        "twits_mentions": 1
+      }
+    ],
+    "scanned_at": "2026-04-14T21:52:57.824052"
+  }
+}
