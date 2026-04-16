@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-15T02:28:33.360Z",
+  "updatedAt": "2026-04-16T04:48:27.492Z",
   "entries": {
     "memory:memory/2026-04-13.md:31:63": {
       "key": "memory:memory/2026-04-13.md:31:63",
@@ -62,6 +62,130 @@
         "day",
         "9am",
         "summary"
+      ]
+    },
+    "memory:memory/self-reviews/2026-04-14.md:16:51": {
+      "key": "memory:memory/self-reviews/2026-04-14.md:16:51",
+      "path": "memory/self-reviews/2026-04-14.md",
+      "startLine": 16,
+      "endLine": 51,
+      "source": "memory",
+      "snippet": "2. **Old `sigbotti_daemon.py` errors** — `daemon_error.log` is full of \"can't open file ... sigbotti_daemon.py: No such file or directory\" — same error repeated ~60x. LaunchAgent `/Users/sigbotti/Library/LaunchAgents/ai.sigbotti.dashboard.plist` references a file that doesn't exist. Another stale artifact. ## Still Active - **Discord webhook for scanner**: Sunday Night Scanner completes fine but can't deliver to Discord. Webhook URL not found. - **Episode logger**: 2 episodes total. Self-improvement loop still blind. - **Trace logger**: 1 trace, needs 10+ for routing analysis. - **$SIGBOTTI coin**: Unverified since Apr 12 (~2.3K market cap Day 9). Should verify today. ## Today's Prioritie",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-16T04:48:27.492Z",
+      "lastRecalledAt": "2026-04-16T04:48:27.492Z",
+      "queryHashes": [
+        "84c583cbdd32"
+      ],
+      "recallDays": [
+        "2026-04-16"
+      ],
+      "conceptTags": [
+        "sigbotti-daemon.py",
+        "daemon-error.log",
+        "self-improvement",
+        "2.3k",
+        "old",
+        "errors",
+        "full",
+        "can't"
+      ]
+    },
+    "memory:memory/self-reviews/2026-04-14.md:1:20": {
+      "key": "memory:memory/self-reviews/2026-04-14.md:1:20",
+      "path": "memory/self-reviews/2026-04-14.md",
+      "startLine": 1,
+      "endLine": 20,
+      "source": "memory",
+      "snippet": "# Self-Review — 2026-04-14 (Day 19) ## Summary Cron infrastructure is **stable** — all 7 jobs at 0 consecutive errors. Ollama daemon is running (PID 34846, qwen2.5:0.5b). The launchd restart loop issue from Apr 13 night (daemon started 15x in 11 min) appears self-corrected — throttle interval kicked in and it's been stable since 04:08 AM. Two new gaps surfaced. Daily maintenance + observation mode. ## What Closed Yesterday - **Ollama daemon restart loop**: Resolved itself via ThrottleInterval=60. 15 restarts between 22:50-23:01 (Apr 13) then stabilized. Current uptime: ~9 hours, no restarts. - **Gap Alert Scanner weekday run**: Confirmed worked Apr 13 1-8PM ET (13 alerts generated, gap-a",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-16T04:48:27.492Z",
+      "lastRecalledAt": "2026-04-16T04:48:27.492Z",
+      "queryHashes": [
+        "84c583cbdd32"
+      ],
+      "recallDays": [
+        "2026-04-16"
+      ],
+      "conceptTags": [
+        "self-review",
+        "qwen2.5",
+        "0.5b",
+        "self-corrected",
+        "50-23",
+        "1-8pm",
+        "gap-a",
+        "self"
+      ]
+    },
+    "memory:memory/self-reviews/2026-04-15.md:1:31": {
+      "key": "memory:memory/self-reviews/2026-04-15.md:1:31",
+      "path": "memory/self-reviews/2026-04-15.md",
+      "startLine": 1,
+      "endLine": 31,
+      "source": "memory",
+      "snippet": "# Self-Review — 2026-04-15 (Day 20) ## Summary Ollama daemon stable (PID 34846, ~29h uptime). New bug found: cron `ET` timezone may not parse correctly — Gap Alert Scanner fired at 4:53 AM ET instead of 1PM ET (08:53 UTC). $SIGBOTTI coin still unverified (Day 11 since launch). Maintenance + gap investigation mode. ## Learnings - **Cron ET timezone bug suspected** — Gap Alert Scanner's `*/15 13-20 * * 1-5 ET` fired at 08:53 UTC (= 4:53 AM ET), outside the intended 1-8PM ET window. Need to verify cron ET timezone parsing. - PerfectPlace Apr 14 1PM ET: no output file found — unverified whether it ran - Sunday Night Scanner Apr 14 midnight: unverified (no output logged) - Ollama daemon running",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-16T04:48:27.492Z",
+      "lastRecalledAt": "2026-04-16T04:48:27.492Z",
+      "queryHashes": [
+        "84c583cbdd32"
+      ],
+      "recallDays": [
+        "2026-04-16"
+      ],
+      "conceptTags": [
+        "self-review",
+        "13-20",
+        "1-5",
+        "1-8pm",
+        "self",
+        "review",
+        "day",
+        "summary"
+      ]
+    },
+    "memory:memory/self-reviews/2026-04-15.md:25:36": {
+      "key": "memory:memory/self-reviews/2026-04-15.md:25:36",
+      "path": "memory/self-reviews/2026-04-15.md",
+      "startLine": 25,
+      "endLine": 36,
+      "source": "memory",
+      "snippet": "2. Fix cron ET timezone: test what timezone the cron daemon actually supports 3. PerfectPlace Apr 14: find output or confirm missed run 4. Clean up stale LaunchAgents (ai.sigbotti.dashboard.plist, com.sigbotti.dailyscanner.plist) 5. Episode logger: still data-starved (2 episodes only) ## Stats - Ollama daemon: PID 34846, ~29h uptime - Episode count: 2 (data-starved) - Traces: 1 (needs 10+) - Cron consecutive errors: all 0 (stable) - Self-eval: ~13 days to first run",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-16T04:48:27.492Z",
+      "lastRecalledAt": "2026-04-16T04:48:27.492Z",
+      "queryHashes": [
+        "84c583cbdd32"
+      ],
+      "recallDays": [
+        "2026-04-16"
+      ],
+      "conceptTags": [
+        "ai.sigbotti.dashboard.plist",
+        "com.sigbotti.dailyscanner.plist",
+        "data-starved",
+        "self-eval",
+        "fix",
+        "cron",
+        "timezone",
+        "test"
       ]
     }
   }
