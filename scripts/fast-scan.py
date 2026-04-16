@@ -204,6 +204,13 @@ def scan_ticker_fast(ticker):
         if pos10 < 25: momentum_score += 15  # near 10d lows = bounce setup
         if macd_hist > 0: momentum_score += 8
 
+        # Analyst price targets
+        target_low = info.get('targetLowPrice', 0) or 0
+        target_high = info.get('targetHighPrice', 0) or 0
+        target_mean = info.get('targetMeanPrice', 0) or 0
+        upside = (target_mean / current * 100 - 100) if target_mean and current else 0
+        recommendation = info.get('recommendationKey', 'N/A')
+
         return {
             "ticker": ticker,
             "price": round(float(current), 2),
@@ -227,6 +234,11 @@ def scan_ticker_fast(ticker):
             "fundamental_verdict": verdict,
             "dilution_risk": dilution,
             "red_flags": red_flags,
+            "target_low": round(float(target_low), 2),
+            "target_high": round(float(target_high), 2),
+            "target_mean": round(float(target_mean), 2),
+            "upside_to_mean": round(float(upside), 1),
+            "recommendation": recommendation,
         }
     except Exception:
         return None
@@ -282,10 +294,18 @@ def main():
         if r['si_score'] >= 30: tags.append("SI")
         if r['momentum_score'] >= 20: tags.append("MOMO")
         tag_str = f"[{','.join(tags)}]" if tags else ""
-        fund = r.get('fundamental_verdict', '')
+        tm = r.get('target_mean', 0)
+        th = r.get('target_high', 0)
+        up = r.get('upside_to_mean', 0)
+        rec = r.get('recommendation', 'N/A')
+        if tm and th:
+            analyst_line = f'analyst: ${tm:.0f} ({up:+.0f}%) [sell→{th:.0f}]'
+        else:
+            analyst_line = f'analyst: {rec}'
         print(f"  {r['ticker']:6} ${r['price']:7.2f} | {r['total_score']:3}/100 {tag_str:15} | "
               f"gap {r['gap_pct']:+.1f}% | RSI {r['rsi']:5.0f} | "
-              f"SI {r['si']:5.1f}% | BW {r['bb_width']:5.1f}%({r['bb_pct']:4.0f}%ile) | fund: {fund}")
+              f"SI {r['si']:5.1f}% | BW {r['bb_width']:5.1f}%({r['bb_pct']:4.0f}%ile)")
+        print(f"       {analyst_line}")
     print()
     for r in results[:10]:
         if r.get('red_flags'):
