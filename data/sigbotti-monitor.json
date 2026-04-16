@@ -1,0 +1,18 @@
+{
+  "symbol": "$SIGBOTTI",
+  "contract": "398KX1y8K9fdhAqg3gdsfxSVdZwWSXijeWubVsUNpump",
+  "scanned_at": "2026-04-16T05:22:38.983966",
+  "graduated": false,
+  "price": null,
+  "mcap": null,
+  "reddit_mentions": 0,
+  "twitter_mentions": 0,
+  "total_social": 0,
+  "alerts": [],
+  "dex_pair": null,
+  "bonding_curve": {
+    "supply": 1000000000.0,
+    "uiSupply": 1000000000.0,
+    "decimals": 6
+  }
+}
