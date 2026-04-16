@@ -6,11 +6,13 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
-| **Cron ET timezone parsing** | 🟡 DISCOVERED 2026-04-15 | 🟡 HIGH | Gap Alert Scanner `*/15 13-20 * * 1-5 ET` fired at 08:53 UTC (= 4:53 AM ET), not 1PM ET. Cron daemon doesn't support `ET` alias. Need numeric UTC offset (`0 17-0 * * 1-5` for 1PM-8PM ET = 17:00-0:00 UTC). |
-| **$SIGBOTTI coin** | 🟡 UNVERIFIED | 🟡 HIGH | ~$2.3K market cap (Day 9). Unverified since Apr 12. Now Day 11 since launch. Must check today. |
+| **$SIGBOTTI coin: null mcap** | 🔴 DISCOVERED 2026-04-16 | 🔴 HIGH | pump.fun API returned null price/mcap on Apr 16 05:22 UTC. Unknown if API issue or coin flatlined. Need manual check. |
+| **Episode logger: 0 episodes** | 🔴 PERSISTENT 5+ days | 🔴 HIGH | 9 daemon tasks completed, 0 episodes captured. log_episode() not being called in ollama-daemon.py. Self-improvement loop completely blind. |
+| **Trace logger: 1 trace** | 🟡 PERSISTENT 3+ days | 🟡 MED | 9 daemon tasks completed, 0 traces added. trace_logger.log() not integrated into task completion. |
+| **Cron ET timezone parsing** | 🟡 INCONSISTENT 2026-04-15 | 🟡 HIGH | Apr 14 wrong (4:53 AM ET), Apr 15 correct (4:45 PM ET). One correct run ≠ fixed. Need `TZ=UTC` prefix + numeric UTC offsets permanently. |
 | **PerfectPlace Apr 14** | 🟡 UNVERIFIED | 🟡 MED | No output file found from Apr 14 1PM ET run. Need to confirm ran or reschedule. |
 | **Sunday Night Scanner Apr 14 midnight** | 🟡 UNVERIFIED | 🟡 LOW | No output logged from midnight run. |
-| **Discord webhook for scanner** | 🟡 DISCOVERED 2026-04-13 | 🟡 MED | Sunday Night Scanner completed successfully but can't deliver to Discord — "No Discord webhook configured." |
+| **Discord webhook for scanner** | 🟡 DISCOVERED 2026-04-13 | 🟡 MED | Sunday Night Scanner needs Discord webhook to deliver results. Scanner itself works. |
 | **Episode logger data-starved** | 🟡 DISCOVERED 2026-04-11 | 🟡 MED | Only 2 episodes ever logged. Self-improvement loop is blind. Persistent 4+ days. |
 | **Trace logger** | 🟡 ACTIVE | 🟡 MED | 1 trace since Apr 13. Needs 10+ traces for routing analysis. |
 | **Stale LaunchAgents** | 🟡 DISCOVERED 2026-04-14 | 🟡 LOW | ai.sigbotti.dashboard.plist + com.sigbotti.dailyscanner.plist — old cruft. |

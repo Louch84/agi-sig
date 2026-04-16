@@ -1,81 +1,65 @@
 # SESSION-STATE.md — Active Working Memory
 
 This file is the agent's "RAM" — survives compaction, restarts, distractions.
-Chat history is a BUFFER. This file is STORAGE.
 
 ## Current Task
-Wednesday morning (April 15, 2026 — 9:00 AM ET). Daily self-review complete. New bug found: cron `ET` timezone not parsing correctly. $SIGBOTTI coin Day 11 unverified. Ollama daemon stable (PID 34846, ~29h uptime).
+Thursday morning (April 16, 2026 — 9:00 AM ET). Daily self-review complete. $SIGBOTTI coin null mcap. Episode logger broken (0 episodes, 5+ days). Ollama daemon: 9 tasks completed, 1 trace.
 
 ## Key Context
 - Mission: AGI (Autonomous + Self-Healing + Self-Learning + Self-Improving)
-- Human: Lou (sigbotti) — Discord — Philly native, direct, no BS, AI researcher
-- Day 20 of operation (2026-04-15)
-- Skills: self-evolve, elite-longterm-memory, agent-autonomy-kit, self-improving-proactive-agent, automation-workflows, writing-plans, self-track, info-sources
+- Human: Lou — Discord — Philly native, direct, no BS, AI researcher
+- Day 21 of operation (2026-04-16)
 - Repo: github.com/Louch84/agi-sig — public, synced
 
 ## Ollama Infrastructure
 - `scripts/ollama-daemon.py` — daemon + queue, pre-loaded models
 - `scripts/task-planner.py` — JARVIS-style task decomposition
-- `scripts/trace_logger.py` — learning from execution traces
+- `scripts/trace_logger.py` — learning from execution traces (1 trace only — BROKEN)
+- `scripts/episode_logger.py` — **BROKEN: 0 episodes, 5+ days**
 - `scripts/world-model.py` — typed knowledge graph
 - Tony Spark LCM: `scripts/lcm-heartbeat.sh` — SQLite auto-compact
-- Ollama daemon: **RUNNING (PID 34846)** — stable ~29h uptime, started Tue 04:00 AM
-- Model: qwen2.5:0.5b (small model, CPU stability)
+- Ollama daemon: **RUNNING (PID ???)** — need to verify PID
 
 ## Projects
 
 ### $SIGBOTTI Coin
 - Contract: `398KX1y8K9fdhAqg3gdsfxSVdZwWSXijeWubVsUNpump` (Solana, Pump.fun)
 - Launched: 2026-04-04
-- **Day 11 since launch — UNVERIFIED since Apr 12. Must check today.**
+- **Apr 16 scan: null price/mcap — API issue or coin dead. Needs immediate check.**
 
 ### Stock Scanner
 - Scanner: `run_news_scan.py` — news-driven gap/squeeze analysis
-- Sunday Night Scanner: unverified Apr 14 midnight run
-- Gap Alert Scanner: **BUG — fired at 4:53 AM ET instead of 1PM ET** (cron `ET` timezone not parsed correctly)
-- PerfectPlace: unverified Apr 14 1PM ET run (no output found)
+- Gap Alert Scanner: Fired correctly Apr 15 4:45 PM ET. 3 alerts: TTEC, IOVA, EOSE. GRPN top signal (score 80).
+- Sunday Night Scanner Apr 15 midnight: **unverified**
 
-### Real Estate (PerfectPlace)
-- PerfectPlace cron: **UNVERIFIED Apr 14 1PM ET** — no output file found
-
-## Cron Jobs Status
+## Cron Jobs Status (Apr 16 9AM ET)
 | Name | Schedule | Status | Note |
 |------|----------|--------|------|
 | Daily Sig Botti Self-Review | 0 9 * * * ET | ✅ OK | Just ran |
-| Sunday Night Scanner | 0 0 * * 1 ET | ❓ unverified | Apr 14 midnight — no output |
-| PerfectPlace Deal Scanner | 0 13 * * * ET | ❓ unverified | Apr 14 — no output found |
-| Gap Alert Scanner | */15 13-20 * * 1-5 ET | ❌ BUG | Fired at 4:53 AM ET — ET timezone not parsed |
-| Daily Code Self-Audit | 0 2 * * * ET | ✅ OK | Apr 14 2AM ET |
-| Weekly Self-Reflection | 0 9 * * 0 ET | ✅ OK | Next: Apr 15 9AM (today) |
-| Daily AI Research Agent | 0 9 * * * ET | ✅ OK | Apr 14 9AM ET |
-| Daily Vector Index Rebuild | 0 10 * * * ET | ✅ OK | Apr 14 10AM ET |
-
-**All 7 cron jobs: 0 consecutive errors (announce timeout fixed).**
-
-## New Gaps Found (Apr 15)
-1. **Cron ET timezone bug** — Gap Alert Scanner fired at 4:53 AM ET instead of 1PM ET. Need numeric UTC offset instead of `ET` alias.
-2. **Daily Vector Index Rebuild — 1 consecutive error** — Error is NOT the build itself (completes fine, ~2-5 min). Error is a write step in announce phase: `Write: run_vec_build.sh failed`. Build succeeds but delivery fails. Manual run triggered 2026-04-15 10:50 AM ET.
+| Sunday Night Scanner | 0 0 * * 1 ET | ❓ unverified | Apr 15 midnight — unverified |
+| PerfectPlace Deal Scanner | 0 13 * * * ET | ❓ unverified | Apr 14 unverified |
+| Gap Alert Scanner | */15 13-20 * * 1-5 ET | ⚠️ INCONSISTENT | Apr 15 correct (4:45 PM ET), Apr 14 wrong (4:53 AM ET) |
+| Daily Code Self-Audit | 0 2 * * * ET | ✅ OK | Apr 16 2AM ET |
+| Weekly Self-Reflection | 0 9 * * 0 ET | ✅ OK | Apr 15 9AM ET |
+| Daily AI Research Agent | 0 9 * * * ET | ✅ OK | Apr 16 9AM ET |
+| Daily Vector Index Rebuild | 0 10 * * * ET | ✅ OK | Apr 16 10AM ET (today) |
 
 ## Top Priorities
-1. 🔴 **$SIGBOTTI coin** — verify pump.fun stats (Day 11, unverified since Apr 12)
-2. 🔴 **Fix cron ET timezone** — change `*/15 13-20 * * 1-5 ET` to numeric UTC: `*/15 17-0 * * 1-5` (17:00-00:00 UTC = 1PM-8PM ET)
-3. 🟡 **PerfectPlace Apr 14** — confirm ran or investigate missing output
-4. 🟡 **Sunday Night Scanner Apr 14** — confirm ran or investigate missing output
-5. 🟢 **Clean up stale LaunchAgents** — ai.sigbotti.dashboard.plist + com.sigbotti.dailyscanner.plist
-6. 🟡 **Episode logger** — still only 2 episodes, persistent gap
+1. 🔴 **$SIGBOTTI coin** — check pump.fun manually, get real mcap/price
+2. 🔴 **Episode logger** — debug why 0 episodes despite 9 daemon tasks
+3. 🔴 **Fix cron ET timezone** — use `TZ=UTC` prefix + numeric UTC offsets
+4. 🟡 **Trace logger** — integrate trace_logger.log() into task completion
+5. 🟡 **PerfectPlace Apr 14** — confirm ran or reschedule
 
 ## Pending Actions
-- [ ] $SIGBOTTI coin: verify pump.fun stats (CRITICAL — 4+ days)
-- [ ] Fix cron ET timezone: update all crons using `ET` to numeric UTC offset
-- [ ] PerfectPlace: verify Apr 14 1PM ET run output
-- [ ] Sunday Night Scanner: verify Apr 14 midnight run output
-- [ ] Daily Code Self-Audit: Apr 15 2AM ET (tonight)
-- [ ] Daily AI Research Agent: Apr 16 9AM ET
-- [ ] Daily Vector Index Rebuild: Apr 15 10AM ET (today)
-- [ ] Weekly Self-Reflection: Apr 15 9AM ET (today — this session IS the weekly reflection)
+- [ ] $SIGBOTTI coin: manual pump.fun check (CRITICAL)
+- [ ] Episode logger: debug log_episode() call path in ollama-daemon.py
+- [ ] Fix cron ET timezone: update all crons using `ET` to `TZ=UTC` + numeric offset
+- [ ] PerfectPlace: verify Apr 14 1PM ET run
+- [ ] Sunday Night Scanner Apr 15 midnight: verify
+- [ ] Ollama daemon PID: verify current PID
 
-## Benchmark Status (2026-04-14)
-
+## Benchmark Status
 | Capability | Score |
 |-----------|-------|
 | Memory/Recall | 4/5 |
@@ -88,7 +72,7 @@ Wednesday morning (April 15, 2026 — 9:00 AM ET). Daily self-review complete. N
 | Persistence | 4/5 |
 | Autonomy | 4/5 |
 
-**Average: 3.7/5** | **Self-Eval: ~13 days to first run**
+**Average: 3.7/5** | **Self-Eval: ~12 days to first run**
 
 ---
-*Last updated: 2026-04-15T13:00:00.000Z (daily self-review complete)*
+*Last updated: 2026-04-16T13:00:00.000Z (daily self-review complete)*

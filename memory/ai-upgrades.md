@@ -338,3 +338,31 @@ Gemma 4 31B (and likely other 31B+ models) cannot reliably run via Ollama on App
 2. Use Ollama only for simple/fast tasks that don't need tool calling
 3. OR use llama.cpp directly with specific flags for larger models on Apple Silicon
 
+
+---
+
+## 2026-04-16 — Daily Research
+
+### Finding: GLM-5.1 Not in Ollama — Daemon Falls Back to llama3:latest
+Confirmed: `glm-5.1` does not exist in the Ollama library (manifest file not found). The April 15 plan to pull it couldn't execute.
+
+**Current state:**
+- `model_router.py` classifies "coding" queries → returns "coding"
+- `ollama-daemon.py` routes "coding" type → `llama3:latest` (4.7GB, already loaded)
+- SWE-Bench Pro performance: GLM-5.1 would be better, but llama3:latest is a functional fallback
+
+**Conclusion:** No change needed. The stack is working as designed with llama3:latest as the coding model. GLM-5.1 would be an upgrade if it becomes available in Ollama.
+
+### Actionable: VAKRA Benchmark for Self-Testing
+IBM's VAKRA (8,000+ APIs, 62 domains, 3-7 step reasoning) is publicly available. Could be used to:
+1. Measure Sig's daemon + Codex CLI agent capability
+2. Track improvement over time as she self-improves
+3. Identify specific failure modes in tool-use reasoning
+
+**Not immediately actionable** — would need to build a test harness. Worth noting for future capability benchmarking.
+
+### Actionable: Granite 4.0 3B Vision vs llava:7b
+Granite 4.0 3B Vision is purpose-built for enterprise document understanding (tables, charts, KVP extraction). Sig has `llava:7b` for vision. Worth A/B testing against each other for PDF/form extraction tasks.
+
+**Not immediately actionable** — requires `ollama pull` and comparative testing.
+

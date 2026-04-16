@@ -449,3 +449,37 @@ Real-world test: running Gemma 4 31B locally in Codex CLI as replacement for clo
 ### World Models + Continual Learning — 2026 Breakthrough Year
 NextBigFuture confirms 2026 is the breakthrough year for reliable world models and continual learning. This aligns with Sig's self-improvement mission — continual learning without catastrophic forgetting is exactly what enables persistent self-improvement.
 
+
+---
+
+## 2026-04-16 — VAKRA Agent Benchmark + Granite 4.0 3B Vision
+
+### VAKRA: IBM's Tool-Grounded Agent Benchmark (April 15)
+IBM Research released VAKRA — an executable benchmark for tool-using AI agents in enterprise-like environments:
+- **8,000+ locally hosted APIs** across 62 domains with real databases
+- **3-7 step reasoning chains** combining API calls + document retrieval
+- **4 task types:** API chaining, document retrieval, synthetic reasoning, mixed workflows
+- **Key finding: Models perform poorly.** This aligns with Sig's Vibe Coding philosophy — agents fail in complex tool-use scenarios
+- **VAKRA Dataset:** https://huggingface.co/datasets/ibm-research/VAKRA
+- **Leaderboard:** https://ibm-research-vakra.hf.space/
+
+**Relevance to Sig:** Her agentic stack (daemon, Codex CLI) would likely perform poorly on VAKRA. This benchmark could be used to measure Sig's own agent capability improvements over time.
+
+### Granite 4.0 3B Vision (IBM, March 31)
+Compact vision-language model for enterprise document understanding:
+- **LoRA adapter on Granite 4.0 Micro** — modular, text-only fallback
+- **Strengths:** Table extraction, chart understanding, semantic KVP extraction
+- **Trained on ChartNet** — 1.7M chart samples with 5 aligned components (code, image, data table, summary, QA pairs)
+- **Designed to pair with Docling** for document processing pipelines
+- **Model:** https://huggingface.co/ibm-granite/granite-4.0-3b-vision
+
+**Relevance to Sig:** Already has llava:7b for vision. Granite 4.0 3B is purpose-built for document understanding — could be better for PDF analysis, form extraction tasks. Worth testing vs llava for document-heavy workflows.
+
+### GLM-5.1 Not Available in Ollama
+The April 15 plan to pull `glm-5.1` couldn't execute — **glm-5.1 doesn't exist in the Ollama library.** The model may have a different name or isn't published there yet. Current Ollama models remain: qwen2.5:0.5b, llama3.2:1b, llama3:latest, qwen3-coder:30b.
+
+**Action:** Do not attempt `ollama pull glm-5.1` — it fails. Research the correct model name or alternative source.
+
+### Stock Discovery Cron Failing (1 consecutive error)
+Daily Stock Discovery cron (`disc-20260415124410`) has 1 error. Re-ran manually at 9:14 AM ET. Pending result.
+

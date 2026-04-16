@@ -222,6 +222,13 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - **Dilution filter tested**: LUNR✅ ASTS✅ AMC✅ SMCI✅ LCID❌ (8mo cash runway)
 - **Lesson**: Technical setup without fundamental confirmation = gambling. Always check dilution before alerting.
 
+## Self-Review Learnings (2026-04-16 — Day 21)
+- **GRPN squeeze signal confirmed real** — score 80, gap 3.49%, RSI 20.8, SI 47.28%, vol ratio 26x. Scanner fired correctly Apr 15 at 4:45 PM ET (3 alerts: TTEC, IOVA, EOSE).
+- **Cron ET timezone: STILL UNFIXED** — Apr 14 wrong (4:53 AM ET), Apr 15 correct (4:45 PM ET). Inconsistent. Must use `TZ=UTC` prefix + numeric UTC offsets permanently.
+- **$SIGBOTTI coin: null mcap** — pump.fun API returned null price/mcap on Apr 16 05:22 UTC scan. Unknown if API issue or coin dead.
+- **Episode logger: 0 episodes** — 5+ days, 9 daemon tasks, 0 captured. log_episode() not being called. Root cause unknown.
+- **Trace logger: 1 trace** — 9 daemon tasks completed, 0 traces added. Integration broken.
+
 ## Self-Review Learnings (2026-04-15 — Day 20)
 - **Cron ET timezone bug** — Gap Alert Scanner `*/15 13-20 * * 1-5 ET` fired at 08:53 UTC (= 4:53 AM ET), not 1PM ET. Cron daemon may not support named timezone `ET`. May need numeric UTC offset instead (`0 17 * * 1-5` for 1PM ET).
 - **PerfectPlace Apr 14 1PM ET: unverified** — no output file found. Need to confirm run.
