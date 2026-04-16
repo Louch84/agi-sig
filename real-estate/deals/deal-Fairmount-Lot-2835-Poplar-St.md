@@ -1,35 +1,35 @@
-# DEAL SHEET — 1819 E Orleans St
+# DEAL SHEET — Fairmount Lot 2835 Poplar St
 
 | Field | Details |
 |-------|---------|
-| **Asking Price** | $69,000 |
+| **Asking Price** | $255,000 |
 | **Property Type** | Single Family Home |
-| **Bedrooms** | 3 |
-| **Bathrooms** | 1 |
-| **Area** | Philadelphia, PA 19134 |
-| **ARV (After Repair Value)** | $172,500.0 (estimate — verify with comps) |
+| **Bedrooms** | TBD |
+| **Bathrooms** | TBD |
+| **Area** | Philadelphia, PA 19130 |
+| **ARV (After Repair Value)** | $637,500.0 (estimate — verify with comps) |
 | **Est. Repairs** | TBD |
-| **Your Fee** | $3,000–$4,000 |
+| **Your Fee** | $6,375–$7,375 |
 | **Source** | New Western / Aidan Daly |
-| **Email ID** | 726 |
+| **Email ID** | 732 |
 
 ---
 
 ## The Numbers
 
 ```
-ARV (Estimate):               $172,500.0
-Your Purchase Price:           $69,000
+ARV (Estimate):               $637,500.0
+Your Purchase Price:           $255,000
 Estimated Repairs:             TBD
                              ─────────────
-Your Fee Potential:           $3,000–$4,000
+Your Fee Potential:           $6,375–$7,375
 ```
 
 ---
 
 ## Description
 
-Check out this solid corner 3-bed opportunity in Kensington. This is a solid buy and hold for an investor looking at the long term or someone looking to start their portfolio. Contact a New Western agent to set up a walk through.
+Come check out this extremely rare opportunity in Fairmount! We are zoned RM1 and are big enough to be 4 units! Opportunities like this don’t come around often, contact your NW rep asap!
 
 ---
 

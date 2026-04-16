@@ -1,35 +1,35 @@
-# DEAL SHEET — 1819 E Orleans St
+# DEAL SHEET — 39 Ashmead Pl N
 
 | Field | Details |
 |-------|---------|
-| **Asking Price** | $69,000 |
+| **Asking Price** | $135,000 |
 | **Property Type** | Single Family Home |
 | **Bedrooms** | 3 |
 | **Bathrooms** | 1 |
-| **Area** | Philadelphia, PA 19134 |
-| **ARV (After Repair Value)** | $172,500.0 (estimate — verify with comps) |
+| **Area** | Philadelphia, PA 19144 |
+| **ARV (After Repair Value)** | $337,500.0 (estimate — verify with comps) |
 | **Est. Repairs** | TBD |
-| **Your Fee** | $3,000–$4,000 |
+| **Your Fee** | $3,375–$4,375 |
 | **Source** | New Western / Aidan Daly |
-| **Email ID** | 726 |
+| **Email ID** | 728 |
 
 ---
 
 ## The Numbers
 
 ```
-ARV (Estimate):               $172,500.0
-Your Purchase Price:           $69,000
+ARV (Estimate):               $337,500.0
+Your Purchase Price:           $135,000
 Estimated Repairs:             TBD
                              ─────────────
-Your Fee Potential:           $3,000–$4,000
+Your Fee Potential:           $3,375–$4,375
 ```
 
 ---
 
 ## Description
 
-Check out this solid corner 3-bed opportunity in Kensington. This is a solid buy and hold for an investor looking at the long term or someone looking to start their portfolio. Contact a New Western agent to set up a walk through.
+Come check out this Germantown flip! In a prime location, and with a 292k comp right next door be sure to see it asap. Contact your NW agent today!
 
 ---
 

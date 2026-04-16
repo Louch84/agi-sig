@@ -384,7 +384,7 @@ def print_summary(results, state):
     print(f"\n⏰ Alerts sent today: {len(alerts_today)} — {alerts_today if alerts_today else 'none'}")
     print(f"   Last scan: {state.get('last_scan', 'never')}")
 
-    # Append $SIGBOTTI coin card
+    # Append SIGBOTTI coin card
     try:
         from coin_sb import get_card
         card = get_card()

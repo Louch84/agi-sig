@@ -1,25 +1,25 @@
-# DEAL SHEET — 1819 E Orleans St
+# DEAL SHEET — 3140 Euclid Ave
 
 | Field | Details |
 |-------|---------|
-| **Asking Price** | $69,000 |
+| **Asking Price** | $95,000 |
 | **Property Type** | Single Family Home |
-| **Bedrooms** | 3 |
-| **Bathrooms** | 1 |
-| **Area** | Philadelphia, PA 19134 |
-| **ARV (After Repair Value)** | $172,500.0 (estimate — verify with comps) |
+| **Bedrooms** | TBD |
+| **Bathrooms** | TBD |
+| **Area** | Philadelphia, PA 19121 |
+| **ARV (After Repair Value)** | $237,500.0 (estimate — verify with comps) |
 | **Est. Repairs** | TBD |
 | **Your Fee** | $3,000–$4,000 |
 | **Source** | New Western / Aidan Daly |
-| **Email ID** | 726 |
+| **Email ID** | 731 |
 
 ---
 
 ## The Numbers
 
 ```
-ARV (Estimate):               $172,500.0
-Your Purchase Price:           $69,000
+ARV (Estimate):               $237,500.0
+Your Purchase Price:           $95,000
 Estimated Repairs:             TBD
                              ─────────────
 Your Fee Potential:           $3,000–$4,000
@@ -29,7 +29,7 @@ Your Fee Potential:           $3,000–$4,000
 
 ## Description
 
-Check out this solid corner 3-bed opportunity in Kensington. This is a solid buy and hold for an investor looking at the long term or someone looking to start their portfolio. Contact a New Western agent to set up a walk through.
+Come check out this amazing shell in 19121! This property is a clean shell but can be a great rental or flip. Contact your NW rep today!
 
 ---
 
