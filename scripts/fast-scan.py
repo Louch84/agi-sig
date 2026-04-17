@@ -150,6 +150,37 @@ def scan_ticker_fast(ticker):
         si = (info.get('shortPercentOfFloat', 0) or 0) * 100
         short_ratio = info.get('shortRatio', 0) or 0
 
+        # ── Institutional ownership ─────────────────────────────────────────
+        io_pct = (info.get('heldPercentInstitutions', 0) or 0) * 100
+
+        # ── Earnings timing ─────────────────────────────────────────────────
+        days_to_earnings = 999
+        expected_move_pct = 0
+        try:
+            from datetime import date as dt_class
+            cal = t.calendar
+            if cal and 'Earnings Date' in cal:
+                ed_list = cal['Earnings Date']
+                if isinstance(ed_list, list) and len(ed_list) > 0:
+                    ed = ed_list[0]
+                    today = dt_class.today()
+                    # datetime.date objects — subtract directly
+                    if isinstance(ed, dt_class):
+                        days_to_earnings = (ed - today).days
+                    # Fallback: try .date() method (for datetime.datetime)
+                    elif hasattr(ed, 'date') and callable(ed.date):
+                        days_to_earnings = (ed.date() - today).days
+                # Expected move from earnings calendar (% from stock price)
+                earn_avg = cal.get('Earnings Average', 0) or 0
+                earn_high = cal.get('Earnings High', 0) or 0
+                earn_low = cal.get('Earnings Low', 0) or 0
+                if earn_avg:
+                    expected_move_pct = abs(float(earn_avg))
+                elif earn_high and earn_low:
+                    expected_move_pct = abs((float(earn_high) + float(earn_low)) / 2)
+        except Exception as e:
+            pass  # silently skip earnings data if parsing fails
+
         # ── Fundamental check ──────────────────────────────────────────
         fund = check_fundamentals(ticker)
         dilution = fund.get('dilution_risk', False)
@@ -218,6 +249,9 @@ def scan_ticker_fast(ticker):
             "rsi": round(float(rsi), 1),
             "si": round(float(si), 1),
             "short_ratio": round(float(short_ratio), 2),
+            "io_pct": round(float(io_pct), 1),
+            "days_to_earnings": int(days_to_earnings),
+            "expected_move_pct": round(float(expected_move_pct), 2),
             "atr_ratio": round(float(atr_ratio), 2),
             "bb_width": round(float(bb_width), 1),
             "bb_pct": round(float(bw_pct), 1),
@@ -269,9 +303,11 @@ def main():
         print(f"[{i+1}/20] {ticker}...", end=" ", flush=True)
         row = scan_ticker_fast(ticker)
         if row:
+            earns_tag = "📅" if row['days_to_earnings'] <= 14 else ""
+            io_tag = "👶" if row['io_pct'] < 30 else ("🏦" if row['io_pct'] > 70 else "")
             print(f"gap {row['gap_pct']:+.1f}% | RSI {row['rsi']:.0f} | "
-                  f"SI {row['si']:.0f}% | ATR {row['atr_ratio']:.2f} | "
-                  f"BW {row['bb_width']:.1f}%({row['bb_pct']:.0f}%ile) | "
+                  f"SI {row['si']:.0f}% | IO {row['io_pct']:.0f}%{io_tag} | "
+                  f"EARNS {row['days_to_earnings']}d{earns_tag} | "
                   f"score {row['total_score']}/100 "
                   f"{'⚠️ DILUTING' if row['dilution_risk'] else ''}")
             results.append(row)
@@ -293,18 +329,26 @@ def main():
         if r['coil_score'] >= 40: tags.append("COIL")
         if r['si_score'] >= 30: tags.append("SI")
         if r['momentum_score'] >= 20: tags.append("MOMO")
+        if r['days_to_earnings'] <= 5: tags.append("EARNS")
+        elif r['days_to_earnings'] <= 14: tags.append("EARNS-SOON")
+        io_label = f"IO{r['io_pct']:.0f}%"
+        if r['io_pct'] < 30: io_label += "👶"
         tag_str = f"[{','.join(tags)}]" if tags else ""
         tm = r.get('target_mean', 0)
         th = r.get('target_high', 0)
         up = r.get('upside_to_mean', 0)
         rec = r.get('recommendation', 'N/A')
+        exp_move = r.get('expected_move_pct', 0)
         if tm and th:
             analyst_line = f'analyst: ${tm:.0f} ({up:+.0f}%) [sell→{th:.0f}]'
         else:
             analyst_line = f'analyst: {rec}'
-        print(f"  {r['ticker']:6} ${r['price']:7.2f} | {r['total_score']:3}/100 {tag_str:15} | "
+        if exp_move:
+            analyst_line += f" | exp move: {exp_move:+.1f}%"
+        earns_line = f"EARNS {r['days_to_earnings']}d" if r['days_to_earnings'] < 999 else ""
+        print(f"  {r['ticker']:6} ${r['price']:7.2f} | {r['total_score']:3}/100 {tag_str:20} | "
               f"gap {r['gap_pct']:+.1f}% | RSI {r['rsi']:5.0f} | "
-              f"SI {r['si']:5.1f}% | BW {r['bb_width']:5.1f}%({r['bb_pct']:4.0f}%ile)")
+              f"SI {r['si']:5.1f}% | {io_label:8} {earns_line}")
         print(f"       {analyst_line}")
     print()
     for r in results[:10]:
