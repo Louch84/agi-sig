@@ -1,52 +1,52 @@
 {
-  "timestamp": "2026-04-16T22:07:30.791356",
+  "timestamp": "2026-04-17T10:44:35.927780",
   "results": [
     {
-      "ticker": "LCID",
-      "score": 93,
+      "ticker": "AI",
+      "score": 100,
       "option": {
         "type": "CALL",
-        "strike": 7.5,
+        "strike": 9.5,
         "expiry": "2026-04-24",
-        "price": 0.42,
-        "volume": 3907,
-        "oi": 21,
-        "voi_ratio": 186.0,
+        "price": 0.4,
+        "volume": 9077,
+        "oi": 1844,
+        "voi_ratio": 4.9,
         "sentiment": "NEUTRAL",
-        "itm_pct": 2.6
+        "itm_pct": 1.3
       },
       "shorts": {
-        "si": 41.8,
-        "short_ratio": 6.4,
+        "si": 31.8,
+        "short_ratio": 7.5,
         "borrow_fee": 0,
         "float": 0,
-        "avg_vol": 8456085,
+        "avg_vol": 6688516,
         "vol_to_float": 999,
-        "inst_pct": 66.1
+        "inst_pct": 58.9
       },
       "news": {
         "count": 10,
         "recent": []
       },
       "price": {
-        "price": 7.7,
-        "move_today": -6.21,
-        "move_5d": -10.26
+        "price": 9.63,
+        "move_today": 3.33,
+        "move_5d": 13.7
       }
     },
     {
       "ticker": "HIMS",
-      "score": 89,
+      "score": 82,
       "option": {
         "type": "CALL",
-        "strike": 29.0,
-        "expiry": "2026-04-24",
-        "price": 1.07,
-        "volume": 9175,
-        "oi": 282,
-        "voi_ratio": 32.5,
-        "sentiment": "BULLISH",
-        "itm_pct": 7.4
+        "strike": 31.0,
+        "expiry": "2026-04-17",
+        "price": 0.15,
+        "volume": 4462,
+        "oi": 852,
+        "voi_ratio": 5.2,
+        "sentiment": "NEUTRAL",
+        "itm_pct": 4.9
       },
       "shorts": {
         "si": 38.7,
@@ -55,101 +55,68 @@
         "float": 0,
         "avg_vol": 36416442,
         "vol_to_float": 999,
-        "inst_pct": 86.0
+        "inst_pct": 85.9
       },
       "news": {
         "count": 10,
         "recent": []
       },
       "price": {
-        "price": 26.99,
-        "move_today": 11.12,
-        "move_5d": 38.91
+        "price": 29.51,
+        "move_today": 9.34,
+        "move_5d": 39.53
       }
     },
     {
-      "ticker": "MARA",
-      "score": 77,
+      "ticker": "COIN",
+      "score": 69,
       "option": {
-        "type": "PUT",
-        "strike": 10.5,
+        "type": "CALL",
+        "strike": 260.0,
         "expiry": "2026-05-01",
-        "price": 0.43,
-        "volume": 5817,
-        "oi": 134,
-        "voi_ratio": 43.4,
-        "sentiment": "NEUTRAL",
-        "itm_pct": 9.1
+        "price": 1.5,
+        "volume": 4041,
+        "oi": 121,
+        "voi_ratio": 33.4,
+        "sentiment": "BULLISH",
+        "itm_pct": 21.4
       },
       "shorts": {
-        "si": 38.6,
-        "short_ratio": 2.4,
+        "si": 12.2,
+        "short_ratio": 1.9,
         "borrow_fee": 0,
         "float": 0,
-        "avg_vol": 48298649,
+        "avg_vol": 12622608,
         "vol_to_float": 999,
-        "inst_pct": 69.6
+        "inst_pct": 68.9
       },
       "news": {
         "count": 10,
         "recent": []
       },
       "price": {
-        "price": 11.55,
-        "move_today": 10.32,
-        "move_5d": 21.07
-      }
-    },
-    {
-      "ticker": "GME",
-      "score": 77,
-      "option": {
-        "type": "PUT",
-        "strike": 25.0,
-        "expiry": "2026-04-24",
-        "price": 0.56,
-        "volume": 2886,
-        "oi": 136,
-        "voi_ratio": 21.2,
-        "sentiment": "NEUTRAL",
-        "itm_pct": 0.7
-      },
-      "shorts": {
-        "si": 15.3,
-        "short_ratio": 11.1,
-        "borrow_fee": 0,
-        "float": 0,
-        "avg_vol": 7731775,
-        "vol_to_float": 999,
-        "inst_pct": 36.6
-      },
-      "news": {
-        "count": 10,
-        "recent": []
-      },
-      "price": {
-        "price": 25.18,
-        "move_today": 1.57,
-        "move_5d": 8.44
+        "price": 214.54,
+        "move_today": 7.36,
+        "move_5d": 22.92
       }
     },
     {
       "ticker": "ASTS",
-      "score": 65,
+      "score": 64,
       "option": {
-        "type": "CALL",
-        "strike": 70.0,
-        "expiry": "2026-04-24",
-        "price": 20.22,
-        "volume": 681,
-        "oi": 26,
-        "voi_ratio": 26.2,
-        "sentiment": "NEUTRAL",
-        "itm_pct": 23.0
+        "type": "PUT",
+        "strike": 105.0,
+        "expiry": "2026-04-17",
+        "price": 15.3,
+        "volume": 3000,
+        "oi": 283,
+        "voi_ratio": 10.6,
+        "sentiment": "BEARISH",
+        "itm_pct": 18.4
       },
       "shorts": {
-        "si": 20.1,
-        "short_ratio": 3.9,
+        "si": 20.3,
+        "short_ratio": 3.6,
         "borrow_fee": 0,
         "float": 0,
         "avg_vol": 14223624,
@@ -161,57 +128,123 @@
         "recent": []
       },
       "price": {
-        "price": 90.94,
-        "move_today": 4.64,
-        "move_5d": -4.17
+        "price": 88.75,
+        "move_today": -2.41,
+        "move_5d": -10.33
       }
     },
     {
       "ticker": "LUNR",
-      "score": 62,
+      "score": 51,
       "option": {
         "type": "PUT",
-        "strike": 26.0,
+        "strike": 28.0,
         "expiry": "2026-04-17",
-        "price": 0.28,
-        "volume": 3573,
-        "oi": 42,
-        "voi_ratio": 85.1,
+        "price": 0.78,
+        "volume": 192,
+        "oi": 9,
+        "voi_ratio": 21.3,
         "sentiment": "NEUTRAL",
-        "itm_pct": 4.7
+        "itm_pct": 0.4
       },
       "shorts": {
-        "si": 20.3,
-        "short_ratio": 3.1,
+        "si": 20.8,
+        "short_ratio": 2.6,
         "borrow_fee": 0,
         "float": 0,
         "avg_vol": 12696627,
         "vol_to_float": 999,
-        "inst_pct": 71.1
+        "inst_pct": 71.0
       },
       "news": {
         "count": 10,
         "recent": []
       },
       "price": {
-        "price": 27.28,
-        "move_today": 14.24,
-        "move_5d": 15.74
+        "price": 27.88,
+        "move_today": 2.2,
+        "move_5d": 14.22
+      }
+    },
+    {
+      "ticker": "PLTR",
+      "score": 50,
+      "option": {
+        "type": "PUT",
+        "strike": 139.0,
+        "expiry": "2026-04-24",
+        "price": 1.27,
+        "volume": 3386,
+        "oi": 597,
+        "voi_ratio": 5.7,
+        "sentiment": "BEARISH",
+        "itm_pct": 5.8
+      },
+      "shorts": {
+        "si": 2.3,
+        "short_ratio": 1.1,
+        "borrow_fee": 0,
+        "float": 0,
+        "avg_vol": 52614168,
+        "vol_to_float": 999,
+        "inst_pct": 61.6
+      },
+      "news": {
+        "count": 10,
+        "recent": []
+      },
+      "price": {
+        "price": 147.67,
+        "move_today": 3.44,
+        "move_5d": 11.56
+      }
+    },
+    {
+      "ticker": "RIVN",
+      "score": 45,
+      "option": {
+        "type": "PUT",
+        "strike": 17.5,
+        "expiry": "2026-04-17",
+        "price": 0.23,
+        "volume": 338,
+        "oi": 22,
+        "voi_ratio": 15.4,
+        "sentiment": "BEARISH",
+        "itm_pct": 0.5
+      },
+      "shorts": {
+        "si": 13.3,
+        "short_ratio": 4.9,
+        "borrow_fee": 0,
+        "float": 0,
+        "avg_vol": 28763742,
+        "vol_to_float": 999,
+        "inst_pct": 46.1
+      },
+      "news": {
+        "count": 10,
+        "recent": []
+      },
+      "price": {
+        "price": 17.59,
+        "move_today": 4.15,
+        "move_5d": 10.63
       }
     },
     {
       "ticker": "BB",
-      "score": 61,
+      "score": 41,
       "option": {
-        "type": "CALL",
+        "type": "PUT",
         "strike": 5.0,
-        "expiry": "2026-04-24",
-        "price": 0.07,
-        "volume": 5848,
-        "oi": 113,
-        "voi_ratio": 51.8,
-        "sentiment": "NEUTRAL",
-        "itm_pct": 6.6
+        "expiry": "2026-04-17",
+        "price": 0.15,
+        "volume": 278,
+        "oi": 29,
+        "voi_ratio": 9.6,
+        "sentiment": "BEARISH",
+        "itm_pct": 4.7
       },
       "shorts": {
         "si": 4.7,
@@ -220,49 +253,16 @@
         "float": 0,
         "avg_vol": 8260867,
         "vol_to_float": 999,
-        "inst_pct": 48.9
+        "inst_pct": 48.8
       },
       "news": {
         "count": 10,
         "recent": []
       },
       "price": {
-        "price": 4.69,
-        "move_today": 14.11,
-        "move_5d": 22.14
-      }
-    },
-    {
-      "ticker": "SOFI",
-      "score": 54,
-      "option": {
-        "type": "PUT",
-        "strike": 19.5,
-        "expiry": "2026-04-17",
-        "price": 0.54,
-        "volume": 3086,
-        "oi": 86,
-        "voi_ratio": 35.9,
-        "sentiment": "BEARISH",
-        "itm_pct": 2.5
-      },
-      "shorts": {
-        "si": 11.1,
-        "short_ratio": 2.1,
-        "borrow_fee": 0,
-        "float": 0,
-        "avg_vol": 63975706,
-        "vol_to_float": 999,
-        "inst_pct": 55.6
-      },
-      "news": {
-        "count": 10,
-        "recent": []
-      },
-      "price": {
-        "price": 19.03,
-        "move_today": 1.28,
-        "move_5d": 17.32
+        "price": 4.78,
+        "move_today": 1.91,
+        "move_5d": 23.51
       }
     }
   ]

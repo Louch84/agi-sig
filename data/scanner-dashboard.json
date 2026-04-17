@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-04-16T22:12:55.570062",
+  "timestamp": "2026-04-17T10:44:27.928591",
   "ranked": [
     {
       "ticker": "MNPR",
-      "composite_score": 101.5,
+      "composite_score": 104.0,
       "sources": [
         "\ud83d\udcc8 GAP",
         "\u26a1 FAST"
       ],
       "signals": {
-        "gap_pct": 0.35,
-        "si": 65.83,
-        "rsi": 53.3,
-        "short_ratio": 9.56,
-        "52w_pct": 39.2,
-        "io_pct": 83.2,
-        "days_to_earnings": 26,
+        "gap_pct": 2.81,
+        "si": 67.05,
+        "rsi": 52.9,
+        "short_ratio": 8.96,
+        "52w_pct": 71.2,
+        "io_pct": 83.1,
+        "days_to_earnings": 25,
         "coil_score": 48,
         "momentum_score": 0,
         "si_score": 50
@@ -28,11 +28,11 @@
         "\ud83d\udcc8 GAP"
       ],
       "signals": {
-        "gap_pct": 9.04,
-        "si": 35.36,
-        "rsi": 26.5,
-        "short_ratio": 5.26,
-        "52w_pct": 52.0
+        "gap_pct": 0.56,
+        "si": 36.08,
+        "rsi": 61.9,
+        "short_ratio": 5.44,
+        "52w_pct": 91.0
       }
     },
     {
@@ -42,11 +42,11 @@
         "\ud83d\udcc8 GAP"
       ],
       "signals": {
-        "gap_pct": 3.26,
-        "si": 33.25,
-        "rsi": 49.0,
-        "short_ratio": 8.96,
-        "52w_pct": 97.6
+        "gap_pct": 11.11,
+        "si": 35.52,
+        "rsi": 84.2,
+        "short_ratio": 9.15,
+        "52w_pct": 94.2
       }
     },
     {
@@ -56,11 +56,11 @@
         "\ud83d\udcc8 GAP"
       ],
       "signals": {
-        "gap_pct": 0.31,
-        "si": 43.06,
-        "rsi": 72.5,
-        "short_ratio": 9.29,
-        "52w_pct": 71.2
+        "gap_pct": 4.94,
+        "si": 40.15,
+        "rsi": 81.1,
+        "short_ratio": 9.71,
+        "52w_pct": 90.5
       }
     },
     {
@@ -70,11 +70,25 @@
         "\ud83d\udcc8 GAP"
       ],
       "signals": {
-        "gap_pct": 1.19,
-        "si": 34.58,
-        "rsi": 73.9,
-        "short_ratio": 9.64,
-        "52w_pct": 93.7
+        "gap_pct": 5.53,
+        "si": 32.72,
+        "rsi": 84.0,
+        "short_ratio": 9.47,
+        "52w_pct": 95.0
+      }
+    },
+    {
+      "ticker": "RXRX",
+      "composite_score": 100.0,
+      "sources": [
+        "\ud83d\udcc8 GAP"
+      ],
+      "signals": {
+        "gap_pct": -1.89,
+        "si": 34.85,
+        "rsi": 59.0,
+        "short_ratio": 12.36,
+        "52w_pct": 68.9
       }
     },
     {
@@ -84,11 +98,11 @@
         "\ud83d\udcc8 GAP"
       ],
       "signals": {
-        "gap_pct": 3.15,
-        "si": 28.13,
-        "rsi": 59.3,
-        "short_ratio": 15.17,
-        "52w_pct": 81.4
+        "gap_pct": 3.09,
+        "si": 29.51,
+        "rsi": 79.7,
+        "short_ratio": 11.26,
+        "52w_pct": 86.1
       }
     },
     {
@@ -104,21 +118,44 @@
       }
     },
     {
-      "ticker": "IOVA",
-      "composite_score": 98.0,
+      "ticker": "SRPT",
+      "composite_score": 98.3,
       "sources": [
         "\ud83d\udcc8 GAP",
         "\u26a1 FAST",
         "\ud83d\udd35 COIL"
       ],
       "signals": {
-        "gap_pct": 7.15,
-        "si": 30.05,
-        "rsi": 51.2,
-        "short_ratio": 5.24,
-        "52w_pct": 78.0,
+        "gap_pct": -2.48,
+        "si": 28.4,
+        "rsi": 66.8,
+        "short_ratio": 7.89,
+        "52w_pct": 59.1,
+        "io_pct": 90.2,
+        "days_to_earnings": 19,
+        "coil_score": 47,
+        "momentum_score": 15,
+        "si_score": 40,
+        "atr_ratio": 0.936,
+        "bb_width": 47.73
+      }
+    },
+    {
+      "ticker": "IOVA",
+      "composite_score": 94.0,
+      "sources": [
+        "\ud83d\udcc8 GAP",
+        "\u26a1 FAST",
+        "\ud83d\udd35 COIL"
+      ],
+      "signals": {
+        "gap_pct": 2.51,
+        "si": 28.94,
+        "rsi": 72.1,
+        "short_ratio": 6.52,
+        "52w_pct": 76.9,
         "io_pct": 71.1,
-        "days_to_earnings": 21,
+        "days_to_earnings": 20,
         "coil_score": 60,
         "momentum_score": 0,
         "si_score": 40,
@@ -127,17 +164,18 @@
       }
     },
     {
-      "ticker": "MVST",
-      "composite_score": 97.0,
+      "ticker": "MARA",
+      "composite_score": 93.5,
       "sources": [
-        "\ud83d\udcc8 GAP"
+        "\ud83d\udcc8 GAP",
+        "\ud83d\udc0b OPTIONS"
       ],
       "signals": {
-        "gap_pct": 10.01,
-        "si": 12.82,
-        "rsi": 42.5,
-        "short_ratio": 10.89,
-        "52w_pct": 40.4
+        "gap_pct": 11.82,
+        "si": 38.18,
+        "rsi": 91.0,
+        "short_ratio": 2.29,
+        "52w_pct": 97.3
       }
     },
     {
@@ -149,49 +187,6 @@
       "signals": {}
     },
     {
-      "ticker": "AI",
-      "composite_score": 91.0,
-      "sources": [
-        "\ud83d\udcc8 GAP",
-        "\u26a1 FAST",
-        "\ud83d\udd35 COIL"
-      ],
-      "signals": {
-        "gap_pct": 9.6,
-        "si": 31.8,
-        "rsi": 51.2,
-        "short_ratio": 7.48,
-        "52w_pct": 55.0,
-        "io_pct": 58.7,
-        "days_to_earnings": 41,
-        "coil_score": 42,
-        "momentum_score": 0,
-        "si_score": 40,
-        "atr_ratio": 0.977,
-        "bb_width": 13.39
-      }
-    },
-    {
-      "ticker": "SNBR",
-      "composite_score": 88.5,
-      "sources": [
-        "\ud83d\udcc8 GAP",
-        "\u26a1 FAST"
-      ],
-      "signals": {
-        "gap_pct": 24.46,
-        "si": 30.35,
-        "rsi": 49.2,
-        "short_ratio": 5.17,
-        "52w_pct": 63.3,
-        "io_pct": 83.5,
-        "days_to_earnings": 13,
-        "coil_score": 27,
-        "momentum_score": 0,
-        "si_score": 40
-      }
-    },
-    {
       "ticker": "BETR",
       "composite_score": 88.0,
       "sources": [
@@ -200,18 +195,35 @@
         "\ud83d\udd35 COIL"
       ],
       "signals": {
-        "gap_pct": 11.27,
-        "si": 32.73,
-        "rsi": 30.5,
-        "short_ratio": 5.76,
-        "52w_pct": 59.9,
+        "gap_pct": -1.06,
+        "si": 35.8,
+        "rsi": 70.0,
+        "short_ratio": 6.05,
+        "52w_pct": 81.7,
         "io_pct": 40.5,
-        "days_to_earnings": 25,
+        "days_to_earnings": 24,
         "coil_score": 32,
         "momentum_score": 0,
         "si_score": 40,
         "atr_ratio": 0.993,
         "bb_width": 49.04
+      }
+    },
+    {
+      "ticker": "OPK",
+      "composite_score": 88.0,
+      "sources": [
+        "\ud83d\udcc8 GAP",
+        "\ud83d\udd35 COIL"
+      ],
+      "signals": {
+        "gap_pct": 5.13,
+        "si": 7.79,
+        "rsi": 61.5,
+        "short_ratio": 12.74,
+        "52w_pct": 61.1,
+        "atr_ratio": 0.93,
+        "bb_width": 8.91
       }
     },
     {
@@ -222,50 +234,16 @@
         "\u26a1 FAST"
       ],
       "signals": {
-        "gap_pct": -3.53,
-        "si": 48.36,
-        "rsi": 60.7,
-        "short_ratio": 9.53,
-        "52w_pct": 77.8,
-        "io_pct": 113.5,
-        "days_to_earnings": 21,
+        "gap_pct": 8.33,
+        "si": 49.99,
+        "rsi": 56.5,
+        "short_ratio": 10.2,
+        "52w_pct": 91.1,
+        "io_pct": 113.2,
+        "days_to_earnings": 20,
         "coil_score": 20,
         "momentum_score": -5,
         "si_score": 50
-      }
-    },
-    {
-      "ticker": "ROOT",
-      "composite_score": 87.0,
-      "sources": [
-        "\ud83d\udcc8 GAP",
-        "\ud83d\udd35 COIL"
-      ],
-      "signals": {
-        "gap_pct": 7.79,
-        "si": 19.01,
-        "rsi": 43.2,
-        "short_ratio": 6.04,
-        "52w_pct": 74.3,
-        "atr_ratio": 0.95,
-        "bb_width": 11.75
-      }
-    },
-    {
-      "ticker": "SRPT",
-      "composite_score": 86.5,
-      "sources": [
-        "\ud83d\udcc8 GAP",
-        "\ud83d\udd35 COIL"
-      ],
-      "signals": {
-        "gap_pct": -1.0,
-        "si": 25.26,
-        "rsi": 57.4,
-        "short_ratio": 10.4,
-        "52w_pct": 22.8,
-        "atr_ratio": 0.936,
-        "bb_width": 47.73
       }
     },
     {
@@ -276,11 +254,11 @@
         "\ud83d\udc0b OPTIONS"
       ],
       "signals": {
-        "gap_pct": 5.49,
-        "si": 20.27,
-        "rsi": 91.8,
-        "short_ratio": 3.15,
-        "52w_pct": 97.9
+        "gap_pct": 11.4,
+        "si": 20.81,
+        "rsi": 89.3,
+        "short_ratio": 2.6,
+        "52w_pct": 92.4
       }
     },
     {
@@ -292,13 +270,13 @@
         "\ud83d\udd35 COIL"
       ],
       "signals": {
-        "gap_pct": -0.66,
-        "si": 36.42,
-        "rsi": 56.7,
-        "short_ratio": 9.22,
-        "52w_pct": 95.0,
+        "gap_pct": 10.39,
+        "si": 37.48,
+        "rsi": 76.0,
+        "short_ratio": 10.05,
+        "52w_pct": 93.4,
         "io_pct": 101.1,
-        "days_to_earnings": 21,
+        "days_to_earnings": 20,
         "coil_score": 42,
         "momentum_score": 0,
         "si_score": 40,
@@ -307,86 +285,20 @@
       }
     },
     {
-      "ticker": "AMC",
-      "composite_score": 86.0,
-      "sources": [
-        "\ud83d\udcc8 GAP"
-      ],
-      "signals": {
-        "gap_pct": 7.09,
-        "si": 15.31,
-        "rsi": 51.0,
-        "short_ratio": 3.4,
-        "52w_pct": 69.4
-      }
-    },
-    {
-      "ticker": "RXRX",
-      "composite_score": 85.0,
-      "sources": [
-        "\ud83d\udcc8 GAP",
-        "\u26a1 FAST"
-      ],
-      "signals": {
-        "gap_pct": 5.77,
-        "si": 34.89,
-        "rsi": 21.4,
-        "short_ratio": 9.8,
-        "52w_pct": 20.3,
-        "io_pct": 64.6,
-        "days_to_earnings": 19,
-        "coil_score": 20,
-        "momentum_score": 0,
-        "si_score": 40
-      }
-    },
-    {
-      "ticker": "SENS",
-      "composite_score": 84.5,
+      "ticker": "AI",
+      "composite_score": 81.5,
       "sources": [
         "\ud83d\udcc8 GAP",
         "\ud83d\udd35 COIL"
       ],
       "signals": {
-        "gap_pct": -0.29,
-        "si": 11.91,
-        "rsi": 49.7,
-        "short_ratio": 9.26,
-        "52w_pct": 28.6,
-        "atr_ratio": 0.87,
-        "bb_width": 10.34
-      }
-    },
-    {
-      "ticker": "GME",
-      "composite_score": 82.3,
-      "sources": [
-        "\ud83d\udcc8 GAP",
-        "\ud83d\udc0b OPTIONS",
-        "\ud83d\udd35 COIL"
-      ],
-      "signals": {
-        "gap_pct": 2.57,
-        "si": 15.34,
-        "rsi": 40.5,
-        "short_ratio": 11.07,
-        "52w_pct": 78.8,
-        "atr_ratio": 1.002,
-        "bb_width": 7.51
-      }
-    },
-    {
-      "ticker": "BBAI",
-      "composite_score": 82.0,
-      "sources": [
-        "\ud83d\udcc8 GAP"
-      ],
-      "signals": {
-        "gap_pct": 7.38,
-        "si": 26.29,
-        "rsi": 40.4,
-        "short_ratio": 3.42,
-        "52w_pct": 52.5
+        "gap_pct": 0.52,
+        "si": 31.8,
+        "rsi": 74.6,
+        "short_ratio": 7.48,
+        "52w_pct": 67.7,
+        "atr_ratio": 0.977,
+        "bb_width": 13.39
       }
     },
     {
@@ -403,70 +315,61 @@
       }
     },
     {
-      "ticker": "NVAX",
-      "composite_score": 79.0,
+      "ticker": "GME",
+      "composite_score": 80.0,
       "sources": [
-        "\ud83d\udcc8 GAP"
+        "\ud83d\udcc8 GAP",
+        "\ud83d\udc0b OPTIONS",
+        "\ud83d\udd35 COIL"
       ],
       "signals": {
-        "gap_pct": 3.17,
-        "si": 29.95,
-        "rsi": 52.3,
-        "short_ratio": 10.07,
-        "52w_pct": 63.1
+        "gap_pct": 1.36,
+        "si": 15.34,
+        "rsi": 36.6,
+        "short_ratio": 11.07,
+        "52w_pct": 45.3,
+        "atr_ratio": 1.002,
+        "bb_width": 7.51
       }
     },
     {
-      "ticker": "MARA",
-      "composite_score": 79.0,
+      "ticker": "SENS",
+      "composite_score": 79.5,
       "sources": [
         "\ud83d\udcc8 GAP",
-        "\ud83d\udc0b OPTIONS"
+        "\ud83d\udd35 COIL"
       ],
       "signals": {
-        "gap_pct": 2.92,
-        "si": 38.58,
-        "rsi": 92.5,
-        "short_ratio": 2.36,
-        "52w_pct": 89.2
+        "gap_pct": 1.18,
+        "si": 11.07,
+        "rsi": 64.8,
+        "short_ratio": 8.37,
+        "52w_pct": 87.8,
+        "atr_ratio": 0.87,
+        "bb_width": 10.34
       }
     },
     {
       "ticker": "BYND",
-      "composite_score": 77.7,
+      "composite_score": 78.7,
       "sources": [
         "\ud83d\udcc8 GAP",
         "\u26a1 FAST",
         "\ud83d\udd35 COIL"
       ],
       "signals": {
-        "gap_pct": 3.62,
-        "si": 29.67,
-        "rsi": 42.2,
-        "short_ratio": 4.05,
-        "52w_pct": 66.8,
+        "gap_pct": 16.37,
+        "si": 31.02,
+        "rsi": 73.2,
+        "short_ratio": 5.19,
+        "52w_pct": 75.3,
         "io_pct": 40.7,
-        "days_to_earnings": 20,
-        "coil_score": 32,
-        "momentum_score": 0,
-        "si_score": 35,
+        "days_to_earnings": 19,
+        "coil_score": 20,
+        "momentum_score": 5,
+        "si_score": 40,
         "atr_ratio": 1.026,
         "bb_width": 36.73
-      }
-    },
-    {
-      "ticker": "SOFI",
-      "composite_score": 77.5,
-      "sources": [
-        "\ud83d\udcc8 GAP",
-        "\ud83d\udc0b OPTIONS"
-      ],
-      "signals": {
-        "gap_pct": 7.71,
-        "si": 11.09,
-        "rsi": 34.9,
-        "short_ratio": 2.09,
-        "52w_pct": 60.0
       }
     },
     {
@@ -477,57 +380,71 @@
         "\ud83d\udd35 COIL"
       ],
       "signals": {
-        "gap_pct": 1.67,
-        "si": 47.28,
-        "rsi": 86.5,
-        "short_ratio": 9.49,
-        "52w_pct": 100.0,
+        "gap_pct": 18.18,
+        "si": 49.96,
+        "rsi": 62.7,
+        "short_ratio": 7.66,
+        "52w_pct": 63.0,
         "atr_ratio": 0.944,
         "bb_width": 20.42
       }
     },
     {
-      "ticker": "ASTS",
-      "composite_score": 75.0,
+      "ticker": "BB",
+      "composite_score": 76.0,
       "sources": [
         "\ud83d\udcc8 GAP",
         "\ud83d\udc0b OPTIONS"
       ],
       "signals": {
-        "gap_pct": 0.83,
-        "si": 20.09,
-        "rsi": 67.5,
-        "short_ratio": 3.89,
-        "52w_pct": 96.5
+        "gap_pct": 12.91,
+        "si": 4.68,
+        "rsi": 71.5,
+        "short_ratio": 3.17,
+        "52w_pct": 79.0
       }
     },
     {
-      "ticker": "OPK",
-      "composite_score": 75.0,
-      "sources": [
-        "\ud83d\udd35 COIL"
-      ],
-      "signals": {
-        "atr_ratio": 0.93,
-        "bb_width": 8.91,
-        "rsi": 56.2
-      }
-    },
-    {
-      "ticker": "RIVN",
-      "composite_score": 68.5,
+      "ticker": "ASTS",
+      "composite_score": 76.0,
       "sources": [
         "\ud83d\udcc8 GAP",
-        "\ud83d\udd35 COIL"
+        "\ud83d\udc0b OPTIONS"
       ],
       "signals": {
-        "gap_pct": 3.94,
-        "si": 13.6,
-        "rsi": 43.8,
-        "short_ratio": 4.41,
-        "52w_pct": 87.6,
-        "atr_ratio": 0.968,
-        "bb_width": 11.92
+        "gap_pct": 0.76,
+        "si": 20.28,
+        "rsi": 41.7,
+        "short_ratio": 3.64,
+        "52w_pct": 39.3
+      }
+    },
+    {
+      "ticker": "NVAX",
+      "composite_score": 75.0,
+      "sources": [
+        "\ud83d\udcc8 GAP"
+      ],
+      "signals": {
+        "gap_pct": 2.78,
+        "si": 27.71,
+        "rsi": 75.0,
+        "short_ratio": 11.12,
+        "52w_pct": 67.6
+      }
+    },
+    {
+      "ticker": "SNBR",
+      "composite_score": 72.0,
+      "sources": [
+        "\ud83d\udcc8 GAP"
+      ],
+      "signals": {
+        "gap_pct": -3.08,
+        "si": 28.05,
+        "rsi": 84.0,
+        "short_ratio": 3.66,
+        "52w_pct": 98.1
       }
     },
     {
@@ -537,51 +454,60 @@
         "\ud83d\udcc8 GAP"
       ],
       "signals": {
-        "gap_pct": 0.28,
-        "si": 28.25,
-        "rsi": 33.3,
-        "short_ratio": 3.29,
-        "52w_pct": 40.4
+        "gap_pct": 2.03,
+        "si": 29.34,
+        "rsi": 72.3,
+        "short_ratio": 4.93,
+        "52w_pct": 96.6
       }
     },
     {
-      "ticker": "CRDF",
-      "composite_score": 63.5,
+      "ticker": "ROOT",
+      "composite_score": 67.0,
       "sources": [
         "\ud83d\udcc8 GAP",
         "\ud83d\udd35 COIL"
       ],
       "signals": {
-        "gap_pct": 0.9,
-        "si": 26.14,
-        "rsi": 52.9,
-        "short_ratio": 23.26,
-        "52w_pct": 53.2,
-        "atr_ratio": 0.954,
-        "bb_width": 27.94
+        "gap_pct": 0.89,
+        "si": 16.7,
+        "rsi": 85.6,
+        "short_ratio": 6.22,
+        "52w_pct": 91.9,
+        "atr_ratio": 0.95,
+        "bb_width": 11.75
       }
     },
     {
       "ticker": "SMCI",
-      "composite_score": 63.0,
+      "composite_score": 64.0,
       "sources": [
         "\ud83d\udcc8 GAP"
       ],
       "signals": {
-        "gap_pct": 0.13,
-        "si": 19.7,
-        "rsi": 57.3,
-        "short_ratio": 3.61,
-        "52w_pct": 83.4
+        "gap_pct": 6.33,
+        "si": 18.52,
+        "rsi": 69.0,
+        "short_ratio": 1.85,
+        "52w_pct": 89.8
       }
     },
     {
-      "ticker": "BB",
-      "composite_score": 61.0,
+      "ticker": "RIVN",
+      "composite_score": 60.0,
       "sources": [
-        "\ud83d\udc0b OPTIONS"
+        "\ud83d\udcc8 GAP",
+        "\ud83d\udd35 COIL"
       ],
-      "signals": {}
+      "signals": {
+        "gap_pct": 3.07,
+        "si": 13.29,
+        "rsi": 79.1,
+        "short_ratio": 4.9,
+        "52w_pct": 93.5,
+        "atr_ratio": 0.968,
+        "bb_width": 11.92
+      }
     },
     {
       "ticker": "MPTI",
@@ -597,6 +523,31 @@
         "atr_ratio": 0.902,
         "bb_width": 24.7
       }
+    },
+    {
+      "ticker": "CRDF",
+      "composite_score": 58.5,
+      "sources": [
+        "\ud83d\udcc8 GAP",
+        "\ud83d\udd35 COIL"
+      ],
+      "signals": {
+        "gap_pct": 2.37,
+        "si": 26.89,
+        "rsi": 77.2,
+        "short_ratio": 29.97,
+        "52w_pct": 93.9,
+        "atr_ratio": 0.954,
+        "bb_width": 27.94
+      }
+    },
+    {
+      "ticker": "SOFI",
+      "composite_score": 54.0,
+      "sources": [
+        "\ud83d\udc0b OPTIONS"
+      ],
+      "signals": {}
     },
     {
       "ticker": "NCTY",
