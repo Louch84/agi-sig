@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-16T19:46:08.173762",
+  "timestamp": "2026-04-16T20:32:51.724059",
   "results": [
     {
       "ticker": "IOVA",
@@ -914,7 +914,7 @@
       "vol_ratio": 26.0,
       "52w_pct": 20.3,
       "high_today": 8.22,
-      "market_cap": 2542114048,
+      "market_cap": 2819758336,
       "sector": "Consumer Cyclical",
       "name": "Lucid Group, Inc.",
       "score": 0,
@@ -1068,7 +1068,7 @@
       "vol_ratio": 18.0,
       "52w_pct": 34.2,
       "high_today": 5.62,
-      "market_cap": 80315264,
+      "market_cap": 81100512,
       "sector": "Financial Services",
       "name": "The9 Limited - American Deposit",
       "score": -10,
