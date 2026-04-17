@@ -222,11 +222,19 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - **Dilution filter tested**: LUNR✅ ASTS✅ AMC✅ SMCI✅ LCID❌ (8mo cash runway)
 - **Lesson**: Technical setup without fundamental confirmation = gambling. Always check dilution before alerting.
 
+## Self-Review Learnings (2026-04-17 — Day 22)
+- **Episode logger: WRONG PREMISE — 21 episodes exist** — previous reviews said "0 episodes" for 3+ days, but data/episodes/episodes.jsonl has 21 entries (latest Apr 14). Daemon calls log_episode() correctly (lines 358, 441). Self-improvement loop is NOT blind. Gap closed.
+- **Trace logger: still broken** — 1 trace total, 9+ daemon tasks with 0 traces added. trace_logger.log() not being called at task completion.
+- **$SIGBOTTI coin: null mcap persists** — Day 3 of null readings. Unknown if API issue or coin dead. Needs manual pump.fun.com check.
+- **Info-sources skill upgraded** — Gmail trading newsletters (Barchart, Trade Ideas) added to SKILL.md (b29a196, Apr 17 midnight).
+- **Cron ET timezone: still inconsistent** — need to migrate from `ET` alias to `TZ=America/New_York` prefix.
+- Ollama daemon: PID 34846, 9 tasks, 0 errors.
+
 ## Self-Review Learnings (2026-04-16 — Day 21)
 - **GRPN squeeze signal confirmed real** — score 80, gap 3.49%, RSI 20.8, SI 47.28%, vol ratio 26x. Scanner fired correctly Apr 15 at 4:45 PM ET (3 alerts: TTEC, IOVA, EOSE).
 - **Cron ET timezone: STILL UNFIXED** — Apr 14 wrong (4:53 AM ET), Apr 15 correct (4:45 PM ET). Inconsistent. Must use `TZ=UTC` prefix + numeric UTC offsets permanently.
 - **$SIGBOTTI coin: null mcap** — pump.fun API returned null price/mcap on Apr 16 05:22 UTC scan. Unknown if API issue or coin dead.
-- **Episode logger: 0 episodes** — 5+ days, 9 daemon tasks, 0 captured. log_episode() not being called. Root cause unknown.
+- **Episode logger: 0 episodes** — 5+ days, 9 daemon tasks, 0 captured. log_episode() not being called. Root cause unknown. [NOTE: this was wrong — see 2026-04-17 review]
 - **Trace logger: 1 trace** — 9 daemon tasks completed, 0 traces added. Integration broken.
 
 ## Self-Review Learnings (2026-04-15 — Day 20)

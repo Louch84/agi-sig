@@ -7,13 +7,13 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
 | **$SIGBOTTI coin: null mcap** | 🔴 DISCOVERED 2026-04-16 | 🔴 HIGH | pump.fun API returned null price/mcap on Apr 16 05:22 UTC. Unknown if API issue or coin flatlined. Need manual check. |
-| **Episode logger: 0 episodes** | 🔴 PERSISTENT 5+ days | 🔴 HIGH | 9 daemon tasks completed, 0 episodes captured. log_episode() not being called in ollama-daemon.py. Self-improvement loop completely blind. |
-| **Trace logger: 1 trace** | 🟡 PERSISTENT 3+ days | 🟡 MED | 9 daemon tasks completed, 0 traces added. trace_logger.log() not integrated into task completion. |
-| **Cron ET timezone parsing** | 🟡 INCONSISTENT 2026-04-15 | 🟡 HIGH | Apr 14 wrong (4:53 AM ET), Apr 15 correct (4:45 PM ET). One correct run ≠ fixed. Need `TZ=UTC` prefix + numeric UTC offsets permanently. |
-| **PerfectPlace Apr 14** | 🟡 UNVERIFIED | 🟡 MED | No output file found from Apr 14 1PM ET run. Need to confirm ran or reschedule. |
-| **Sunday Night Scanner Apr 14 midnight** | 🟡 UNVERIFIED | 🟡 LOW | No output logged from midnight run. |
+| **$SIGBOTTI coin: null mcap** | 🔴 DISCOVERED 2026-04-16, PERSISTENT | 🔴 HIGH | Day 3 of null mcap readings. Unknown if pump.fun API issue or coin dead. Manual check needed. |
+| **Trace logger: 1 trace** | 🟡 PERSISTENT | 🟡 MED | 9+ daemon tasks completed, 0 traces added. trace_logger.log() not integrated into task completion path. |
+| **Cron ET timezone parsing** | 🟡 INCONSISTENT | 🟡 HIGH | Apr 14 wrong (4:53 AM ET), Apr 15 correct (4:45 PM ET). Need `TZ=America/New_York` prefix migration. |
 | **Discord webhook for scanner** | 🟡 DISCOVERED 2026-04-13 | 🟡 MED | Sunday Night Scanner needs Discord webhook to deliver results. Scanner itself works. |
-| **Episode logger data-starved** | 🟡 DISCOVERED 2026-04-11 | 🟡 MED | Only 2 episodes ever logged. Self-improvement loop is blind. Persistent 4+ days. |
+| Real AI video generation | 🟡 DISCOVERED | 🟡 MED | No free path. FFmpeg slideshow is free workaround. |
+| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~10 days to first run. |
+| **Episode logger: 21 episodes exist** | ✅ CLOSED 2026-04-17 | ✅ CLOSED | data/episodes/episodes.jsonl has 21 entries (latest Apr 14). log_episode() works. Previous "0 episodes" assessment was wrong. Self-improvement loop has data. |
 | **Trace logger** | 🟡 ACTIVE | 🟡 MED | 1 trace since Apr 13. Needs 10+ traces for routing analysis. |
 | **Stale LaunchAgents** | 🟡 DISCOVERED 2026-04-14 | 🟡 LOW | ai.sigbotti.dashboard.plist + com.sigbotti.dailyscanner.plist — old cruft. |
 | Real AI video generation | 🟡 DISCOVERED | 🟡 MED | No free path. FFmpeg slideshow is free workaround. |
@@ -71,7 +71,7 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | Persistence | 4/5 | 3-layer backup, gateway restart survival tested |
 | Autonomy | 4/5 | Figure It Out directive active, acting without prompting |
 
-**Average: 3.7/5** | Self-eval in ~15 days
+**Average: 3.7/5** | Self-eval in ~8 days (est. Apr 25)
 
 ## Today's Actions (2026-04-13)
 
@@ -83,7 +83,7 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 - [ ] PerfectPlace: verify Mon Apr 14 1PM ET run
 
 ---
-*Last updated: 2026-04-13 09:00 UTC*
+*Last updated: 2026-04-17 09:00 UTC*
 
 ---
 
