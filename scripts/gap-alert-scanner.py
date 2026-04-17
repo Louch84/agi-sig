@@ -157,6 +157,58 @@ def scan_ticker(ticker):
         l52 = float(np.min(h['Low'].values))
         pos_52w = (current - l52) / (h52 - l52) * 100 if h52 != l52 else 50
 
+        # ── MULTI-DAY GAP DETECTION ─────────────────────────────────────────
+        # Compare current price to 5-day max close — catches intraday gaps that
+        # don't show as "today's open vs. prev close" (e.g. IOVA $3→$13 intraday)
+        h5d = t.history(period="5d", interval="1d")
+        price_5d_max = float(h5d['Close'].max()) if not h5d.empty else current
+        price_5d_prev = float(h5d['Close'].iloc[0]) if not h5d.empty else prev_close
+        multi_day_gap_pct = ((current - price_5d_max) / price_5d_max) * 100 if price_5d_max > 0 else 0
+
+        # ── SHORT SQUEEZE SIGNALS ─────────────────────────────────────────────
+        # Get SI change MoM (shorts building = squeeze fuel)
+        si_shares = info.get('sharesShort', 0) or 0
+        si_prior = info.get('sharesShortPriorMonth', 0) or 0
+        si_change_mom = 0
+        if si_prior > 0:
+            si_change_mom = round(((si_shares - si_prior) / si_prior) * 100, 1)
+
+        # Days-to-cover (short_ratio is the key squeeze indicator)
+        dtc = round(sr, 1)  # days to cover = short_ratio
+
+        # ── EARNINGS TIMING ─────────────────────────────────────────────────
+        days_to_earnings = 999
+        try:
+            from datetime import date as dt_class
+            cal = t.calendar
+            if cal and 'Earnings Date' in cal:
+                ed_list = cal['Earnings Date']
+                if isinstance(ed_list, list) and len(ed_list) > 0:
+                    ed = ed_list[0]
+                    if isinstance(ed, dt_class):
+                        days_to_earnings = (ed - dt_class.today()).days
+                    elif hasattr(ed, 'date') and callable(ed.date):
+                        days_to_earnings = (ed.date() - dt_class.today()).days
+        except Exception:
+            pass
+
+        # ── SQUEEZE COMPOSITE SCORE ───────────────────────────────────────────
+        # Combined score for IOVA-type setups: high SI + high DTC + shorts building
+        squeeze_score = 0
+        if si >= 30: squeeze_score += 40
+        elif si >= 20: squeeze_score += 25
+        elif si >= 10: squeeze_score += 10
+        if dtc >= 5: squeeze_score += 30
+        elif dtc >= 3: squeeze_score += 20
+        elif dtc >= 1: squeeze_score += 10
+        if si_change_mom >= 20: squeeze_score += 20
+        elif si_change_mom >= 10: squeeze_score += 15
+        elif si_change_mom >= 5: squeeze_score += 8
+        # Bottomfishing bonus — stocks near 52w lows have more room
+        if pos_52w <= 15: squeeze_score += 15
+        elif pos_52w <= 25: squeeze_score += 10
+        elif pos_52w <= 35: squeeze_score += 5
+
         # Compute how much of today's gap has been filled
         if gap_pct > 0:  # gap up
             gap_total = today_open - prev_close
@@ -179,8 +231,12 @@ def scan_ticker(ticker):
             "rsi": round(rsi, 1),
             "si": round(si, 2),
             "short_ratio": round(sr, 2),
+            "si_change_mom": round(si_change_mom, 1),
             "vol_ratio": round(vol_ratio, 2),
             "52w_pct": round(pos_52w, 1),
+            "multi_day_gap_pct": round(multi_day_gap_pct, 2),
+            "days_to_earnings": int(days_to_earnings),
+            "squeeze_score": int(squeeze_score),
             "high_today": round(high, 2),
             "market_cap": info.get('marketCap', 0),
             "sector": info.get('sector', ''),
@@ -196,15 +252,21 @@ def scan_ticker(ticker):
 
 
 def score_alert(row):
-    """Score 0-100 how squeeze-alert this is."""
+    """Score 0-100 how squeeze-alert this is.
+    Enhanced with multi-day gap detection + short squeeze composite.
+    """
     score = 0
     gap = row.get('gap_pct', 0)
+    multi_gap = row.get('multi_day_gap_pct', 0)
     si = row.get('si', 0)
     sr = row.get('short_ratio', 0)
     rsi = row.get('rsi', 50)
     vr = row.get('vol_ratio', 1)
+    sq_score = row.get('squeeze_score', 0)
+    si_change = row.get('si_change_mom', 0)
+    pos_52w = row.get('52w_pct', 50)
 
-    # Gap size
+    # ── PRIMARY GAP SIGNAL (today's open vs prev close) ────────────────
     if gap >= 10:
         score += 35
     elif gap >= 7:
@@ -214,65 +276,109 @@ def score_alert(row):
     elif gap >= 3:
         score += 10
 
-    # Short interest
-    if si >= 20:
+    # ── MULTI-DAY GAP (intraday run detection — IOVA's key signal) ──
+    # A stock can run 50%+ intraday without a traditional open gap
+    if multi_gap >= 50:
+        score += 50
+    elif multi_gap >= 30:
         score += 35
-    elif si >= 10:
+    elif multi_gap >= 20:
         score += 25
+    elif multi_gap >= 10:
+        score += 15
+    elif multi_gap >= 5:
+        score += 8
+
+    # ── SHORT INTEREST ───────────────────────────────────────────────────
+    if si >= 30:
+        score += 40  # IOVA-tier SI
+    elif si >= 20:
+        score += 30
+    elif si >= 10:
+        score += 20
     elif si >= 5:
-        score += 15
+        score += 10
 
-    # Short ratio (days to cover)
-    if sr >= 5:
-        score += 15
+    # ── DAYS TO COVER (short_ratio = squeeze battery) ──────────────────
+    if sr >= 10:
+        score += 30
+    elif sr >= 5:
+        score += 25  # shorts completely trapped
     elif sr >= 3:
-        score += 10
+        score += 15
     elif sr >= 1:
-        score += 5
+        score += 8
 
-    # RSI oversold — good for squeeze
-    if rsi < 35:
+    # ── SI CHANGE MOM (shorts rapidly building = fuel) ──────────────
+    if si_change >= 30:
+        score += 20
+    elif si_change >= 20:
+        score += 15
+    elif si_change >= 10:
         score += 10
-    elif rsi < 45:
+    elif si_change >= 5:
         score += 5
-    # RSI overbought — squeeze has no gas left, penalize
-    elif rsi > 70:
-        score -= 25
-    elif rsi > 60:
-        score -= 15
 
-    # Gap fill check — if gap is already filling, the squeeze is fading
+    # ── SQUEEZE COMPOSITE (pre-built from scan_ticker) ───────────────
+    # Use it to boost stocks already flagged as squeeze candidates
+    if sq_score >= 60:
+        score += 25
+    elif sq_score >= 40:
+        score += 15
+    elif sq_score >= 20:
+        score += 8
+
+    # ── RSI OVERSOLD ──────────────────────────────────────────────────
+    if rsi < 30:
+        score += 15
+    elif rsi < 40:
+        score += 10
+    elif rsi < 50:
+        score += 5
+    elif rsi > 75:
+        score -= 20  # overbought — squeeze may have already run
+    elif rsi > 65:
+        score -= 10
+
+    # ── BOTTOMFISHING (near 52w lows = more runway) ────────────────────
+    if pos_52w <= 15:
+        score += 15
+    elif pos_52w <= 25:
+        score += 10
+    elif pos_52w <= 35:
+        score += 5
+
+    # ── VOLUME SURGE ───────────────────────────────────────────────────
+    if vr >= 5:
+        score += 20
+    elif vr >= 3:
+        score += 12
+    elif vr >= 2:
+        score += 6
+
+    # ── GAP FILL CHECK ────────────────────────────────────────────────
     gap_filled = row.get('gap_filled_pct', 0)
     if gap > 0 and gap_filled > 50:
-        score -= 20  # more than half the gap already filled = weak setup
+        score -= 20
     elif gap > 0 and gap_filled > 25:
         score -= 10
 
-    # Volume surge
-    if vr >= 3:
-        score += 10
-    elif vr >= 2:
-        score += 5
-
     # ── MA SIGNAL SCORING ─────────────────────────────────────────────
-    # Golden cross = strong bullish confirmation for squeeze plays
     ma_signal = row.get('ma_signal')
     if ma_signal == 'GOLDEN_CROSS':
-        score += 25
+        score += 20
     elif ma_signal == 'DEATH_CROSS':
-        score -= 25  # Opposing trend — squeeze unlikely
+        score -= 20
 
-    # Price vs EMA21 — below = short-term bearish headwind
     short_signal = row.get('short_signal')
     if short_signal == 'BELOW_EMA21':
-        score -= 10
+        score -= 8
 
-    # EMA50 slope — positive = trend strengthening
     slope_50 = row.get('slope_50', 0)
     if slope_50 > 1:
-        score += 10
+        score += 8
     elif slope_50 < -1:
-        score -= 10
+        score -= 8
 
     return min(round(score, 1), 100)
 
@@ -311,28 +417,53 @@ def run_scan(verbose=True):
             continue
 
         if verbose:
-            ma_info = row.get('ma_signal', 'N/A')
-            print(f"gap {row['gap_pct']:+.1f}% | vol {row['vol_ratio']:.1f}x | SI {row['si']:.1f}% | RSI {row['rsi']} | MA {ma_info} | score {row['score']}")
+            sq = row.get('squeeze_score', 0)
+            mg = row.get('multi_day_gap_pct', 0)
+            dtc = row.get('short_ratio', 0)
+            sq_tag = "🔥" if sq >= 40 else ""
+            mg_tag = "📈" if abs(mg) > 10 else ""
+            print(f"gap {row['gap_pct']:+.1f}% | mg {mg:+.1f}%{mg_tag} | vol {row['vol_ratio']:.1f}x | SI {row['si']:.1f}% | DTC {dtc:.1f} | sq {sq}{sq_tag} | score {row['score']}")
 
-        # Trigger alert if gap > threshold AND SI > threshold AND score > 50
-        if (row['gap_pct'] >= ALERT_THRESHOLD_GAP and
-            row['si'] >= ALERT_THRESHOLD_SI and
-            row['score'] >= 50 and
-            ticker not in state['alerts_today']):
+        # Trigger alert via THREE paths:
+        # 1. Traditional: gap > 5% + SI > 5% + score >= 50
+        # 2. Multi-day squeeze: multi_day_gap >= 10% + squeeze_score >= 40 + score >= 50
+        # 3. Pure squeeze: squeeze_score >= 65 + score >= 55 (no gap required)
+        sq_score = row.get('squeeze_score', 0)
+        multi_gap = row.get('multi_day_gap_pct', 0)
+        si = row.get('si', 0)
+        gap = row.get('gap_pct', 0)
 
+        alert_types = []
+        if gap >= ALERT_THRESHOLD_GAP and si >= ALERT_THRESHOLD_SI and row['score'] >= 50:
+            alert_types.append("GAP")
+        if multi_gap >= 10 and sq_score >= 40 and row['score'] >= 50:
+            alert_types.append("MULTI_SQUEEZE")
+        if sq_score >= 65 and row['score'] >= 55:
+            alert_types.append("SQUEEZE")
+
+        if alert_types and ticker not in state['alerts_today']:
             alert = {
                 "ticker": ticker,
                 "time": datetime.now().isoformat(),
                 "gap_pct": row['gap_pct'],
+                "multi_day_gap_pct": row['multi_day_gap_pct'],
                 "si": row['si'],
+                "short_ratio": row['short_ratio'],
+                "si_change_mom": row.get('si_change_mom', 0),
+                "squeeze_score": sq_score,
                 "price": row['price'],
                 "score": row['score'],
                 "name": row['name'],
+                "alert_types": alert_types,
             }
             state['alerts_today'].append(ticker)
 
             if verbose:
-                print(f"  🚨 ALERT: {ticker} gapped {row['gap_pct']:+.1f}% with {row['si']:.1f}% SI!")
+                sq = sq_score
+                mg = row.get('multi_day_gap_pct', 0)
+                atype = ','.join(alert_types)
+                print(f"  🚨 ALERT [{atype}]: {ticker} gap {row['gap_pct']:+.1f}% | multi {mg:+.1f}% | "
+                      f"SI {row['si']:.0f}% | DTC {row['short_ratio']:.1f} | sq_score {sq} | score {row['score']}")
 
         results.append(row)
 
