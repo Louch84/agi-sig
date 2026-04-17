@@ -1,35 +1,35 @@
-# DEAL SHEET — 734 N 63rd St
+# DEAL SHEET — Clean Rental 1632 N 59th St
 
 | Field | Details |
 |-------|---------|
-| **Asking Price** | $100,000 |
+| **Asking Price** | $157,000 |
 | **Property Type** | Single Family Home |
-| **Bedrooms** | 5 |
-| **Bathrooms** | 1 |
+| **Bedrooms** | 3 |
+| **Bathrooms** | 1.0 |
 | **Area** | Philadelphia, PA 19151 |
-| **ARV (After Repair Value)** | $250,000.0 (estimate — verify with comps) |
+| **ARV (After Repair Value)** | $392,500.0 (estimate — verify with comps) |
 | **Est. Repairs** | TBD |
-| **Your Fee** | $3,000–$4,000 |
+| **Your Fee** | $3,925–$4,925 |
 | **Source** | New Western / Aidan Daly |
-| **Email ID** | 718 |
+| **Email ID** | 733 |
 
 ---
 
 ## The Numbers
 
 ```
-ARV (Estimate):               $250,000.0
-Your Purchase Price:           $100,000
+ARV (Estimate):               $392,500.0
+Your Purchase Price:           $157,000
 Estimated Repairs:             TBD
                              ─────────────
-Your Fee Potential:           $3,000–$4,000
+Your Fee Potential:           $3,925–$4,925
 ```
 
 ---
 
 ## Description
 
-Come check out this RARE flip opportunity on a beautiful block in 19151/West Philly. We are a 3 story, 2600sqft twin that needs a full rehab to hit an ARV of 400k. Contact me ASAP for full details.
+Come check out this turnkey rental in 19151! Recently occupied getting $1900 a month; this is a no brainer. Get yourself into a DSCR loan and cash flow immediately!
 
 ---
 

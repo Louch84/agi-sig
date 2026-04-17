@@ -1,35 +1,35 @@
-# DEAL SHEET — 734 N 63rd St
+# DEAL SHEET — Rittenhouse Square Apartment 2101 Chestnut St Unit 1514
 
 | Field | Details |
 |-------|---------|
-| **Asking Price** | $100,000 |
+| **Asking Price** | $135,000 |
 | **Property Type** | Single Family Home |
-| **Bedrooms** | 5 |
+| **Bedrooms** | 0 |
 | **Bathrooms** | 1 |
-| **Area** | Philadelphia, PA 19151 |
-| **ARV (After Repair Value)** | $250,000.0 (estimate — verify with comps) |
+| **Area** | Philadelphia, PA 19103 |
+| **ARV (After Repair Value)** | $337,500.0 (estimate — verify with comps) |
 | **Est. Repairs** | TBD |
-| **Your Fee** | $3,000–$4,000 |
+| **Your Fee** | $3,375–$4,375 |
 | **Source** | New Western / Aidan Daly |
-| **Email ID** | 718 |
+| **Email ID** | 734 |
 
 ---
 
 ## The Numbers
 
 ```
-ARV (Estimate):               $250,000.0
-Your Purchase Price:           $100,000
+ARV (Estimate):               $337,500.0
+Your Purchase Price:           $135,000
 Estimated Repairs:             TBD
                              ─────────────
-Your Fee Potential:           $3,000–$4,000
+Your Fee Potential:           $3,375–$4,375
 ```
 
 ---
 
 ## Description
 
-Come check out this RARE flip opportunity on a beautiful block in 19151/West Philly. We are a 3 story, 2600sqft twin that needs a full rehab to hit an ARV of 400k. Contact me ASAP for full details.
+Come check out this strong rental opportunity in Rittenhouse Square! This renovated studio is ready to attract renters citywide. With a low purchase price, it offers solid potential for cash flow and long term appreciation. Don’t miss out, contact your NW rep ASAP
 
 ---
 
