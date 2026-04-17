@@ -1,3 +1,20 @@
+#!/usr/bin/env python3
+"""
+Short Squeeze Ticker Scanner — lightweight single-ticker scan for squeeze setup.
+Used by gap-alert-scanner.py via subprocess for detailed ticker analysis.
+"""
+import numpy as np
+import json
+import os
+import sys
+from datetime import datetime
+from urllib.request import urlopen, Request
+import urllib.error
+import yfinance as yf
+
+WORKSPACE = os.path.dirname(os.path.dirname(__file__))
+
+
 def _ema(data, period):
     """Compute EMA for an array of prices."""
     k = 2 / (period + 1)

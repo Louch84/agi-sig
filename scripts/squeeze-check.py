@@ -4,6 +4,7 @@ Short Squeeze Checker — Consolidated view with world model context.
 Pulls fresh data + overlays what we know from the world model.
 """
 import numpy as np
+import numpy as np
 import json
 import os
 import sys
@@ -199,8 +200,8 @@ def run_check(tickers=None):
             print(f"         Score: {score_bar} {score}/100")
             print()
 
-        except yf.exceptions.YfinanceError as e:
-            print(f"  {ticker}: yfinance error — {e}")
+        except (yf.exceptions.YfinanceError, urllib.error.HTTPError) as e:
+            print(f"  {ticker}: yfinance/http error — {e}")
 
         except Exception as e:
             print(f"  {ticker}: error — {e}")
