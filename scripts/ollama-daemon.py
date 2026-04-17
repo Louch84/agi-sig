@@ -114,7 +114,7 @@ MODEL_POOL = {
     "vision": {"model": "llava:7b", "loaded": False},
 }
 LOAD_TIMEOUT = 300  # 5 min to load a model
-REQUEST_TIMEOUT = 600  # 10 min — qwen3-coder:30b on CPU needs time
+REQUEST_TIMEOUT = 1200  # 20 min — research/coding tasks need more time than 10min (qwen3-coder:30b times out at 600s)
 
 loaded_models = {}  # model_name -> True
 model_lock = threading.Lock()

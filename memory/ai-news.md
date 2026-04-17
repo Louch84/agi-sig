@@ -1,6 +1,6 @@
 # AI News — Last 30 Days
 
-_Last updated: 2026-04-13_
+_Last updated: 2026-04-17_
 
 ## April 13, 2026
 
@@ -341,29 +341,74 @@ _Trimmed to last 30 days on 2026-04-12_
 
 ---
 
-## April 14, 2026
+## April 17, 2026
 
-### Historic AI Week — GPT-6, Claude Opus 4.7, Meta LlamaCon (April 14–20)
-This week is unprecedented in AI history: three frontier labs releasing flagships within the same 7-day window.
+### GPT-6 Still Not Released — April 16 Leaker Was Wrong
+GPT-6 (codename "Spud") was rumored for April 16 release — that was incorrect. Polymarket at 78% by April 30. Pre-training reportedly wrapped March 24. Multiple sources confirmed OpenAI was ready to ship around April 14 but the date came and went. **Still not released as of April 17.**
 
-**GPT-6 (Spud)** — releasing today (April 14). Codenamed "Spud." Pre-training completed March 17, post-training complete. 40% performance gain over GPT-5.4 in coding, reasoning, and agent tasks. 2M token context window. Polymarket 78% confidence. OpenAI officially confirmed April 7. "Not incremental" per Greg Brockman.
+### Claude Opus 4.7 Released Yesterday — Key Benchmarks (April 16)
+Anthropic dropped Claude Opus 4.7 on April 16. Key findings:
+- **CursorBench:** 70% vs Opus 4.6 at 58% — +12 percentage points
+- **Hex 93-task coding benchmark:** +13% over Opus 4.6, solved 4 tasks neither Opus 4.6 nor Sonnet 4.6 could
+- **SWE-bench improvements:** notable gains on the most difficult tasks
+- **Self-verification:** "devises ways to verify its own outputs before reporting back" — directly relevant to Sig's self-healing pillar
+- **Cyber safeguards:** Built-in detection of high-risk cybersecurity uses; Cyber Verification Program for security researchers
+- **Same pricing as Opus 4.6:** $5/M input, $25/M output
+- **Available:** API, Amazon Bedrock, Google Vertex AI, Microsoft Foundry
+- **Early tester feedback:** "Low-effort Opus 4.7 ≈ medium-effort Opus 4.6." "Catches its own logical faults during the planning phase."
 
-**Claude Opus 4.7** — releasing this week alongside GPT-6. Geeky Gadgets confirmed via leaks: "Full-stack AI studio" alongside new model. Anthropic's response to GPT-6.
+**Relevance to Sig:** Self-verification built into the model is exactly what her self-healing pillar needs. The model "pushes back during technical discussions to help me make better decisions" per Replit. Note: Opus 4.7 is less capable than Claude Mythos Preview (the restricted tier) but more available.
 
-**Meta LlamaCon** — also this week. Developer conference expected. Not clear if new llama model or just conference. Llama 4 Scout and Maverick launched April 5, 2025 (last year).
+### Gemma 4 Can Do Tool Calling — Local Agentic Coding Works (Medium, April 13)
+Real-world test: running Gemma 4 31B locally in Codex CLI as replacement for cloud models. Key findings:
+- **tau2-bench function-calling: 86.4%** — previous Gemma generations scored 6.6%. This is a generational leap.
+- Codex CLI (OpenAI's terminal coding agent) works with local models via custom provider API
+- **Ollama v0.20.3 has two critical bugs on Apple Silicon:** (1) streaming bug routes tool-call responses to wrong field, (2) Flash Attention freeze hangs on prompts >500 tokens. These prevent Gemma 4 from working properly via Ollama.
+- **llama.cpp workaround required on Apple Silicon** with specific flags: `--jinja`, `-ctk q8_0 -ctv q8_0` (KV cache quantization), `-np 1`
+- Codex CLI config: `web_search = "disabled"` required (llama.cpp rejects web_search_preview tool type)
 
-**Relevance to Sig:** If GPT-6 drops benchmark results showing significant advances, need to assess local Ollama alternatives. The competition driving faster releases is good for capability available to Sig.
+**Relevance to Sig:** Two-part issue:
+1. Her Ollama daemon (qwen2.5:0.5b, very small) works fine for simple tasks — no issue there
+2. For agentic coding with stronger local models, Ollama may have Apple Silicon bugs. The `agentic-coding` skill routes to Codex CLI which has its own model provider setup
+3. This is why the daemon uses qwen2.5:0.5b (small enough to avoid the bugs) instead of larger models
 
-### Daily Code Self-Audit — Error Investigated, Task Re-Queued
-**Cron ID:** 38f03f66-e2a1-47cf-b1bf-7fba44b482a9
+**Action:** Do NOT upgrade Ollama to larger models without testing. The Apple Silicon bugs affect 31B+ models. Consider Codex CLI as the agentic coding path for stronger models.
 
-**Status:** 2 consecutive errors. Last error timestamp: 2026-04-14T06:00:00.029Z (2AM ET this morning).
+### World Models + Continual Learning — 2026 Breakthrough Year
+NextBigFuture confirms 2026 is the breakthrough year for reliable world models and continual learning. This aligns with Sig's self-improvement mission — continual learning without catastrophic forgetting is exactly what enables persistent self-improvement.
 
-**Action taken:** Re-ran `openclaw cron run` manually — task enqueued successfully. Ollama daemon running (PID 34803). Queue: Pending: 0, Completed: 9, Errors: 0. Reset cron state.
+---
 
-**Root cause:** Timeout extended to 20 min on Apr 13 but cron still errored. code-self-review.sh is a simple wrapper calling `ollama-daemon.py add`. Should work. Next check: Apr 15 2AM ET.
+## April 16, 2026 — VAKRA Agent Benchmark + Granite 4.0 3B Vision
 
-**No new capability implementations today.** Session was news gathering + cron troubleshooting.
+### VAKRA: IBM's Tool-Grounded Agent Benchmark (April 15)
+IBM Research released VAKRA — an executable benchmark for tool-using AI agents in enterprise-like environments:
+- **8,000+ locally hosted APIs** across 62 domains with real databases
+- **3-7 step reasoning chains** combining API calls + document retrieval
+- **4 task types:** API chaining, document retrieval, synthetic reasoning, mixed workflows
+- **Key finding: Models perform poorly.** This aligns with Sig's Vibe Coding philosophy — agents fail in complex tool-use scenarios
+- **VAKRA Dataset:** https://huggingface.co/datasets/ibm-research/VAKRA
+- **Leaderboard:** https://ibm-research-vakra.hf.space/
+
+**Relevance to Sig:** Her agentic stack (daemon, Codex CLI) would likely perform poorly on VAKRA. This benchmark could be used to measure Sig's own agent capability improvements over time.
+
+### Granite 4.0 3B Vision (IBM, March 31)
+Compact vision-language model for enterprise document understanding:
+- **LoRA adapter on Granite 4.0 Micro** — modular, text-only fallback
+- **Strengths:** Table extraction, chart understanding, semantic KVP extraction
+- **Trained on ChartNet** — 1.7M chart samples with 5 aligned components (code, image, data table, summary, QA pairs)
+- **Designed to pair with Docling** for document processing pipelines
+- **Model:** https://huggingface.co/ibm-granite/granite-4.0-3b-vision
+
+**Relevance to Sig:** Already has llava:7b for vision. Granite 4.0 3B is purpose-built for document understanding — could be better for PDF analysis, form extraction tasks. Worth testing vs llava for document-heavy workflows.
+
+### GLM-5.1 Not Available in Ollama
+The April 15 plan to pull `glm-5.1` couldn't execute — **glm-5.1 doesn't exist in the Ollama library.** The model may have a different name or isn't published there yet. Current Ollama models remain: qwen2.5:0.5b, llama3.2:1b, llama3:latest, qwen3-coder:30b.
+
+**Action:** Do not attempt `ollama pull glm-5.1` — it fails. Research the correct model name or alternative source.
+
+### Stock Discovery Cron Failing (1 consecutive error)
+Daily Stock Discovery cron (`disc-20260415124410`) has 1 error. Re-ran manually at 9:14 AM ET. Pending result.
 
 
 ---

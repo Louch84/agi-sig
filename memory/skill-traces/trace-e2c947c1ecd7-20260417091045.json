@@ -1,0 +1,11 @@
+{
+  "trace_id": "task-20260411012034-2",
+  "timestamp": "2026-04-12T04:51:08.960444",
+  "skill": "coding",
+  "task": "Run a health check on Sig Botti systems. Check: 1) Is Ollama daemon alive? (pgrep) 2) How many episodes in episode_logger? 3) Last vector index rebuild time? 4) World model entity count? 5) Blogwatche",
+  "outcome": "failure",
+  "error": "[Error]: timed out",
+  "model": "qwen3-coder:30b",
+  "duration_s": 600.304,
+  "episode_id": "task-20260411012034-2"
+}

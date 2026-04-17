@@ -21,7 +21,7 @@ from datetime import datetime
 from pathlib import Path
 
 OLLAMA_URL = "http://localhost:11434"
-DEFAULT_MODEL = "llama3:latest"  # General reasoning model
+DEFAULT_MODEL = "qwen2.5:0.5b"  # Fast model for quick analysis (llama3:latest times out)
 
 TRACES_DIR = Path.home() / ".openclaw/workspace/memory/skill-traces"
 SKILLS_DIR = Path.home() / ".openclaw/skills"
@@ -91,7 +91,7 @@ def call_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
         "stream": False,
         "options": {
             "temperature": 0.3,  # Lower temp for analytical task
-            "num_predict": 512
+            "num_predict": 300  # Keep response concise for analysis
         }
     }
 
@@ -104,7 +104,7 @@ def call_ollama(prompt: str, model: str = DEFAULT_MODEL) -> str:
     )
 
     try:
-        with urllib.request.urlopen(req, timeout=60) as resp:
+        with urllib.request.urlopen(req, timeout=180) as resp:
             result = json.loads(resp.read().decode("utf-8"))
             return result.get("response", "").strip()
     except urllib.error.URLError as e:

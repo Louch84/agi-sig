@@ -2,7 +2,7 @@
 
 _Tracking significant capability improvements relevant to Sig Botti's self-improvement mission._
 
-_Last updated: 2026-04-14_
+_Last updated: 2026-04-17_
 
 ---
 
@@ -277,6 +277,33 @@ Session focused on:
 No new skills, scripts, or integrations implemented today. Nothing actionable found in today's research that wasn't already covered in previous sessions.
 ---
 
+## 2026-04-16 — Daily Research
+
+### Finding: GLM-5.1 Not in Ollama — Daemon Falls Back to llama3:latest
+Confirmed: `glm-5.1` does not exist in the Ollama library (manifest file not found). The April 15 plan to pull it couldn't execute.
+
+**Current state:**
+- `model_router.py` classifies "coding" queries → returns "coding"
+- `ollama-daemon.py` routes "coding" type → `llama3:latest` (4.7GB, already loaded)
+- SWE-Bench Pro performance: GLM-5.1 would be better, but llama3:latest is a functional fallback
+
+**Conclusion:** No change needed. The stack is working as designed with llama3:latest as the coding model. GLM-5.1 would be an upgrade if it becomes available in Ollama.
+
+### Actionable: VAKRA Benchmark for Self-Testing
+IBM's VAKRA (8,000+ APIs, 62 domains, 3-7 step reasoning) is publicly available. Could be used to:
+1. Measure Sig's daemon + Codex CLI agent capability
+2. Track improvement over time as she self-improves
+3. Identify specific failure modes in tool-use reasoning
+
+**Not immediately actionable** — would need to build a test harness. Worth noting for future capability benchmarking.
+
+### Actionable: Granite 4.0 3B Vision vs llava:7b
+Granite 4.0 3B Vision is purpose-built for enterprise document understanding (tables, charts, KVP extraction). Sig has `llava:7b` for vision. Worth A/B testing against each other for PDF/form extraction tasks.
+
+**Not immediately actionable** — requires `ollama pull` and comparative testing.
+
+---
+
 ## 2026-04-15 — GLM-5.1 Available in Ollama
 
 ### GLM-5.1 is in Ollama library (confirmed)
@@ -338,6 +365,51 @@ Gemma 4 31B (and likely other 31B+ models) cannot reliably run via Ollama on App
 2. Use Ollama only for simple/fast tasks that don't need tool calling
 3. OR use llama.cpp directly with specific flags for larger models on Apple Silicon
 
+
+---
+
+## 2026-04-17 — Reflect Pipeline Complete + Timeout Fix
+
+### skill-traces Directory Created + Bridge Built
+- Created `memory/skill-traces/` directory (was blocking reflect_on_failure pipeline)
+- Built `scripts/episodes_to_skill_traces.py` — bridge between `episode_logger.py` and `reflect_on_failure.py`
+  - Converts failed episodes → skill trace JSON files
+  - Includes coding timeouts (>500s on qwen3-coder:30b) as traceable failures
+  - Tracks processed episode IDs to avoid duplicates
+  - `reflect_on_failure.py --latest` now works end-to-end
+  - Switched reflect model to `qwen2.5:0.5b` (llama3:latest times out at 60s API calls)
+
+### REQUEST_TIMEOUT Extended: 600s → 1200s
+- **Root cause of 5 coding failures:** qwen3-coder:30b hitting 600s timeout on research tasks
+- Extended to 20 min to match cron timeout
+- These were research tasks (Block Managerbot, Nvidia Agent Toolkit, health check) being routed as "coding" type — the model was fine, the timeout was too short
+
+### reflect_on_failure Pipeline Now Functional
+Full loop verified:
+1. Episode failure logged in `data/episodes/episodes.jsonl`
+2. `episodes_to_skill_traces.py` converts to `memory/skill-traces/trace-*.json`
+3. `reflect_on_failure.py --latest` analyzes with qwen2.5:0.5b → outputs `draft-*.md`
+4. Draft is reviewable before mutation is applied to skill
+
+Pipeline status: ✅ READ | ✅ EXECUTE | ✅ REFLECT | ✅ WRITE (draft stage)
+
+### Claude Opus 4.7 Released (April 16) — Informational
+- Self-verification built into model — "devises ways to verify its own outputs before reporting back"
+- CursorBench: 70% vs 58% (Opus 4.6)
+- Same pricing as Opus 4.6: $5/$25 per M tokens
+- Available in Amazon Bedrock, Google Vertex AI, Microsoft Foundry
+- Relevant to Sig's self-healing pillar (model-level self-verification)
+- Not an immediate action — MiniMax-M2.7 is Sig's primary cloud model
+
+### GPT-6 Still Not Released (April 17)
+- Expected April 14, came and went. Polymarket 78% by April 30.
+- No action needed — monitoring
+
+### Next Steps
+1. Run reflect on remaining 4 traces (3 unique qwen3-coder timeouts, 1 web_research failure)
+2. `evaluate_variant.py` still not built — create to validate skill mutations before applying
+3. Monitor: will the 20-min timeout actually prevent qwen3-coder timeouts?
+4. GLM-5.1 in Ollama — still not available. Alternative: watch for llama.cpp GGUF conversion.
 
 ---
 
