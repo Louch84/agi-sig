@@ -167,6 +167,46 @@ web_search "OpenAI new model announcement" --count 5
 ```
 Set `PERPLEXITY_API_KEY` in Gateway env for synthesis + citations.
 
+## Gmail Newsletters (Trading Intelligence)
+
+Check **both** Gmail accounts daily for trading signals, market news, and stock picks.
+
+**Accounts:**
+- `perfectplace` — Real estate deals (not trading-related)
+- `louch` (LuchianoLaws@gmail.com) — **Trading newsletters**
+
+**Louch account — key newsletters to check:**
+
+| Source | Frequency | What It Gives |
+|--------|-----------|---------------|
+| **Barchart Unusual Options Activity** | Daily (market hours) | Specific tickers with unusual call/put flow — directly actionable |
+| **Barchart Pre Market Brief** | Daily (pre-market) | Market prep, overnight moves, key levels |
+| **Barchart Brief** | Daily | Market news, sector rotation, featured stock picks |
+| **Barchart Active Investor** | Daily | Investing-focused picks + technical analysis |
+| **Chart of the Day** | Daily | One featured stock with full technical breakdown (MRVL example: 100% Buy, +152% 52w) |
+| **Commodity Bulletin** | Daily | Commodities (gold, oil, grain) |
+| **Trade Ideas (Dan Mirkin)** | Periodic | Short squeeze setups, AI-driven signals, real trade examples |
+
+**How to check (himalaya CLI):**
+```bash
+# List inbox (no filter)
+himalaya envelope list --account louch
+
+# Filter by source
+himalaya envelope list --account louch "from barchart"
+himalaya envelope list --account louch "subject options"
+himalaya envelope list --account louch "subject squeeze"
+
+# Read specific email
+himalaya message read --account louch <ID>
+```
+
+**Scan priority:**
+1. Barchart Unusual Options Activity → cross-reference with `unusual-options-scanner.py`
+2. Trade Ideas squeeze mentions → cross-reference with `squeeze-scanner.py`
+3. Chart of the Day → featured stock → check fundamentals + SI
+4. Barchart Brief → market themes + sector rotation
+
 ## Knowledge Building (After Research)
 
 1. Add to `memory/YYYY-MM-DD.md`
