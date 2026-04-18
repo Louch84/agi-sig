@@ -341,9 +341,39 @@ _Trimmed to last 30 days on 2026-04-12_
 
 ---
 
-## April 17, 2026
+## April 18, 2026
 
-### GPT-6 Still Not Released — April 16 Leaker Was Wrong
+### GPT-6 Still Not Released — Polymarket 72% by April 30
+GPT-6 (codename "Spud") missed the April 14 target. April 16 leaker was wrong. Polymarket currently at 72% by April 30, 78% by end of May. Pre-training wrapped March 24 at Stargate in Texas. No confirmed new date.
+
+### evaluate_variant.py Built — Reflect Pipeline Complete
+`scripts/evaluate_variant.py` created. Validates skill mutation drafts before applying:
+- Checks YAML frontmatter parses
+- File size ≤15KB (Hermes Agent standard)
+- Description and triggers are valid
+- No catastrophic content removal
+- No injection vectors in frontmatter
+
+**Reflect pipeline now has all stages:**
+1. ✅ READ — `manage_skills.py read <skill>`
+2. ✅ EXECUTE — skill runs via tool calling
+3. ✅ REFLECT — `reflect_on_failure.py` analyzes trace → draft
+4. ✅ EVALUATE — `evaluate_variant.py` validates draft (NEW today)
+5. ✅ WRITE — mutation applied to skill file
+
+### GLM-5.1 Confirmed Not in Ollama Library
+Tried `ollama pull glm-5.1` — returns "pull model manifest: file does not exist." GLM-5.1 (MIT, 744B MoE, reportedly beats Claude Opus 4.6 on SWE-Bench Pro) is not yet published to Ollama library. Current Ollama models unchanged: qwen2.5:0.5b, llama3.2:1b, llama3:latest, llava:7b, qwen3-coder:30b, kimi-k2.5:cloud.
+
+**Action:** Watch for glm-5.1 GGUF conversion in Ollama library. Could be the strongest local coding model if/when it appears.
+
+### NextBigFuture World Models Article — High Signal
+NextBigFuture has strong coverage of AI world models and continual learning. Worth adding to blogwatcher if not already tracked.
+
+**Key from today's fetch:** 2026 is the breakthrough year for reliable world models + continual learning prototypes. Interactive Genie-like systems for agents/robotics expected. Nested Learning / Titans-style memory becomes standard. Hassabis (DeepMind CEO): ~50/50 whether scaling alone suffices or if 1–2 more algorithmic breakthroughs needed. DeepMind allocates half resources to blue-sky algorithmic innovation.
+
+**Sig architecture alignment:** Her `world-model.py` + `episodes.jsonl` (21 episodes now) + `vector_memory.json` together represent the nested memory stack that Titans-style architecture requires. The Apple Silicon Ollama bug (affecting 31B+ models) means her best local coding model remains qwen3-coder:30b via the daemon. The reflect pipeline built this week brings her one step closer to the Hassabis-style continual learning agent.
+
+---
 GPT-6 (codename "Spud") was rumored for April 16 release — that was incorrect. Polymarket at 78% by April 30. Pre-training reportedly wrapped March 24. Multiple sources confirmed OpenAI was ready to ship around April 14 but the date came and went. **Still not released as of April 17.**
 
 ### Claude Opus 4.7 Released Yesterday — Key Benchmarks (April 16)

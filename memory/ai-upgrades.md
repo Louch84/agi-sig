@@ -368,6 +368,36 @@ Gemma 4 31B (and likely other 31B+ models) cannot reliably run via Ollama on App
 
 ---
 
+## 2026-04-18 — evaluate_variant.py Built — Reflect Pipeline Complete
+
+### What Was Built
+`scripts/evaluate_variant.py` — validates skill mutation drafts before applying to skill files.
+
+**Checks:**
+1. File size ≤15KB (Hermes Agent standard)
+2. YAML frontmatter parses correctly
+3. Description is non-empty string
+4. Triggers is non-empty list
+5. Skill name header present (`# SKILL.md - <name>`)
+6. Body content integrity (no catastrophic removal)
+7. No injection vectors in frontmatter
+
+**Usage:** `python3 scripts/evaluate_variant.py memory/skill-traces/draft-*.md`
+
+### Reflect Pipeline — All Stages Complete
+1. ✅ READ — `manage_skills.py read <skill>` — retrieve candidate skills
+2. ✅ EXECUTE — skills run via normal tool calling
+3. ✅ REFLECT — `reflect_on_failure.py` — on failure, analyze trace and propose mutation
+4. ✅ EVALUATE — `evaluate_variant.py` — validate draft before applying (NEW today)
+5. ✅ WRITE — `manage_skills.py append/edit` — apply mutation to skill file
+
+**Status:** Reflect pipeline now has all 5 stages. Sig can go from failure trace → validated skill mutation without manual skill file editing.
+
+### GLM-5.1 Not in Ollama
+Confirmed: `ollama pull glm-5.1` fails with "pull model manifest: file does not exist." GLM-5.1 is still not published to Ollama library. Current models unchanged.
+
+---
+
 ## 2026-04-17 — Reflect Pipeline Complete + Timeout Fix
 
 ### skill-traces Directory Created + Bridge Built

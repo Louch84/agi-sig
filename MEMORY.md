@@ -75,15 +75,14 @@ _Curated memories — the distilled essence of who I am and what I've learned. N
 - $SIGBOTTI coin: unverified post-launch performance on Pump.fun
 - Self-eval monthly cron: ~23 days to first run
 
-## Self-Review Learnings (2026-04-14 — 9AM ET, Day 19)
-- **Launchd restart loop SELF-HEALED** — 15 restarts between 22:50-23:01 Apr 13, then ThrottleInterval=60 kicked in and daemon stabilized. PID 34846, ~9h uptime with no restarts. No fix needed.
-- **Stale LaunchAgents found** — ai.sigbotti.dashboard.plist references dead sigbotti_daemon.py (60+ daemon_error.log entries). com.sigbotti.dailyscanner.plist points to non-existent code/ directory. Both are old cruft, not causing harm.
-- **Gap Alert Scanner confirmed working** — Apr 13 1-8PM ET run generated 13 alerts (gap-alerts.json updated 20:45). Weekday runs verified.
-- Ollama daemon: PID 34846, qwen2.5:0.5b, stable.
-- $SIGBOTTI coin: unverified since Apr 12. Should verify today.
-- Discord webhook for scanner: still missing.
-- Episode logger: 2 episodes (still data-starved).
-- Self-eval monthly cron: ~14 days to first run.
+## Self-Review Learnings (2026-04-18 — 9AM ET, Day 23)
+- **Ollama daemon: DEAD 5+ days** — PID 34846 from SESSION-STATE was not running. Last task Apr 13 19:51. Restarted immediately.
+- **Episode logger: NOT a gap** — 21 episodes in data/episodes/episodes.jsonl, latest Apr 14, log_episode() wired correctly. Previous reviews wrong. Gap closed.
+- **Trace logger: NOT broken** — 1 trace is correct (1 task completed successfully, 1 trace logged). Integration works. Gap is daemon idle, not logger.
+- **Good Friday partial market hours** — Gap Alert Scanner ran at 1PM into closed market (market closes 1PM Good Friday). Holiday calendar awareness needed.
+- **Trace logger routing:** 1 trace from Apr 13 coding audit. Model routing is working (qwen2.5:0.5b used).
+- $SIGBOTTI coin: 4+ days null mcap. Manual pump.fun.com check still needed.
+- Self-eval monthly cron: ~7 days to first run.
 
 ## Self-Review Learnings (2026-04-13 — 9AM ET, Day 18)
 - **Cron announce timeout: FIXED ✅** — 1200s timeout + --no-deliver flag. All 7 cron jobs now show 0 consecutive errors. Old failures were stale (from before fix applied at 2:36 AM).

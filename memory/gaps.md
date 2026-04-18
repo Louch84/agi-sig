@@ -6,18 +6,16 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 
 | Gap | Status | Priority | Notes |
 |-----|--------|----------|-------|
-| **$SIGBOTTI coin: null mcap** | 🔴 DISCOVERED 2026-04-16 | 🔴 HIGH | pump.fun API returned null price/mcap on Apr 16 05:22 UTC. Unknown if API issue or coin flatlined. Need manual check. |
-| **$SIGBOTTI coin: null mcap** | 🔴 DISCOVERED 2026-04-16, PERSISTENT | 🔴 HIGH | Day 3 of null mcap readings. Unknown if pump.fun API issue or coin dead. Manual check needed. |
-| **Trace logger: 1 trace** | 🟡 PERSISTENT | 🟡 MED | 9+ daemon tasks completed, 0 traces added. trace_logger.log() not integrated into task completion path. |
+| **$SIGBOTTI coin: 4+ days null mcap** | 🔴 PERSISTENT | 🔴 HIGH | pump.fun API returning null since Apr 16. Manual pump.fun.com check still needed. |
+| **Ollama daemon DEAD 5+ days** | 🔴 DISCOVERED 2026-04-18 | 🔴 CRITICAL | PID 34846 dead since Apr 13 20:47. Restarted at 9AM ET. Not auto-restarting. Needs LaunchAgent re-enable or heartbeat restart. |
 | **Cron ET timezone parsing** | 🟡 INCONSISTENT | 🟡 HIGH | Apr 14 wrong (4:53 AM ET), Apr 15 correct (4:45 PM ET). Need `TZ=America/New_York` prefix migration. |
 | **Discord webhook for scanner** | 🟡 DISCOVERED 2026-04-13 | 🟡 MED | Sunday Night Scanner needs Discord webhook to deliver results. Scanner itself works. |
+| **Good Friday partial market hours** | 🟡 DISCOVERED 2026-04-18 | 🟡 MED | Gap Alert Scanner fired 1PM ET Good Friday — market closed 1PM. No holiday calendar. |
 | Real AI video generation | 🟡 DISCOVERED | 🟡 MED | No free path. FFmpeg slideshow is free workaround. |
-| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~10 days to first run. |
-| **Episode logger: 21 episodes exist** | ✅ CLOSED 2026-04-17 | ✅ CLOSED | data/episodes/episodes.jsonl has 21 entries (latest Apr 14). log_episode() works. Previous "0 episodes" assessment was wrong. Self-improvement loop has data. |
-| **Trace logger** | 🟡 ACTIVE | 🟡 MED | 1 trace since Apr 13. Needs 10+ traces for routing analysis. |
+| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~7 days to first run. |
 | **Stale LaunchAgents** | 🟡 DISCOVERED 2026-04-14 | 🟡 LOW | ai.sigbotti.dashboard.plist + com.sigbotti.dailyscanner.plist — old cruft. |
-| Real AI video generation | 🟡 DISCOVERED | 🟡 MED | No free path. FFmpeg slideshow is free workaround. |
-| Self-evaluation periodic tests | 🟡 STILL OPEN | 🟡 MED | Monthly cron set up, ~13 days to first run. |
+| **No local model beats GLM-5.1 for coding** | 🟡 DISCOVERED 2026-04-15 | 🟡 MED | GLM-5.1 MIT in Ollama, beats all local models on coding. Needs `ollama pull glm-5.1`. |
+| **No desktop/computer use agent** | 🟡 DISCOVERED 2026-04-15 | 🟡 MED | No UI automation in Sig's stack. agent-browser-clawdbot may cover this. Needs assessment. |
 
 ## Priority Gaps — RESOLVED/DEFERRED
 
@@ -39,6 +37,8 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | Code Execution (persistent results) | ✅ DONE | 2026-03-28 | execution-log.md + script-based persistent storage |
 | Self-Evaluation (measurable tests) | ✅ DONE | 2026-03-28 | Monthly benchmark in self-track skill + HEARTBEAT |
 | Working RSS for AI labs | ✅ DONE | 2026-03-28 | web_fetch tool on Anthropic/DeepMind pages directly |
+| **Episode logger: NOT a gap** | ✅ CLOSED | 2026-04-18 | 21 episodes exist (latest Apr 14). log_episode() wired correctly. Previous reviews wrong. |
+| **Trace logger: NOT broken** | ✅ CLOSED | 2026-04-18 | 1 trace = correct behavior (1 task completed = 1 trace). Integration works. |
 | TurboQuant integration | INTERESTING | LOW | KV cache compression for Ollama memory, not urgent |
 | ATLAS self-verified repair | INTERESTING | LOW | Qwen3-14B + repair loop, relevant for self-healing pillar |
 | OpenFang exploration | ✅ EXPLORED | 2026-04-01 | v0.5.1 on port 50051. Removed 2026-04-09. |
@@ -67,38 +67,11 @@ Things I don't know, can't do well, or need to improve. Updated continuously.
 | Self-Mod | 4/5 | Modified core config, compaction, Ollama provider. Loop proven |
 | Learning | 5/5 | TinyLoRA explained cold, 4.5/5 avg on 4-test benchmark |
 | Code | 4/5 | 55/55 tests passed (100%), S-grade. Fixed 3 bugs |
-| Self-Eval | 3/5 | Framework exists. Monthly cron pending (~21 days) |
+| Self-Eval | 3/5 | Framework exists. Monthly cron ~7 days to first run |
 | Persistence | 4/5 | 3-layer backup, gateway restart survival tested |
 | Autonomy | 4/5 | Figure It Out directive active, acting without prompting |
 
-**Average: 3.7/5** | Self-eval in ~8 days (est. Apr 25)
-
-## Today's Actions (2026-04-13)
-
-- [x] Daily self-review ✅
-- [x] MEMORY.md updated ✅
-- [x] gaps.md updated ✅
-- [ ] Find Discord webhook URL for scanner OR route through OpenClaw's built-in Discord
-- [ ] Gap Alert Scanner: verify 1PM-8PM ET run today
-- [ ] PerfectPlace: verify Mon Apr 14 1PM ET run
+**Average: 3.7/5** | Self-eval in ~7 days (est. Apr 25)
 
 ---
-*Last updated: 2026-04-17 09:00 UTC*
-
----
-
-## 2026-04-15 — NEW GAPS DISCOVERED
-
-### No Computer Use / Desktop Agent
-Discovered via awesome-ai-agents-2026 list: "Computer Use & Desktop Agents" is a major 2026 category with 12+ frameworks. Sig's stack has no UI automation, no desktop interaction capability. 
-
-**Why it matters for self-healing:** A computer-use agent could scan her own runtime logs, detect errors, file bug reports, and apply fixes autonomously. Currently she can reason but not act on her own UI.
-
-**Relevance:** agent-browser-clawdbot skill exists but is not specifically agentic computer use. Need to assess whether it's adequate.
-
-### GLM-5.1 Available in Ollama (Actionable)
-GLM-5.1 is now in Ollama library — MIT licensed, 744B MoE, reportedly beats Claude Opus 4.6 + GPT-5.4 on SWE-Bench Pro. Routing added to model_router.py. Still needs: `ollama pull glm-5.1`
-
-### No Local Model Beats GLM-5.1 for Coding
-Current local coding model: qwen3-coder:30b. GLM-5.1 is a significant upgrade on benchmarks (MIT + stronger). Gap exists until GLM-5.1 is pulled and tested.
-
+*Last updated: 2026-04-18 09:00 ET*
