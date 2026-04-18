@@ -133,11 +133,14 @@ def log(msg):
 
 
 def ensure_model(model_name: str):
-    """Make sure a model is loaded in Ollama."""
+    """Make sure a model is loaded in Ollama. Tracks failed loads to avoid retry loops."""
     with model_lock:
         if model_name in loaded_models:
             return True
-        
+        if loaded_models.get(model_name) is False:
+            # Previously failed to load — don't retry every invocation
+            return False
+
         log(f"Loading model: {model_name}...")
         # Hit /api/generate once to trigger load
         payload = {"model": model_name, "prompt": "hello", "stream": False}
@@ -156,6 +159,8 @@ def ensure_model(model_name: str):
                 return True
         except Exception as e:
             log(f"Failed to load {model_name}: {e}")
+            # Mark as permanently failed (False) so we don't retry every task
+            loaded_models[model_name] = False
             return False
 
 
@@ -240,22 +245,41 @@ def plan_complex_task(prompt: str) -> dict:
             timeout=180,
         )
         output = result.stdout.strip()
+        if not output:
+            log(f"Planner returned empty output (exit {result.returncode}): {result.stderr[:100]}")
+            return None
 
-        # Extract JSON from output
-        lines = output.split("\n")
-        json_start = -1
-        json_end = len(lines)
-        for i, line in enumerate(lines):
-            if line.strip().startswith("{"):
-                json_start = i
-            if line.strip() == "}" and json_start >= 0:
-                json_end = i + 1
-                break
+        # Extract JSON — try full output first, then line-by-line bracket matching
+        # Method 1: whole response as JSON
+        try:
+            return json.loads(output)
+        except json.JSONDecodeError:
+            pass
 
-        if json_start >= 0:
-            json_text = "\n".join(lines[json_start:json_end])
-            plan = json.loads(json_text)
-            return plan
+        # Method 2: find first { to last } via character-level bracket matching
+        start = output.find("{")
+        if start >= 0:
+            depth = 0
+            end = -1
+            for i in range(start, len(output)):
+                if output[i] == '{':
+                    depth += 1
+                elif output[i] == '}':
+                    depth -= 1
+                    if depth == 0:
+                        end = i + 1
+                        break
+            if end > start:
+                try:
+                    return json.loads(output[start:end])
+                except json.JSONDecodeError as je:
+                    log(f"Planner JSON parse error: {je} — output snippet: {output[start:start+100]}")
+                    return None
+
+        log(f"Planner output has no parseable JSON: {output[:100]}")
+        return None
+    except subprocess.TimeoutExpired:
+        log(f"Planner timed out after 180s")
         return None
     except Exception as e:
         log(f"Planner error: {e}")
@@ -280,8 +304,8 @@ def process_task_with_planner(task: dict) -> dict:
     log(f"Task {task_id} is complex — running JARVIS-style planner")
     plan = plan_complex_task(prompt)
 
-    if not plan or "subtasks" not in plan:
-        log(f"Planner failed for {task_id}, falling back to direct execution")
+    if not plan or "subtasks" not in plan or not isinstance(plan.get("subtasks"), list):
+        log(f"Planner failed or returned invalid plan for {task_id}, falling back to direct execution")
         return process_task_simple(task)
 
     log(f"Plan: {plan.get('summary', 'N/A')} — {len(plan['subtasks'])} subtasks")
